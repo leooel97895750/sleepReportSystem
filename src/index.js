@@ -1,13 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import ChooseFile from './sleep/ChooseFile';
+import Header from  './sleep/Header';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <div>
+    <Header />
+    <ChooseFile />
+  </div>,
+  
   document.getElementById('root')
 );
 

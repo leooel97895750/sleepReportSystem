@@ -1,5 +1,6 @@
 import React from 'react';
 import '../css/main.css';
+import {getAPI, postAPI} from './API.js';
 
 class ChooseFile extends React.Component{
     constructor(props){
@@ -12,8 +13,13 @@ class ChooseFile extends React.Component{
 
     updateFile(e){
         console.log(e.target.files);
-        let binary = e.target.files[37].getAsBinary();
-        console.log(binary);
+        getAPI('http://140.116.245.43:3000/mdbfile', function(xhttp){
+            console.log(xhttp.responseText);
+            // let mdbfile_json = JSON.parse(xhttp.responseText);
+            // console.log(mdbfile_json);
+        });
+        // let binary = e.target.files[37].getAsBinary();
+        // console.log(binary);
         this.setState({
             psgFile: e.target.files,
         });

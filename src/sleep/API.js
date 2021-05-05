@@ -7,11 +7,11 @@ export function getAPI(url, callFun) {
       xhttp = new XMLHttpRequest();
     }
     xhttp.onreadystatechange = function() {
-      if (this.readyState == 4 && this.status == 200) {
+      if (this.readyState === 4 && this.status === 200) {
         callFun(this);
       }
       //login api 請求限制觸發
-      else if(this.readyState == 4 && this.status == 429) {
+      else if(this.readyState === 4 && this.status === 429) {
         alert('重複太多次了\n刷新網頁或5分鐘後再試試');
       }
     };
@@ -26,7 +26,7 @@ export function postAPI(url, strArg, callFun) {
         xhttp = new XMLHttpRequest();
     }
     xhttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
+        if (this.readyState === 4 && this.status === 200) {
         callFun(this);
         }
     };

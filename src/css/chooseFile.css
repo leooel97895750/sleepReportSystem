@@ -1,0 +1,16 @@
+.fileButton {
+    font-size: 20px;
+    
+    color: white;
+    
+}
+.fileBlock {
+    display: inline-block;
+    background-color: #343A40;
+    margin: 20px;
+    padding: 10px;
+    border-radius: 5px;
+}
+.fileBlock:hover {
+    background-color: black;
+}

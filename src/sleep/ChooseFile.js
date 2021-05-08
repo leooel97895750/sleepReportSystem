@@ -1,6 +1,6 @@
 import React from 'react';
 import '../css/chooseFile.css';
-import {getAPI, postAPI} from './API.js';
+//import {getAPI, postAPI} from './API.js';
 
 class ChooseFile extends React.Component{
     constructor(props){
@@ -12,22 +12,26 @@ class ChooseFile extends React.Component{
     }
 
     updateFile(e){
+        // 印出所有檔案陣列
         console.log(e.target.files);
-        let reader = new FileReader();
-        reader.onload = function(e) {
-            console.log(e.target.result);            
+        // 尋找 "SLPSTAG.DAT"
+        let slpstagIndex = -1;
+        for(let i=0; i<e.target.files.length; i++){
+            if(e.target.files[i].name === "SLPSTAG.DAT"){
+                slpstagIndex = i;
+            }
         }
-        reader.readAsText(e.target.files[68]);
-        getAPI('http://140.116.245.43:3000/mdbfile', function(xhttp){
-            console.log(xhttp.responseText);
-            // let mdbfile_json = JSON.parse(xhttp.responseText);
-            // console.log(mdbfile_json);
-        });
-        // let binary = e.target.files[37].getAsBinary();
-        // console.log(binary);
-        this.setState({
-            psgFile: e.target.files,
-        });
+        // 建立reader開啟 "SLPSTAG.DAT"
+        if(slpstagIndex === -1) alert('找不到SLPSTAG.DAT');
+        else{
+            let reader = new FileReader();
+            reader.onload = function(e) {
+                // 取得stage資料: 10=wake、1=n1、2=n2、3=n3、5=rem
+                let sleepStage = new Int8Array(e.target.result);
+                console.log(sleepStage);
+            }
+            reader.readAsArrayBuffer(e.target.files[slpstagIndex]);
+        }
     }
     render(){
         return(

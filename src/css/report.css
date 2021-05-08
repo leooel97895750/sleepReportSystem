@@ -11,10 +11,11 @@
     overflow: hidden;
     padding: 0px;
     resize: none;
+    outline: none;
     text-align: center;
     font-size: 30px;
     font-weight: bold;
-    font-family: "DFKai-sb";
+    font-family: "Times New Roman", "DFKai-sb", sans-serif;
 }
 .reportSubtitle {
     width: 100%;
@@ -22,9 +23,20 @@
     overflow: hidden;
     padding: 0px;
     resize: none;
+    outline: none;
     text-align: center;
     font-size: 20px;
     font-weight: bold;
-    font-family: "DFKai-sb";
+    font-family: "Times New Roman", "DFKai-sb", sans-serif;
 }
+.patientInput{
+    border: 0px;
+    overflow: hidden;
+    padding: 0px;
+    outline: none;
+    resize: none;
+    font-size: 18px;
+    font-family: "Times New Roman", "DFKai-sb", sans-serif;
+}
+
 

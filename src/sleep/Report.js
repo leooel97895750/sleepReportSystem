@@ -19,7 +19,7 @@ class Report extends React.Component{
     }
     render(){
         return(
-            <div className="reportBlock">
+            <div className="reportBlock" style={{fontFamily:"Times New Roman, DFKai-sb, sans-serif"}}>
                 <input className = "reportTitle" type = "text" defaultValue = "國立成功大學附設醫院" />
                 <input className = "reportTitle" type = "text" defaultValue = "多頻睡眠生理檢查報告" />
                 <input className = "reportSubtitle" type = "text" defaultValue = "《依據2020年美國睡眠醫學學會判讀標準》" />
@@ -27,17 +27,21 @@ class Report extends React.Component{
                 <br/>
 
                 {/*雙層div置中，寬度1000px對齊patient table寬度*/}
-                <div style={{width:"100%"}}>
+                <div style={{width:"100%", fontSize:"18px"}}>
                     <div style={{width:"1000px", margin:"0px auto"}}>
-                        <span>Patient Information: </span>
-                        <span>Study Date: </span><input type="text"/>
-                        <span>單號: </span><input type="text"/>
+                        <span style={{fontWeight:"bold"}}>Patient Information: </span>
+                        <div style={{float:"right"}}>
+                            <span style={{fontWeight:"bold"}}>Study Date: </span>
+                            <input className="patientInput" type="text"/>
+                            <span style={{fontWeight:"bold", marginLeft:"20px"}}>單號: </span>
+                            <input className="patientInput" type="text"/>
+                        </div>
                     </div>
                 </div>
                 
                 
-                <div>
-                    <table border="1" cellSpacing="0" cellPadding="0" style={{marginLeft:"auto", marginRight:"auto", width:"1000px"}}>
+                <div style={{fontSize:"18px"}}>
+                    <table border="1" cellSpacing="0" cellPadding="2" style={{marginLeft:"auto", marginRight:"auto", width:"1000px"}}>
                         <tbody>
                             <tr>
                                 <td colSpan="4" width="20%">Name：</td>

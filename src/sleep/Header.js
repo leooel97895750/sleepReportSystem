@@ -1,7 +1,7 @@
 import React from 'react';
 import '../css/header.css';
 
-// 此為網頁header
+// 網頁header
 class Header extends React.Component{
     constructor(props){
         super(props);

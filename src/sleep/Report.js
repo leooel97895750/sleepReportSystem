@@ -453,43 +453,33 @@ class Report extends React.Component{
                         <table border="1" cellSpacing="0" cellPadding="3" style={{marginLeft:"auto", marginRight:"auto", width:"1000px"}}>
                             <tbody>
                                 <tr>
-                                    <td colSpan="4" width="20%">姓名：</td>
-                                    <td colSpan="4" width="20%">年齡：</td>
-                                    <td colSpan="4" width="20%">病歷號：</td>
-                                    <td colSpan="4" width="20%">性別：</td>
-                                    <td colSpan="4" width="20%">生日：</td>
+                                    <td width="20%">姓名：</td>
+                                    <td width="20%">年齡：</td>
+                                    <td width="20%">病歷號：</td>
+                                    <td width="20%">性別：</td>
+                                    <td width="20%">生日：</td>
                                 </tr>
                                 <tr>
-                                    <td colSpan="4">身高：</td>
-                                    <td colSpan="4">體重：</td>
-                                    <td colSpan="3">體質量指數：</td>
-                                    <td colSpan="3">頸圍：</td>
-                                    <td colSpan="3">腰圍：</td>
-                                    <td colSpan="3">臀圍：</td>
+                                    <td>身高：</td>
+                                    <td>體重：</td>
+                                    <td>體質量指數：</td>
+                                    <td>頸圍：</td>
+                                    <td>腰圍：</td>
+                                    
                                 </tr>
                                 <tr>
-                                    <td colSpan="4">HADS(A/D)：</td>
-                                    <td colSpan="4">ESS：</td>
-                                    <td colSpan="3">PSQI：</td>
-                                    <td colSpan="3">SOS：</td>
-                                    <td colSpan="3">THI：</td>
-                                    <td colSpan="3">GERD-Q：</td>
-                                </tr>
-                                <tr>
-                                    <td colSpan="5">WHO(Phy/Psy)：</td>
-                                    <td colSpan="5">BP(S)：</td>
-                                    <td colSpan="5">BP(W)：</td>
-                                    <td colSpan="5">Subjective sleep quality：</td>
+                                    <td>臀圍：</td>
+                                    <td colSpan="4"></td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
 
-                    {/* Respiratory Disturbance Index */}
+                    {/* 呼吸障礙指數 */}
                     <br/>
                     <div style={{width:"100%", fontSize:"20px"}}>
                         <div style={{width:"1000px", margin:"0px auto"}}>
-                            <span style={{fontWeight:"bold"}}>Respiratory Disturbance Index：</span>
+                            <span style={{fontWeight:"bold"}}>呼吸障礙指數：</span>
                         </div>
                     </div>
 
@@ -497,40 +487,38 @@ class Report extends React.Component{
                         <table border="1" cellSpacing="0" cellPadding="3" style={{marginLeft:"auto", marginRight:"auto", width:"1000px"}}>
                             <tbody>
                                 <tr>
-                                    <td width="25%">AHI：</td>
-                                    <td width="25%">AI：</td>
-                                    <td width="25%">HI：</td>
-                                    <td width="25%">OI：</td>
+                                    <td colSpan="2" width="40%">呼吸中止和淺呼吸指數：</td>
+                                    <td colSpan="2" width="30%">呼吸中止指數：</td>
+                                    <td colSpan="2" width="30%">淺呼吸指數：</td>
+                                    
                                 </tr>
                                 <tr>
-                                    <td>CI：</td>
-                                    <td>MI：</td>
-                                    <td>AHI(Left)：</td>
-                                    <td>AHI(NSupine)：</td>
+                                    <td colSpan="2">阻塞型呼吸中止指數：</td>
+                                    <td colSpan="2">中樞型呼吸中止指數：</td>
+                                    <td colSpan="2">混和型呼吸中止指數：</td>
+                                    
+
                                 </tr>
                                 <tr>
-                                    <td>AHI(REM)：</td>
-                                    <td>AHI(NREM)：</td>
-                                    <td>AHI(Left)：</td>
-                                    <td>AHI(Right)：</td>
+                                    <td colSpan="3">呼吸中止和淺呼吸指數(快速動眼期/非快速動眼期)：</td>
+                                    <td colSpan="3"></td>
+
                                 </tr>
                                 <tr>
-                                    <td colSpan="2">AHI(REM-Supine)：</td>
-                                    <td colSpan="2">AHI(REM-NSupine)：</td>
+                                    <td colSpan="3">呼吸中止和淺呼吸指數(平躺/非平躺)：</td>
+                                    <td colSpan="3"></td>
                                 </tr>
-                                <tr>
-                                    <td colSpan="2">AHI(NREM-Supine)：</td>
-                                    <td colSpan="2">AHI(NREM-NSupine)：</td>
-                                </tr>
+
                             </tbody>
                         </table>
                     </div>
 
-                    {/* Sleep Stage */}
+                    {/* 睡眠分期 */}
                     <br/>
                     <div style={{width:"100%", fontSize:"20px"}}>
                         <div style={{width:"1000px", margin:"0px auto"}}>
-                            <span style={{fontWeight:"bold"}}>Sleep Stage：</span>
+                            <span style={{fontWeight:"bold"}}>睡眠分期：</span>
+                            <input type="text" />
                         </div>
                     </div>
 
@@ -538,38 +526,94 @@ class Report extends React.Component{
                         <table border="1" cellSpacing="0" cellPadding="3" style={{marginLeft:"auto", marginRight:"auto", width:"1000px"}}>
                             <tbody>
                                 <tr>
-                                    <td width="50%">Total record time：</td>
-                                    <td width="50%">Total sleep period：</td>
+                                    <td width="20%">全部記錄時間：</td>
+                                    <td width="30%"></td>
+                                    <td width="20%">睡眠時間：</td>
+                                    <td width="30%"></td>
                                 </tr>
                                 <tr>
-                                    <td>Total sleep time：</td>
-                                    <td>Awake time：</td>
+                                    <td>全部睡眠時間：</td>
+                                    <td></td>
+                                    <td>清醒時間：</td>
+                                    <td></td>
                                 </tr>
                                 <tr>
-                                    <td>Stage 1：</td>
-                                    <td>REM：</td>
+                                    <td>睡眠第一期：</td>
+                                    <td></td>
+                                    <td>快速動眼期：</td>
+                                    <td></td>
                                 </tr>
                                 <tr>
-                                    <td>Stage 2：</td>
-                                    <td>Sleep Latency：</td>
+                                    <td>睡眠第二期：</td>
+                                    <td></td>
+                                    <td>入睡時間：</td>
+                                    <td></td>
                                 </tr>
                                 <tr>
-                                    <td>Stage 3：</td>
-                                    <td>Efficiency：</td>
+                                    <td>睡眠第三期：</td>
+                                    <td></td>
+                                    <td>睡眠效率：</td>
+                                    <td></td>
                                 </tr>
                                 <tr>
-                                    <td>Arousal Index：</td>
+                                    <td>覺醒指數：</td>
+                                    <td></td>
+                                    <td colSpan="2"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    {/* 睡眠事件 */}
+                    <br/>
+                    <div style={{width:"100%", fontSize:"20px"}}>
+                        <div style={{width:"1000px", margin:"0px auto"}}>
+                            <span style={{fontWeight:"bold"}}>睡眠事件：</span>
+                        </div>
+                    </div>
+
+                    <div style={{fontSize:"18px", fontWeight:"600"}}>
+                        <table border="1" cellSpacing="0" cellPadding="3" style={{marginLeft:"auto", marginRight:"auto", width:"1000px"}}>
+                            <tbody>
+                                <tr>
+                                    <td width="20%">阻塞行呼吸中止：</td>
+                                    <td width="30%"></td>
+                                    <td width="20%">總發生時間：</td>
+                                    <td width="30%"></td>
+                                </tr>
+                                <tr>
+                                    <td>中樞型呼吸中止：</td>
+                                    <td></td>
+                                    <td>總發生時間：</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>混和型呼吸中止：</td>
+                                    <td></td>
+                                    <td>總發生時間：</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>淺呼吸：</td>
+                                    <td></td>
+                                    <td>總發生時間：</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>最長的呼吸中止：</td>
+                                    <td></td>
+                                    <td>最長的淺呼吸：</td>
                                     <td></td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
 
-                    {/* Events */}
+                    {/* 氧氣飽和度 */}
                     <br/>
                     <div style={{width:"100%", fontSize:"20px"}}>
                         <div style={{width:"1000px", margin:"0px auto"}}>
-                            <span style={{fontWeight:"bold"}}>Events：</span>
+                            <span style={{fontWeight:"bold"}}>氧氣飽和度：</span>
                         </div>
                     </div>
 
@@ -577,34 +621,26 @@ class Report extends React.Component{
                         <table border="1" cellSpacing="0" cellPadding="3" style={{marginLeft:"auto", marginRight:"auto", width:"1000px"}}>
                             <tbody>
                                 <tr>
-                                    <td width="50%">Obstructive apnea：</td>
-                                    <td width="50%">Total duration：</td>
+                                    <td width="20%">平均氧氣飽和度：</td>
+                                    <td width="30%"></td>
+                                    <td width="20%">血氧平均下降幅度：</td>
+                                    <td width="30%"></td>
                                 </tr>
                                 <tr>
-                                    <td>Central apnea：</td>
-                                    <td>Total duration：</td>
-                                </tr>
-                                <tr>
-                                    <td>Mixed apnea：</td>
-                                    <td>Total duration：</td>
-                                </tr>
-                                <tr>
-                                    <td>Hypopnea 2：</td>
-                                    <td>Total duration：</td>
-                                </tr>
-                                <tr>
-                                    <td>Longest apnea 3：</td>
-                                    <td>Longest hypopnea：</td>
+                                    <td>最低氧氣飽和度：</td>
+                                    <td></td>
+                                    <td>血氧平均下降幅度：</td>
+                                    <td></td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
 
-                    {/* Oxygen Saturation */}
+                    {/* 打鼾 */}
                     <br/>
                     <div style={{width:"100%", fontSize:"20px"}}>
                         <div style={{width:"1000px", margin:"0px auto"}}>
-                            <span style={{fontWeight:"bold"}}>Oxygen Saturation：</span>
+                            <span style={{fontWeight:"bold"}}>打鼾：</span>
                         </div>
                     </div>
 
@@ -612,23 +648,49 @@ class Report extends React.Component{
                         <table border="1" cellSpacing="0" cellPadding="3" style={{marginLeft:"auto", marginRight:"auto", width:"1000px"}}>
                             <tbody>
                                 <tr>
-                                    <td width="50%">Mean SpO2：</td>
-                                    <td width="50%">Mean desaturation：</td>
-                                </tr>
-                                <tr>
-                                    <td>Minimum SpO2：</td>
-                                    <td>ODI：</td>
+                                    <td width="20%">總數：</td>
+                                    <td width="30%"></td>
+                                    <td width="20%">打鼾指數：</td>
+                                    <td width="30%"></td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
 
-                    {/* Snore */}
+                    {/* 整夜監測睡眠呼吸障礙指數(事件/小時) */}
                     <br/>
                     <div style={{width:"100%", fontSize:"20px"}}>
                         <div style={{width:"1000px", margin:"0px auto"}}>
-                            <span style={{fontWeight:"bold"}}>Snore：</span>
+                            <span style={{fontWeight:"bold"}}>整夜監測睡眠呼吸障礙指數(事件/小時)：</span>
                         </div>
+                    </div>
+
+                    <div style={{fontSize:"18px", fontWeight:"600"}}>
+                        <table border="1" cellSpacing="0" cellPadding="3" style={{marginLeft:"auto", marginRight:"auto", width:"1000px"}}>
+                            <tbody>
+                                <tr>
+                                    <td width="20%"></td>
+                                    <td width="20%">正常</td>
+                                    <td width="20%">輕度</td>
+                                    <td width="20%">中度</td>
+                                    <td width="20%">重度</td>
+                                </tr>
+                                <tr>
+                                    <td>成人</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>兒童</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
 
                 </div>

@@ -35,22 +35,23 @@ class ChooseFile extends React.Component{
     }
     render(){
         return(
-            <div className="fileBlock">
-                <label>
-                    <span className="fileButton">選擇資料夾</span>
-                    <input 
-                        onChange = {this.updateFile}
-                        type = "file" 
-                        multiple 
-                        mozdirectory = "" 
-                        webkitdirectory = "" 
-                        directory = ""
-                        name = "psgFile"
-                        style = {{display: 'none'}}
-                    />
-                </label>
+            <div style={{display: this.props.display}}>
+                <div className="fileBlock">
+                    <label>
+                        <span className="fileButton">選擇資料夾</span>
+                        <input 
+                            onChange = {this.updateFile}
+                            type = "file" 
+                            multiple 
+                            mozdirectory = "" 
+                            webkitdirectory = "" 
+                            directory = ""
+                            name = "psgFile"
+                            style = {{display: 'none'}}
+                        />
+                    </label>
+                </div>
             </div>
-
         );
     }
 }

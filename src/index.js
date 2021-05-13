@@ -1,16 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import ChooseFile from './sleep/ChooseFile';
 import Header from  './sleep/Header';
-import Report from './sleep/Report';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <div>
     <Header />
-    <ChooseFile />
-    <Report />
   </div>,
   
   document.getElementById('root')

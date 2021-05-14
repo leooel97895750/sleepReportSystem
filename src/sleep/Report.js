@@ -338,7 +338,7 @@ class Report extends React.Component{
                     {/* Graphic summary */}
                     <br/>
                     <br/>
-                    <div style={{width:"100%", fontSize:"22px"}}>
+                    <div style={{width:"100%", fontSize:"20px"}}>
                         <div style={{width:"1000px", margin:"0px auto", textAlign: "center"}}>
                             <span style={{fontWeight:"bold"}}>Graphic summary：</span>
                         </div>

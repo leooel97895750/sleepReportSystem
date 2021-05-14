@@ -2,7 +2,7 @@ import React from 'react';
 import '../css/header.css';
 import Report from './Report';
 import Search from './Search';
-import ChooseFile from './ChooseFile';
+import Dataflow from './Dataflow';
 
 // 網頁header
 class Header extends React.Component{
@@ -29,7 +29,7 @@ class Header extends React.Component{
                         <span className="navSpan" style={{borderBottom: this.state.nowPage ? '2px white solid' : '0px'}} onClick={() => this.changePage(1)}>查詢系統</span>
                     </div>
                 </header>
-                <ChooseFile display={this.state.nowPage?'none':'block'} />
+                <Dataflow display={this.state.nowPage?'none':'block'} />
                 <Report display={this.state.nowPage?'none':'block'} />
                 <Search display={this.state.nowPage?'block':'none'} />
             </div>

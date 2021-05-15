@@ -10,6 +10,7 @@
 /{*
 /*.doc
 /p*.jpg
+/20*
 
 # production
 /build

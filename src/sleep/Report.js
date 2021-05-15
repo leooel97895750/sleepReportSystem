@@ -20,7 +20,7 @@ class Report extends React.Component{
     }
     render(){
         return(
-            <div style={{width:"100%", display: this.props.display}}>
+            <div style={{width:"100%"}}>
                 <div className="reportBlock" style={{fontFamily:"Times New Roman, DFKai-sb, sans-serif"}}>
 
                     {/* 英文版 */}
@@ -43,45 +43,45 @@ class Report extends React.Component{
                             <span style={{fontWeight:"bold"}}>Patient Information: </span>
                             <div style={{float:"right"}}>
                                 <span style={{fontWeight:"bold"}}>Study Date: </span>
-                                <input className="patientInput" type="text"/>
+                                <input className="upperInput" type="text"/>
                                 <span style={{fontWeight:"bold", marginLeft:"20px"}}>單號: </span>
-                                <input className="patientInput" type="text"/>
+                                <input className="upperInput" type="text"/>
                             </div>
                         </div>
                     </div>
                     
                     
                     <div style={{fontSize:"18px", fontWeight:"600"}}>
-                        <table border="1" cellSpacing="0" cellPadding="3" style={{marginLeft:"auto", marginRight:"auto", width:"1000px"}}>
+                        <table border="1" cellSpacing="0" cellPadding="3" style={{marginLeft:"auto", marginRight:"auto", width:"1000px", whiteSpace: "nowrap"}}>
                             <tbody>
                                 <tr>
-                                    <td colSpan="4" width="20%">Name：</td>
+                                    <td colSpan="4" width="20%"><div style={{width:"100%", overflow:"hidden"}}>Name：<input className="myInput" defaultValue={this.props.name}/></div></td>
                                     <td colSpan="4" width="20%">Age：</td>
-                                    <td colSpan="4" width="20%">Patient ID：</td>
-                                    <td colSpan="4" width="20%">Sex：</td>
-                                    <td colSpan="4" width="20%">DOB：</td>
+                                    <td colSpan="4" width="20%"><div style={{width:"100%", overflow:"hidden"}}>Patient ID：<input className="myInput" defaultValue={this.props.patientID}/></div></td>
+                                    <td colSpan="4" width="20%"><div style={{width:"100%", overflow:"hidden"}}>Sex：<input className="myInput" defaultValue={this.props.sex}/></div></td>
+                                    <td colSpan="4" width="20%"><div style={{width:"100%", overflow:"hidden"}}>DOB：<input className="myInput" defaultValue={this.props.dob}/></div></td>
                                 </tr>
                                 <tr>
-                                    <td colSpan="4">Height：</td>
-                                    <td colSpan="4">Weight：</td>
-                                    <td colSpan="3">BMI：</td>
-                                    <td colSpan="3">Neck：</td>
-                                    <td colSpan="3">Waist：</td>
-                                    <td colSpan="3">Hip：</td>
+                                    <td colSpan="4" width="20%"><div style={{width:"100%", overflow:"hidden"}}>Height(cm)：<input className="myInput" defaultValue={this.props.height}/></div></td>
+                                    <td colSpan="4" width="20%"><div style={{width:"100%", overflow:"hidden"}}>Weight(kg)：<input className="myInput" defaultValue={this.props.weight}/></div></td>
+                                    <td colSpan="3" width="15%">BMI：</td>
+                                    <td colSpan="3" width="15%"><div style={{width:"100%", overflow:"hidden"}}>Neck(cm)：<input className="myInput" defaultValue={this.props.neck}/></div></td>
+                                    <td colSpan="3" width="15%">Waist(cm)：</td>
+                                    <td colSpan="3" width="15%">Hip(cm)：</td>
                                 </tr>
                                 <tr>
-                                    <td colSpan="4">HADS(A/D)：</td>
-                                    <td colSpan="4">ESS：</td>
-                                    <td colSpan="3">PSQI：</td>
-                                    <td colSpan="3">SOS：</td>
-                                    <td colSpan="3">THI：</td>
-                                    <td colSpan="3">GERD-Q：</td>
+                                    <td colSpan="4" width="20%">HADS(A/D)：</td>
+                                    <td colSpan="4" width="20%">ESS：</td>
+                                    <td colSpan="3" width="15%">PSQI：</td>
+                                    <td colSpan="3" width="15%">SOS：</td>
+                                    <td colSpan="3" width="15%">THI：</td>
+                                    <td colSpan="3" width="15%">GERD-Q：</td>
                                 </tr>
                                 <tr>
-                                    <td colSpan="5">WHO(Phy/Psy)：</td>
-                                    <td colSpan="5">BP(S)：</td>
-                                    <td colSpan="5">BP(W)：</td>
-                                    <td colSpan="5">Subjective sleep quality：</td>
+                                    <td colSpan="5" width="25%">WHO(Phy/Psy)：</td>
+                                    <td colSpan="5" width="25%">BP(S)(mmHg)：</td>
+                                    <td colSpan="5" width="25%">BP(W)(mmHg)：</td>
+                                    <td colSpan="5" width="25%">Subjective sleep quality：</td>
                                 </tr>
                             </tbody>
                         </table>

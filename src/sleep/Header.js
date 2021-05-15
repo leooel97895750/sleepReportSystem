@@ -1,6 +1,5 @@
 import React from 'react';
 import '../css/header.css';
-import Report from './Report';
 import Search from './Search';
 import Dataflow from './Dataflow';
 
@@ -30,7 +29,6 @@ class Header extends React.Component{
                     </div>
                 </header>
                 <Dataflow display={this.state.nowPage?'none':'block'} />
-                <Report display={this.state.nowPage?'none':'block'} />
                 <Search display={this.state.nowPage?'block':'none'} />
             </div>
             

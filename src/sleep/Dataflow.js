@@ -1,5 +1,6 @@
 import React from 'react';
 import '../css/dataflow.css';
+import Report from './Report';
 //import {getAPI, postAPI} from './API.js';
 
 class Dataflow extends React.Component{
@@ -7,6 +8,14 @@ class Dataflow extends React.Component{
         super(props);
         this.state = {
             sleepStage: [],
+            name: "",
+            patientID: "",
+            sex: "",
+            dob: "",
+            height: "",
+            weight: "",
+            neck: "",
+
         };
         this.updateFile = this.updateFile.bind(this);
     }
@@ -53,6 +62,19 @@ class Dataflow extends React.Component{
                 let parser = new DOMParser();
                 let xmlDoc = parser.parseFromString(e.target.result, "text/xml");
                 console.log(xmlDoc);
+
+                let rawDob = xmlDoc.getElementsByTagName("DOB")[0].textContent.split("/");
+                let dob = rawDob[2] + "/" + String(Number(rawDob[1])) + "/" + String(Number(rawDob[0]));
+
+                this.setState({
+                    name: xmlDoc.getElementsByTagName("Surname")[0].textContent,
+                    patientID: xmlDoc.getElementsByTagName("Reference")[0].textContent,
+                    sex: xmlDoc.getElementsByTagName("Sex")[0].textContent,
+                    dob: dob,
+                    height: xmlDoc.getElementsByTagName("Height")[0].textContent,
+                    weight: xmlDoc.getElementsByTagName("Weight")[0].textContent,
+                    neck: xmlDoc.getElementsByTagName("NeckSize")[0].textContent,
+                });
             }
             configReader.readAsText(e.target.files[configIndex]);
         }
@@ -76,6 +98,16 @@ class Dataflow extends React.Component{
                         />
                     </label>
                 </div>
+                <Report 
+                    sleepStage = {this.state.sleepStage}
+                    name = {this.state.name}
+                    patientID = {this.state.patientID}
+                    sex = {this.state.sex}
+                    dob = {this.state.dob}
+                    height = {this.state.height}
+                    weight = {this.state.weight}
+                    neck = {this.state.neck}
+                />
             </div>
         );
     }

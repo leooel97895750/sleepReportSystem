@@ -55,20 +55,32 @@ class Report extends React.Component{
                         <table border="1" cellSpacing="0" cellPadding="3" style={{marginLeft:"auto", marginRight:"auto", width:"1000px", whiteSpace: "nowrap"}}>
                             <tbody>
                                 <tr>
-                                    <td colSpan="4" width="20%"><div style={{width:"100%", overflow:"hidden"}}>Name：<input className="myInput" defaultValue={this.props.name}/></div></td>
+                                    <td colSpan="4" width="20%">Name：</td>
                                     <td colSpan="4" width="20%">Age：</td>
-                                    <td colSpan="4" width="20%"><div style={{width:"100%", overflow:"hidden"}}>Patient ID：<input className="myInput" defaultValue={this.props.patientID}/></div></td>
-                                    <td colSpan="4" width="20%"><div style={{width:"100%", overflow:"hidden"}}>Sex：<input className="myInput" defaultValue={this.props.sex}/></div></td>
-                                    <td colSpan="4" width="20%"><div style={{width:"100%", overflow:"hidden"}}>DOB：<input className="myInput" defaultValue={this.props.dob}/></div></td>
+                                    <td colSpan="4" width="20%">Patient ID：</td>
+                                    <td colSpan="4" width="20%">Sex：</td>
+                                    <td colSpan="4" width="20%">DOB：</td>
                                 </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div style={{fontSize:"18px", fontWeight:"600", position:"relative", top:"-2px"}}>
+                        <table border="1" cellSpacing="0" cellPadding="3" style={{marginLeft:"auto", marginRight:"auto", width:"1000px", whiteSpace: "nowrap"}}>
+                            <tbody>
                                 <tr>
-                                    <td colSpan="4" width="20%"><div style={{width:"100%", overflow:"hidden"}}>Height(cm)：<input className="myInput" defaultValue={this.props.height}/></div></td>
-                                    <td colSpan="4" width="20%"><div style={{width:"100%", overflow:"hidden"}}>Weight(kg)：<input className="myInput" defaultValue={this.props.weight}/></div></td>
+                                    <td colSpan="4" width="20%">Height(cm)：</td>
+                                    <td colSpan="4" width="20%">Weight(kg)：</td>
                                     <td colSpan="3" width="15%">BMI：</td>
-                                    <td colSpan="3" width="15%"><div style={{width:"100%", overflow:"hidden"}}>Neck(cm)：<input className="myInput" defaultValue={this.props.neck}/></div></td>
+                                    <td colSpan="3" width="15%">Neck(cm)：</td>
                                     <td colSpan="3" width="15%">Waist(cm)：</td>
                                     <td colSpan="3" width="15%">Hip(cm)：</td>
                                 </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div style={{fontSize:"18px", fontWeight:"600", position:"relative", top:"-4px"}}>
+                        <table border="1" cellSpacing="0" cellPadding="3" style={{marginLeft:"auto", marginRight:"auto", width:"1000px", whiteSpace: "nowrap"}}>
+                            <tbody>
                                 <tr>
                                     <td colSpan="4" width="20%">HADS(A/D)：</td>
                                     <td colSpan="4" width="20%">ESS：</td>
@@ -77,6 +89,12 @@ class Report extends React.Component{
                                     <td colSpan="3" width="15%">THI：</td>
                                     <td colSpan="3" width="15%">GERD-Q：</td>
                                 </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div style={{fontSize:"18px", fontWeight:"600", position:"relative", top:"-6px"}}>
+                        <table border="1" cellSpacing="0" cellPadding="3" style={{marginLeft:"auto", marginRight:"auto", width:"1000px", whiteSpace: "nowrap"}}>
+                            <tbody>
                                 <tr>
                                     <td colSpan="5" width="25%">WHO(Phy/Psy)：</td>
                                     <td colSpan="5" width="25%">BP(S)(mmHg)：</td>

@@ -1,5 +1,6 @@
 import React from 'react';
 import '../css/report.css';
+import Graph from './Graph';
 //import {getAPI, postAPI} from './API.js';
 
 // 報告內容
@@ -11,7 +12,6 @@ class Report extends React.Component{
         };
         this.handleReportTitle = this.handleReportTitle.bind(this);
     }
-
     handleReportTitle(e){
         console.log(e.target.value);
         this.setState({
@@ -43,9 +43,9 @@ class Report extends React.Component{
                             <span style={{fontWeight:"bold"}}>Patient Information: </span>
                             <div style={{float:"right"}}>
                                 <span style={{fontWeight:"bold"}}>Study Date: </span>
-                                <input className="upperInput" type="text"/>
+                                <input className="upperInput" defaultValue={this.props.startDate}/>
                                 <span style={{fontWeight:"bold", marginLeft:"20px"}}>單號: </span>
-                                <input className="upperInput" type="text"/>
+                                <input className="upperInput"/>
                             </div>
                         </div>
                     </div>
@@ -55,11 +55,11 @@ class Report extends React.Component{
                         <table border="1" cellSpacing="0" cellPadding="3" style={{marginLeft:"auto", marginRight:"auto", width:"1000px", whiteSpace: "nowrap"}}>
                             <tbody>
                                 <tr>
-                                    <td colSpan="4" width="20%">Name：</td>
-                                    <td colSpan="4" width="20%">Age：</td>
-                                    <td colSpan="4" width="20%">Patient ID：</td>
-                                    <td colSpan="4" width="20%">Sex：</td>
-                                    <td colSpan="4" width="20%">DOB：</td>
+                                    <td colSpan="4" width="20%"><div style={{overflow:"hidden"}}>Name：<input className="myInput" defaultValue={this.props.name}/></div></td>
+                                    <td colSpan="4" width="20%"><div style={{overflow:"hidden"}}>Age：<input className="myInput" defaultValue={this.props.age}/></div></td>
+                                    <td colSpan="4" width="20%"><div style={{overflow:"hidden"}}>Patient ID：<input className="myInput" defaultValue={this.props.patientID}/></div></td>
+                                    <td colSpan="4" width="20%"><div style={{overflow:"hidden"}}>Sex：<input className="myInput" defaultValue={this.props.sex}/></div></td>
+                                    <td colSpan="4" width="20%"><div style={{overflow:"hidden"}}>DOB：<input className="myInput" defaultValue={this.props.dob}/></div></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -68,10 +68,10 @@ class Report extends React.Component{
                         <table border="1" cellSpacing="0" cellPadding="3" style={{marginLeft:"auto", marginRight:"auto", width:"1000px", whiteSpace: "nowrap"}}>
                             <tbody>
                                 <tr>
-                                    <td colSpan="4" width="20%">Height(cm)：</td>
-                                    <td colSpan="4" width="20%">Weight(kg)：</td>
-                                    <td colSpan="3" width="15%">BMI：</td>
-                                    <td colSpan="3" width="15%">Neck(cm)：</td>
+                                    <td colSpan="4" width="20%"><div style={{overflow:"hidden"}}>Height(cm)：<input className="myInput" defaultValue={this.props.height}/></div></td>
+                                    <td colSpan="4" width="20%"><div style={{overflow:"hidden"}}>Weight(kg)：<input className="myInput" defaultValue={this.props.weight}/></div></td>
+                                    <td colSpan="3" width="15%"><div style={{overflow:"hidden"}}>BMI：<input className="myInput" defaultValue={this.props.bmi}/></div></td>
+                                    <td colSpan="3" width="15%"><div style={{overflow:"hidden"}}>Neck(cm)：<input className="myInput" defaultValue={this.props.neck}/></div></td>
                                     <td colSpan="3" width="15%">Waist(cm)：</td>
                                     <td colSpan="3" width="15%">Hip(cm)：</td>
                                 </tr>
@@ -114,7 +114,7 @@ class Report extends React.Component{
                     </div>
 
                     <div style={{fontSize:"18px", fontWeight:"600"}}>
-                        <table border="1" cellSpacing="0" cellPadding="3" style={{marginLeft:"auto", marginRight:"auto", width:"1000px"}}>
+                        <table border="1" cellSpacing="0" cellPadding="3" style={{marginLeft:"auto", marginRight:"auto", width:"1000px", whiteSpace: "nowrap"}}>
                             <tbody>
                                 <tr>
                                     <td width="25%">AHI：</td>
@@ -151,31 +151,32 @@ class Report extends React.Component{
                     <div style={{width:"100%", fontSize:"20px"}}>
                         <div style={{width:"1000px", margin:"0px auto"}}>
                             <span style={{fontWeight:"bold"}}>Sleep Stage：</span>
+                            <span>Start time at {this.props.startTime} ; End time at {this.props.endTime}</span>
                         </div>
                     </div>
 
                     <div style={{fontSize:"18px", fontWeight:"600"}}>
-                        <table border="1" cellSpacing="0" cellPadding="3" style={{marginLeft:"auto", marginRight:"auto", width:"1000px"}}>
+                        <table border="1" cellSpacing="0" cellPadding="3" style={{marginLeft:"auto", marginRight:"auto", width:"1000px", whiteSpace: "nowrap"}}>
                             <tbody>
                                 <tr>
-                                    <td width="50%">Total record time：</td>
-                                    <td width="50%">Total sleep period：</td>
+                                    <td width="50%"><div style={{overflow:"hidden"}}>Total record time(min)：<input className="myInput" defaultValue={this.props.totalRecordTime}/></div></td>
+                                    <td width="50%">Total sleep period(min)：<span style={{fontWeight: "normal"}}>{((this.props.epochNum - this.props.sot) / 2).toFixed(1)}</span></td>
                                 </tr>
                                 <tr>
-                                    <td>Total sleep time：</td>
-                                    <td>Awake time：</td>
+                                    <td>Total sleep time(min)：<span style={{fontWeight: "normal"}}>{((this.props.epochNum - this.props.wake) / 2).toFixed(1)}</span></td>
+                                    <td>Awake time(min)：<span style={{fontWeight: "normal"}}>{((this.props.wake - this.props.sot) / 2).toFixed(1)}</span></td>
                                 </tr>
                                 <tr>
-                                    <td>Stage 1：</td>
-                                    <td>REM：</td>
+                                    <td>Stage 1 (%)：<span style={{fontWeight: "normal"}}>{((this.props.n1 / (this.props.n1 + this.props.n2 + this.props.n3 + this.props.rem)) * 100).toFixed(1)}</span></td>
+                                    <td>REM (%)：<span style={{fontWeight: "normal"}}>{((this.props.rem / (this.props.n1 + this.props.n2 + this.props.n3 + this.props.rem)) * 100).toFixed(1)}</span></td>
                                 </tr>
                                 <tr>
-                                    <td>Stage 2：</td>
-                                    <td>Sleep Latency：</td>
+                                    <td>Stage 2 (%)：<span style={{fontWeight: "normal"}}>{((this.props.n2 / (this.props.n1 + this.props.n2 + this.props.n3 + this.props.rem)) * 100).toFixed(1)}</span></td>
+                                    <td>Sleep Latency：<span style={{fontWeight: "normal"}}>{(this.props.sot / 2).toFixed(1)}</span></td>
                                 </tr>
                                 <tr>
-                                    <td>Stage 3：</td>
-                                    <td>Efficiency：</td>
+                                    <td>Stage 3 (%)：<span style={{fontWeight: "normal"}}>{((this.props.n3 / (this.props.n1 + this.props.n2 + this.props.n3 + this.props.rem)) * 100).toFixed(1)}</span></td>
+                                    <td>Efficiency (%)：<span style={{fontWeight: "normal"}}>{(((this.props.epochNum - this.props.wake) /this.props.epochNum) * 100).toFixed(1)}</span></td>
                                 </tr>
                                 <tr>
                                     <td>Arousal Index：</td>
@@ -356,32 +357,7 @@ class Report extends React.Component{
                     {/* Graphic summary */}
                     <br/>
                     <br/>
-                    <div style={{width:"100%", fontSize:"20px"}}>
-                        <div style={{width:"1000px", margin:"0px auto", textAlign: "center"}}>
-                            <span style={{fontWeight:"bold"}}>Graphic summary：</span>
-                        </div>
-                        <div style={{width:"1000px", margin:"0px auto"}}>
-                            <span style={{fontWeight:"bold"}}>Hypnogram</span>
-                        </div>
-                        <div style={{width:"1000px", margin:"0px auto"}}>
-                            <span style={{fontWeight:"bold"}}>Respiratory Event Graph</span>
-                        </div>
-                        <div style={{width:"1000px", margin:"0px auto"}}>
-                            <span style={{fontWeight:"bold"}}>Body Position</span>
-                        </div>
-                        <div style={{width:"1000px", margin:"0px auto"}}>
-                            <span style={{fontWeight:"bold"}}>Heart Rate(BPM)</span>
-                        </div>
-                        <div style={{width:"1000px", margin:"0px auto"}}>
-                            <span style={{fontWeight:"bold"}}>SaO2 Min/Max Graph</span>
-                        </div>
-                        <div style={{width:"1000px", margin:"0px auto"}}>
-                            <span style={{fontWeight:"bold"}}>Sound</span>
-                        </div>
-                        <div style={{width:"1000px", margin:"0px auto"}}>
-                            <span style={{fontWeight:"bold"}}>PLM</span>
-                        </div>
-                    </div>
+                    <Graph />
 
                     {/* Findings and Comments */}
                     <br/>

@@ -8,13 +8,26 @@ class Dataflow extends React.Component{
         super(props);
         this.state = {
             sleepStage: [],
+            startDate: "",
             name: "",
+            age: "",
             patientID: "",
             sex: "",
             dob: "",
             height: "",
             weight: "",
+            bmi: "",
             neck: "",
+            startTime: "",
+            endTime: "",
+            totalRecordTime: "",
+            epochNum: 0,
+            sot: 0,
+            wake: 0,
+            n1: 0,
+            n2: 0,
+            n3: 0,
+            rem: 0,
 
         };
         this.updateFile = this.updateFile.bind(this);
@@ -27,9 +40,7 @@ class Dataflow extends React.Component{
         // 解析睡眠階段: 尋找 "SLPSTAG.DAT"
         let slpstagIndex = -1;
         for(let i=0; i<e.target.files.length; i++){
-            if(e.target.files[i].name === "SLPSTAG.DAT"){
-                slpstagIndex = i;
-            }
+            if(e.target.files[i].name === "SLPSTAG.DAT") slpstagIndex = i;
         }
         // 建立reader開啟 "SLPSTAG.DAT"
         if(slpstagIndex === -1) alert('找不到SLPSTAG.DAT');
@@ -39,22 +50,65 @@ class Dataflow extends React.Component{
                 // 取得stage資料: 10=wake、1=n1、2=n2、3=n3、5=rem
                 let sleepStage = new Int8Array(e.target.result);
                 console.log(sleepStage);
+                // 計算以下的epoch數
+                let sot = 0;
+                let wake = 0;
+                let n1 = 0;
+                let n2 = 0;
+                let n3 = 0;
+                let rem = 0;
+                for(let i=0; i<sleepStage.length; i++){
+                    if(sleepStage[i] === 10) wake++;
+                    else if(sleepStage[i] === 1) n1++;
+                    else if(sleepStage[i] === 2) n2++;
+                    else if(sleepStage[i] === 3) n3++;
+                    else if(sleepStage[i] === 5) rem++;
+
+                    if((i+1) === wake) sot++;
+                }
+                console.log(wake, n1, n2, n3, rem);
                 this.setState({
-                    sleepStage: sleepStage
+                    sleepStage: sleepStage,
+                    epochNum: sleepStage.length,
+                    sot: sot,
+                    wake: wake,
+                    n1: n1,
+                    n2: n2,
+                    n3: n3,
+                    rem: rem,
                 });
             }
             stageReader.readAsArrayBuffer(e.target.files[slpstagIndex]);
         }
 
-    
-        // 解析基本資料: 尋找 "STUDYCFG.DAT"
+        // 解析基本資料: 尋找 "DATASEGMENTS.XML"
+        let datasegmentIndex = -1;
+        let duration = "";
+        for(let i=0; i<e.target.files.length; i++){
+            if(e.target.files[i].name === "DATASEGMENTS.XML") datasegmentIndex = i;
+        }
+        // 建立reader開啟 "DATASEGMENTS.XML"
+        if(datasegmentIndex === -1) alert('找不到DATASEGMENTS.XML');
+        else{
+            let datasegmentReader = new FileReader();
+            datasegmentReader.onload = (e) => {
+                let parser = new DOMParser();
+                let datasegmentXmlDoc = parser.parseFromString(e.target.result, "text/xml");
+                console.log(datasegmentXmlDoc);
+                duration = datasegmentXmlDoc.getElementsByTagName("Duration")[0].textContent;
+                this.setState({
+                    totalRecordTime: String((Number(duration) / 60).toFixed(1)),
+                });
+            }
+            datasegmentReader.readAsText(e.target.files[datasegmentIndex]);
+        }
+
+        // 解析基本資料: 尋找 "STUDYCFG.XML"
         let configIndex = -1;
         for(let i=0; i<e.target.files.length; i++){
-            if(e.target.files[i].name === "STUDYCFG.XML"){
-                configIndex = i;
-            }
+            if(e.target.files[i].name === "STUDYCFG.XML") configIndex = i;
         }
-        // 建立reader開啟 "STUDYCFG.DAT"
+        // 建立reader開啟 "STUDYCFG.XML"
         if(configIndex === -1) alert('找不到STUDYCFG.XML');
         else{
             let configReader = new FileReader();
@@ -63,17 +117,44 @@ class Dataflow extends React.Component{
                 let xmlDoc = parser.parseFromString(e.target.result, "text/xml");
                 console.log(xmlDoc);
 
+                // 生日格式
                 let rawDob = xmlDoc.getElementsByTagName("DOB")[0].textContent.split("/");
                 let dob = rawDob[2] + "/" + String(Number(rawDob[1])) + "/" + String(Number(rawDob[0]));
+                // 實驗日期格式
+                let rawStartDate = xmlDoc.getElementsByTagName("StartDate")[0].textContent.split("/");
+                let startDate = rawStartDate[2] + "/" + String(Number(rawStartDate[1])) + "/" + String(Number(rawStartDate[0]));
+                // 年齡推算
+                let age = String(Number(rawStartDate[2]) - Number(rawDob[2]));
+                // BMI計算
+                let height = xmlDoc.getElementsByTagName("Height")[0].textContent;
+                let weight = xmlDoc.getElementsByTagName("Weight")[0].textContent;
+                let bmi = (weight/((height/100)*(height/100))).toFixed(1);
+                // 推算End time
+                let startTime = xmlDoc.getElementsByTagName("StartTime")[0].textContent;
+                let startTimeSplit = startTime.split(":");
+                let totalSec = Number(startTimeSplit[2]) + Number(duration);
+                let finalSec = totalSec % 60;
+                let totalMin = Number(startTimeSplit[1]) + Math.floor(totalSec / 60);
+                let finalMin = totalMin % 60;
+                let totalHour = Number(startTimeSplit[0]) + Math.floor(totalMin / 60);
+                let finalHour = totalHour % 24;
+                let endTime = String(finalHour).padStart(2, '0') + ":" + String(finalMin).padStart(2, '0') + ":" + String(finalSec).padStart(2, '0');
+
+                
 
                 this.setState({
+                    startDate: startDate,
                     name: xmlDoc.getElementsByTagName("Surname")[0].textContent,
+                    age: age,
                     patientID: xmlDoc.getElementsByTagName("Reference")[0].textContent,
                     sex: xmlDoc.getElementsByTagName("Sex")[0].textContent,
                     dob: dob,
-                    height: xmlDoc.getElementsByTagName("Height")[0].textContent,
-                    weight: xmlDoc.getElementsByTagName("Weight")[0].textContent,
+                    height: height,
+                    weight: weight,
+                    bmi: bmi,
                     neck: xmlDoc.getElementsByTagName("NeckSize")[0].textContent,
+                    startTime: startTime,
+                    endTime: endTime,
                 });
             }
             configReader.readAsText(e.target.files[configIndex]);
@@ -100,13 +181,26 @@ class Dataflow extends React.Component{
                 </div>
                 <Report 
                     sleepStage = {this.state.sleepStage}
+                    startDate = {this.state.startDate}
                     name = {this.state.name}
+                    age = {this.state.age}
                     patientID = {this.state.patientID}
                     sex = {this.state.sex}
                     dob = {this.state.dob}
                     height = {this.state.height}
                     weight = {this.state.weight}
+                    bmi = {this.state.bmi}
                     neck = {this.state.neck}
+                    startTime = {this.state.startTime}
+                    endTime = {this.state.endTime}
+                    totalRecordTime = {this.state.totalRecordTime}
+                    epochNum = {this.state.epochNum}
+                    sot = {this.state.sot}
+                    wake = {this.state.wake}
+                    n1 = {this.state.n1}
+                    n2 = {this.state.n2}
+                    n3 = {this.state.n3}
+                    rem = {this.state.rem}
                 />
             </div>
         );

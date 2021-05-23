@@ -357,7 +357,11 @@ class Report extends React.Component{
                     {/* Graphic summary */}
                     <br/>
                     <br/>
-                    <Graph />
+                    <Graph 
+                        startTime = {this.props.startTime}
+                        endTime = {this.props.endTime}
+                        epochNum = {this.props.epochNum}
+                    />
 
                     {/* Findings and Comments */}
                     <br/>

@@ -13,7 +13,7 @@ class Graph extends React.Component{
 
     // component掛載完成後繪製
     // 左邊為Label，右邊根據時間劃分區間
-    componentDidMount() {
+    componentDidUpdate(){
 
         // 1.                  
         // baseline繪製 (100*800)
@@ -82,6 +82,87 @@ class Graph extends React.Component{
         bCTX.textAlign = "end";
         bCTX.fillText(this.props.endTime, bWidth, 85);
 
+        // 2.                  
+        // Hypnogram繪製 (100*800)
+        //
+        let hHeight = 100;
+        let hWidth = 800;
+		let hCanvas = document.getElementById("hCanvas");
+        hCanvas.height = hHeight;
+        hCanvas.width = hWidth;
+        let hCTX = hCanvas.getContext("2d");
+        // 左側Label
+        hCTX.font = "14px Arial";
+        hCTX.textAlign = "end";
+        hCTX.fillStyle = "#AA0000";
+        hCTX.fillText("R", 85, 15);
+        hCTX.fillStyle = "black";
+        hCTX.fillText("W", 85, 30);
+        hCTX.fillStyle = "#CCAA00";
+        hCTX.fillText("N1", 85, 45);
+        hCTX.fillStyle = "green";
+        hCTX.fillText("N2", 85, 60);
+        hCTX.fillStyle = "blue";
+        hCTX.fillText("N3", 85, 75);
+        // 畫橫時間軸
+        hCTX.beginPath();
+        hCTX.moveTo(100, 25);
+        hCTX.lineTo(hWidth, 25);
+        hCTX.strokeStyle = 'gray';
+        hCTX.lineWidth = "1";
+        hCTX.stroke();
+        // 畫Block刻度
+        for(let i=1; i<blockNum; i++){
+            hCTX.beginPath();
+            hCTX.moveTo(100 + blockWidth*i, 0);
+            hCTX.lineTo(100 + blockWidth*i, 85);
+            hCTX.strokeStyle = "gray";
+            hCTX.lineWidth = "1";
+            hCTX.stroke();
+
+        }
+        // 畫階段圖，因canvas最小單位為1px，採平均隨機抽樣
+        let sleepStage = this.props.sleepStage;
+        let stageLength = Math.ceil(((hWidth - 100) * sleepStage.length)/ (blockNum * 120));
+        let randomStage = Array.from(sleepStage);
+        console.log(randomStage);
+        let deleteNum = sleepStage.length - stageLength;
+        console.log(deleteNum);
+        if(deleteNum > 0){
+            let deleteSpace = Math.floor(sleepStage.length / deleteNum);
+            console.log(deleteSpace);
+            // 從尾部平均刪除
+            for(let i=deleteNum-1; i>=0; i--){
+                randomStage.splice(i*deleteSpace, 1);
+            }                                                                                                                                                                                         
+        }
+        console.log(stageLength, randomStage.length);
+
+        for(let i=0; i<stageLength; i++){
+            
+            if(randomStage[i] === 5){
+                hCTX.fillStyle = "#AA0000";
+                hCTX.fillRect(100+i, 10, 1, 15);
+                hCTX.stroke();
+            }
+            else{
+                if(randomStage[i] === 3){
+                    hCTX.fillStyle = "blue";
+                    hCTX.fillRect(100+i, 25, 1, 45);
+                    hCTX.stroke();
+                }
+                if(randomStage[i] === 2){
+                    hCTX.fillStyle = "green";
+                    hCTX.fillRect(100+i, 25, 1, 30);
+                    hCTX.stroke();
+                }
+                if(randomStage[i] === 1){
+                    hCTX.fillStyle = "#EEEE00";
+                    hCTX.fillRect(100+i, 25, 1, 15);
+                    hCTX.stroke();
+                }
+            } 
+        }
 	}
 
     render(){

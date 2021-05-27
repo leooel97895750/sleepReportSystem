@@ -362,6 +362,7 @@ class Report extends React.Component{
                         endTime = {this.props.endTime}
                         epochNum = {this.props.epochNum}
                         sleepStage = {this.props.sleepStage}
+                        position = {this.props.position}
                     />
 
                     {/* Findings and Comments */}

@@ -10,10 +10,14 @@ class Graph extends React.Component{
             
         };
     }
-
-    // component掛載完成後繪製
-    // 左邊為Label，右邊根據時間劃分區間
+    componentDidMount(){
+        this.updateCanvas();
+    }
     componentDidUpdate(){
+        this.updateCanvas();
+    }
+    // 左邊為Label，右邊根據時間劃分區間
+    updateCanvas(){
 
         // 1.                  
         // baseline繪製 (100*800)
@@ -57,7 +61,7 @@ class Graph extends React.Component{
         let startHour = Number(startTimeSplit[0]);
         let delaySec = Number(startTimeSplit[1])*60 + Number(startTimeSplit[2]);
         let clockWidth = (delaySec * blockWidth) / 3600;
-        console.log(delaySec);
+        //console.log(delaySec);
         for(let i=1; i<=blockNum; i++){
             startHour += 1;
             let printHour = startHour;
@@ -125,19 +129,17 @@ class Graph extends React.Component{
         let sleepStage = this.props.sleepStage;
         let stageLength = Math.ceil(((hWidth - 100) * sleepStage.length)/ (blockNum * 120));
         let randomStage = Array.from(sleepStage);
-        console.log(randomStage);
-        let deleteNum = sleepStage.length - stageLength;
-        console.log(deleteNum);
-        if(deleteNum > 0){
-            let deleteSpace = Math.floor(sleepStage.length / deleteNum);
-            console.log(deleteSpace);
+        //console.log(randomStage);
+        let stageDeleteNum = sleepStage.length - stageLength;
+        //console.log(deleteNum);
+        if(stageDeleteNum > 0){
+            let deleteSpace = Math.floor(sleepStage.length / stageDeleteNum);
+            //console.log(deleteSpace);
             // 從尾部平均刪除
-            for(let i=deleteNum-1; i>=0; i--){
+            for(let i=stageDeleteNum-1; i>=0; i--){
                 randomStage.splice(i*deleteSpace, 1);
             }                                                                                                                                                                                         
         }
-        console.log(stageLength, randomStage.length);
-
         for(let i=0; i<stageLength; i++){
             
             if(randomStage[i] === 5){
@@ -163,6 +165,165 @@ class Graph extends React.Component{
                 }
             } 
         }
+
+        // 3.                  
+        // Respiratory Event Graph繪製 (100*800)
+        //
+
+        let rHeight = 300;
+        let rWidth = 800;
+		let rCanvas = document.getElementById("rCanvas");
+        rCanvas.height = rHeight;
+        rCanvas.width = rWidth;
+        let rCTX = rCanvas.getContext("2d");
+        // 左側Label
+        rCTX.font = "16px Arial";
+        rCTX.fillStyle = "black";
+        rCTX.textAlign = "start";
+        rCTX.fillText("Cn.A", 5, 30);
+        rCTX.fillText("Ob.A", 5, 65);
+        rCTX.fillText("Mx.A", 5, 100);
+        rCTX.fillText("Hyp", 5, 135);
+        rCTX.fillText("Uns", 5, 170);
+        rCTX.fillText("RERA", 5, 205);
+        rCTX.fillText("Period", 5, 240);
+        rCTX.fillText("Para", 5, 275);
+        // 畫Block刻度
+        rCTX.beginPath();
+        rCTX.moveTo(100, 12);
+        rCTX.lineTo(100, 35);
+        rCTX.moveTo(100, 47);
+        rCTX.lineTo(100, 70);
+        rCTX.moveTo(100, 82);
+        rCTX.lineTo(100, 105);
+        rCTX.moveTo(100, 117);
+        rCTX.lineTo(100, 140);
+        rCTX.moveTo(100, 152);
+        rCTX.lineTo(100, 175);
+        rCTX.moveTo(100, 187);
+        rCTX.lineTo(100, 210);
+        rCTX.moveTo(100, 222);
+        rCTX.lineTo(100, 245);
+        rCTX.moveTo(100, 257);
+        rCTX.lineTo(100, 280);
+
+
+        rCTX.strokeStyle = "black";
+        rCTX.lineWidth = "0.5";
+        rCTX.stroke();
+        for(let i=1; i<blockNum; i++){
+            rCTX.beginPath();
+            rCTX.moveTo(100 + blockWidth*i, 10);
+            rCTX.lineTo(100 + blockWidth*i, 290);
+            rCTX.strokeStyle = "gray";
+            rCTX.lineWidth = "1";
+            rCTX.stroke();
+        }
+
+        // 4.
+        // Body Position
+        //
+        let bpHeight = 100;
+        let bpWidth = 800;
+		let bpCanvas = document.getElementById("bpCanvas");
+        bpCanvas.height = bpHeight;
+        bpCanvas.width = bpWidth;
+        let bpCTX = bpCanvas.getContext("2d");
+        // 左側Label
+        bpCTX.font = "15px Arial";
+        bpCTX.textAlign = "end";
+        bpCTX.fillStyle = "#AA0000";
+        bpCTX.fillText("R", 85, 15);
+        bpCTX.fillStyle = "black";
+        bpCTX.fillText("B", 85, 32);
+        bpCTX.fillStyle = "green";
+        bpCTX.fillText("L", 85, 49);
+        bpCTX.fillStyle = "deeppink";
+        bpCTX.fillText("F", 85, 66);
+        bpCTX.fillStyle = "brown";
+        bpCTX.fillText("U", 85, 83);
+        // 畫Block刻度
+        bpCTX.strokeStyle = "black";
+        bpCTX.lineWidth = "0.5";
+        bpCTX.stroke();
+        for(let i=0; i<blockNum; i++){
+            bpCTX.beginPath();
+            bpCTX.moveTo(100 + blockWidth*i, 0);
+            bpCTX.lineTo(100 + blockWidth*i, 85);
+            bpCTX.strokeStyle = "gray";
+            bpCTX.lineWidth = "1";
+            bpCTX.stroke();
+        }
+        let position = this.props.position;
+        let randomPosition = [];
+        let chooseSpace = Math.floor(position.length / 700);
+        for(let i=0; i<700; i++){
+            randomPosition.push(position[i*chooseSpace]);
+        }
+        //console.log(randomPosition);
+        // R:nul(0), B:soh(1), L:stx(2), F:etx(3), U:eot(4)
+        let lastx = 100;
+        let lasty = 0;
+        if(randomPosition[0] === 0) lasty = 9;
+        else if(randomPosition[0] === 1) lasty = 26;
+        else if(randomPosition[0] === 1) lasty = 43;
+
+        for(let i=0; i<randomPosition.length; i++){
+
+            
+            if(randomPosition[i] === 0){
+                bpCTX.beginPath();
+                bpCTX.moveTo(lastx, lasty);
+                bpCTX.lineTo(101 + i, 9);
+                bpCTX.strokeStyle = "red";
+                bpCTX.lineWidth = 1;
+                bpCTX.stroke();
+                lastx = 101 + i;
+                lasty = 9;
+            }
+            else if(randomPosition[i] === 1){
+                bpCTX.beginPath();
+                bpCTX.moveTo(lastx, lasty);
+                bpCTX.lineTo(101 + i, 26);
+                bpCTX.strokeStyle = "blue";
+                bpCTX.lineWidth = 1;
+                bpCTX.stroke();
+                lastx = 101 + i;
+                lasty = 26;
+            }
+            else if(randomPosition[i] === 2){
+                bpCTX.beginPath();
+                bpCTX.moveTo(lastx, lasty);
+                bpCTX.lineTo(101 + i, 43);
+                bpCTX.strokeStyle = "green";
+                bpCTX.lineWidth = 1;
+                bpCTX.stroke();
+                lastx = 101 + i;
+                lasty = 43;
+            }
+            else if(randomPosition[i] === 3){
+                bpCTX.beginPath();
+                bpCTX.moveTo(lastx, lasty);
+                bpCTX.lineTo(101 + i, 66);
+                bpCTX.strokeStyle = "deeppink";
+                bpCTX.lineWidth = 1;
+                bpCTX.stroke();
+                lastx = 101 + i;
+                lasty = 66;
+            }
+            else if(randomPosition[i] === 4){
+                bpCTX.beginPath();
+                bpCTX.moveTo(lastx, lasty);
+                bpCTX.lineTo(101 + i, 83);
+                bpCTX.strokeStyle = "brown";
+                bpCTX.lineWidth = 1;
+                bpCTX.stroke();
+                lastx = 101 + i;
+                lasty = 83;
+            }
+        }
+
+        
 	}
 
     render(){
@@ -186,7 +347,7 @@ class Graph extends React.Component{
                 <div style={{width:"1000px", margin:"0px auto", fontWeight:"bold"}}>
                     Respiratory Event Graph
                     <div style={{width:"100%"}}>
-                        <canvas id = "regCanvas" width = "800px" height = "100px" style={{display:"block", margin:"0px auto"}}/>
+                        <canvas id = "rCanvas" width = "800px" height = "100px" style={{display:"block", margin:"0px auto"}}/>
                     </div>
                 </div>
                 <div style={{width:"1000px", margin:"0px auto", fontWeight:"bold"}}>

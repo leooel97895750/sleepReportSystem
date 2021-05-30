@@ -51,7 +51,7 @@ class Report extends React.Component{
                     </div>
                     
                     
-                    <div style={{fontSize:"18px", fontWeight:"600"}}>
+                    <div style={{fontSize:"18px", fontWeight:"500"}}>
                         <table border="1" cellSpacing="0" cellPadding="3" style={{marginLeft:"auto", marginRight:"auto", width:"1000px", whiteSpace: "nowrap"}}>
                             <tbody>
                                 <tr>
@@ -64,7 +64,7 @@ class Report extends React.Component{
                             </tbody>
                         </table>
                     </div>
-                    <div style={{fontSize:"18px", fontWeight:"600", position:"relative", top:"-2px"}}>
+                    <div style={{fontSize:"18px", fontWeight:"500", position:"relative", top:"-2px"}}>
                         <table border="1" cellSpacing="0" cellPadding="3" style={{marginLeft:"auto", marginRight:"auto", width:"1000px", whiteSpace: "nowrap"}}>
                             <tbody>
                                 <tr>
@@ -78,7 +78,7 @@ class Report extends React.Component{
                             </tbody>
                         </table>
                     </div>
-                    <div style={{fontSize:"18px", fontWeight:"600", position:"relative", top:"-4px"}}>
+                    <div style={{fontSize:"18px", fontWeight:"500", position:"relative", top:"-4px"}}>
                         <table border="1" cellSpacing="0" cellPadding="3" style={{marginLeft:"auto", marginRight:"auto", width:"1000px", whiteSpace: "nowrap"}}>
                             <tbody>
                                 <tr>
@@ -92,7 +92,7 @@ class Report extends React.Component{
                             </tbody>
                         </table>
                     </div>
-                    <div style={{fontSize:"18px", fontWeight:"600", position:"relative", top:"-6px"}}>
+                    <div style={{fontSize:"18px", fontWeight:"500", position:"relative", top:"-6px"}}>
                         <table border="1" cellSpacing="0" cellPadding="3" style={{marginLeft:"auto", marginRight:"auto", width:"1000px", whiteSpace: "nowrap"}}>
                             <tbody>
                                 <tr>
@@ -113,7 +113,7 @@ class Report extends React.Component{
                         </div>
                     </div>
 
-                    <div style={{fontSize:"18px", fontWeight:"600"}}>
+                    <div style={{fontSize:"18px", fontWeight:"500"}}>
                         <table border="1" cellSpacing="0" cellPadding="3" style={{marginLeft:"auto", marginRight:"auto", width:"1000px", whiteSpace: "nowrap"}}>
                             <tbody>
                                 <tr>
@@ -155,7 +155,7 @@ class Report extends React.Component{
                         </div>
                     </div>
 
-                    <div style={{fontSize:"18px", fontWeight:"600"}}>
+                    <div style={{fontSize:"18px", fontWeight:"500"}}>
                         <table border="1" cellSpacing="0" cellPadding="3" style={{marginLeft:"auto", marginRight:"auto", width:"1000px", whiteSpace: "nowrap"}}>
                             <tbody>
                                 <tr>
@@ -194,7 +194,7 @@ class Report extends React.Component{
                         </div>
                     </div>
 
-                    <div style={{fontSize:"18px", fontWeight:"600"}}>
+                    <div style={{fontSize:"18px", fontWeight:"500"}}>
                         <table border="1" cellSpacing="0" cellPadding="3" style={{marginLeft:"auto", marginRight:"auto", width:"1000px"}}>
                             <tbody>
                                 <tr>
@@ -229,7 +229,7 @@ class Report extends React.Component{
                         </div>
                     </div>
 
-                    <div style={{fontSize:"18px", fontWeight:"600"}}>
+                    <div style={{fontSize:"18px", fontWeight:"500"}}>
                         <table border="1" cellSpacing="0" cellPadding="3" style={{marginLeft:"auto", marginRight:"auto", width:"1000px"}}>
                             <tbody>
                                 <tr>
@@ -252,7 +252,7 @@ class Report extends React.Component{
                         </div>
                     </div>
 
-                    <div style={{fontSize:"18px", fontWeight:"600"}}>
+                    <div style={{fontSize:"18px", fontWeight:"500"}}>
                         <table border="1" cellSpacing="0" cellPadding="3" style={{marginLeft:"auto", marginRight:"auto", width:"1000px"}}>
                             <tbody>
                                 <tr>
@@ -271,7 +271,7 @@ class Report extends React.Component{
                         </div>
                     </div>
 
-                    <div style={{fontSize:"18px", fontWeight:"600"}}>
+                    <div style={{fontSize:"18px", fontWeight:"500"}}>
                         <table border="1" cellSpacing="0" cellPadding="3" style={{marginLeft:"auto", marginRight:"auto", width:"1000px"}}>
                             <tbody>
                                 <tr>
@@ -310,7 +310,7 @@ class Report extends React.Component{
                         </div>
                     </div>
 
-                    <div style={{fontSize:"18px", fontWeight:"600"}}>
+                    <div style={{fontSize:"18px", fontWeight:"500"}}>
                         <table border="1" cellSpacing="0" cellPadding="3" style={{marginLeft:"auto", marginRight:"auto", width:"1000px"}}>
                             <tbody>
                                 <tr>
@@ -329,7 +329,7 @@ class Report extends React.Component{
                         </div>
                     </div>
 
-                    <div style={{fontSize:"18px", fontWeight:"600"}}>
+                    <div style={{fontSize:"18px", fontWeight:"500"}}>
                         <table border="1" cellSpacing="0" cellPadding="3" style={{marginLeft:"auto", marginRight:"auto", width:"1000px"}}>
                             <tbody>
                                 <tr>
@@ -363,9 +363,13 @@ class Report extends React.Component{
                         epochNum = {this.props.epochNum}
                         sleepStage = {this.props.sleepStage}
                         position = {this.props.position}
+                        spo2 = {this.props.spo2}
+                        pulse = {this.props.pulse}
+                        sound = {this.props.sound}
                     />
 
                     {/* Findings and Comments */}
+                    <br/>
                     <br/>
                     <div style={{width:"100%", fontSize:"20px"}}>
                         <div style={{width:"1000px", margin:"0px auto"}}>
@@ -373,7 +377,7 @@ class Report extends React.Component{
                         </div>
                     </div>
 
-                    <div style={{fontSize:"18px", fontWeight:"600"}}>
+                    <div style={{fontSize:"18px", fontWeight:"500"}}>
                         <table border="1" cellSpacing="0" cellPadding="3" style={{marginLeft:"auto", marginRight:"auto", width:"1000px"}}>
                             <tbody>
                                 <tr>
@@ -404,7 +408,7 @@ class Report extends React.Component{
                             <span style={{fontWeight:"bold"}}>Diagnosis：</span>
                         </div>
                     </div>
-                    <div style={{fontSize:"18px", fontWeight:"600"}}>
+                    <div style={{fontSize:"18px", fontWeight:"500"}}>
                         <table border="1" cellSpacing="0" cellPadding="3" style={{marginLeft:"auto", marginRight:"auto", width:"1000px"}}>
                             <tbody>
                                 <tr>
@@ -449,7 +453,7 @@ class Report extends React.Component{
                     </div>
                     
                     
-                    <div style={{fontSize:"18px", fontWeight:"600"}}>
+                    <div style={{fontSize:"18px", fontWeight:"500"}}>
                         <table border="1" cellSpacing="0" cellPadding="3" style={{marginLeft:"auto", marginRight:"auto", width:"1000px"}}>
                             <tbody>
                                 <tr>
@@ -483,7 +487,7 @@ class Report extends React.Component{
                         </div>
                     </div>
 
-                    <div style={{fontSize:"18px", fontWeight:"600"}}>
+                    <div style={{fontSize:"18px", fontWeight:"500"}}>
                         <table border="1" cellSpacing="0" cellPadding="3" style={{marginLeft:"auto", marginRight:"auto", width:"1000px"}}>
                             <tbody>
                                 <tr>
@@ -522,7 +526,7 @@ class Report extends React.Component{
                         </div>
                     </div>
 
-                    <div style={{fontSize:"18px", fontWeight:"600"}}>
+                    <div style={{fontSize:"18px", fontWeight:"500"}}>
                         <table border="1" cellSpacing="0" cellPadding="3" style={{marginLeft:"auto", marginRight:"auto", width:"1000px"}}>
                             <tbody>
                                 <tr>
@@ -572,7 +576,7 @@ class Report extends React.Component{
                         </div>
                     </div>
 
-                    <div style={{fontSize:"18px", fontWeight:"600"}}>
+                    <div style={{fontSize:"18px", fontWeight:"500"}}>
                         <table border="1" cellSpacing="0" cellPadding="3" style={{marginLeft:"auto", marginRight:"auto", width:"1000px"}}>
                             <tbody>
                                 <tr>
@@ -617,7 +621,7 @@ class Report extends React.Component{
                         </div>
                     </div>
 
-                    <div style={{fontSize:"18px", fontWeight:"600"}}>
+                    <div style={{fontSize:"18px", fontWeight:"500"}}>
                         <table border="1" cellSpacing="0" cellPadding="3" style={{marginLeft:"auto", marginRight:"auto", width:"1000px"}}>
                             <tbody>
                                 <tr>
@@ -644,7 +648,7 @@ class Report extends React.Component{
                         </div>
                     </div>
 
-                    <div style={{fontSize:"18px", fontWeight:"600"}}>
+                    <div style={{fontSize:"18px", fontWeight:"500"}}>
                         <table border="1" cellSpacing="0" cellPadding="3" style={{marginLeft:"auto", marginRight:"auto", width:"1000px"}}>
                             <tbody>
                                 <tr>
@@ -665,7 +669,7 @@ class Report extends React.Component{
                         </div>
                     </div>
 
-                    <div style={{fontSize:"18px", fontWeight:"600"}}>
+                    <div style={{fontSize:"18px", fontWeight:"500"}}>
                         <table border="1" cellSpacing="0" cellPadding="3" style={{marginLeft:"auto", marginRight:"auto", width:"1000px"}}>
                             <tbody>
                                 <tr>

@@ -7,6 +7,9 @@ class Dataflow extends React.Component{
     constructor(props){
         super(props);
         this.state = {
+            sound: [],
+            pulse: [],
+            spo2: [],
             position: [],
             sleepStage: [],
             startDate: "",
@@ -173,7 +176,6 @@ class Dataflow extends React.Component{
                         for(let i=0; i<e.target.files.length; i++){
                             if(e.target.files[i].name === channelsList.Position) positionIndex = i;
                         }
-                        // 建立reader
                         if(positionIndex === -1) alert('找不到' + channelsList.Position);
                         else{
                             let positionReader = new FileReader();
@@ -187,6 +189,57 @@ class Dataflow extends React.Component{
                                 });
                             }
                             positionReader.readAsArrayBuffer(e.target.files[positionIndex]);
+                        }
+                        // 解析SpO2
+                        let spo2Index = -1;
+                        for(let i=0; i<e.target.files.length; i++){
+                            if(e.target.files[i].name === channelsList.SpO2) spo2Index = i;
+                        }
+                        if(spo2Index === -1) alert('找不到' + channelsList.SpO2);
+                        else{
+                            let spo2Reader = new FileReader();
+                            spo2Reader.onload = (file) => {
+                                let spo2 = new Float32Array(file.target.result);
+                                this.setState({
+                                    spo2: spo2,
+                                });
+                            }
+                            spo2Reader.readAsArrayBuffer(e.target.files[spo2Index]);
+                        }
+                        // 解析Pulse
+                        let pulseIndex = -1;
+                        for(let i=0; i<e.target.files.length; i++){
+                            if(e.target.files[i].name === "CHANNEL24.DAT") pulseIndex = i;
+                        }
+                        if(pulseIndex === -1) alert('找不到' + channelsList.Pulse);
+                        else{
+                            let pulseReader = new FileReader();
+                            pulseReader.onload = (file) => {
+                                let pulse = new Float32Array(file.target.result);
+                                //console.log(pulse);
+                                this.setState({
+                                    pulse: pulse,
+                                });
+                            }
+                            pulseReader.readAsArrayBuffer(e.target.files[pulseIndex]);
+                        }
+                        // 解析Sound
+                        let soundIndex = -1;
+                        for(let i=0; i<e.target.files.length; i++){
+                            if(e.target.files[i].name === channelsList.Sound) soundIndex = i;
+                        }
+                        if(soundIndex === -1) alert('找不到' + channelsList.Sound);
+                        else{
+                            let soundReader = new FileReader();
+                            soundReader.onload = (file) => {
+                                console.log(file.target.result);
+                                let sound = new Float32Array(file.target.result);
+                                console.log(sound);
+                                this.setState({
+                                    sound: sound,
+                                });
+                            }
+                            soundReader.readAsArrayBuffer(e.target.files[soundIndex]);
                         }
 
                     }
@@ -217,7 +270,10 @@ class Dataflow extends React.Component{
                     </label>
                 </div>
                 <Report 
+                    sound = {this.state.sound}
+                    pulse = {this.state.pulse}
                     position = {this.state.position}
+                    spo2 = {this.state.spo2}
                     sleepStage = {this.state.sleepStage}
                     startDate = {this.state.startDate}
                     name = {this.state.name}

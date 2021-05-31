@@ -349,7 +349,7 @@ class Graph extends React.Component{
         pulse = null;
 
         let pulselastx = 100;
-        let pulselasty = 120 - randomPulse[0] + 10;
+        let pulselasty = (120 - randomPulse[0])*((hrHeight*5/6)/100) + 10;
         hrCTX.setLineDash([]);
         for(let i=0; i<700; i++){
             let pulseConvert = (120 - randomPulse[i])*((hrHeight*5/6)/100) + 10;
@@ -417,7 +417,7 @@ class Graph extends React.Component{
         let spo2lasty = 10;
         for(let i=0; i<700; i++){
             let spo2Convert = (100 - randomSpo2[i])*((smgHeight*5/6)/50) + 10;
-            if(randomSpo2[i] >= 50 && randomSpo2[i] <=100){
+            if(randomSpo2[i] >= 50 && randomSpo2[i] <= 100){
                 smgCTX.beginPath();
                 smgCTX.moveTo(spo2lastx, spo2lasty);
                 smgCTX.lineTo(100 + i, spo2Convert);

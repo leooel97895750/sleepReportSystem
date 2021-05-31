@@ -444,30 +444,29 @@ class Report extends React.Component{
                         <div style={{width:"1000px", margin:"0px auto"}}>
                             <span style={{fontWeight:"bold"}}>基本資料：</span>
                             <div style={{float:"right"}}>
-                                <span style={{fontWeight:"bold"}}></span>
-                                <input className="patientInput" type="text"/>
                                 <span style={{fontWeight:"bold", marginLeft:"20px"}}>紀錄時間: </span>
-                                <input className="patientInput" type="text"/>
+                                <span>{this.props.startDate}</span>
+                                
                             </div>
                         </div>
                     </div>
                     
                     
                     <div style={{fontSize:"18px", fontWeight:"500"}}>
-                        <table border="1" cellSpacing="0" cellPadding="3" style={{marginLeft:"auto", marginRight:"auto", width:"1000px"}}>
+                        <table border="1" cellSpacing="0" cellPadding="3" style={{marginLeft:"auto", marginRight:"auto", width:"1000px", whiteSpace: "nowrap"}}>
                             <tbody>
                                 <tr>
-                                    <td width="20%">姓名：</td>
-                                    <td width="20%">年齡：</td>
-                                    <td width="20%">病歷號：</td>
-                                    <td width="20%">性別：</td>
-                                    <td width="20%">生日：</td>
+                                    <td width="20%"><div style={{overflow:"hidden"}}>姓名：<input className="myInput" defaultValue={this.props.name}/></div></td>
+                                    <td width="20%"><div style={{overflow:"hidden"}}>年齡：<input className="myInput" defaultValue={this.props.age}/></div></td>
+                                    <td width="20%"><div style={{overflow:"hidden"}}>病歷號：<input className="myInput" defaultValue={this.props.patientID}/></div></td>
+                                    <td width="20%"><div style={{overflow:"hidden"}}>性別：<input className="myInput" defaultValue={this.props.sex}/></div></td>
+                                    <td width="20%"><div style={{overflow:"hidden"}}>生日：<input className="myInput" defaultValue={this.props.dob}/></div></td>
                                 </tr>
                                 <tr>
-                                    <td>身高：</td>
-                                    <td>體重：</td>
-                                    <td>體質量指數：</td>
-                                    <td>頸圍：</td>
+                                    <td><div style={{overflow:"hidden"}}>身高：<input className="myInput" defaultValue={this.props.height}/></div></td>
+                                    <td><div style={{overflow:"hidden"}}>體重：<input className="myInput" defaultValue={this.props.weight}/></div></td>
+                                    <td><div style={{overflow:"hidden"}}>體質量指數：<input className="myInput" defaultValue={this.props.bmi}/></div></td>
+                                    <td><div style={{overflow:"hidden"}}>頸圍：<input className="myInput" defaultValue={this.props.neck}/></div></td>
                                     <td>腰圍：</td>
                                     
                                 </tr>
@@ -522,7 +521,7 @@ class Report extends React.Component{
                     <div style={{width:"100%", fontSize:"20px"}}>
                         <div style={{width:"1000px", margin:"0px auto"}}>
                             <span style={{fontWeight:"bold"}}>睡眠分期：</span>
-                            <input type="text" />
+                            <span>開始記錄時間 {this.props.startTime} ; 結束紀錄時間 {this.props.endTime}</span>
                         </div>
                     </div>
 
@@ -530,37 +529,37 @@ class Report extends React.Component{
                         <table border="1" cellSpacing="0" cellPadding="3" style={{marginLeft:"auto", marginRight:"auto", width:"1000px"}}>
                             <tbody>
                                 <tr>
-                                    <td width="20%">全部記錄時間：</td>
-                                    <td width="30%"></td>
-                                    <td width="20%">睡眠時間：</td>
-                                    <td width="30%"></td>
+                                    <td width="20%">全部記錄時間(分鐘)：</td>
+                                    <td width="30%"><div style={{overflow:"hidden"}}><input className="myInput" defaultValue={this.props.totalRecordTime}/></div></td>
+                                    <td width="20%">睡眠時間(分鐘)：</td>
+                                    <td width="30%"><span style={{fontWeight: "normal"}}>{((this.props.epochNum - this.props.sot) / 2).toFixed(1)}</span></td>
                                 </tr>
                                 <tr>
-                                    <td>全部睡眠時間：</td>
-                                    <td></td>
-                                    <td>清醒時間：</td>
-                                    <td></td>
+                                    <td>全部睡眠時間(分鐘)：</td>
+                                    <td><span style={{fontWeight: "normal"}}>{((this.props.epochNum - this.props.wake) / 2).toFixed(1)}</span></td>
+                                    <td>清醒時間(分鐘)：</td>
+                                    <td><span style={{fontWeight: "normal"}}>{((this.props.wake - this.props.sot) / 2).toFixed(1)}</span></td>
                                 </tr>
                                 <tr>
-                                    <td>睡眠第一期：</td>
-                                    <td></td>
-                                    <td>快速動眼期：</td>
-                                    <td></td>
+                                    <td>睡眠第一期(%)：</td>
+                                    <td><span style={{fontWeight: "normal"}}>{((this.props.n1 / (this.props.n1 + this.props.n2 + this.props.n3 + this.props.rem)) * 100).toFixed(1)}</span></td>
+                                    <td>快速動眼期(%)：</td>
+                                    <td><span style={{fontWeight: "normal"}}>{((this.props.rem / (this.props.n1 + this.props.n2 + this.props.n3 + this.props.rem)) * 100).toFixed(1)}</span></td>
                                 </tr>
                                 <tr>
-                                    <td>睡眠第二期：</td>
-                                    <td></td>
-                                    <td>入睡時間：</td>
-                                    <td></td>
+                                    <td>睡眠第二期(%)：</td>
+                                    <td><span style={{fontWeight: "normal"}}>{((this.props.n2 / (this.props.n1 + this.props.n2 + this.props.n3 + this.props.rem)) * 100).toFixed(1)}</span></td>
+                                    <td>入睡時間(分鐘)：</td>
+                                    <td><span style={{fontWeight: "normal"}}>{(this.props.sot / 2).toFixed(1)}</span></td>
                                 </tr>
                                 <tr>
-                                    <td>睡眠第三期：</td>
-                                    <td></td>
-                                    <td>睡眠效率：</td>
-                                    <td></td>
+                                    <td>睡眠第三期(%)：</td>
+                                    <td><span style={{fontWeight: "normal"}}>{((this.props.n3 / (this.props.n1 + this.props.n2 + this.props.n3 + this.props.rem)) * 100).toFixed(1)}</span></td>
+                                    <td>睡眠效率(%)：</td>
+                                    <td><span style={{fontWeight: "normal"}}>{(((this.props.epochNum - this.props.wake) /this.props.epochNum) * 100).toFixed(1)}</span></td>
                                 </tr>
                                 <tr>
-                                    <td>覺醒指數：</td>
+                                    <td>覺醒指數(/小時)：</td>
                                     <td></td>
                                     <td colSpan="2"></td>
                                 </tr>

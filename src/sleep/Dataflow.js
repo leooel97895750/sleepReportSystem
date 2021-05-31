@@ -1,6 +1,8 @@
 import React from 'react';
 import '../css/dataflow.css';
 import Report from './Report';
+import {getAPI, postAPI} from './API.js';
+
 //import {getAPI, postAPI} from './API.js';
 
 class Dataflow extends React.Component{
@@ -37,7 +39,6 @@ class Dataflow extends React.Component{
         this.updateFile = this.updateFile.bind(this);
     }
 
-    
     updateFile(e){
         // 印出所有檔案陣列
         console.log(e.target.files);
@@ -85,6 +86,28 @@ class Dataflow extends React.Component{
             }
             stageReader.readAsArrayBuffer(e.target.files[slpstagIndex]);
         }
+
+        // 解析事件
+        let eventsIndex = -1;
+        for(let i=0; i<e.target.files.length; i++){
+            if(e.target.files[i].name === "EVENTS.MDB") eventsIndex = i;
+        }
+        let url = "http://140.116.245.43:3000/mdb";
+        let xhr = new XMLHttpRequest();
+        xhr.open("POST", url);
+        xhr.onprogress = function(e) {
+            console.log(e.loaded, e.total);
+        }
+        xhr.onload = function() {
+            console.log(xhr.response);
+        }
+        xhr.onerror = function() {
+            console.log('error');
+        }
+        let data = new FormData();
+        data.append('file', e.target.files[eventsIndex]);
+        xhr.send(data);
+        
 
         // 第一層檔案讀取
         // 解析基本資料: 尋找 "DATASEGMENTS.XML"
@@ -216,12 +239,50 @@ class Dataflow extends React.Component{
                             let pulseReader = new FileReader();
                             pulseReader.onload = (file) => {
                                 let pulse = new Float32Array(file.target.result);
+
+                                let total = 0;
+                                let min = 120;
+                                let index = 0;
+                                for(let i=0; i<pulse.length; i++){
+                                    if(pulse[i] < min){
+                                        min = pulse[i];
+                                        index = i;
+                                    } 
+                                    total += pulse[i];
+                                } 
+                                //console.log(total/pulse.length, min, index);
                                 //console.log(pulse);
                                 this.setState({
                                     pulse: pulse,
                                 });
                             }
                             pulseReader.readAsArrayBuffer(e.target.files[pulseIndex]);
+                        }
+                        // 解析Pulse2
+                        let pulseIndex2 = -1;
+                        for(let i=0; i<e.target.files.length; i++){
+                            if(e.target.files[i].name === channelsList.Pulse) pulseIndex2 = i;
+                        }
+                        if(pulseIndex2 === -1) alert('找不到' + channelsList.Pulse);
+                        else{
+                            let pulseReader = new FileReader();
+                            pulseReader.onload = (file) => {
+                                let pulse = new Float32Array(file.target.result);
+
+                                let total = 0;
+                                let min = 120;
+                                let index = 0;
+                                for(let i=0; i<pulse.length; i++){
+                                    if(pulse[i] < min){
+                                        min = pulse[i];
+                                        index = i;
+                                    } 
+                                    total += pulse[i];
+                                } 
+                                //console.log(total/pulse.length, min, index);
+                                //console.log(pulse);
+                            }
+                            pulseReader.readAsArrayBuffer(e.target.files[pulseIndex2]);
                         }
                         // 解析Sound
                         let soundIndex = -1;
@@ -232,7 +293,7 @@ class Dataflow extends React.Component{
                         else{
                             let soundReader = new FileReader();
                             soundReader.onload = (file) => {
-                                console.log(file.target.result);
+                                //console.log(file.target.result);
                                 let sound = new Float32Array(file.target.result);
                                 console.log(sound);
                                 this.setState({

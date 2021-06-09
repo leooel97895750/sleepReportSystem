@@ -9,6 +9,7 @@ class Dataflow extends React.Component{
     constructor(props){
         super(props);
         this.state = {
+            eventsCount: {},
             sound: [],
             pulse: [],
             spo2: [],
@@ -96,10 +97,71 @@ class Dataflow extends React.Component{
         let xhr = new XMLHttpRequest();
         xhr.open("POST", url);
         xhr.onprogress = function(e) {
-            console.log(e.loaded, e.total);
+            console.log(e.loaded +'/'+ e.total);
         }
-        xhr.onload = function() {
-            console.log(xhr.response);
+        xhr.onload = () => {
+            let events = JSON.parse(xhr.response);
+            console.log(events.length);
+            console.log(events[0]);
+            // 抓出需要的事件
+            let eventsCount = {'CA':0, 'OA':0, 'MA':0, 'SPD':0, 'SPA':0, 'A1':0, 'A2':0, 'A3':0, 'A4':0, 'OH':0, 'RERA':0, 'SNORE':0};
+            for(let i=0; i<events.length; i++){
+                let event = events[i];
+                // Central Apnea
+                if(event.EVT_TYPE === 1 && event.MAN_SCORED === 1){
+                    eventsCount.CA = eventsCount.CA + 1;
+                }
+                // Obstructive Apnea
+                else if(event.EVT_TYPE === 2 && event.MAN_SCORED === 1){
+                    eventsCount.OA = eventsCount.OA + 1;
+                }
+                // Mixed Apnea
+                else if(event.EVT_TYPE === 3 && event.MAN_SCORED === 1){
+                    eventsCount.MA = eventsCount.MA + 1;
+                }
+                // SpO2 Desat
+                else if(event.EVT_TYPE === 4 && event.MAN_SCORED === 1){
+                    eventsCount.SPD = eventsCount.SPD + 1;
+                }
+                // SpO2 Artifact
+                else if(event.EVT_TYPE === 6 && event.MAN_SCORED === 1){
+                    eventsCount.SPA = eventsCount.SPA + 1;
+                }
+                // Arousal 1 ARO RES
+                else if(event.EVT_TYPE === 7 && event.MAN_SCORED === 1){
+                    eventsCount.A1 = eventsCount.A1 + 1;
+                }
+                // Arousal 2 ARO Limb
+                else if(event.EVT_TYPE === 8 && event.MAN_SCORED === 1){
+                    eventsCount.A2 = eventsCount.A2 + 1;
+                }
+                // Arousal 3 ARO SPONT
+                else if(event.EVT_TYPE === 9 && event.MAN_SCORED === 1){
+                    eventsCount.A3 = eventsCount.A3 + 1;
+                }
+                // Arousal 4 ARO PLM
+                else if(event.EVT_TYPE === 10 && event.MAN_SCORED === 1){
+                    eventsCount.A4 = eventsCount.A4 + 1;
+                }
+                // Limb movement(Left)(PLM)
+                else if(event.EVT_TYPE === 12){}
+                // Limb movement(Right)(PLM)
+                else if(event.EVT_TYPE === 13){}
+                // Obstructive Hypopnea
+                else if(event.EVT_TYPE === 29 && event.MAN_SCORED === 1){
+                    eventsCount.OH = eventsCount.OH + 1;
+                }
+                // RERA
+                else if(event.EVT_TYPE === 32){}
+                // Snore
+                else if(event.EVT_TYPE === 33){
+                    eventsCount.SNORE = eventsCount.SNORE + 1;
+                }
+            }
+            console.log(eventsCount);
+            this.setState({
+                eventsCount: eventsCount,
+            });
         }
         xhr.onerror = function() {
             console.log('error');
@@ -331,6 +393,7 @@ class Dataflow extends React.Component{
                     </label>
                 </div>
                 <Report 
+                    eventsCount = {this.state.eventsCount}
                     sound = {this.state.sound}
                     pulse = {this.state.pulse}
                     position = {this.state.position}

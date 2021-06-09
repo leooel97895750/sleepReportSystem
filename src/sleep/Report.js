@@ -19,6 +19,7 @@ class Report extends React.Component{
         });
     }
     render(){
+        let evn = this.props.eventsCount;
         return(
             <div style={{width:"100%"}}>
                 <div className="reportBlock" style={{fontFamily:"Times New Roman, DFKai-sb, sans-serif"}}>
@@ -117,14 +118,14 @@ class Report extends React.Component{
                         <table border="1" cellSpacing="0" cellPadding="3" style={{marginLeft:"auto", marginRight:"auto", width:"1000px", whiteSpace: "nowrap"}}>
                             <tbody>
                                 <tr>
-                                    <td width="25%">AHI：</td>
-                                    <td width="25%">AI：</td>
-                                    <td width="25%">HI：</td>
-                                    <td width="25%">OI：</td>
+                                    <td width="25%">AHI：<span style={{fontWeight: "normal"}}>{((evn.CA + evn.MA + evn.OA + evn.OH) / ((this.props.epochNum - this.props.wake) / 2) * 60).toFixed(1)}</span></td>
+                                    <td width="25%">AI：<span style={{fontWeight: "normal"}}>{((evn.CA + evn.MA + evn.OA) / ((this.props.epochNum - this.props.wake) / 2) * 60).toFixed(1)}</span></td>
+                                    <td width="25%">HI：<span style={{fontWeight: "normal"}}>{(evn.OH / ((this.props.epochNum - this.props.wake) / 2) * 60).toFixed(1)}</span></td>
+                                    <td width="25%">OI：<span style={{fontWeight: "normal"}}>{(evn.OA / ((this.props.epochNum - this.props.wake) / 2) * 60).toFixed(1)}</span></td>
                                 </tr>
                                 <tr>
-                                    <td>CI：</td>
-                                    <td>MI：</td>
+                                    <td>CI：<span style={{fontWeight: "normal"}}>{(evn.CA / ((this.props.epochNum - this.props.wake) / 2) * 60).toFixed(1)}</span></td>
+                                    <td>MI：<span style={{fontWeight: "normal"}}>{(evn.MA / ((this.props.epochNum - this.props.wake) / 2) * 60).toFixed(1)}</span></td>
                                     <td>AHI(Left)：</td>
                                     <td>AHI(NSupine)：</td>
                                 </tr>
@@ -198,23 +199,23 @@ class Report extends React.Component{
                         <table border="1" cellSpacing="0" cellPadding="3" style={{marginLeft:"auto", marginRight:"auto", width:"1000px"}}>
                             <tbody>
                                 <tr>
-                                    <td width="50%">Obstructive apnea：</td>
+                                    <td width="50%">Obstructive apnea：<span style={{fontWeight: "normal"}}>{evn.OA}</span></td>
                                     <td width="50%">Total duration：</td>
                                 </tr>
                                 <tr>
-                                    <td>Central apnea：</td>
+                                    <td>Central apnea：<span style={{fontWeight: "normal"}}>{evn.CA}</span></td>
                                     <td>Total duration：</td>
                                 </tr>
                                 <tr>
-                                    <td>Mixed apnea：</td>
+                                    <td>Mixed apnea：<span style={{fontWeight: "normal"}}>{evn.MA}</span></td>
                                     <td>Total duration：</td>
                                 </tr>
                                 <tr>
-                                    <td>Hypopnea 2：</td>
+                                    <td>Hypopnea：<span style={{fontWeight: "normal"}}>{evn.OH}</span></td>
                                     <td>Total duration：</td>
                                 </tr>
                                 <tr>
-                                    <td>Longest apnea 3：</td>
+                                    <td>Longest apnea：</td>
                                     <td>Longest hypopnea：</td>
                                 </tr>
                             </tbody>
@@ -490,15 +491,15 @@ class Report extends React.Component{
                         <table border="1" cellSpacing="0" cellPadding="3" style={{marginLeft:"auto", marginRight:"auto", width:"1000px"}}>
                             <tbody>
                                 <tr>
-                                    <td colSpan="2" width="40%">呼吸中止和淺呼吸指數：</td>
-                                    <td colSpan="2" width="30%">呼吸中止指數：</td>
-                                    <td colSpan="2" width="30%">淺呼吸指數：</td>
+                                    <td colSpan="2" width="40%">呼吸中止和淺呼吸指數：<span style={{fontWeight: "normal"}}>{((evn.CA + evn.MA + evn.OA + evn.OH) / ((this.props.epochNum - this.props.wake) / 2) * 60).toFixed(1)}</span></td>
+                                    <td colSpan="2" width="30%">呼吸中止指數：<span style={{fontWeight: "normal"}}>{((evn.CA + evn.MA + evn.OA) / ((this.props.epochNum - this.props.wake) / 2) * 60).toFixed(1)}</span></td>
+                                    <td colSpan="2" width="30%">淺呼吸指數：<span style={{fontWeight: "normal"}}>{(evn.OH / ((this.props.epochNum - this.props.wake) / 2) * 60).toFixed(1)}</span></td>
                                     
                                 </tr>
                                 <tr>
-                                    <td colSpan="2">阻塞型呼吸中止指數：</td>
-                                    <td colSpan="2">中樞型呼吸中止指數：</td>
-                                    <td colSpan="2">混和型呼吸中止指數：</td>
+                                    <td colSpan="2">阻塞型呼吸中止指數：<span style={{fontWeight: "normal"}}>{(evn.OA / ((this.props.epochNum - this.props.wake) / 2) * 60).toFixed(1)}</span></td>
+                                    <td colSpan="2">中樞型呼吸中止指數：<span style={{fontWeight: "normal"}}>{(evn.CA / ((this.props.epochNum - this.props.wake) / 2) * 60).toFixed(1)}</span></td>
+                                    <td colSpan="2">混和型呼吸中止指數：<span style={{fontWeight: "normal"}}>{(evn.MA / ((this.props.epochNum - this.props.wake) / 2) * 60).toFixed(1)}</span></td>
                                     
 
                                 </tr>
@@ -580,25 +581,25 @@ class Report extends React.Component{
                             <tbody>
                                 <tr>
                                     <td width="20%">阻塞行呼吸中止：</td>
-                                    <td width="30%"></td>
+                                    <td width="30%"><span style={{fontWeight: "normal"}}>{evn.OA}</span></td>
                                     <td width="20%">總發生時間：</td>
                                     <td width="30%"></td>
                                 </tr>
                                 <tr>
                                     <td>中樞型呼吸中止：</td>
-                                    <td></td>
+                                    <td><span style={{fontWeight: "normal"}}>{evn.CA}</span></td>
                                     <td>總發生時間：</td>
                                     <td></td>
                                 </tr>
                                 <tr>
                                     <td>混和型呼吸中止：</td>
-                                    <td></td>
+                                    <td><span style={{fontWeight: "normal"}}>{evn.MA}</span></td>
                                     <td>總發生時間：</td>
                                     <td></td>
                                 </tr>
                                 <tr>
                                     <td>淺呼吸：</td>
-                                    <td></td>
+                                    <td><span style={{fontWeight: "normal"}}>{evn.OH}</span></td>
                                     <td>總發生時間：</td>
                                     <td></td>
                                 </tr>

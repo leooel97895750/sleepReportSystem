@@ -12,6 +12,12 @@ class Report extends React.Component{
         };
         this.handleReportTitle = this.handleReportTitle.bind(this);
     }
+    // 偵測DataFlow呼叫回傳報告數值
+    componentDidUpdate(prevProps, prevState, snapshot){
+        if(prevProps.getReport === 0 && this.props.getReport === 1){
+            this.props.downloadReport({'name':'leo', 'age':24});
+        }
+    }
     handleReportTitle(e){
         console.log(e.target.value);
         this.setState({

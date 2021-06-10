@@ -8,6 +8,7 @@ class Dataflow extends React.Component{
     constructor(props){
         super(props);
         this.state = {
+            getReport: 0, //是否傳資料回dataflow
             eventsCount: {},
             sound: [],
             pulse: [],
@@ -37,6 +38,8 @@ class Dataflow extends React.Component{
 
         };
         this.updateFile = this.updateFile.bind(this);
+        this.getReportData = this.getReportData.bind(this);
+        this.downloadReport = this.downloadReport.bind(this);
     }
 
     updateFile(e){
@@ -372,13 +375,24 @@ class Dataflow extends React.Component{
         }
     }
 
-    downloadReport(){
+    // 觸發Report資料回傳
+    getReportData(){
+        this.setState({
+            getReport: 1,
+        })
+    }
+    // 傳入資料產生WORD並下載
+    downloadReport(reportData){
+        this.setState({
+            getReport: 0,
+        })
+        console.log(reportData);
         var xhr = new XMLHttpRequest();
         xhr.open('post', "http://140.116.245.43:3000/word");
         xhr.setRequestHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document; charset=UTF-8')
-        xhr.responseType = 'blob';//以blob的形式接收資料，一般檔案內容比較大
+        xhr.responseType = 'blob'; //以blob的形式接收資料，一般檔案內容比較大
         xhr.onload = function(e) {
-            var blob = this.response;//Blob資料
+            var blob = this.response; //Blob資料
             if (this.status == 200) {
                 if (blob && blob.size > 0) {
                     let element = document.createElement('a');
@@ -393,6 +407,7 @@ class Dataflow extends React.Component{
         data.append('file', 'data');
         xhr.send(data)
     }
+
 
     render(){
         return(
@@ -416,12 +431,14 @@ class Dataflow extends React.Component{
                     <label>
                         <span className="fileButton">下載報告檔</span>
                         <button 
-                            onClick = {this.downloadReport}
+                            onClick = {this.getReportData}
                             style = {{display: 'none'}}
                         />
                     </label>
                 </div>
                 <Report 
+                    downloadReport = {this.downloadReport}
+                    getReport = {this.state.getReport}
                     eventsCount = {this.state.eventsCount}
                     sound = {this.state.sound}
                     pulse = {this.state.pulse}

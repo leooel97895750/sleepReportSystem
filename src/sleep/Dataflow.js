@@ -3,7 +3,6 @@ import '../css/dataflow.css';
 import Report from './Report';
 import {getAPI, postAPI} from './API.js';
 
-//import {getAPI, postAPI} from './API.js';
 
 class Dataflow extends React.Component{
     constructor(props){
@@ -371,9 +370,30 @@ class Dataflow extends React.Component{
             }
             datasegmentReader.readAsText(e.target.files[datasegmentIndex]);
         }
-
-        
     }
+
+    downloadReport(){
+        var xhr = new XMLHttpRequest();
+        xhr.open('post', "http://140.116.245.43:3000/word");
+        xhr.setRequestHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document; charset=UTF-8')
+        xhr.responseType = 'blob';//以blob的形式接收資料，一般檔案內容比較大
+        xhr.onload = function(e) {
+            var blob = this.response;//Blob資料
+            if (this.status == 200) {
+                if (blob && blob.size > 0) {
+                    let element = document.createElement('a');
+                    element.setAttribute('href', URL.createObjectURL(blob));
+                    element.setAttribute('download', 'test.docx');
+                    document.body.appendChild(element);
+                    element.click();
+                } 
+            } 
+        };
+        let data = new FormData();
+        data.append('file', 'data');
+        xhr.send(data)
+    }
+
     render(){
         return(
             <div style={{display: this.props.display}}>
@@ -388,6 +408,15 @@ class Dataflow extends React.Component{
                             webkitdirectory = "" 
                             directory = ""
                             name = "psgFile"
+                            style = {{display: 'none'}}
+                        />
+                    </label>
+                </div>
+                <div className="downloadBlock">
+                    <label>
+                        <span className="fileButton">下載報告檔</span>
+                        <button 
+                            onClick = {this.downloadReport}
                             style = {{display: 'none'}}
                         />
                     </label>

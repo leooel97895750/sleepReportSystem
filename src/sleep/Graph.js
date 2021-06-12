@@ -219,6 +219,46 @@ class Graph extends React.Component{
             rCTX.lineWidth = "1";
             rCTX.stroke();
         }
+        for(let i=0; i<this.props.eventsTime.CA.length; i++){
+            let eventEpoch = Math.ceil(this.props.eventsTime.CA[i] / 30);
+            let eventIndex = Math.round((eventEpoch * 700) / this.props.epochNum);
+            rCTX.beginPath();
+            rCTX.moveTo(100 + eventIndex, 12);
+            rCTX.lineTo(100 + eventIndex, 35);
+            rCTX.strokeStyle = "darkblue";
+            rCTX.lineWidth = "1";
+            rCTX.stroke();
+        }
+        for(let i=0; i<this.props.eventsTime.OA.length; i++){
+            let eventEpoch = Math.ceil(this.props.eventsTime.OA[i] / 30);
+            let eventIndex = Math.round((eventEpoch * 700) / this.props.epochNum);
+            rCTX.beginPath();
+            rCTX.moveTo(100 + eventIndex, 47);
+            rCTX.lineTo(100 + eventIndex, 70);
+            rCTX.strokeStyle = "darkblue";
+            rCTX.lineWidth = "1";
+            rCTX.stroke();
+        }
+        for(let i=0; i<this.props.eventsTime.MA.length; i++){
+            let eventEpoch = Math.ceil(this.props.eventsTime.MA[i] / 30);
+            let eventIndex = Math.round((eventEpoch * 700) / this.props.epochNum);
+            rCTX.beginPath();
+            rCTX.moveTo(100 + eventIndex, 82);
+            rCTX.lineTo(100 + eventIndex, 105);
+            rCTX.strokeStyle = "darkblue";
+            rCTX.lineWidth = "1";
+            rCTX.stroke();
+        }
+        for(let i=0; i<this.props.eventsTime.OH.length; i++){
+            let eventEpoch = Math.ceil(this.props.eventsTime.OH[i] / 30);
+            let eventIndex = Math.round((eventEpoch * 700) / this.props.epochNum);
+            rCTX.beginPath();
+            rCTX.moveTo(100 + eventIndex, 117);
+            rCTX.lineTo(100 + eventIndex, 140);
+            rCTX.strokeStyle = "darkblue";
+            rCTX.lineWidth = "1";
+            rCTX.stroke();
+        }
 
         // 4.
         // Body Position

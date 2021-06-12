@@ -62,11 +62,11 @@ class Report extends React.Component{
                         <table border="1" cellSpacing="0" cellPadding="3" style={{marginLeft:"auto", marginRight:"auto", width:"1000px", whiteSpace: "nowrap"}}>
                             <tbody>
                                 <tr>
-                                    <td colSpan="4" width="20%"><div style={{overflow:"hidden"}}>Name：<input className="myInput" defaultValue={this.props.name}/></div></td>
-                                    <td colSpan="4" width="20%"><div style={{overflow:"hidden"}}>Age：<input className="myInput" defaultValue={this.props.age}/></div></td>
-                                    <td colSpan="4" width="20%"><div style={{overflow:"hidden"}}>Patient ID：<input className="myInput" defaultValue={this.props.patientID}/></div></td>
-                                    <td colSpan="4" width="20%"><div style={{overflow:"hidden"}}>Sex：<input className="myInput" defaultValue={this.props.sex}/></div></td>
-                                    <td colSpan="4" width="20%"><div style={{overflow:"hidden"}}>DOB：<input className="myInput" defaultValue={this.props.dob}/></div></td>
+                                    <td colSpan="4" width="20%">Name：<span>{this.props.name}</span></td>
+                                    <td colSpan="4" width="20%">Age：<span>{this.props.age}</span></td>
+                                    <td colSpan="4" width="20%">Patient ID：<span>{this.props.patientID}</span></td>
+                                    <td colSpan="4" width="20%">Sex：<span>{this.props.sex}</span></td>
+                                    <td colSpan="4" width="20%">DOB：<span>{this.props.dob}</span></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -75,12 +75,12 @@ class Report extends React.Component{
                         <table border="1" cellSpacing="0" cellPadding="3" style={{marginLeft:"auto", marginRight:"auto", width:"1000px", whiteSpace: "nowrap"}}>
                             <tbody>
                                 <tr>
-                                    <td colSpan="4" width="20%"><div style={{overflow:"hidden"}}>Height(cm)：<input className="myInput" defaultValue={this.props.height}/></div></td>
-                                    <td colSpan="4" width="20%"><div style={{overflow:"hidden"}}>Weight(kg)：<input className="myInput" defaultValue={this.props.weight}/></div></td>
-                                    <td colSpan="3" width="15%"><div style={{overflow:"hidden"}}>BMI：<input className="myInput" defaultValue={this.props.bmi}/></div></td>
-                                    <td colSpan="3" width="15%"><div style={{overflow:"hidden"}}>Neck(cm)：<input className="myInput" defaultValue={this.props.neck}/></div></td>
-                                    <td colSpan="3" width="15%">Waist(cm)：</td>
-                                    <td colSpan="3" width="15%">Hip(cm)：</td>
+                                    <td colSpan="4" width="20%">Height(cm)：<span>{this.props.height}</span></td>
+                                    <td colSpan="4" width="20%">Weight(kg)：<span>{this.props.weight}</span></td>
+                                    <td colSpan="3" width="15%">BMI：<span>{this.props.bmi}</span></td>
+                                    <td colSpan="3" width="15%">Neck(cm)：<span>{this.props.neck}</span></td>
+                                    <td colSpan="3" width="15%"><div style={{overflow:"hidden"}}>Waist(cm)：<input className="myInput"/></div></td>
+                                    <td colSpan="3" width="15%"><div style={{overflow:"hidden"}}>Hip(cm)：<input className="myInput"/></div></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -89,12 +89,12 @@ class Report extends React.Component{
                         <table border="1" cellSpacing="0" cellPadding="3" style={{marginLeft:"auto", marginRight:"auto", width:"1000px", whiteSpace: "nowrap"}}>
                             <tbody>
                                 <tr>
-                                    <td colSpan="4" width="20%">HADS(A/D)：</td>
-                                    <td colSpan="4" width="20%">ESS：</td>
-                                    <td colSpan="3" width="15%">PSQI：</td>
-                                    <td colSpan="3" width="15%">SOS：</td>
-                                    <td colSpan="3" width="15%">THI：</td>
-                                    <td colSpan="3" width="15%">GERD-Q：</td>
+                                    <td colSpan="4" width="20%"><div style={{overflow:"hidden"}}>HADS(A/D)：<input className="myInput"/></div></td>
+                                    <td colSpan="4" width="20%"><div style={{overflow:"hidden"}}>ESS：<input className="myInput"/></div></td>
+                                    <td colSpan="3" width="15%"><div style={{overflow:"hidden"}}>PSQI：<input className="myInput"/></div></td>
+                                    <td colSpan="3" width="15%"><div style={{overflow:"hidden"}}>SOS：<input className="myInput"/></div></td>
+                                    <td colSpan="3" width="15%"><div style={{overflow:"hidden"}}>THI：<input className="myInput"/></div></td>
+                                    <td colSpan="3" width="15%"><div style={{overflow:"hidden"}}>GERD-Q：<input className="myInput"/></div></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -103,10 +103,10 @@ class Report extends React.Component{
                         <table border="1" cellSpacing="0" cellPadding="3" style={{marginLeft:"auto", marginRight:"auto", width:"1000px", whiteSpace: "nowrap"}}>
                             <tbody>
                                 <tr>
-                                    <td colSpan="5" width="25%">WHO(Phy/Psy)：</td>
-                                    <td colSpan="5" width="25%">BP(S)(mmHg)：</td>
-                                    <td colSpan="5" width="25%">BP(W)(mmHg)：</td>
-                                    <td colSpan="5" width="25%">Subjective sleep quality：</td>
+                                    <td colSpan="5" width="25%"><div style={{overflow:"hidden"}}>WHO(Phy/Psy)：<input className="myInput"/></div></td>
+                                    <td colSpan="5" width="25%"><div style={{overflow:"hidden"}}>BP(S)(mmHg)：<input className="myInput"/></div></td>
+                                    <td colSpan="5" width="25%"><div style={{overflow:"hidden"}}>BP(W)(mmHg)：<input className="myInput"/></div></td>
+                                    <td colSpan="5" width="25%"><div style={{overflow:"hidden"}}>Subjective sleep quality：<input className="myInput"/></div></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -124,14 +124,14 @@ class Report extends React.Component{
                         <table border="1" cellSpacing="0" cellPadding="3" style={{marginLeft:"auto", marginRight:"auto", width:"1000px", whiteSpace: "nowrap"}}>
                             <tbody>
                                 <tr>
-                                    <td width="25%">AHI：<span style={{fontWeight: "normal"}}>{((evn.CA + evn.MA + evn.OA + evn.OH) / ((this.props.epochNum - this.props.wake) / 2) * 60).toFixed(1)}</span></td>
-                                    <td width="25%">AI：<span style={{fontWeight: "normal"}}>{((evn.CA + evn.MA + evn.OA) / ((this.props.epochNum - this.props.wake) / 2) * 60).toFixed(1)}</span></td>
-                                    <td width="25%">HI：<span style={{fontWeight: "normal"}}>{(evn.OH / ((this.props.epochNum - this.props.wake) / 2) * 60).toFixed(1)}</span></td>
-                                    <td width="25%">OI：<span style={{fontWeight: "normal"}}>{(evn.OA / ((this.props.epochNum - this.props.wake) / 2) * 60).toFixed(1)}</span></td>
+                                    <td width="25%">AHI：<span>{((evn.CA + evn.MA + evn.OA + evn.OH) / ((this.props.epochNum - this.props.wake) / 2) * 60).toFixed(1)}</span></td>
+                                    <td width="25%">AI：<span>{((evn.CA + evn.MA + evn.OA) / ((this.props.epochNum - this.props.wake) / 2) * 60).toFixed(1)}</span></td>
+                                    <td width="25%">HI：<span>{(evn.OH / ((this.props.epochNum - this.props.wake) / 2) * 60).toFixed(1)}</span></td>
+                                    <td width="25%">OI：<span>{(evn.OA / ((this.props.epochNum - this.props.wake) / 2) * 60).toFixed(1)}</span></td>
                                 </tr>
                                 <tr>
-                                    <td>CI：<span style={{fontWeight: "normal"}}>{(evn.CA / ((this.props.epochNum - this.props.wake) / 2) * 60).toFixed(1)}</span></td>
-                                    <td>MI：<span style={{fontWeight: "normal"}}>{(evn.MA / ((this.props.epochNum - this.props.wake) / 2) * 60).toFixed(1)}</span></td>
+                                    <td>CI：<span>{(evn.CA / ((this.props.epochNum - this.props.wake) / 2) * 60).toFixed(1)}</span></td>
+                                    <td>MI：<span>{(evn.MA / ((this.props.epochNum - this.props.wake) / 2) * 60).toFixed(1)}</span></td>
                                     <td>AHI(Left)：</td>
                                     <td>AHI(NSupine)：</td>
                                 </tr>
@@ -166,27 +166,27 @@ class Report extends React.Component{
                         <table border="1" cellSpacing="0" cellPadding="3" style={{marginLeft:"auto", marginRight:"auto", width:"1000px", whiteSpace: "nowrap"}}>
                             <tbody>
                                 <tr>
-                                    <td width="50%"><div style={{overflow:"hidden"}}>Total record time(min)：<input className="myInput" defaultValue={this.props.totalRecordTime}/></div></td>
-                                    <td width="50%">Total sleep period(min)：<span style={{fontWeight: "normal"}}>{((this.props.epochNum - this.props.sot) / 2).toFixed(1)}</span></td>
+                                    <td width="50%">Total record time(min)：<span>{this.props.totalRecordTime}</span></td>
+                                    <td width="50%">Total sleep period(min)：<span>{((this.props.epochNum - this.props.sot) / 2).toFixed(1)}</span></td>
                                 </tr>
                                 <tr>
-                                    <td>Total sleep time(min)：<span style={{fontWeight: "normal"}}>{((this.props.epochNum - this.props.wake) / 2).toFixed(1)}</span></td>
-                                    <td>Awake time(min)：<span style={{fontWeight: "normal"}}>{((this.props.wake - this.props.sot) / 2).toFixed(1)}</span></td>
+                                    <td>Total sleep time(min)：<span>{((this.props.epochNum - this.props.wake) / 2).toFixed(1)}</span></td>
+                                    <td>Awake time(min)：<span>{((this.props.wake - this.props.sot) / 2).toFixed(1)}</span></td>
                                 </tr>
                                 <tr>
-                                    <td>Stage 1 (%)：<span style={{fontWeight: "normal"}}>{((this.props.n1 / (this.props.n1 + this.props.n2 + this.props.n3 + this.props.rem)) * 100).toFixed(1)}</span></td>
-                                    <td>REM (%)：<span style={{fontWeight: "normal"}}>{((this.props.rem / (this.props.n1 + this.props.n2 + this.props.n3 + this.props.rem)) * 100).toFixed(1)}</span></td>
+                                    <td>Stage 1 (%)：<span>{((this.props.n1 / (this.props.n1 + this.props.n2 + this.props.n3 + this.props.rem)) * 100).toFixed(1)}</span></td>
+                                    <td>REM (%)：<span>{((this.props.rem / (this.props.n1 + this.props.n2 + this.props.n3 + this.props.rem)) * 100).toFixed(1)}</span></td>
                                 </tr>
                                 <tr>
-                                    <td>Stage 2 (%)：<span style={{fontWeight: "normal"}}>{((this.props.n2 / (this.props.n1 + this.props.n2 + this.props.n3 + this.props.rem)) * 100).toFixed(1)}</span></td>
-                                    <td>Sleep Latency：<span style={{fontWeight: "normal"}}>{(this.props.sot / 2).toFixed(1)}</span></td>
+                                    <td>Stage 2 (%)：<span>{((this.props.n2 / (this.props.n1 + this.props.n2 + this.props.n3 + this.props.rem)) * 100).toFixed(1)}</span></td>
+                                    <td>Sleep Latency：<span>{(this.props.sot / 2).toFixed(1)}</span></td>
                                 </tr>
                                 <tr>
-                                    <td>Stage 3 (%)：<span style={{fontWeight: "normal"}}>{((this.props.n3 / (this.props.n1 + this.props.n2 + this.props.n3 + this.props.rem)) * 100).toFixed(1)}</span></td>
-                                    <td>Efficiency (%)：<span style={{fontWeight: "normal"}}>{(((this.props.epochNum - this.props.wake) /this.props.epochNum) * 100).toFixed(1)}</span></td>
+                                    <td>Stage 3 (%)：<span>{((this.props.n3 / (this.props.n1 + this.props.n2 + this.props.n3 + this.props.rem)) * 100).toFixed(1)}</span></td>
+                                    <td>Efficiency (%)：<span>{(((this.props.epochNum - this.props.wake) /this.props.epochNum) * 100).toFixed(1)}</span></td>
                                 </tr>
                                 <tr>
-                                    <td>Arousal Index：</td>
+                                    <td>Arousal Index (/h)：<span>{((evn.A1 + evn.A2 + evn.A3 + evn.A4) / ((this.props.epochNum - this.props.wake) / 2) * 60).toFixed(1)}</span></td>
                                     <td></td>
                                 </tr>
                             </tbody>
@@ -205,24 +205,24 @@ class Report extends React.Component{
                         <table border="1" cellSpacing="0" cellPadding="3" style={{marginLeft:"auto", marginRight:"auto", width:"1000px"}}>
                             <tbody>
                                 <tr>
-                                    <td width="50%">Obstructive apnea：<span style={{fontWeight: "normal"}}>{evn.OA}</span></td>
-                                    <td width="50%">Total duration：</td>
+                                    <td width="50%">Obstructive apnea (counts)：<span>{evn.OA}</span></td>
+                                    <td width="50%">Total duration (min)：<span>{(evn.TOA / 60)}</span></td>
                                 </tr>
                                 <tr>
-                                    <td>Central apnea：<span style={{fontWeight: "normal"}}>{evn.CA}</span></td>
-                                    <td>Total duration：</td>
+                                    <td>Central apnea (counts)：<span>{evn.CA}</span></td>
+                                    <td>Total duration (min)：<span>{(evn.TCA / 60)}</span></td>
                                 </tr>
                                 <tr>
-                                    <td>Mixed apnea：<span style={{fontWeight: "normal"}}>{evn.MA}</span></td>
-                                    <td>Total duration：</td>
+                                    <td>Mixed apnea (counts)：<span>{evn.MA}</span></td>
+                                    <td>Total duration (min)：<span>{(evn.TMA / 60)}</span></td>
                                 </tr>
                                 <tr>
-                                    <td>Hypopnea：<span style={{fontWeight: "normal"}}>{evn.OH}</span></td>
-                                    <td>Total duration：</td>
+                                    <td>Hypopnea (counts)：<span>{evn.OH}</span></td>
+                                    <td>Total duration (min)：<span>{(evn.TOH / 60)}</span></td>
                                 </tr>
                                 <tr>
-                                    <td>Longest apnea：</td>
-                                    <td>Longest hypopnea：</td>
+                                    <td>Longest apnea (sec)：<span>{evn.LA}</span></td>
+                                    <td>Longest hypopnea (sec)：<span>{evn.LH}</span></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -240,12 +240,12 @@ class Report extends React.Component{
                         <table border="1" cellSpacing="0" cellPadding="3" style={{marginLeft:"auto", marginRight:"auto", width:"1000px"}}>
                             <tbody>
                                 <tr>
-                                    <td width="50%">Mean SpO2：</td>
-                                    <td width="50%">Mean desaturation：</td>
+                                    <td width="50%">Mean SpO2 (%)：<span>{(evn.SPDS / evn.SPD).toFixed(1)}</span></td>
+                                    <td width="50%">Mean desaturation (%)：<span>{(evn.SD / evn.SPD).toFixed(1)}</span></td>
                                 </tr>
                                 <tr>
-                                    <td>Minimum SpO2：</td>
-                                    <td>ODI：</td>
+                                    <td>Minimum SpO2 (%)：<span>{evn.MSPD}</span></td>
+                                    <td>ODI (/h)：<span>{((evn.SPD) / ((this.props.epochNum - this.props.wake) / 2) * 60).toFixed(1)}</span></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -263,8 +263,8 @@ class Report extends React.Component{
                         <table border="1" cellSpacing="0" cellPadding="3" style={{marginLeft:"auto", marginRight:"auto", width:"1000px"}}>
                             <tbody>
                                 <tr>
-                                    <td width="50%">Total：</td>
-                                    <td width="50%">Snore Index：</td>
+                                    <td width="50%">Total (counts)：<span>{evn.SNORE}</span></td>
+                                    <td width="50%">Snore Index (/h)：<span>{((evn.SNORE) / ((this.props.epochNum - this.props.wake) / 2) * 60).toFixed(1)}</span></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -365,6 +365,8 @@ class Report extends React.Component{
                     <br/>
                     <br/>
                     <Graph 
+                        eventsTime = {this.props.eventsTime}
+                        eventsCount = {this.props.eventsCount}
                         startTime = {this.props.startTime}
                         endTime = {this.props.endTime}
                         epochNum = {this.props.epochNum}
@@ -463,17 +465,17 @@ class Report extends React.Component{
                         <table border="1" cellSpacing="0" cellPadding="3" style={{marginLeft:"auto", marginRight:"auto", width:"1000px", whiteSpace: "nowrap"}}>
                             <tbody>
                                 <tr>
-                                    <td width="20%"><div style={{overflow:"hidden"}}>姓名：<input className="myInput" defaultValue={this.props.name}/></div></td>
-                                    <td width="20%"><div style={{overflow:"hidden"}}>年齡：<input className="myInput" defaultValue={this.props.age}/></div></td>
-                                    <td width="20%"><div style={{overflow:"hidden"}}>病歷號：<input className="myInput" defaultValue={this.props.patientID}/></div></td>
-                                    <td width="20%"><div style={{overflow:"hidden"}}>性別：<input className="myInput" defaultValue={this.props.sex}/></div></td>
-                                    <td width="20%"><div style={{overflow:"hidden"}}>生日：<input className="myInput" defaultValue={this.props.dob}/></div></td>
+                                    <td width="20%">姓名：<span>{this.props.name}</span></td>
+                                    <td width="20%">年齡：<span>{this.props.age}</span></td>
+                                    <td width="20%">病歷號：<span>{this.props.patientID}</span></td>
+                                    <td width="20%">性別：<span>{this.props.sex === 'Male'?'男':'女'}</span></td>
+                                    <td width="20%">生日：<span>{this.props.dob}</span></td>
                                 </tr>
                                 <tr>
-                                    <td><div style={{overflow:"hidden"}}>身高：<input className="myInput" defaultValue={this.props.height}/></div></td>
-                                    <td><div style={{overflow:"hidden"}}>體重：<input className="myInput" defaultValue={this.props.weight}/></div></td>
-                                    <td><div style={{overflow:"hidden"}}>體質量指數：<input className="myInput" defaultValue={this.props.bmi}/></div></td>
-                                    <td><div style={{overflow:"hidden"}}>頸圍：<input className="myInput" defaultValue={this.props.neck}/></div></td>
+                                    <td>身高：<span>{this.props.height}</span></td>
+                                    <td>體重：<span>{this.props.weight}</span></td>
+                                    <td>體質量指數：<span>{this.props.bmi}</span></td>
+                                    <td>頸圍：<span>{this.props.neck}</span></td>
                                     <td>腰圍：</td>
                                     
                                 </tr>
@@ -497,15 +499,15 @@ class Report extends React.Component{
                         <table border="1" cellSpacing="0" cellPadding="3" style={{marginLeft:"auto", marginRight:"auto", width:"1000px"}}>
                             <tbody>
                                 <tr>
-                                    <td colSpan="2" width="40%">呼吸中止和淺呼吸指數：<span style={{fontWeight: "normal"}}>{((evn.CA + evn.MA + evn.OA + evn.OH) / ((this.props.epochNum - this.props.wake) / 2) * 60).toFixed(1)}</span></td>
-                                    <td colSpan="2" width="30%">呼吸中止指數：<span style={{fontWeight: "normal"}}>{((evn.CA + evn.MA + evn.OA) / ((this.props.epochNum - this.props.wake) / 2) * 60).toFixed(1)}</span></td>
-                                    <td colSpan="2" width="30%">淺呼吸指數：<span style={{fontWeight: "normal"}}>{(evn.OH / ((this.props.epochNum - this.props.wake) / 2) * 60).toFixed(1)}</span></td>
+                                    <td colSpan="2" width="40%">呼吸中止和淺呼吸指數：<span>{((evn.CA + evn.MA + evn.OA + evn.OH) / ((this.props.epochNum - this.props.wake) / 2) * 60).toFixed(1)}</span></td>
+                                    <td colSpan="2" width="30%">呼吸中止指數：<span>{((evn.CA + evn.MA + evn.OA) / ((this.props.epochNum - this.props.wake) / 2) * 60).toFixed(1)}</span></td>
+                                    <td colSpan="2" width="30%">淺呼吸指數：<span>{(evn.OH / ((this.props.epochNum - this.props.wake) / 2) * 60).toFixed(1)}</span></td>
                                     
                                 </tr>
                                 <tr>
-                                    <td colSpan="2">阻塞型呼吸中止指數：<span style={{fontWeight: "normal"}}>{(evn.OA / ((this.props.epochNum - this.props.wake) / 2) * 60).toFixed(1)}</span></td>
-                                    <td colSpan="2">中樞型呼吸中止指數：<span style={{fontWeight: "normal"}}>{(evn.CA / ((this.props.epochNum - this.props.wake) / 2) * 60).toFixed(1)}</span></td>
-                                    <td colSpan="2">混和型呼吸中止指數：<span style={{fontWeight: "normal"}}>{(evn.MA / ((this.props.epochNum - this.props.wake) / 2) * 60).toFixed(1)}</span></td>
+                                    <td colSpan="2">阻塞型呼吸中止指數：<span>{(evn.OA / ((this.props.epochNum - this.props.wake) / 2) * 60).toFixed(1)}</span></td>
+                                    <td colSpan="2">中樞型呼吸中止指數：<span>{(evn.CA / ((this.props.epochNum - this.props.wake) / 2) * 60).toFixed(1)}</span></td>
+                                    <td colSpan="2">混和型呼吸中止指數：<span>{(evn.MA / ((this.props.epochNum - this.props.wake) / 2) * 60).toFixed(1)}</span></td>
                                     
 
                                 </tr>
@@ -537,33 +539,33 @@ class Report extends React.Component{
                             <tbody>
                                 <tr>
                                     <td width="20%">全部記錄時間(分鐘)：</td>
-                                    <td width="30%"><div style={{overflow:"hidden"}}><input className="myInput" defaultValue={this.props.totalRecordTime}/></div></td>
+                                    <td width="30%"><span>{this.props.totalRecordTime}</span></td>
                                     <td width="20%">睡眠時間(分鐘)：</td>
-                                    <td width="30%"><span style={{fontWeight: "normal"}}>{((this.props.epochNum - this.props.sot) / 2).toFixed(1)}</span></td>
+                                    <td width="30%"><span>{((this.props.epochNum - this.props.sot) / 2).toFixed(1)}</span></td>
                                 </tr>
                                 <tr>
                                     <td>全部睡眠時間(分鐘)：</td>
-                                    <td><span style={{fontWeight: "normal"}}>{((this.props.epochNum - this.props.wake) / 2).toFixed(1)}</span></td>
+                                    <td><span>{((this.props.epochNum - this.props.wake) / 2).toFixed(1)}</span></td>
                                     <td>清醒時間(分鐘)：</td>
-                                    <td><span style={{fontWeight: "normal"}}>{((this.props.wake - this.props.sot) / 2).toFixed(1)}</span></td>
+                                    <td><span>{((this.props.wake - this.props.sot) / 2).toFixed(1)}</span></td>
                                 </tr>
                                 <tr>
                                     <td>睡眠第一期(%)：</td>
-                                    <td><span style={{fontWeight: "normal"}}>{((this.props.n1 / (this.props.n1 + this.props.n2 + this.props.n3 + this.props.rem)) * 100).toFixed(1)}</span></td>
+                                    <td><span>{((this.props.n1 / (this.props.n1 + this.props.n2 + this.props.n3 + this.props.rem)) * 100).toFixed(1)}</span></td>
                                     <td>快速動眼期(%)：</td>
-                                    <td><span style={{fontWeight: "normal"}}>{((this.props.rem / (this.props.n1 + this.props.n2 + this.props.n3 + this.props.rem)) * 100).toFixed(1)}</span></td>
+                                    <td><span>{((this.props.rem / (this.props.n1 + this.props.n2 + this.props.n3 + this.props.rem)) * 100).toFixed(1)}</span></td>
                                 </tr>
                                 <tr>
                                     <td>睡眠第二期(%)：</td>
-                                    <td><span style={{fontWeight: "normal"}}>{((this.props.n2 / (this.props.n1 + this.props.n2 + this.props.n3 + this.props.rem)) * 100).toFixed(1)}</span></td>
+                                    <td><span>{((this.props.n2 / (this.props.n1 + this.props.n2 + this.props.n3 + this.props.rem)) * 100).toFixed(1)}</span></td>
                                     <td>入睡時間(分鐘)：</td>
-                                    <td><span style={{fontWeight: "normal"}}>{(this.props.sot / 2).toFixed(1)}</span></td>
+                                    <td><span>{(this.props.sot / 2).toFixed(1)}</span></td>
                                 </tr>
                                 <tr>
                                     <td>睡眠第三期(%)：</td>
-                                    <td><span style={{fontWeight: "normal"}}>{((this.props.n3 / (this.props.n1 + this.props.n2 + this.props.n3 + this.props.rem)) * 100).toFixed(1)}</span></td>
+                                    <td><span>{((this.props.n3 / (this.props.n1 + this.props.n2 + this.props.n3 + this.props.rem)) * 100).toFixed(1)}</span></td>
                                     <td>睡眠效率(%)：</td>
-                                    <td><span style={{fontWeight: "normal"}}>{(((this.props.epochNum - this.props.wake) /this.props.epochNum) * 100).toFixed(1)}</span></td>
+                                    <td><span>{(((this.props.epochNum - this.props.wake) /this.props.epochNum) * 100).toFixed(1)}</span></td>
                                 </tr>
                                 <tr>
                                     <td>覺醒指數(/小時)：</td>
@@ -587,25 +589,25 @@ class Report extends React.Component{
                             <tbody>
                                 <tr>
                                     <td width="20%">阻塞行呼吸中止：</td>
-                                    <td width="30%"><span style={{fontWeight: "normal"}}>{evn.OA}</span></td>
+                                    <td width="30%"><span>{evn.OA}</span></td>
                                     <td width="20%">總發生時間：</td>
                                     <td width="30%"></td>
                                 </tr>
                                 <tr>
                                     <td>中樞型呼吸中止：</td>
-                                    <td><span style={{fontWeight: "normal"}}>{evn.CA}</span></td>
+                                    <td><span>{evn.CA}</span></td>
                                     <td>總發生時間：</td>
                                     <td></td>
                                 </tr>
                                 <tr>
                                     <td>混和型呼吸中止：</td>
-                                    <td><span style={{fontWeight: "normal"}}>{evn.MA}</span></td>
+                                    <td><span>{evn.MA}</span></td>
                                     <td>總發生時間：</td>
                                     <td></td>
                                 </tr>
                                 <tr>
                                     <td>淺呼吸：</td>
-                                    <td><span style={{fontWeight: "normal"}}>{evn.OH}</span></td>
+                                    <td><span>{evn.OH}</span></td>
                                     <td>總發生時間：</td>
                                     <td></td>
                                 </tr>
@@ -658,10 +660,10 @@ class Report extends React.Component{
                         <table border="1" cellSpacing="0" cellPadding="3" style={{marginLeft:"auto", marginRight:"auto", width:"1000px"}}>
                             <tbody>
                                 <tr>
-                                    <td width="20%">總數：</td>
-                                    <td width="30%"></td>
-                                    <td width="20%">打鼾指數：</td>
-                                    <td width="30%"></td>
+                                    <td width="20%">總數 (次)：</td>
+                                    <td width="30%"><span>{evn.SNORE}</span></td>
+                                    <td width="20%">打鼾指數 (/小時)：</td>
+                                    <td width="30%"><span>{((evn.SNORE) / ((this.props.epochNum - this.props.wake) / 2) * 60).toFixed(1)}</span></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -676,7 +678,7 @@ class Report extends React.Component{
                     </div>
 
                     <div style={{fontSize:"18px", fontWeight:"500"}}>
-                        <table border="1" cellSpacing="0" cellPadding="3" style={{marginLeft:"auto", marginRight:"auto", width:"1000px"}}>
+                        <table border="1" cellSpacing="0" cellPadding="3" style={{marginLeft:"auto", marginRight:"auto", width:"1000px", textAlign:"center"}}>
                             <tbody>
                                 <tr>
                                     <td width="20%"></td>
@@ -687,17 +689,17 @@ class Report extends React.Component{
                                 </tr>
                                 <tr>
                                     <td>成人</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                                    <td>＜5</td>
+                                    <td>5-15</td>
+                                    <td>15-30</td>
+                                    <td>＞30</td>
                                 </tr>
                                 <tr>
                                     <td>兒童</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                                    <td>＜1</td>
+                                    <td>1-5</td>
+                                    <td>5-10</td>
+                                    <td>＞10</td>
                                 </tr>
                             </tbody>
                         </table>

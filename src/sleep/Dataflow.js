@@ -9,6 +9,7 @@ class Dataflow extends React.Component{
         super(props);
         this.state = {
             getReport: 0, //是否傳資料回dataflow
+            eventsTime: {'CA':[], 'OA':[], 'MA':[], 'OH':[]},
             eventsCount: {},
             sound: [],
             pulse: [],
@@ -106,24 +107,37 @@ class Dataflow extends React.Component{
             console.log(events.length);
             console.log(events[0]);
             // 抓出需要的事件
-            let eventsCount = {'CA':0, 'OA':0, 'MA':0, 'SPD':0, 'SPA':0, 'A1':0, 'A2':0, 'A3':0, 'A4':0, 'OH':0, 'RERA':0, 'SNORE':0};
+            let eventsTime = {'CA':[], 'OA':[], 'MA':[], 'OH':[]};
+            let eventsCount = {'CA':0, 'TCA':0, 'OA':0, 'TOA':0, 'MA':0, 'TMA':0, 'LA':0, 'SPD':0, 'SPDS':0, 'MSPD':100, 'SD':0, 'SPA':0, 'A1':0, 'A2':0, 'A3':0, 'A4':0, 'OH':0, 'TOH':0, 'LH':0, 'RERA':0, 'SNORE':0};
             for(let i=0; i<events.length; i++){
                 let event = events[i];
                 // Central Apnea
                 if(event.EVT_TYPE === 1 && event.MAN_SCORED === 1){
                     eventsCount.CA = eventsCount.CA + 1;
+                    eventsCount.TCA = eventsCount.TCA + event.EVT_LENGTH;
+                    eventsTime.CA.push(event.EVT_TIME);
+                    if(eventsCount.LA < event.EVT_LENGTH) eventsCount.LA = event.EVT_LENGTH;
                 }
                 // Obstructive Apnea
                 else if(event.EVT_TYPE === 2 && event.MAN_SCORED === 1){
                     eventsCount.OA = eventsCount.OA + 1;
+                    eventsCount.TOA = eventsCount.TOA + event.EVT_LENGTH;
+                    eventsTime.OA.push(event.EVT_TIME);
+                    if(eventsCount.LA < event.EVT_LENGTH) eventsCount.LA = event.EVT_LENGTH;
                 }
                 // Mixed Apnea
                 else if(event.EVT_TYPE === 3 && event.MAN_SCORED === 1){
                     eventsCount.MA = eventsCount.MA + 1;
+                    eventsCount.TMA = eventsCount.TMA + event.EVT_LENGTH;
+                    eventsTime.MA.push(event.EVT_TIME);
+                    if(eventsCount.LA < event.EVT_LENGTH) eventsCount.LA = event.EVT_LENGTH;
                 }
                 // SpO2 Desat
-                else if(event.EVT_TYPE === 4 && event.MAN_SCORED === 1){
+                else if(event.EVT_TYPE === 4){
                     eventsCount.SPD = eventsCount.SPD + 1;
+                    eventsCount.SPDS = eventsCount.SPDS + event.PARAM2;
+                    eventsCount.SD = eventsCount.SD + event.PARAM1;
+                    if(eventsCount.MSPD > event.PARAM2) eventsCount.MSPD = event.PARAM2;
                 }
                 // SpO2 Artifact
                 else if(event.EVT_TYPE === 6 && event.MAN_SCORED === 1){
@@ -152,16 +166,24 @@ class Dataflow extends React.Component{
                 // Obstructive Hypopnea
                 else if(event.EVT_TYPE === 29 && event.MAN_SCORED === 1){
                     eventsCount.OH = eventsCount.OH + 1;
+                    eventsCount.TOH = eventsCount.TOH + event.EVT_LENGTH;
+                    eventsTime.OH.push(event.EVT_TIME);
+                    if(eventsCount.LH < event.EVT_LENGTH) eventsCount.LH = event.EVT_LENGTH;
                 }
                 // RERA
-                else if(event.EVT_TYPE === 32){}
+                else if(event.EVT_TYPE === 32){
+                    eventsCount.RERA = eventsCount.RERA + 1;
+                }
                 // Snore
                 else if(event.EVT_TYPE === 33){
                     eventsCount.SNORE = eventsCount.SNORE + 1;
                 }
             }
+            eventsCount.LA = eventsCount.LA.toFixed(0);
+            eventsCount.LH = eventsCount.LH.toFixed(0);
             console.log(eventsCount);
             this.setState({
+                eventsTime: eventsTime,
                 eventsCount: eventsCount,
             });
         }
@@ -314,8 +336,8 @@ class Dataflow extends React.Component{
                                     } 
                                     total += pulse[i];
                                 } 
-                                //console.log(total/pulse.length, min, index);
-                                //console.log(pulse);
+                                console.log(total/pulse.length, min, index);
+                                console.log(pulse);
                                 this.setState({
                                     pulse: pulse,
                                 });
@@ -332,19 +354,23 @@ class Dataflow extends React.Component{
                             let pulseReader = new FileReader();
                             pulseReader.onload = (file) => {
                                 let pulse = new Float32Array(file.target.result);
+                                let pulseClean = [];
+                                for(let i=0; i<pulse.length; i++){
+                                    if(pulse[i] > 10) pulseClean.push(pulse[i]);
+                                }
 
                                 let total = 0;
                                 let min = 120;
                                 let index = 0;
-                                for(let i=0; i<pulse.length; i++){
-                                    if(pulse[i] < min){
-                                        min = pulse[i];
+                                for(let i=0; i<pulseClean.length; i++){
+                                    if(pulseClean[i] < min){
+                                        min = pulseClean[i];
                                         index = i;
                                     } 
-                                    total += pulse[i];
+                                    total += pulseClean[i];
                                 } 
-                                //console.log(total/pulse.length, min, index);
-                                //console.log(pulse);
+                                console.log(total/pulseClean.length, min, index);
+                                console.log(pulseClean);
                             }
                             pulseReader.readAsArrayBuffer(e.target.files[pulseIndex2]);
                         }
@@ -393,7 +419,7 @@ class Dataflow extends React.Component{
         xhr.responseType = 'blob'; //以blob的形式接收資料，一般檔案內容比較大
         xhr.onload = function(e) {
             var blob = this.response; //Blob資料
-            if (this.status == 200) {
+            if (this.status === 200) {
                 if (blob && blob.size > 0) {
                     let element = document.createElement('a');
                     element.setAttribute('href', URL.createObjectURL(blob));
@@ -439,6 +465,7 @@ class Dataflow extends React.Component{
                 <Report 
                     downloadReport = {this.downloadReport}
                     getReport = {this.state.getReport}
+                    eventsTime = {this.state.eventsTime}
                     eventsCount = {this.state.eventsCount}
                     sound = {this.state.sound}
                     pulse = {this.state.pulse}

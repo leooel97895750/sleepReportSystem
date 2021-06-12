@@ -391,20 +391,20 @@ class Report extends React.Component{
                             <tbody>
                                 <tr>
                                     <td width="20%">Friedman Stage: </td>
-                                    <td width="15%"></td>
+                                    <td width="15%"><input className="myInput"/></td>
                                     <td width="15%">Tonsil size: </td>
-                                    <td width="10%"></td>
+                                    <td width="10%"><input className="myInput"/></td>
                                     <td colSpan="2" width="25%">Friedman tongue position: </td>
-                                    <td width="15%"></td>
+                                    <td width="15%"><input className="myInput"/></td>
                                 </tr>
                                 <tr>
-                                    <td colSpan="7"><input type="text" /></td>
+                                    <td colSpan="7"><textarea style={{width:"984px", height:"300px"}}/></td>
                                 </tr>
                                 <tr>
                                     <td colSpan="4"></td>
-                                    <td width="15%">Technician: </td>
-                                    <td width="10%"></td>
-                                    <td width="15%"></td>
+                                    <td width="10%">Technician: </td>
+                                    <td width="15%"><input className="myInput"/></td>
+                                    <td width="15%"><input className="myInput"/></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -421,16 +421,29 @@ class Report extends React.Component{
                         <table border="1" cellSpacing="0" cellPadding="3" style={{marginLeft:"auto", marginRight:"auto", width:"1000px"}}>
                             <tbody>
                                 <tr>
-                                    <td colSpan="4">Suggestive Treatment and Planning</td>
+                                    <td colSpan="4"><textarea style={{width:"984px", height:"300px"}}/></td>
                                 </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    {/* Suggestive Treatment and Planning */}
+                    <br/>
+                    <div style={{width:"100%", fontSize:"20px"}}>
+                        <div style={{width:"1000px", margin:"0px auto"}}>
+                            <span style={{fontWeight:"bold"}}>Suggestive Treatment and Planning：</span>
+                        </div>
+                    </div>
+                    <div style={{fontSize:"18px", fontWeight:"500"}}>
+                        <table border="1" cellSpacing="0" cellPadding="3" style={{marginLeft:"auto", marginRight:"auto", width:"1000px"}}>
+                            <tbody>
                                 <tr>
-                                    <td colSpan="4"><input type="text" /></td>
+                                    <td colSpan="4"><textarea style={{width:"984px", height:"300px"}}/></td>
                                 </tr>
                                 <tr>
                                     <td></td>
                                     <td width="15%">Physician: </td>
-                                    <td width="15%"></td>
-                                    <td width="15%"></td>
+                                    <td width="15%"><input className="myInput"/></td>
+                                    <td width="15%"><input className="myInput"/></td>
                                 </tr>
                             </tbody>
                         </table>

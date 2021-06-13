@@ -16,19 +16,10 @@ class Dataflow extends React.Component{
             spo2: [],
             position: [],
             sleepStage: [],
-            startDate: "",
-            name: "",
-            age: "",
-            patientID: "",
-            sex: "",
-            dob: "",
-            height: "",
-            weight: "",
-            bmi: "",
-            neck: "",
-            startTime: "",
-            endTime: "",
-            totalRecordTime: "",
+            cfg: {
+                startDate:"", name:"", age:"", patientID:"", sex:"", dob:"", 
+                height:"", weight:"", bmi:"", neck:"", startTime:"", endTime:"", totalRecordTime:""
+            },
             epochNum: 0,
             sot: 0,
             wake: 0,
@@ -196,6 +187,10 @@ class Dataflow extends React.Component{
         
 
         // 第一層檔案讀取
+        let tmpCfg = {
+            startDate:"", name:"", age:"", patientID:"", sex:"", dob:"", 
+            height:"", weight:"", bmi:"", neck:"", startTime:"", endTime:"", totalRecordTime:""
+        };
         // 解析基本資料: 尋找 "DATASEGMENTS.XML"
         let datasegmentIndex = -1;
         let duration = "";
@@ -212,9 +207,7 @@ class Dataflow extends React.Component{
                 let datasegmentXmlDoc = parser.parseFromString(file.target.result, "text/xml");
                 //console.log(datasegmentXmlDoc);
                 duration = datasegmentXmlDoc.getElementsByTagName("Duration")[0].textContent;
-                this.setState({
-                    totalRecordTime: String((Number(duration) / 60).toFixed(1)),
-                });
+                tmpCfg.totalRecordTime = String((Number(duration) / 60).toFixed(1));
 
                 // 第二層檔案讀取
                 // 解析基本資料: 尋找 "STUDYCFG.XML"
@@ -264,20 +257,20 @@ class Dataflow extends React.Component{
                         }
                         console.log(channelsList);
 
-                        this.setState({
-                            startDate: startDate,
-                            name: studycfgXML.getElementsByTagName("Surname")[0].textContent,
-                            age: age,
-                            patientID: studycfgXML.getElementsByTagName("Reference")[0].textContent,
-                            sex: studycfgXML.getElementsByTagName("Sex")[0].textContent,
-                            dob: dob,
-                            height: height,
-                            weight: weight,
-                            bmi: bmi,
-                            neck: studycfgXML.getElementsByTagName("NeckSize")[0].textContent,
-                            startTime: startTime,
-                            endTime: endTime,
-                        });
+                        tmpCfg.startDate = startDate;
+                        tmpCfg.name = studycfgXML.getElementsByTagName("Surname")[0].textContent;
+                        tmpCfg.age = age;
+                        tmpCfg.patientID = studycfgXML.getElementsByTagName("Reference")[0].textContent;
+                        tmpCfg.sex = studycfgXML.getElementsByTagName("Sex")[0].textContent;
+                        tmpCfg.dob = dob;
+                        tmpCfg.height = height;
+                        tmpCfg.weight = weight;
+                        tmpCfg.bmi = bmi;
+                        tmpCfg.neck = studycfgXML.getElementsByTagName("NeckSize")[0].textContent;
+                        tmpCfg.startTime = startTime;
+                        tmpCfg.endTime = endTime;
+
+                        this.setState({cfg: tmpCfg});
 
                         // 第三層檔案讀取
                         // 解析Position
@@ -392,7 +385,6 @@ class Dataflow extends React.Component{
                             }
                             soundReader.readAsArrayBuffer(e.target.files[soundIndex]);
                         }
-
                     }
                     configReader.readAsText(e.target.files[configIndex]);
                 }
@@ -438,6 +430,7 @@ class Dataflow extends React.Component{
     render(){
         return(
             <div style={{display: this.props.display}}>
+
                 <div className="fileBlock">
                     <label>
                         <span className="fileButton">選擇資料夾</span>
@@ -453,6 +446,7 @@ class Dataflow extends React.Component{
                         />
                     </label>
                 </div>
+
                 <div className="downloadBlock">
                     <label>
                         <span className="fileButton">下載報告檔</span>
@@ -462,6 +456,7 @@ class Dataflow extends React.Component{
                         />
                     </label>
                 </div>
+
                 <Report 
                     downloadReport = {this.downloadReport}
                     getReport = {this.state.getReport}
@@ -472,19 +467,7 @@ class Dataflow extends React.Component{
                     position = {this.state.position}
                     spo2 = {this.state.spo2}
                     sleepStage = {this.state.sleepStage}
-                    startDate = {this.state.startDate}
-                    name = {this.state.name}
-                    age = {this.state.age}
-                    patientID = {this.state.patientID}
-                    sex = {this.state.sex}
-                    dob = {this.state.dob}
-                    height = {this.state.height}
-                    weight = {this.state.weight}
-                    bmi = {this.state.bmi}
-                    neck = {this.state.neck}
-                    startTime = {this.state.startTime}
-                    endTime = {this.state.endTime}
-                    totalRecordTime = {this.state.totalRecordTime}
+                    cfg = {this.state.cfg}
                     epochNum = {this.state.epochNum}
                     sot = {this.state.sot}
                     wake = {this.state.wake}

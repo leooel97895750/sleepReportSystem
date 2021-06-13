@@ -115,7 +115,7 @@ class Diagnosis extends React.Component{
                                 </ul>
                             </div>
                         </div>
-                        <div style={{textAlign:'center', position:'absolute', right:'0px'}}>
+                        <div style={{textAlign:'center', position:'absolute', right:'10px'}}>
                             <b style={{fontSize:'18px'}}>Selected diseases</b>
                             <div className="diseaseListBlock">
                                 <ul className="diseaseList">

@@ -1,16 +1,17 @@
 import React from 'react';
 import '../css/report.css';
 import Graph from './Graph';
+import Diagnosis from './Diagnosis';
 //import {getAPI, postAPI} from './API.js';
 
 // 報告內容
 class Report extends React.Component{
     constructor(props){
         super(props);
+        // 紀錄完整報告資料
         this.state = {
-            reportTitle: "",
+            
         };
-        this.handleReportTitle = this.handleReportTitle.bind(this);
     }
     // 偵測DataFlow呼叫回傳報告數值
     componentDidUpdate(prevProps, prevState, snapshot){
@@ -18,12 +19,7 @@ class Report extends React.Component{
             this.props.downloadReport({'name':'leo', 'age':24});
         }
     }
-    handleReportTitle(e){
-        console.log(e.target.value);
-        this.setState({
-            reportTitle: e.target.value,
-        });
-    }
+
     render(){
         let evn = this.props.eventsCount;
         return(
@@ -377,77 +373,12 @@ class Report extends React.Component{
                         sound = {this.props.sound}
                     />
 
+                    <br/>
+                    <br/>
                     {/* Findings and Comments */}
-                    <br/>
-                    <br/>
-                    <div style={{width:"100%", fontSize:"20px"}}>
-                        <div style={{width:"1000px", margin:"0px auto"}}>
-                            <span style={{fontWeight:"bold"}}>Findings and Comments：</span>
-                        </div>
-                    </div>
-
-                    <div style={{fontSize:"18px", fontWeight:"500"}}>
-                        <table border="1" cellSpacing="0" cellPadding="3" style={{marginLeft:"auto", marginRight:"auto", width:"1000px"}}>
-                            <tbody>
-                                <tr>
-                                    <td width="20%">Friedman Stage: </td>
-                                    <td width="15%"><input className="myInput"/></td>
-                                    <td width="15%">Tonsil size: </td>
-                                    <td width="10%"><input className="myInput"/></td>
-                                    <td colSpan="2" width="25%">Friedman tongue position: </td>
-                                    <td width="15%"><input className="myInput"/></td>
-                                </tr>
-                                <tr>
-                                    <td colSpan="7"><textarea style={{width:"984px", height:"300px"}}/></td>
-                                </tr>
-                                <tr>
-                                    <td colSpan="4"></td>
-                                    <td width="10%">Technician: </td>
-                                    <td width="15%"><input className="myInput"/></td>
-                                    <td width="15%"><input className="myInput"/></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    {/* Diagnsis */}
-                    <br/>
-                    <div style={{width:"100%", fontSize:"20px"}}>
-                        <div style={{width:"1000px", margin:"0px auto"}}>
-                            <span style={{fontWeight:"bold"}}>Diagnosis：</span>
-                        </div>
-                    </div>
-                    <div style={{fontSize:"18px", fontWeight:"500"}}>
-                        <table border="1" cellSpacing="0" cellPadding="3" style={{marginLeft:"auto", marginRight:"auto", width:"1000px"}}>
-                            <tbody>
-                                <tr>
-                                    <td colSpan="4"><textarea style={{width:"984px", height:"300px"}}/></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                    {/* Diagnosis */}
                     {/* Suggestive Treatment and Planning */}
-                    <br/>
-                    <div style={{width:"100%", fontSize:"20px"}}>
-                        <div style={{width:"1000px", margin:"0px auto"}}>
-                            <span style={{fontWeight:"bold"}}>Suggestive Treatment and Planning：</span>
-                        </div>
-                    </div>
-                    <div style={{fontSize:"18px", fontWeight:"500"}}>
-                        <table border="1" cellSpacing="0" cellPadding="3" style={{marginLeft:"auto", marginRight:"auto", width:"1000px"}}>
-                            <tbody>
-                                <tr>
-                                    <td colSpan="4"><textarea style={{width:"984px", height:"300px"}}/></td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td width="15%">Physician: </td>
-                                    <td width="15%"><input className="myInput"/></td>
-                                    <td width="15%"><input className="myInput"/></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                    <Diagnosis />  
 
                     {/* 中文版 */}
                     {/* 標題 */}

@@ -1,0 +1,67 @@
+.diagnosisBackground{
+    background-color: rgba(0,0,0,0.5);
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    top: 0px;
+    left: 0px;
+}
+.diagnosisBox{
+    position: absolute;
+    background-color: white;
+    border-radius: 4px;
+    width: 840px;
+    height: 380px;
+    padding: 10px;
+    top: calc(50% - 255px);
+    left: calc(50% - 425px);
+}
+
+.diseaseListBlock{
+    text-align: left;
+    background-color: #f4f7fb;
+    border: #343A40 1px solid;
+    margin: 10px;
+    height: 300px;
+    width: 400px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+.diseaseList{
+
+    padding: 0px;
+    list-style-type: none;
+}
+.diseaseList li{
+    padding: 3px;
+}
+.diseaseList li:hover{
+    background-color: #343A40;
+    color: white;
+}
+
+.insertBlock {
+    position: absolute;
+    bottom: 0px;
+    left: 150px;
+    background-color: #343A40;
+    margin: 10px;
+    padding: 5px 25px;
+    border-radius: 3px;
+}
+.insertBlock:hover {
+    background-color: black;
+}
+
+.deleteBlock {
+    position: absolute;
+    bottom: 0px;
+    right: 150px;
+    background-color: #343A40;
+    margin: 10px;
+    padding: 5px 25px;
+    border-radius: 3px;
+}
+.deleteBlock:hover {
+    background-color: black;
+}

@@ -1,7 +1,7 @@
 import React from 'react';
 import '../css/dataflow.css';
 import Report from './Report';
-import {getAPI, postAPI} from './API.js';
+//import {getAPI, postAPI} from './API.js';
 
 
 class Dataflow extends React.Component{
@@ -50,7 +50,7 @@ class Dataflow extends React.Component{
             stageReader.onload = (e) => {
                 // 取得stage資料: 10=wake、1=n1、2=n2、3=n3、5=rem
                 let sleepStage = new Int8Array(e.target.result);
-                //console.log(sleepStage);
+                console.log(sleepStage);
                 // 計算以下的epoch數
                 let sot = 0;
                 let wake = 0;
@@ -284,10 +284,15 @@ class Dataflow extends React.Component{
                             positionReader.onload = (file) => {
                                 //console.log(file.target.result);
                                 let position = new Int16Array(file.target.result);
-                                //console.log(position.includes(3));
+                                let positionClean = [];
+                                positionClean = position;
+                                // for(let i=0; i<position.length; i++){
+                                //     if(i % 2 == 1) positionClean.push(position[i]);
+                                // }
+                                console.log(positionClean);
                                 
                                 this.setState({
-                                    position: position,
+                                    position: positionClean,
                                 });
                             }
                             positionReader.readAsArrayBuffer(e.target.files[positionIndex]);
@@ -329,6 +334,7 @@ class Dataflow extends React.Component{
                                     } 
                                     total += pulse[i];
                                 } 
+                                console.log("ch24: 平均心率、最低心率、最低心率位置");
                                 console.log(total/pulse.length, min, index);
                                 console.log(pulse);
                                 this.setState({
@@ -349,7 +355,7 @@ class Dataflow extends React.Component{
                                 let pulse = new Float32Array(file.target.result);
                                 let pulseClean = [];
                                 for(let i=0; i<pulse.length; i++){
-                                    if(pulse[i] > 10) pulseClean.push(pulse[i]);
+                                    if(i % 2 === 1) pulseClean.push(pulse[i]);
                                 }
 
                                 let total = 0;
@@ -362,8 +368,12 @@ class Dataflow extends React.Component{
                                     } 
                                     total += pulseClean[i];
                                 } 
+                                console.log("DCH5C0F: 平均心率、最低心率、最低心率位置");
                                 console.log(total/pulseClean.length, min, index);
-                                console.log(pulseClean);
+                                console.log(pulse);
+                                // this.setState({
+                                //     pulse: pulseClean,
+                                // });
                             }
                             pulseReader.readAsArrayBuffer(e.target.files[pulseIndex2]);
                         }

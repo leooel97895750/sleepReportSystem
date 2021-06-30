@@ -455,6 +455,7 @@ class Graph extends React.Component{
 
         let spo2lastx = 100;
         let spo2lasty = 10;
+        smgCTX.setLineDash([]);
         for(let i=0; i<700; i++){
             let spo2Convert = (100 - randomSpo2[i])*((smgHeight*5/6)/50) + 10;
             if(randomSpo2[i] >= 50 && randomSpo2[i] <= 100){

@@ -14,6 +14,7 @@ class Diagnosis extends React.Component{
         this.diagnosisBox = this.diagnosisBox.bind(this);
         this.diagnosisBoxClose = this.diagnosisBoxClose.bind(this);
         this.insertToSelected = this.insertToSelected.bind(this);
+        this.deleteFromSelected = this.deleteFromSelected.bind(this);
     }
         
     diagnosisBox(){
@@ -29,41 +30,168 @@ class Diagnosis extends React.Component{
     insertToSelected(){
         let diseaseList = document.getElementById("disease");
         let myDisease = document.getElementById("myDisease");
-
-        console.log(diseaseList.selectedOptions);
         let selectedDisease = diseaseList.selectedOptions;
 
+        // 將選取的疾病加入Selected，並檢查有無重複
         let nowDisease = this.state.nowDisease;
         for(let i=0; i<selectedDisease.length; i++){
-            if(nowDisease.includes(selectedDisease[i].value)){
+            let number = selectedDisease[i].value;
+            if(nowDisease.includes(number)){
                 alert("已經加入過\n" + selectedDisease[i].text);
             }
             else{
-                nowDisease.push(selectedDisease[i].value);
+                nowDisease.push(number);
                 var option = document.createElement("option");
                 option.text = selectedDisease[i].text;
-                option.value = selectedDisease[i].value;
+                option.value = number;
                 myDisease.add(option);
             }
         }
         this.setState({
             nowDisease: nowDisease,
         });
+        // 重洗textarea
+        this.insertToReport();
     }
-
-    // 將疾病程度與診斷內容加入報告中
-    insertToReport(){
-
-    }
-
     // 移除病歷
     deleteFromSelected(){
+        let myDisease = document.getElementById("myDisease");
+        let selectedDisease = myDisease.selectedOptions;
 
+        // 將選取的疾病移出Selected
+        let nowDisease = this.state.nowDisease;
+        for(let i=selectedDisease.length-1; i>=0; i--){
+            let number = selectedDisease[i].value;     
+            nowDisease.splice(nowDisease.indexOf(number), 1);
+            myDisease.remove(selectedDisease[i].index);
+        }
+        this.setState({
+            nowDisease: nowDisease,
+        });
+        // 重洗textarea
+        this.insertToReport();
     }
 
-    // 將疾病程度與診斷內容從報告中移除
-    deleteFromReport(){
+    // 將疾病程度與診斷內容依nowDisease加入報告或移除報告
+    insertToReport(){
+        
+        let nowDisease = this.state.nowDisease;
+        let dText = document.getElementById("diagnosisTextarea");
+        dText.value = "";
 
+        // 加入Diagnosis
+        // 加入Suggestive Treatment and Planning
+        for(let i=0; i<nowDisease.length; i++){
+            let number = nowDisease[i];
+            let changeLine = (dText.value === "") ? "" : "\n";
+
+            // Sleep-disordered breathing (G47.8)
+            if(number === "1") dText.value = dText.value + changeLine + "Sleep-disordered breathing (G47.8).";
+            // Snoring (R06.83)
+            else if(number === "2") dText.value = dText.value + changeLine + "Snoring (R06.83).";
+            // Obstructive sleep hypopnea (G47.33)
+            else if(number === "3"){
+                if(this.props.age < 12){
+                    if(this.props.AHI <= 1) alert("AHI為正常值，無Obstructive sleep hypopnea (G47.33)");
+                    else if(this.props.AHI <= 5) dText.value = dText.value + changeLine + "Obstructive sleep hypopnea (Mild) (G47.33).";
+                    else if(this.props.AHI <= 10) dText.value = dText.value + changeLine + "Obstructive sleep hypopnea (Moderate) (G47.33).";
+                    else dText.value = dText.value + changeLine + "Obstructive sleep hypopnea (Severe) (G47.33).";
+                }
+                else{
+                    if(this.props.AHI <= 5) alert("AHI為正常值，無Obstructive sleep hypopnea (G47.33)");
+                    else if(this.props.AHI <= 15) dText.value = dText.value + changeLine + "Obstructive sleep hypopnea (Mild) (G47.33).";
+                    else if(this.props.AHI <= 30) dText.value = dText.value + changeLine + "Obstructive sleep hypopnea (Moderate) (G47.33).";
+                    else dText.value = dText.value + changeLine + "Obstructive sleep hypopnea (Severe) (G47.33).";
+                } 
+            }
+            else if(number === "4"){
+                
+            }
+            else if(number === "5"){
+                
+            }
+            else if(number === "6"){
+                
+            }
+            else if(number === "7"){
+                
+            }
+            else if(number === "8"){
+                
+            }
+            else if(number === "9"){
+                
+            }
+            else if(number === "10"){
+                
+            }
+            else if(number === "11"){
+                
+            }
+            else if(number === "12"){
+                
+            }
+            else if(number === "13"){
+                
+            }
+            else if(number === "14"){
+                
+            }
+            else if(number === "15"){
+                
+            }
+            else if(number === "16"){
+                
+            }
+            else if(number === "17"){
+                
+            }
+            else if(number === "18"){
+                
+            }
+            else if(number === "19"){
+                
+            }
+            else if(number === "20"){
+                
+            }
+            else if(number === "21"){
+                
+            }
+            else if(number === "22"){
+                
+            }
+            else if(number === "23"){
+                
+            }
+            else if(number === "24"){
+                
+            }
+            else if(number === "25"){
+                
+            }
+            else if(number === "26"){
+                
+            }
+            else if(number === "27"){
+                
+            }
+            else if(number === "28"){
+                
+            }
+            else if(number === "29"){
+                
+            }
+            else if(number === "30"){
+
+            }
+            else if(number === "31"){
+                
+            }
+            else if(number === "32"){
+                
+            }
+        }
     }
 
     render(){
@@ -112,7 +240,7 @@ class Diagnosis extends React.Component{
                     <table border="1" cellSpacing="0" cellPadding="3" style={{marginLeft:"auto", marginRight:"auto", width:"1000px"}}>
                         <tbody>
                             <tr>
-                                <td colSpan="4"><textarea style={{width:"968px", height:"300px", padding:"10px"}}/></td>
+                                <td colSpan="4"><textarea id="diagnosisTextarea" style={{width:"968px", height:"300px", padding:"10px", fontSize:"16px"}}/></td>
                             </tr>
                         </tbody>
                     </table>
@@ -127,7 +255,7 @@ class Diagnosis extends React.Component{
                             <div className="diseaseListBlock">
                                 <select className="diseaseList" id="disease" name="disease" multiple>
                                     <option value="1" onDoubleClick={this.insertToSelected}>Sleep-disordered breathing (G47.8)</option>
-                                    <option value="2" onDoubleClick={this.insertToSelected}>Primary snoring (R06.83)</option>
+                                    <option value="2" onDoubleClick={this.insertToSelected}>Snoring (R06.83)</option>
                                     <option value="3" onDoubleClick={this.insertToSelected}>Obstructive Sleep hypopnea (G47.33)</option>
                                     <option value="4" onDoubleClick={this.insertToSelected}>Obstructive Sleep apnea hypopnea (G47.33)</option>
                                     <option value="5" onDoubleClick={this.insertToSelected}>Mixed sleep hypopnea (G47.33, G47.37)</option>
@@ -164,7 +292,7 @@ class Diagnosis extends React.Component{
                                 <label>
                                     <span style={{fontSize:'20px', color:'white'}}>Insert</span>
                                     <button 
-                                        onClick={this.insertToSelected}
+                                        onClick = {this.insertToSelected}
                                         style = {{display: 'none'}}
                                     />
                                 </label>
@@ -183,7 +311,7 @@ class Diagnosis extends React.Component{
                                 <label>
                                     <span style={{fontSize:'20px', color:'white'}}>Delete</span>
                                     <button 
-                                        
+                                        onClick = {this.deleteFromSelected}
                                         style = {{display: 'none'}}
                                     />
                                 </label>
@@ -208,7 +336,7 @@ class Diagnosis extends React.Component{
                     <table border="1" cellSpacing="0" cellPadding="3" style={{marginLeft:"auto", marginRight:"auto", width:"1000px"}}>
                         <tbody>
                             <tr>
-                                <td colSpan="4"><textarea style={{width:"968px", height:"300px", padding:"10px"}}/></td>
+                                <td colSpan="4"><textarea style={{width:"968px", height:"300px", padding:"10px", fontSize:"20px"}}/></td>
                             </tr>
                             <tr>
                                 <td></td>

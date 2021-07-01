@@ -595,78 +595,92 @@ class Diagnosis extends React.Component{
             else if(number === "24"){
                 dText.value = dText.value + dchangeLine + "Sleep bruxism (G47.63).";
                 tText.value = tText.value + tchangeLine + 
-                "-- Suspect autonomic dysfunction (F41.9):\n" +
-                "# According the patient's history, further evaluation of autonomic function is suggested.";
+                "-- Sleep bruxism (G47.63):\n" +
+                "# Due to sleep bruxism, further dental evaluation and management may be considered.";
             }
             // Alpha sleep
             else if(number === "25"){
                 dText.value = dText.value + dchangeLine + "Alpha sleep.";
                 tText.value = tText.value + tchangeLine + 
-                "-- Suspect autonomic dysfunction (F41.9):\n" +
-                "# According the patient's history, further evaluation of autonomic function is suggested.";
+                "-- Alpha sleep:\n" +
+                "# According the patient's history, further evaluation of alpha sleep is suggested.";
             }
             // Suspect REM behavior disorder (G47.52)
             else if(number === "26"){
                 dText.value = dText.value + dchangeLine + "Suspect REM behavior disorder (G47.52).";
                 tText.value = tText.value + tchangeLine + 
-                "-- Suspect autonomic dysfunction (F41.9):\n" +
-                "# According the patient's history, further evaluation of autonomic function is suggested.";
+                "-- Suspect REM behavior disorder (G47.52):\n" +
+                "# REM behavior disorder often may be associated with medication (such as antidepressant, Beta-blockers, anticholinesterase inhibitors) or other neurological conditions (such as, dementia, Parkinson's disease, multiple system atrophy). Further diagnosis and management by psychiatrist or neurologist may be considered.v";
             }
             // Suspect REM behavior disorder, provisionally (G47.52)
             else if(number === "27"){
                 dText.value = dText.value + dchangeLine + "Suspect REM behavior disorder, provisionally (G47.52).";
                 tText.value = tText.value + tchangeLine + 
-                "-- Suspect autonomic dysfunction (F41.9):\n" +
-                "# According the patient's history, further evaluation of autonomic function is suggested.";
+                "-- Suspect REM behavior disorder, provisionally (G47.52):\n" +
+                "# REM behavior disorder often may be associated with medication (such as antidepressant, Beta-blockers, anticholinesterase inhibitors) or other neurological conditions (such as, dementia, Parkinson's disease, multiple system atrophy). Further diagnosis and management by psychiatrist or neurologist may be considered.";
             }
             // Subclinical REM behavior disorder (G47.52)
             else if(number === "28"){
                 dText.value = dText.value + dchangeLine + "Subclinical REM behavior disorder (G47.52).";
                 tText.value = tText.value + tchangeLine + 
-                "-- Suspect autonomic dysfunction (F41.9):\n" +
-                "# According the patient's history, further evaluation of autonomic function is suggested.";
+                "-- Subclinical REM behavior disorder (G47.52):\n" +
+                "# Further clinical observation about dream-enacting behaviors should be followed. \n" +
+                "# REM sleep behavior without atonia (RSWA) often may be associated with medication (such as antidepressant, Beta-blockers, anticholinesterase inhibitors) or predisposing factors of other neurological conditions (such as, dementia, Parkinson's disease, multiple system atrophy). Further diagnosis and management by psychiatrist or neurologist may be considered.";
             }
             // Suspect idiopathic REM behavior disorder (G47.52)
             else if(number === "29"){
                 dText.value = dText.value + dchangeLine + "Suspect idiopathic REM behavior disorder (G47.52).";
                 tText.value = tText.value + tchangeLine + 
-                "-- Suspect autonomic dysfunction (F41.9):\n" +
-                "# According the patient's history, further evaluation of autonomic function is suggested.";
+                "-- Suspect idiopathic REM behavior disorder (G47.52):\n" +
+                "# REM sleep behavior without atonia (RSWA) often may be associated with medication(such as antidepressant, Beta-blockers, anticholinesterase inhibitors) or predisposing factors of other neurological conditions (such as, dementia, Parkinson's disease, multiple system atrophy). Further diagnosis and management by psychiatrist or neurologist may be considered.";
             }
             // Suspect nocturia (R35.1)
             else if(number === "30"){
                 dText.value = dText.value + dchangeLine + "Suspect nocturia (R35.1).";
                 tText.value = tText.value + tchangeLine + 
-                "-- Suspect autonomic dysfunction (F41.9):\n" +
-                "# According the patient's history, further evaluation of autonomic function is suggested.";
+                "-- Suspect nocturia (R35.1):\n" +
+                "# Further evaluation of nocturia may be considered, if the clinical symptoms / signs are correlated.";
             }
             // Sleep related groaning (G47.8)
             else if(number === "31"){
                 dText.value = dText.value + dchangeLine + "Sleep related groaning (G47.8).";
                 tText.value = tText.value + tchangeLine + 
-                "-- Suspect autonomic dysfunction (F41.9):\n" +
-                "# According the patient's history, further evaluation of autonomic function is suggested.";
+                "-- Sleep related groaning (G47.8):\n" +
+                "# According the patient's history, further evaluation of sleep related groaning is suggested.";
             }
             // Suspect disorder of arousal from NREM Sleep
             else if(number === "32"){
                 dText.value = dText.value + dchangeLine + "Suspect disorder of arousal from NREM Sleep.";
                 tText.value = tText.value + tchangeLine + 
-                "-- Suspect autonomic dysfunction (F41.9):\n" +
-                "# According the patient's history, further evaluation of autonomic function is suggested.";
+                "-- Suspect disorder of arousal from NREM Sleep:\n" +
+                "# (a)  Disorders of arousal from NREM sleep include confusional arousals, sleep walking and sleep terrors. However, other conditions that mimic the disorders of arousal should be ruled-out, such as:\n" +
+                "@ (i)  Neurologic condition (Seizures, Cluster headaches)\n" +
+                "@ (ii) Medical condition (Obstructive sleep apnea, Gastroesophageal reflux) \n" +
+                "@ (iii)Behavioral/Psychiatric condition (Conditioned arousals, Post-traumatic stress disorder, Nocturnal dissociative state, Nocturnal panic)\n" +
+                "@ (iv) Other sleep condition (Nightmares, Rhythmic movements of sleep, Rapid eye movement sleep behavior disorders, Periodic movements of sleep, Sleep deprivation, Irregular sleep-wake schedule)\n" +
+                "@ (v)  Evaluate the complete sleep history, arrange home videotapes, expanded EEG montage with continuous audiovisual monitoring and multiple night studies could be considered.\n" +
+                "# (b) The treatment in disorders of arousal from NREM sleep is often not necessary. Reassurance of their typically benign nature, lack of psychological significance, and the tendency to diminish over time, is often sufficient.\n" +
+                "# (c) Pharmacologic treatment such as tricyclic antidepressants and benzodiazepines may be effective, and they should be administered if the activity is dangerous to person or property or extremely disruptive to family members.\n" +
+                "# (d) Nonpharmacologic treatment such as psychotherapy, progressive relaxation, or hypnosis is recommended for long-term management. Sleep hygiene such as the avoidance of precipitants such as drugs and sleep deprivation is also important.";
             }
             // Suspected sleep-related hypoventilation disorder (G47.36)
             else if(number === "33"){
                 dText.value = dText.value + dchangeLine + "Suspected sleep-related hypoventilation disorder (G47.36).";
                 tText.value = tText.value + tchangeLine + 
-                "-- Suspect autonomic dysfunction (F41.9):\n" +
-                "# According the patient's history, further evaluation of autonomic function is suggested.";
+                "-- Suspected sleep-related hypoventilation disorder (G47.36):\n" +
+                "# Classification of hypoventilation disorders: Primary (Congenital central alveolar hypoventilation syndrome, Idiopathic central alveolar hypoventilation); Secondary (Sleep-related hypoventilation due to a medication or substance, Sleep-related hypoventilation due to a medical disorder, Obesity hypoventilation syndrome, Late-onset central hypoventilation with hypothalamic dysfunction).\n" +
+                "@ (a) Chronic hypoventilation criteria: hypercapnia in wakefulness and sleep (PaCO2, Arterial carbon dioxide level ≧ 45 mmHg).\n" +
+                "@ (b) Obstructive lung diseases (Asthma, COPD) should be excluded by pulmonary function test.\n" +
+                "@ (c) Obesity-hypoventilation syndrome is most prevalent and treatable.\n" +
+                "@ (d) Other subtypes share common features and underlying disorders with central sleep apnea.\n" +
+                "@ (e) Body weight control and BiPAP are mainstay treatment. Respiratory stimulants like acetazolamide, medroxyprogesterone and theophylline could be considered.";
             }
             // Suspect Cheyne-Stokes Breathing
             else if(number === "34"){
                 dText.value = dText.value + dchangeLine + "Suspect Cheyne-Stokes Breathing.";
                 tText.value = tText.value + tchangeLine + 
-                "-- Suspect autonomic dysfunction (F41.9):\n" +
-                "# According the patient's history, further evaluation of autonomic function is suggested.";
+                "-- Suspect Cheyne-Stokes Breathing:\n" +
+                "# Treatment of positive airway pressure device / Adaptive Supportive Ventilation with suitable pressure is benefit for the patient's quality of life.";
             }
         }
         // 在state中存一份未編號未縮排，將傳至server生成word

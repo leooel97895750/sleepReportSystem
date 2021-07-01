@@ -10,6 +10,8 @@ class Diagnosis extends React.Component{
         this.state = {
             isDiagnosisBox: 'none',
             nowDisease: [],
+            nowDiagnosis: "",
+            nowTreatment: "",
         };
         this.diagnosisBox = this.diagnosisBox.bind(this);
         this.diagnosisBoxClose = this.diagnosisBoxClose.bind(this);
@@ -54,6 +56,7 @@ class Diagnosis extends React.Component{
         // 重洗textarea
         this.insertToReport();
     }
+
     // 移除病歷
     deleteFromSelected(){
         let myDisease = document.getElementById("myDisease");
@@ -73,125 +76,381 @@ class Diagnosis extends React.Component{
         this.insertToReport();
     }
 
-    ageAHIcondition(dText, changeLine, str1, str2, str3, str4){
+    // 根據age AHI來給予相對應的嚴重程度與治療手段
+    ageAHIcondition(dText, dchangeLine, tText, tchangeLine, str0, str1, str2, str3, treat1, treat2, treat3){
         if(this.props.age < 12){
-            if(this.props.AHI <= 1) alert(str1);
-            else if(this.props.AHI <= 5) dText.value = dText.value + changeLine + str2;
-            else if(this.props.AHI <= 10) dText.value = dText.value + changeLine + str3;
-            else dText.value = dText.value + changeLine + str4;
+            if(this.props.AHI <= 1) alert(str0);
+            else if(this.props.AHI <= 5){
+                dText.value = dText.value + dchangeLine + str1;
+                tText.value = tText.value + tchangeLine + treat1;
+            } 
+            else if(this.props.AHI <= 10){
+                dText.value = dText.value + dchangeLine + str2;
+                tText.value = tText.value + tchangeLine + treat2;
+            } 
+            else{
+                dText.value = dText.value + dchangeLine + str3;
+                tText.value = tText.value + tchangeLine + treat3;
+            } 
         }
         else{
-            if(this.props.AHI <= 5) alert(str1);
-            else if(this.props.AHI <= 15) dText.value = dText.value + changeLine + str2;
-            else if(this.props.AHI <= 30) dText.value = dText.value + changeLine + str3;
-            else dText.value = dText.value + changeLine + str4;
+            if(this.props.AHI <= 5) alert(str0);
+            else if(this.props.AHI <= 15){
+                dText.value = dText.value + dchangeLine + str1;
+                tText.value = tText.value + tchangeLine + treat1;
+            } 
+            else if(this.props.AHI <= 30){
+                dText.value = dText.value + dchangeLine + str2;
+                tText.value = tText.value + tchangeLine + treat2;
+            } 
+            else{
+                dText.value = dText.value + dchangeLine + str3;
+                tText.value = tText.value + tchangeLine + treat3;
+            } 
         }
     }
+
+    // 編號 縮排 副標題代換
+    reportFormReplace(){
+
+    }
+
     // 將疾病程度與診斷內容依nowDisease加入報告或移除報告
     insertToReport(){
         
         let nowDisease = this.state.nowDisease;
         let dText = document.getElementById("diagnosisTextarea");
+        let tText = document.getElementById("treatmentTextarea");
         dText.value = "";
+        tText.value = "";
 
         // 加入Diagnosis
         // 加入Suggestive Treatment and Planning
         for(let i=0; i<nowDisease.length; i++){
             let number = nowDisease[i];
-            let changeLine = (dText.value === "") ? "" : "\n";
+            let dchangeLine = (dText.value === "") ? "" : "\n";
+            let tchangeLine = (tText.value === "") ? "" : "\n";
 
             // Sleep-disordered breathing (G47.8)
             if(number === "1"){
-                dText.value = dText.value + changeLine + "Sleep-disordered breathing (G47.8).";
+                dText.value = dText.value + dchangeLine + "Sleep-disordered breathing (G47.8).";
+                tText.value = tText.value + tchangeLine + 
+                "-- Sleep-disordered breathing (G47.8):\n" +
+                "# Obstructive sleep apnea is not likely.";
             } 
             // Snoring (R06.83)
             else if(number === "2"){
-                dText.value = dText.value + changeLine + "Snoring (R06.83).";
+                dText.value = dText.value + dchangeLine + "Snoring (R06.83).";
+                tText.value = tText.value + tchangeLine + 
+                "-- Snoring (R06.83):\n" +
+                "# Obstructive sleep apnea hypopnea is not likely. \n" +
+                "# Body weight control.\n" +
+                "# Further treatment with mandibular advancement device or surgery may be considered, if the patient is concerned about snoring.";
             } 
             // Obstructive sleep hypopnea (G47.33)
             else if(number === "3"){
+                let treat1 = "-- Obstructive sleep hypopnea (Mild) (G47.33):\n" +
+                             "# Body weight control.\n" +
+                             "# Further treatment of mandibular advancement device or myofunctional therapy or surgery may be considered.\n" +
+                             "# AHI (REM / Non-REM) > 2, good surgical improvement can be predicted.\n" +
+                             "# AHI (Supine / Non-supine) > 2, good body position therapy can be predicted.";
+                let treat2 = "-- Obstructive sleep hypopnea (Moderate) (G47.33):\n" +
+                             "Body weight control.\n" +
+                             "# Further treatment of CPAP or mandibular advancement device or myofunctional therapy or surgery may be considered.\n" +
+                             "# AHI (REM / Non-REM) > 2, good surgical improvement can be predicted.\n" +
+                             "# AHI (Supine / Non-supine) > 2, good body position therapy can be predicted.";
+                let treat3 = "-- Obstructive sleep hypopnea (Severe) (G47.33):\n" +
+                             "# Body weight control.\n" +
+                             "# Further treatment of CPAP or surgery may be considered.\n" +
+                             "# AHI > 60, AHI (REM / Non-REM) < 2, limited surgical improvement can be predicted.\n" +
+                             "# AHI (Supine / Non-supine) < 2, limited body position therapy can be predicted.";
+
                 this.ageAHIcondition(
-                    dText, changeLine,
+                    dText, dchangeLine, tText, tchangeLine,
                     "AHI為正常值，無Obstructive sleep hypopnea (G47.33).", 
                     "Obstructive sleep hypopnea (Mild) (G47.33).", 
                     "Obstructive sleep hypopnea (Moderate) (G47.33).", 
-                    "Obstructive sleep hypopnea (Severe) (G47.33)."
+                    "Obstructive sleep hypopnea (Severe) (G47.33).",
+                    treat1, treat2, treat3
                 );
             }
             // Obstructive sleep apnea hypopnea (G47.33)
             else if(number === "4"){
+                let treat1 = "-- Obstructive sleep apnea hypopnea (Mild) (G47.33):\n" +
+                             "# Body weight control.\n" +
+                             "# Further treatment of mandibular advancement device or myofunctional therapy or surgery may be considered.\n" +
+                             "# AHI (REM / Non-REM) > 2, good surgical improvement can be predicted.\n" +
+                             "# AHI (Supine / Non-supine) > 2, good body position therapy can be predicted.\n";
+                let treat2 = "-- Obstructive sleep apnea hypopnea (Moderate) (G47.33):\n" +
+                             "# Body weight control.\n" +
+                             "# Further treatment of CPAP or mandibular advancement device or myofunctional therapy or surgery may be considered.\n" +
+                             "# AHI (REM / Non-REM) > 2, good surgical improvement can be predicted.\n" +
+                             "# AHI (Supine / Non-supine) > 2, good body position therapy can be predicted.\n";
+                let treat3 = "-- Obstructive sleep apnea hypopnea (Severe) (G47.33):\n" +
+                             "# Body weight control.\n" +
+                             "# Further treatment of CPAP or surgery may be considered.\n" +
+                             "# AHI > 60, AHI (REM / Non-REM) < 2, limited surgical improvement can be predicted.\n" +
+                             "# AHI (Supine / Non-supine) < 2, limited body position therapy can be predicted.";
+
                 this.ageAHIcondition(
-                    dText, changeLine,
+                    dText, dchangeLine, tText, tchangeLine,
                     "AHI為正常值，無Obstructive sleep apnea hypopnea (G47.33).",
                     "Obstructive sleep apnea hypopnea (Mild) (G47.33).",
                     "Obstructive sleep apnea hypopnea (Moderate) (G47.33).",
-                    "Obstructive sleep apnea hypopnea (Severe) (G47.33)."
+                    "Obstructive sleep apnea hypopnea (Severe) (G47.33).",
+                    treat1, treat2, treat3
                 );
             }
             // Mixed sleep hypopnea (G47.33, G47.37)
             else if(number === "5"){
+                let treat1 = "-- Mixed sleep hypopnea (Mild) (G47.33, G47.37):\n" +
+                             "# Body weight control.\n" +
+                             "# Further treatment of mandibular advancement device or myofunctional therapy or surgery may be considered.\n" +
+                             "# AHI (REM / Non-REM) > 2, good surgical improvement can be predicted.\n" +
+                             "# AHI (Supine / Non-supine) > 2, good body position therapy can be predicted.\n" +
+                             "# The possible etiologies of central sleep apnea include \n" +
+                             "@ (abc)congestive heart failure, \n" +
+                             "@ hypothyroid disease, \n" +
+                             "@ renal failure, \n" +
+                             "@ neurological disease (parkinson's dz, alzheimer's dz), \n" +
+                             "@ stroke, encephalitis, head injury,\n" +
+                             "@ medication (opioids), \n" +
+                             "@ unknown.";
+                let treat2 = "-- Obstructive sleep apnea hypopnea (Moderate) (G47.33):\n" +
+                             "# Body weight control.\n" +
+                             "# Further treatment of CPAP or mandibular advancement device or myofunctional therapy or surgery may be considered.\n" +
+                             "# AHI (REM / Non-REM) > 2, good surgical improvement can be predicted.\n" +
+                             "# AHI (Supine / Non-supine) > 2, good body position therapy can be predicted.\n" +
+                             "# The possible etiologies of central sleep apnea include \n" +
+                             "@ (abc)congestive heart failure, \n" +
+                             "@ hypothyroid disease, \n" +
+                             "@ renal failure, \n" +
+                             "@ neurological disease (parkinson's dz, alzheimer's dz), \n" +
+                             "@ stroke, encephalitis, head injury,\n" +
+                             "@ medication (opioids), \n" +
+                             "@ unknown.";
+                let treat3 = "-- Obstructive sleep apnea hypopnea (Severe) (G47.33):\n" +
+                             "# Body weight control.\n" +
+                             "# Further treatment of CPAP or surgery may be considered.\n" +
+                             "# AHI > 60, AHI (REM / Non-REM) < 2, limited surgical improvement can be predicted.\n" +
+                             "# AHI (Supine / Non-supine) < 2, limited body position therapy can be predicted.\n" +
+                             "# The possible etiologies of central sleep apnea include \n" +
+                             "@ (abc)congestive heart failure, \n" +
+                             "@ hypothyroid disease, \n" +
+                             "@ renal failure, \n" +
+                             "@ neurological disease (parkinson's dz, alzheimer's dz), \n" +
+                             "@ stroke, encephalitis, head injury,\n" +
+                             "@ medication (opioids), \n" +
+                             "@ unknown.";
+
                 this.ageAHIcondition(
-                    dText, changeLine,
+                    dText, dchangeLine, tText, tchangeLine,
                     "AHI為正常值，無Mixed sleep hypopnea (G47.33, G47.37).",
                     "Mixed sleep hypopnea (Mild) (G47.33, G47.37).",
                     "Mixed sleep hypopnea (Moderate) (G47.33, G47.37).",
-                    "Mixed sleep hypopnea (Severe) (G47.33, G47.37)."
+                    "Mixed sleep hypopnea (Severe) (G47.33, G47.37).",
+                    treat1, treat2, treat3
                 );
             }
             // Mixed sleep apnea hypopnea (G47.33, G47.37)
             else if(number === "6"){
+                let treat1 = "-- Mixed sleep apnea hypopnea (Mild) (G47.33, G47.37):\n" +
+                             "# Body weight control.\n" +
+                             "# Further treatment of mandibular advancement device or myofunctional therapy or surgery may be considered.\n" +
+                             "# AHI (REM / Non-REM) > 2, good surgical improvement can be predicted.\n" +
+                             "# AHI (Supine / Non-supine) > 2, good body position therapy can be predicted.\n" +
+                             "# The possible etiologies of central sleep apnea include \n" +
+                             "@ (abc)congestive heart failure, \n" +
+                             "@ hypothyroid disease, \n" +
+                             "@ renal failure, \n" +
+                             "@ neurological disease (parkinson's dz, alzheimer's dz), \n" +
+                             "@ stroke, encephalitis, head injury,\n" +
+                             "@ medication (opioids), \n" +
+                             "@ unknown.";
+                let treat2 = "-- Mixed sleep apnea hypopnea (Moderate) (G47.33, G47.37):\n" +
+                             "# Body weight control.\n" +
+                             "# Further treatment of CPAP or mandibular advancement device or myofunctional therapy or surgery may be considered.\n" +
+                             "# AHI (REM / Non-REM) > 2, good surgical improvement can be predicted.\n" +
+                             "# AHI (Supine / Non-supine) > 2, good body position therapy can be predicted.\n" +
+                             "# The possible etiologies of central sleep apnea include \n" +
+                             "@ (abc)congestive heart failure, \n" +
+                             "@ hypothyroid disease, \n" +
+                             "@ renal failure, \n" +
+                             "@ neurological disease (parkinson's dz, alzheimer's dz), \n" +
+                             "@ stroke, encephalitis, head injury,\n" +
+                             "@ medication (opioids), \n" +
+                             "@ unknown.";
+                let treat3 = "-- Mixed sleep apnea hypopnea (Severe) (G47.33, G47.37):\n" +
+                             "# Body weight control.\n" +
+                             "# Further treatment of CPAP or surgery may be considered.\n" +
+                             "# AHI > 60, AHI (REM / Non-REM) < 2, limited surgical improvement can be predicted.\n" +
+                             "# AHI (Supine / Non-supine) < 2, limited body position therapy can be predicted.\n" +
+                             "# The possible etiologies of central sleep apnea include \n" +
+                             "@ (abc)congestive heart failure, \n" +
+                             "@ hypothyroid disease, \n" +
+                             "@ renal failure, \n" +
+                             "@ neurological disease (parkinson's dz, alzheimer's dz), \n" +
+                             "@ stroke, encephalitis, head injury,\n" +
+                             "@ medication (opioids), \n" +
+                             "@ unknown.";
+
                 this.ageAHIcondition(
-                    dText, changeLine,
+                    dText, dchangeLine, tText, tchangeLine,
                     "AHI為正常值，無Mixed sleep apnea hypopnea (G47.33, G47.37).",
                     "Mixed sleep apnea hypopnea (Mild) (G47.33, G47.37).",
                     "Mixed sleep apnea hypopnea (Moderate) (G47.33, G47.37).",
-                    "Mixed sleep apnea hypopnea (Severe) (G47.33, G47.37)."
+                    "Mixed sleep apnea hypopnea (Severe) (G47.33, G47.37).",
+                    treat1, treat2, treat3
                 );
             }
             // Central sleep hypopnea (G47.37)
             else if(number === "7"){
+                let treat1 = "-- Central sleep hypopnea (Mild) (G47.37):\n" +
+                             "# Obstructive sleep apnea hypopnea is not likely.\n" +
+                             "# The possible etiologies of central sleep hypopnea include \n" +
+                             "@ (abc)congestive heart failure, \n" +
+                             "@ hypothyroid disease, \n" +
+                             "@ renal failure, \n" +
+                             "@ neurological disease (parkinson's dz, alzheimer's dz), \n" +
+                             "@ stroke, encephalitis, head injury,\n" +
+                             "@ medication (opioids), \n" +
+                             "@ unknown.";
+                let treat2 = "-- Central sleep hypopnea (Mild) (G47.37):\n" +
+                             "# Obstructive sleep apnea hypopnea is not likely.\n" +
+                             "# The possible etiologies of central sleep hypopnea include \n" +
+                             "@ (abc)congestive heart failure, \n" +
+                             "@ hypothyroid disease, \n" +
+                             "@ renal failure, \n" +
+                             "@ neurological disease (parkinson's dz, alzheimer's dz), \n" +
+                             "@ stroke, encephalitis, head injury,\n" +
+                             "@ medication (opioids), \n" +
+                             "@ unknown.";
+                let treat3 = "-- Central sleep hypopnea (Severe) (G47.37):\n" +
+                             "# Obstructive sleep apnea hypopnea is not likely.\n" +
+                             "# The possible etiologies of central sleep hypopnea include \n" +
+                             "@ (abc)congestive heart failure, \n" +
+                             "@ hypothyroid disease, \n" +
+                             "@ renal failure, \n" +
+                             "@ neurological disease (parkinson's dz, alzheimer's dz), \n" +
+                             "@ stroke, encephalitis, head injury,\n" +
+                             "@ medication (opioids), \n" +
+                             "@ unknown.";
+
                 this.ageAHIcondition(
-                    dText, changeLine,
+                    dText, dchangeLine, tText, tchangeLine,
                     "AHI為正常值，無Central sleep hypopnea (G47.37).",
                     "Central sleep hypopnea (Mild) (G47.37).",
                     "Central sleep hypopnea (Moderate) (G47.37).",
-                    "Central sleep hypopnea (Severe) (G47.37)."
+                    "Central sleep hypopnea (Severe) (G47.37).",
+                    treat1, treat2, treat3
                 );
             }
             // Central sleep apnea hypopnea (G47.37)
             else if(number === "8"){
+                let treat1 = "-- Central sleep apnea hypopnea (Mild) (G47.37):\n" +
+                             "# Obstructive sleep apnea hypopnea is not likely.\n" +
+                             "# The possible etiologies of central sleep apnea include \n" +
+                             "@ (abc)congestive heart failure, \n" +
+                             "@ hypothyroid disease, \n" +
+                             "@ renal failure, \n" +
+                             "@ neurological disease (parkinson's dz, alzheimer's dz), \n" +
+                             "@ stroke, encephalitis, head injury,\n" +
+                             "@ medication (opioids), \n" +
+                             "@ unknown.";
+                let treat2 = "-- Central sleep apnea hypopnea (Moderate) (G47.37):\n" +
+                             "# Obstructive sleep apnea hypopnea is not likely.\n" +
+                             "# The possible etiologies of central sleep apnea include \n" +
+                             "@ (abc)congestive heart failure, \n" +
+                             "@ hypothyroid disease, \n" +
+                             "@ renal failure, \n" +
+                             "@ neurological disease (parkinson's dz, alzheimer's dz), \n" +
+                             "@ stroke, encephalitis, head injury,\n" +
+                             "@ medication (opioids), \n" +
+                             "@ unknown.";
+                let treat3 = "-- Central sleep apnea hypopnea (Severe) (G47.37):\n" +
+                             "# Obstructive sleep apnea hypopnea is not likely.\n" +
+                             "# The possible etiologies of central sleep apnea include \n" +
+                             "@ (abc)congestive heart failure, \n" +
+                             "@ hypothyroid disease, \n" +
+                             "@ renal failure, \n" +
+                             "@ neurological disease (parkinson's dz, alzheimer's dz), \n" +
+                             "@ stroke, encephalitis, head injury,\n" +
+                             "@ medication (opioids), \n" +
+                             "@ unknown.";
+
                 this.ageAHIcondition(
-                    dText, changeLine,
+                    dText, dchangeLine, tText, tchangeLine,
                     "AHI為正常值，無Central sleep apnea hypopnea (G47.37).",
                     "Central sleep apnea hypopnea (Mild) (G47.37).",
                     "Central sleep apnea hypopnea (Moderate) (G47.37).",
-                    "Central sleep apnea hypopnea (Severe) (G47.37)."
+                    "Central sleep apnea hypopnea (Severe) (G47.37).",
+                    treat1, treat2, treat3
                 );
             }
             // Obstructive sleep hypopnea, treated (G47.33)
             else if(number === "9"){
+                let treat1 = "-- Obstructive sleep hypopnea, treated (Mild) (G47.33):\n" +
+                             "# Compared with pre-Tx PSG report, OSA severity is improved obviously.\n" +
+                             "# Body weight control.\n" +
+                             "# Further treatment of mandibular advancement device or myofunctional therapy or surgery may be considered.\n" +
+                             "# AHI (REM / Non-REM) > 2, good surgical improvement can be predicted.\n" +
+                             "# AHI (Supine / Non-supine) > 2, good body position therapy can be predicted.\n";
+                let treat2 = "-- Obstructive sleep hypopnea, treated (Moderate) (G47.33):\n" +
+                             "# Compared with pre-Tx PSG report, OSA severity is improved limitedly.\n" +
+                             "# Body weight control.\n" +
+                             "# Further treatment of CPAP or mandibular advancement device or myofunctional therapy or surgery may be considered.\n" +
+                             "# AHI (REM / Non-REM) < 2, limited surgical improvement can be predicted.\n" +
+                             "# AHI (Supine / Non-supine) > 2, good body position therapy can be predicted.\n";
+                let treat3 = "-- Obstructive sleep hypopnea, treated (Severe) (G47.33):\n" +
+                             "# Compared with pre-Tx PSG report, OSA severity is improved limitedly.\n" +
+                             "# Body weight control.\n" +
+                             "# Further treatment of CPAP or surgery may be considered.\n" +
+                             "# AHI > 60, AHI (REM / Non-REM) < 2, limited surgical improvement can be predicted.\n" +
+                             "# AHI (Supine / Non-supine) < 2, limited body position therapy can be predicted.\n";
+
                 this.ageAHIcondition(
-                    dText, changeLine,
+                    dText, dchangeLine, tText, tchangeLine,
                     "AHI為正常值，無Obstructive sleep hypopnea, treated (G47.33).",
                     "Obstructive sleep hypopnea, treated (Mild) (G47.33).",
                     "Obstructive sleep hypopnea, treated (Moderate) (G47.33).",
-                    "Obstructive sleep hypopnea, treated (Severe) (G47.33)."
+                    "Obstructive sleep hypopnea, treated (Severe) (G47.33).",
+                    treat1, treat2, treat3
                 );
             }
             // Obstructive sleep apnea hypopnea, treated (G47.33)
             else if(number === "10"){
+                let treat1 = "-- Obstructive sleep apnea hypopnea, treated (Mild) (G47.33):\n" +
+                             "# Compared with pre-Tx PSG report, OSA severity is improved obviously.\n" +
+                             "# Body weight control.\n" +
+                             "# Further treatment of mandibular advancement device or myofunctional therapy or surgery may be considered.\n" +
+                             "# AHI (REM / Non-REM) > 2, good surgical improvement can be predicted.\n" +
+                             "# AHI (Supine / Non-supine) > 2, good body position therapy can be predicted.\n";
+                let treat2 = "-- Obstructive sleep apnea hypopnea, treated (Moderate) (G47.33):\n" +
+                             "# Compared with pre-Tx PSG report, OSA severity is improved limitedly.\n" +
+                             "# Body weight control.\n" +
+                             "# Further treatment of CPAP or mandibular advancement device or myofunctional therapy or surgery may be considered.\n" +
+                             "# AHI (REM / Non-REM) < 2, limited surgical improvement can be predicted.\n" +
+                             "# AHI (Supine / Non-supine) > 2, good body position therapy can be predicted.\n";
+                let treat3 = "-- Obstructive sleep apnea hypopnea, treated (Severe) (G47.33):\n" +
+                             "# Compared with pre-Tx PSG report, OSA severity is improved limitedly.\n" +
+                             "# Body weight control.\n" +
+                             "# Further treatment of CPAP or surgery may be considered.\n" +
+                             "# AHI > 60, AHI (REM / Non-REM) < 2, limited surgical improvement can be predicted.\n" +
+                             "# AHI (Supine / Non-supine) < 2, limited body position therapy can be predicted.\n";
+
                 this.ageAHIcondition(
-                    dText, changeLine,
+                    dText, dchangeLine, tText, tchangeLine,
                     "AHI為正常值，無Obstructive sleep apnea hypopnea, treated (G47.33).",
                     "Obstructive sleep apnea hypopnea, treated (Mild) (G47.33).",
                     "Obstructive sleep apnea hypopnea, treated (Moderate) (G47.33).",
-                    "Obstructive sleep apnea hypopnea, treated (Severe) (G47.33)."
+                    "Obstructive sleep apnea hypopnea, treated (Severe) (G47.33).",
+                    treat1, treat2, treat3s
                 );
             }
             // Mixed sleep apnea hypopnea, treated (G47.33, G47.37)
             else if(number === "11"){
                 this.ageAHIcondition(
-                    dText, changeLine,
+                    dText, dchangeLine, tText, tchangeLine,
                     "AHI為正常值，無Mixed sleep apnea hypopnea, treated (Mild) (G47.33, G47.37).",
                     "Mixed sleep apnea hypopnea, treated (Mild) (G47.33, G47.37).",
                     "Mixed sleep apnea hypopnea, treated (Moderate) (G47.33, G47.37).",
@@ -200,97 +459,102 @@ class Diagnosis extends React.Component{
             }
             // Poor sleep efficiency (G47.8)
             else if(number === "12"){
-                dText.value = dText.value + changeLine + "Poor sleep efficiency (G47.8).";
+                dText.value = dText.value + dchangeLine + "Poor sleep efficiency (G47.8).";
             }
             // Under treatment of CPAP
             else if(number === "13"){
-                dText.value = dText.value + changeLine + "Under treatment of CPAP.";
+                dText.value = dText.value + dchangeLine + "Under treatment of CPAP.";
             }
             // Under treatment of oral appliance
             else if(number === "14"){
-                dText.value = dText.value + changeLine + "Under treatment of oral appliance.";
+                dText.value = dText.value + dchangeLine + "Under treatment of oral appliance.";
             }
             // Treatment of myofunctional therapy
             else if(number === "15"){
-                dText.value = dText.value + changeLine + "Treatment of myofunctional therapy.";
+                dText.value = dText.value + dchangeLine + "Treatment of myofunctional therapy.";
             }
             // Treatment of body-weight control
             else if(number === "16"){
-                dText.value = dText.value + changeLine + "Treatment of body-weight control.";
+                dText.value = dText.value + dchangeLine + "Treatment of body-weight control.";
             }
             // Suspect periodic limb movement (G47.61)
             else if(number === "17"){
-                dText.value = dText.value + changeLine + "Suspect periodic limb movement (G47.61).";
+                dText.value = dText.value + dchangeLine + "Suspect periodic limb movement (G47.61).";
             }
             // Periodic limb movement (G47.61)
             else if(number === "18"){
-                dText.value = dText.value + changeLine + "Periodic limb movement (G47.61).";
+                dText.value = dText.value + dchangeLine + "Periodic limb movement (G47.61).";
             }
             // Suspect autonomic dysfunction (F41.9)
             else if(number === "19"){
-                dText.value = dText.value + changeLine + "Suspect autonomic dysfunction (F41.9).";
+                dText.value = dText.value + dchangeLine + "Suspect autonomic dysfunction (F41.9).";
             }
             // Suspect poor quality of life
             else if(number === "20"){
-                dText.value = dText.value + changeLine + "Suspect poor quality of life.";
+                dText.value = dText.value + dchangeLine + "Suspect poor quality of life.";
             }
             // Suspect tinnitus (H93.19)
             else if(number === "21"){
-                dText.value = dText.value + changeLine + "Suspect tinnitus (H93.19).";
+                dText.value = dText.value + dchangeLine + "Suspect tinnitus (H93.19).";
             }
             // Suspect Gastro-Esophageal reflux disease (GERD) (K21.0)
             else if(number === "22"){
-                dText.value = dText.value + changeLine + "Suspect Gastro-Esophageal reflux disease (GERD) (K21.0).";
+                dText.value = dText.value + dchangeLine + "Suspect Gastro-Esophageal reflux disease (GERD) (K21.0).";
             }
             // Suspect cardiac arrhythmia (I49.9)
             else if(number === "23"){
-                dText.value = dText.value + changeLine + "Suspect cardiac arrhythmia (I49.9).";
+                dText.value = dText.value + dchangeLine + "Suspect cardiac arrhythmia (I49.9).";
             }
             // Sleep bruxism (G47.63)
             else if(number === "24"){
-                dText.value = dText.value + changeLine + "Sleep bruxism (G47.63).";
+                dText.value = dText.value + dchangeLine + "Sleep bruxism (G47.63).";
             }
             // Alpha sleep
             else if(number === "25"){
-                dText.value = dText.value + changeLine + "Alpha sleep.";
+                dText.value = dText.value + dchangeLine + "Alpha sleep.";
             }
             // Suspect REM behavior disorder (G47.52)
             else if(number === "26"){
-                dText.value = dText.value + changeLine + "Suspect REM behavior disorder (G47.52).";
+                dText.value = dText.value + dchangeLine + "Suspect REM behavior disorder (G47.52).";
             }
             // Suspect REM behavior disorder, provisionally (G47.52)
             else if(number === "27"){
-                dText.value = dText.value + changeLine + "Suspect REM behavior disorder, provisionally (G47.52).";
+                dText.value = dText.value + dchangeLine + "Suspect REM behavior disorder, provisionally (G47.52).";
             }
             // Subclinical REM behavior disorder (G47.52)
             else if(number === "28"){
-                dText.value = dText.value + changeLine + "Subclinical REM behavior disorder (G47.52).";
+                dText.value = dText.value + dchangeLine + "Subclinical REM behavior disorder (G47.52).";
             }
             // Suspect idiopathic REM behavior disorder (G47.52)
             else if(number === "29"){
-                dText.value = dText.value + changeLine + "Suspect idiopathic REM behavior disorder (G47.52).";
+                dText.value = dText.value + dchangeLine + "Suspect idiopathic REM behavior disorder (G47.52).";
             }
             // Suspect nocturia (R35.1)
             else if(number === "30"){
-                dText.value = dText.value + changeLine + "Suspect nocturia (R35.1).";
+                dText.value = dText.value + dchangeLine + "Suspect nocturia (R35.1).";
             }
             // Sleep related groaning (G47.8)
             else if(number === "31"){
-                dText.value = dText.value + changeLine + "Sleep related groaning (G47.8).";
+                dText.value = dText.value + dchangeLine + "Sleep related groaning (G47.8).";
             }
             // Suspect disorder of arousal from NREM Sleep
             else if(number === "32"){
-                dText.value = dText.value + changeLine + "Suspect disorder of arousal from NREM Sleep.";
+                dText.value = dText.value + dchangeLine + "Suspect disorder of arousal from NREM Sleep.";
             }
             // Suspected sleep-related hypoventilation disorder (G47.36)
             else if(number === "33"){
-                dText.value = dText.value + changeLine + "Suspected sleep-related hypoventilation disorder (G47.36).";
+                dText.value = dText.value + dchangeLine + "Suspected sleep-related hypoventilation disorder (G47.36).";
             }
             // Suspect Cheyne-Stokes Breathing
             else if(number === "34"){
-                dText.value = dText.value + changeLine + "Suspect Cheyne-Stokes Breathing.";
+                dText.value = dText.value + dchangeLine + "Suspect Cheyne-Stokes Breathing.";
             }
         }
+        // 在state中存一份未編號未縮排，將傳至server生成word
+        this.setState({
+            nowDiagnosis: dText.value,
+            nowTreatment: tText.value,
+        });
     }
 
     render(){
@@ -437,7 +701,7 @@ class Diagnosis extends React.Component{
                     <table border="1" cellSpacing="0" cellPadding="3" style={{marginLeft:"auto", marginRight:"auto", width:"1000px"}}>
                         <tbody>
                             <tr>
-                                <td colSpan="4"><textarea style={{width:"968px", height:"300px", padding:"10px", fontSize:"20px"}}/></td>
+                                <td colSpan="4"><textarea id="treatmentTextarea" style={{width:"968px", height:"300px", padding:"10px", fontSize:"20px"}}/></td>
                             </tr>
                             <tr>
                                 <td></td>

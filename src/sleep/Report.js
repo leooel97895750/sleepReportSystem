@@ -69,6 +69,13 @@ class Report extends React.Component{
                     <Diagnosis 
                         AHI = {((this.props.eventsCount.CA + this.props.eventsCount.MA + this.props.eventsCount.OA + this.props.eventsCount.OH) / ((this.props.epochNum - this.props.wake) / 2) * 60).toFixed(1)}
                         age = {this.props.cfg.age}
+                        epochNum = {this.props.epochNum}
+                        sot = {this.props.sot}
+                        wake = {this.props.wake}
+                        n1 = {this.props.n1}
+                        n2 = {this.props.n2}
+                        n3 = {this.props.n3}
+                        rem = {this.props.rem}
                     />  
 
                     

@@ -42,6 +42,7 @@ class Diagnosis extends React.Component{
             else{
                 nowDisease.push(number);
                 var option = document.createElement("option");
+                option.ondblclick = this.deleteFromSelected;
                 option.text = selectedDisease[i].text;
                 option.value = number;
                 myDisease.add(option);
@@ -72,6 +73,20 @@ class Diagnosis extends React.Component{
         this.insertToReport();
     }
 
+    ageAHIcondition(dText, changeLine, str1, str2, str3, str4){
+        if(this.props.age < 12){
+            if(this.props.AHI <= 1) alert(str1);
+            else if(this.props.AHI <= 5) dText.value = dText.value + changeLine + str2;
+            else if(this.props.AHI <= 10) dText.value = dText.value + changeLine + str3;
+            else dText.value = dText.value + changeLine + str4;
+        }
+        else{
+            if(this.props.AHI <= 5) alert(str1);
+            else if(this.props.AHI <= 15) dText.value = dText.value + changeLine + str2;
+            else if(this.props.AHI <= 30) dText.value = dText.value + changeLine + str3;
+            else dText.value = dText.value + changeLine + str4;
+        }
+    }
     // 將疾病程度與診斷內容依nowDisease加入報告或移除報告
     insertToReport(){
         
@@ -86,110 +101,194 @@ class Diagnosis extends React.Component{
             let changeLine = (dText.value === "") ? "" : "\n";
 
             // Sleep-disordered breathing (G47.8)
-            if(number === "1") dText.value = dText.value + changeLine + "Sleep-disordered breathing (G47.8).";
+            if(number === "1"){
+                dText.value = dText.value + changeLine + "Sleep-disordered breathing (G47.8).";
+            } 
             // Snoring (R06.83)
-            else if(number === "2") dText.value = dText.value + changeLine + "Snoring (R06.83).";
+            else if(number === "2"){
+                dText.value = dText.value + changeLine + "Snoring (R06.83).";
+            } 
             // Obstructive sleep hypopnea (G47.33)
             else if(number === "3"){
-                if(this.props.age < 12){
-                    if(this.props.AHI <= 1) alert("AHI為正常值，無Obstructive sleep hypopnea (G47.33)");
-                    else if(this.props.AHI <= 5) dText.value = dText.value + changeLine + "Obstructive sleep hypopnea (Mild) (G47.33).";
-                    else if(this.props.AHI <= 10) dText.value = dText.value + changeLine + "Obstructive sleep hypopnea (Moderate) (G47.33).";
-                    else dText.value = dText.value + changeLine + "Obstructive sleep hypopnea (Severe) (G47.33).";
-                }
-                else{
-                    if(this.props.AHI <= 5) alert("AHI為正常值，無Obstructive sleep hypopnea (G47.33)");
-                    else if(this.props.AHI <= 15) dText.value = dText.value + changeLine + "Obstructive sleep hypopnea (Mild) (G47.33).";
-                    else if(this.props.AHI <= 30) dText.value = dText.value + changeLine + "Obstructive sleep hypopnea (Moderate) (G47.33).";
-                    else dText.value = dText.value + changeLine + "Obstructive sleep hypopnea (Severe) (G47.33).";
-                } 
+                this.ageAHIcondition(
+                    dText, changeLine,
+                    "AHI為正常值，無Obstructive sleep hypopnea (G47.33).", 
+                    "Obstructive sleep hypopnea (Mild) (G47.33).", 
+                    "Obstructive sleep hypopnea (Moderate) (G47.33).", 
+                    "Obstructive sleep hypopnea (Severe) (G47.33)."
+                );
             }
+            // Obstructive sleep apnea hypopnea (G47.33)
             else if(number === "4"){
-                
+                this.ageAHIcondition(
+                    dText, changeLine,
+                    "AHI為正常值，無Obstructive sleep apnea hypopnea (G47.33).",
+                    "Obstructive sleep apnea hypopnea (Mild) (G47.33).",
+                    "Obstructive sleep apnea hypopnea (Moderate) (G47.33).",
+                    "Obstructive sleep apnea hypopnea (Severe) (G47.33)."
+                );
             }
+            // Mixed sleep hypopnea (G47.33, G47.37)
             else if(number === "5"){
-                
+                this.ageAHIcondition(
+                    dText, changeLine,
+                    "AHI為正常值，無Mixed sleep hypopnea (G47.33, G47.37).",
+                    "Mixed sleep hypopnea (Mild) (G47.33, G47.37).",
+                    "Mixed sleep hypopnea (Moderate) (G47.33, G47.37).",
+                    "Mixed sleep hypopnea (Severe) (G47.33, G47.37)."
+                );
             }
+            // Mixed sleep apnea hypopnea (G47.33, G47.37)
             else if(number === "6"){
-                
+                this.ageAHIcondition(
+                    dText, changeLine,
+                    "AHI為正常值，無Mixed sleep apnea hypopnea (G47.33, G47.37).",
+                    "Mixed sleep apnea hypopnea (Mild) (G47.33, G47.37).",
+                    "Mixed sleep apnea hypopnea (Moderate) (G47.33, G47.37).",
+                    "Mixed sleep apnea hypopnea (Severe) (G47.33, G47.37)."
+                );
             }
+            // Central sleep hypopnea (G47.37)
             else if(number === "7"){
-                
+                this.ageAHIcondition(
+                    dText, changeLine,
+                    "AHI為正常值，無Central sleep hypopnea (G47.37).",
+                    "Central sleep hypopnea (Mild) (G47.37).",
+                    "Central sleep hypopnea (Moderate) (G47.37).",
+                    "Central sleep hypopnea (Severe) (G47.37)."
+                );
             }
+            // Central sleep apnea hypopnea (G47.37)
             else if(number === "8"){
-                
+                this.ageAHIcondition(
+                    dText, changeLine,
+                    "AHI為正常值，無Central sleep apnea hypopnea (G47.37).",
+                    "Central sleep apnea hypopnea (Mild) (G47.37).",
+                    "Central sleep apnea hypopnea (Moderate) (G47.37).",
+                    "Central sleep apnea hypopnea (Severe) (G47.37)."
+                );
             }
+            // Obstructive sleep hypopnea, treated (G47.33)
             else if(number === "9"){
-                
+                this.ageAHIcondition(
+                    dText, changeLine,
+                    "AHI為正常值，無Obstructive sleep hypopnea, treated (G47.33).",
+                    "Obstructive sleep hypopnea, treated (Mild) (G47.33).",
+                    "Obstructive sleep hypopnea, treated (Moderate) (G47.33).",
+                    "Obstructive sleep hypopnea, treated (Severe) (G47.33)."
+                );
             }
+            // Obstructive sleep apnea hypopnea, treated (G47.33)
             else if(number === "10"){
-                
+                this.ageAHIcondition(
+                    dText, changeLine,
+                    "AHI為正常值，無Obstructive sleep apnea hypopnea, treated (G47.33).",
+                    "Obstructive sleep apnea hypopnea, treated (Mild) (G47.33).",
+                    "Obstructive sleep apnea hypopnea, treated (Moderate) (G47.33).",
+                    "Obstructive sleep apnea hypopnea, treated (Severe) (G47.33)."
+                );
             }
+            // Mixed sleep apnea hypopnea, treated (G47.33, G47.37)
             else if(number === "11"){
-                
+                this.ageAHIcondition(
+                    dText, changeLine,
+                    "AHI為正常值，無Mixed sleep apnea hypopnea, treated (Mild) (G47.33, G47.37).",
+                    "Mixed sleep apnea hypopnea, treated (Mild) (G47.33, G47.37).",
+                    "Mixed sleep apnea hypopnea, treated (Moderate) (G47.33, G47.37).",
+                    "Mixed sleep apnea hypopnea, treated (Severe) (G47.33, G47.37)."
+                );
             }
+            // Poor sleep efficiency (G47.8)
             else if(number === "12"){
-                
+                dText.value = dText.value + changeLine + "Poor sleep efficiency (G47.8).";
             }
+            // Under treatment of CPAP
             else if(number === "13"){
-                
+                dText.value = dText.value + changeLine + "Under treatment of CPAP.";
             }
+            // Under treatment of oral appliance
             else if(number === "14"){
-                
+                dText.value = dText.value + changeLine + "Under treatment of oral appliance.";
             }
+            // Treatment of myofunctional therapy
             else if(number === "15"){
-                
+                dText.value = dText.value + changeLine + "Treatment of myofunctional therapy.";
             }
+            // Treatment of body-weight control
             else if(number === "16"){
-                
+                dText.value = dText.value + changeLine + "Treatment of body-weight control.";
             }
+            // Suspect periodic limb movement (G47.61)
             else if(number === "17"){
-                
+                dText.value = dText.value + changeLine + "Suspect periodic limb movement (G47.61).";
             }
+            // Periodic limb movement (G47.61)
             else if(number === "18"){
-                
+                dText.value = dText.value + changeLine + "Periodic limb movement (G47.61).";
             }
+            // Suspect autonomic dysfunction (F41.9)
             else if(number === "19"){
-                
+                dText.value = dText.value + changeLine + "Suspect autonomic dysfunction (F41.9).";
             }
+            // Suspect poor quality of life
             else if(number === "20"){
-                
+                dText.value = dText.value + changeLine + "Suspect poor quality of life.";
             }
+            // Suspect tinnitus (H93.19)
             else if(number === "21"){
-                
+                dText.value = dText.value + changeLine + "Suspect tinnitus (H93.19).";
             }
+            // Suspect Gastro-Esophageal reflux disease (GERD) (K21.0)
             else if(number === "22"){
-                
+                dText.value = dText.value + changeLine + "Suspect Gastro-Esophageal reflux disease (GERD) (K21.0).";
             }
+            // Suspect cardiac arrhythmia (I49.9)
             else if(number === "23"){
-                
+                dText.value = dText.value + changeLine + "Suspect cardiac arrhythmia (I49.9).";
             }
+            // Sleep bruxism (G47.63)
             else if(number === "24"){
-                
+                dText.value = dText.value + changeLine + "Sleep bruxism (G47.63).";
             }
+            // Alpha sleep
             else if(number === "25"){
-                
+                dText.value = dText.value + changeLine + "Alpha sleep.";
             }
+            // Suspect REM behavior disorder (G47.52)
             else if(number === "26"){
-                
+                dText.value = dText.value + changeLine + "Suspect REM behavior disorder (G47.52).";
             }
+            // Suspect REM behavior disorder, provisionally (G47.52)
             else if(number === "27"){
-                
+                dText.value = dText.value + changeLine + "Suspect REM behavior disorder, provisionally (G47.52).";
             }
+            // Subclinical REM behavior disorder (G47.52)
             else if(number === "28"){
-                
+                dText.value = dText.value + changeLine + "Subclinical REM behavior disorder (G47.52).";
             }
+            // Suspect idiopathic REM behavior disorder (G47.52)
             else if(number === "29"){
-                
+                dText.value = dText.value + changeLine + "Suspect idiopathic REM behavior disorder (G47.52).";
             }
+            // Suspect nocturia (R35.1)
             else if(number === "30"){
-
+                dText.value = dText.value + changeLine + "Suspect nocturia (R35.1).";
             }
+            // Sleep related groaning (G47.8)
             else if(number === "31"){
-                
+                dText.value = dText.value + changeLine + "Sleep related groaning (G47.8).";
             }
+            // Suspect disorder of arousal from NREM Sleep
             else if(number === "32"){
-                
+                dText.value = dText.value + changeLine + "Suspect disorder of arousal from NREM Sleep.";
+            }
+            // Suspected sleep-related hypoventilation disorder (G47.36)
+            else if(number === "33"){
+                dText.value = dText.value + changeLine + "Suspected sleep-related hypoventilation disorder (G47.36).";
+            }
+            // Suspect Cheyne-Stokes Breathing
+            else if(number === "34"){
+                dText.value = dText.value + changeLine + "Suspect Cheyne-Stokes Breathing.";
             }
         }
     }
@@ -276,16 +375,18 @@ class Diagnosis extends React.Component{
                                     <option value="20" onDoubleClick={this.insertToSelected}>Suspect poor quality of life</option>
                                     <option value="21" onDoubleClick={this.insertToSelected}>Suspect tinnitus (H93.19)</option>
                                     <option value="22" onDoubleClick={this.insertToSelected}>Suspect Gastro-Esophageal reflux disease (GERD)(K21.0)</option>
-                                    <option value="23" onDoubleClick={this.insertToSelected}>Suspect bruxism (G47.63)</option>
-                                    <option value="24" onDoubleClick={this.insertToSelected}>Alpha sleep</option>
-                                    <option value="25" onDoubleClick={this.insertToSelected}>Suspect REM behavior disorder (G47.52)</option>
-                                    <option value="26" onDoubleClick={this.insertToSelected}>Suspect REM behavior disorder, provisionally (G47.52)</option>
-                                    <option value="27" onDoubleClick={this.insertToSelected}>SubClinical REM behavior disorder (G47.52)</option>
-                                    <option value="28" onDoubleClick={this.insertToSelected}>Suspect sleep enuresis (G47.8)</option>
-                                    <option value="29" onDoubleClick={this.insertToSelected}>Sleep related groaning (G47.8)</option>
-                                    <option value="30" onDoubleClick={this.insertToSelected}>Suspect disorder of arousal from NREM Sleep</option>
-                                    <option value="31" onDoubleClick={this.insertToSelected}>Suspected sleep-related hypoventilation disorder (G47.36)</option>
-                                    <option value="32" onDoubleClick={this.insertToSelected}>Suspect Cheyne-Stokes Breathing</option>
+                                    <option value="23" onDoubleClick={this.insertToSelected}>Suspect cardiac arrhythmia (I49.9)</option>
+                                    <option value="24" onDoubleClick={this.insertToSelected}>Suspect bruxism (G47.63)</option>
+                                    <option value="25" onDoubleClick={this.insertToSelected}>Alpha sleep</option>
+                                    <option value="26" onDoubleClick={this.insertToSelected}>Suspect REM behavior disorder (G47.52)</option>
+                                    <option value="27" onDoubleClick={this.insertToSelected}>Suspect REM behavior disorder, provisionally (G47.52)</option>
+                                    <option value="28" onDoubleClick={this.insertToSelected}>SubClinical REM behavior disorder (G47.52)</option>
+                                    <option value="29" onDoubleClick={this.insertToSelected}>Suspect idiopathic REM behavior disorder (G47.52)</option>
+                                    <option value="30" onDoubleClick={this.insertToSelected}>Suspect nocturia (R35.1)</option>
+                                    <option value="31" onDoubleClick={this.insertToSelected}>Sleep related groaning (G47.8)</option>
+                                    <option value="32" onDoubleClick={this.insertToSelected}>Suspect disorder of arousal from NREM Sleep</option>
+                                    <option value="33" onDoubleClick={this.insertToSelected}>Suspected sleep-related hypoventilation disorder (G47.36)</option>
+                                    <option value="34" onDoubleClick={this.insertToSelected}>Suspect Cheyne-Stokes Breathing</option>
                                 </select>
                             </div>
                             <div className="insertBlock">

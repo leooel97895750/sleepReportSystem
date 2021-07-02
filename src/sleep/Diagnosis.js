@@ -78,7 +78,7 @@ class Diagnosis extends React.Component{
 
     // 根據age AHI來給予相對應的嚴重程度與治療手段
     ageAHIcondition(dText, dchangeLine, tText, tchangeLine, str0, str1, str2, str3, treat1, treat2, treat3){
-        if(this.props.age < 12){
+        if(this.props.age <= 12){
             if(this.props.AHI <= 1) alert(str0);
             else if(this.props.AHI <= 5){
                 dText.value = dText.value + dchangeLine + str1;
@@ -123,19 +123,19 @@ class Diagnosis extends React.Component{
             let tLine = treatmentLines[i];
             let signal = tLine[0];
             
-            tLine = tLine.replace("#", " " + number + ".");
-            tLine = tLine.replace("`", " " + number + ".");
-            tLine = tLine.replace("@", "    ");
-            tLine = tLine.replace("|", "         ");
+            tLine = tLine.replace("#", " " + (number < 10 ? number + ".  " : number + "."));
+            tLine = tLine.replace("`", " " + (number < 10 ? number + ".  " : number + "."));
+            tLine = tLine.replace("@", "      ");
+            tLine = tLine.replace("|", "           ");
             tLine = tLine.replace("^", lastSignal);
 
             if(signal === "#" || signal === "`") number++;
 
             if(signal === "-") lastSignal = "   ";
-            else if(signal === "#") lastSignal = "    ";
-            else if(signal === "`") lastSignal = "          ";
-            else if(signal === "@") lastSignal = "          ";
-            else if(signal === "|") lastSignal = "                ";
+            else if(signal === "#") lastSignal = "      ";
+            else if(signal === "`") lastSignal = "            ";
+            else if(signal === "@") lastSignal = "            ";
+            else if(signal === "|") lastSignal = "                  ";
 
             tText.value = tText.value + tLine + "\n";
         }
@@ -570,19 +570,22 @@ class Diagnosis extends React.Component{
                 dText.value = dText.value + dchangeLine + "Suspect periodic limb movement (G47.61).";
                 tText.value = tText.value + tchangeLine + 
                 "-- Suspect periodic limb movement (G47.61):\n" +
-                "# PLM index ≦ 15; further evaluation of periodic leg movement may be considered, if the clinical symptoms / signs are correlated. ";
+                "# PLM index ≦ 15; further evaluation of periodic leg movement may be considered, if the clinical symptoms / signs are \n" +
+                "^ correlated. ";
             }
             // Periodic limb movement (G47.61)
             else if(number === "18"){
                 dText.value = dText.value + dchangeLine + "Periodic limb movement (G47.61).";
                 tText.value = tText.value + tchangeLine + 
                 "-- Periodic limb movement (G47.61):\n" +
-                "# PLM index > 15; further evaluation of periodic leg movement may be considered, if the clinical symptoms / signs are correlated. \n" +
+                "# PLM index > 15; further evaluation of periodic leg movement may be considered, if the clinical symptoms / signs are \n" +
+                "^ correlated. \n" +
                 "` (a) Periodic limb movement disorder can be primary or secondary. \n" +
-                "@ (b) Secondary PLMD has many different causes, including the following: DM, Iron deficiency, Anemia, Uremia, Spinal cord \n" +
-                "^ tumor / injury, OSA, Narcolepsy, Medication (Neuroleptics, antidopaminergic agents, tricyclic antidepressants), Withdrawal \n" +
-                "^ from sedative medications. \n" +
-                "@ (c) Lab tests: CBC, Hb, BUN, Crea, GOT, GPT, Glucose, Ca, Na, K, serum iron & TIBC, ferritin, folate, Vit. B12, TSH, T3, T4.\n" +
+                "@ (b) Secondary PLMD has many different causes, including the following: DM, Iron deficiency, Anemia, Uremia, Spinal \n" +
+                "^ cord tumor / injury, OSA, Narcolepsy, Medication (Neuroleptics, antidopaminergic agents, tricyclic antidepressants), \n" +
+                "^ Withdrawal from sedative medications. \n" +
+                "@ (c) Lab tests: CBC, Hb, BUN, Crea, GOT, GPT, Glucose, Ca, Na, K, serum iron & TIBC, ferritin, folate, Vit. B12, TSH, \n" +
+                "^ T3, T4.\n" +
                 "@ (d) Benzodiazepines (eg. Clonazepam, Rivotril) is probably the most widely used drug to treat PLMD. In fact, medical therapy \n" +
                 "^ does not cure PLMD but relieves symptoms.";
             }
@@ -717,7 +720,8 @@ class Diagnosis extends React.Component{
                 "^ central alveolar hypoventilation); Secondary (Sleep-related hypoventilation due to a medication or substance, Sleep-related \n" +
                 "^ hypoventilation due to a medical disorder, Obesity hypoventilation syndrome, Late-onset central hypoventilation with \n" +
                 "^ hypothalamic dysfunction).\n" +
-                "@ (a) Chronic hypoventilation criteria: hypercapnia in wakefulness and sleep (PaCO2, Arterial carbon dioxide level ≧ 45 mmHg).\n" +
+                "@ (a) Chronic hypoventilation criteria: hypercapnia in wakefulness and sleep (PaCO2, Arterial carbon dioxide level ≧ 45 \n" +
+                "^ mmHg).\n" +
                 "@ (b) Obstructive lung diseases (Asthma, COPD) should be excluded by pulmonary function test.\n" +
                 "@ (c) Obesity-hypoventilation syndrome is most prevalent and treatable.\n" +
                 "@ (d) Other subtypes share common features and underlying disorders with central sleep apnea.\n" +

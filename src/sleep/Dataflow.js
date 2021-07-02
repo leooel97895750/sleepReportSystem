@@ -432,7 +432,7 @@ class Dataflow extends React.Component{
             } 
         };
         let data = new FormData();
-        data.append('file', 'data');
+        data.append('file', reportData);
         xhr.send(data)
     }
 

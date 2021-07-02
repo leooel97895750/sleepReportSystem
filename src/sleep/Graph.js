@@ -10,11 +10,17 @@ class Graph extends React.Component{
             
         };
     }
+    
     componentDidMount(){
         this.updateCanvas();
     }
-    componentDidUpdate(){
+    componentDidUpdate(prevProps){
         this.updateCanvas();
+
+        // 將報告資料傳回Report
+        if(prevProps.getGraphData === 0 && this.props.getGraphData === 1){
+
+        }
     }
     // 左邊為Label，右邊根據時間劃分區間
     updateCanvas(){

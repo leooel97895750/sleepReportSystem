@@ -18,7 +18,14 @@ class Diagnosis extends React.Component{
         this.insertToSelected = this.insertToSelected.bind(this);
         this.deleteFromSelected = this.deleteFromSelected.bind(this);
     }
-        
+    
+    // 將報告資料傳回Report
+    componentDidUpdate(prevProps){
+        if(prevProps.getDiagnosisData === 0 && this.props.getDiagnosisData === 1){
+
+        }
+    }
+
     diagnosisBox(){
         this.setState({isDiagnosisBox: 'block'});
     }
@@ -763,11 +770,11 @@ class Diagnosis extends React.Component{
                         <tbody>
                             <tr>
                                 <td width="20%">Friedman Stage: </td>
-                                <td width="15%"><input className="myInput"/></td>
+                                <td width="15%"><input className="myInput write"/></td>
                                 <td width="15%">Tonsil size: </td>
-                                <td width="10%"><input className="myInput"/></td>
+                                <td width="10%"><input className="myInput write"/></td>
                                 <td colSpan="2" width="25%">Friedman tongue position: </td>
-                                <td width="15%"><input className="myInput"/></td>
+                                <td width="15%"><input className="myInput write"/></td>
                             </tr>
                             <tr>
                                 <td colSpan="7"><textarea style={{width:"968px", height:"300px", padding:"10px"}}/></td>
@@ -775,8 +782,8 @@ class Diagnosis extends React.Component{
                             <tr>
                                 <td colSpan="4"></td>
                                 <td width="15%">Technician: </td>
-                                <td width="15%"><input className="myInput"/></td>
-                                <td width="15%"><input className="myInput"/></td>
+                                <td width="15%"><input className="myInput write"/></td>
+                                <td width="15%"></td>
                             </tr>
                         </tbody>
                     </table>
@@ -897,8 +904,8 @@ class Diagnosis extends React.Component{
                             <tr>
                                 <td></td>
                                 <td width="15%">Physician: </td>
-                                <td width="15%"><input className="myInput"/></td>
-                                <td width="15%"><input className="myInput"/></td>
+                                <td width="15%"><input className="myInput write"/></td>
+                                <td width="15%"></td>
                             </tr>
                         </tbody>
                     </table>

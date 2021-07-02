@@ -9,6 +9,57 @@ class EPart extends React.Component{
         };
     }
 
+    
+    componentDidUpdate(prevProps){
+        if(prevProps.getEPartData === 0 && this.props.getEPartData === 1){
+            // 將報告資料傳回Report
+            let EPartData = {
+                StudyDate: document.getElementById("e1").value,
+                CaseNumber: document.getElementById("e2").value,
+                Name: document.getElementById("e3").textContent,
+                Age: document.getElementById("e4").textContent,
+                PatientID: document.getElementById("e5").textContent,
+                Sex: document.getElementById("e6").textContent,
+                DOB: document.getElementById("e7").textContent,
+                Height: document.getElementById("e8").textContent,
+                Weight: document.getElementById("e9").textContent,
+                BMI: document.getElementById("e10").textContent,
+                Neck: document.getElementById("e11").textContent,
+                Waist: document.getElementById("e12").value,
+                Hip: document.getElementById("e13").value,
+                HADS: document.getElementById("e14").value,
+                ESS: document.getElementById("e15").value,
+                PSQI: document.getElementById("e16").value,
+                SOS: document.getElementById("e17").value,
+                THI: document.getElementById("e18").value,
+                GERD_Q: document.getElementById("e19").value,
+                WHO: document.getElementById("e20").value,
+                BP_S: document.getElementById("e21").value,
+                BP_W: document.getElementById("e22").value,
+                SleepQuality: document.getElementById("e23").value,
+                AHI: document.getElementById("e24").textContent,
+                AI: document.getElementById("e25").textContent,
+                HI: document.getElementById("e26").textContent,
+                OI: document.getElementById("e27").textContent,
+                CI: document.getElementById("e28").textContent,
+                MI: document.getElementById("e29").textContent,
+                AHI_Supine: document.getElementById("e30").textContent,
+                AHI_NSupine: document.getElementById("e31").textContent,
+                AHI_REM: document.getElementById("e32").textContent,
+                AHI_NREM: document.getElementById("e33").textContent,
+                AHI_Left: document.getElementById("e34").textContent,
+                AHI_Right: document.getElementById("e35").textContent,
+                AHI_REM_Supine: document.getElementById("e36").textContent,
+                AHI_REM_NSupine: document.getElementById("e37").textContent,
+                AHI_NREM_Supine: document.getElementById("e38").textContent,
+                AHI_NREM_NSupine: document.getElementById("e39").textContent,
+
+            };
+
+            this.props.updateEPartData(EPartData);
+        }
+    }
+
     render(){
         let evn = this.props.eventsCount;
         return(
@@ -19,9 +70,9 @@ class EPart extends React.Component{
                         <span style={{fontWeight:"bold"}}>Patient Information: </span>
                         <div style={{float:"right"}}>
                             <span style={{fontWeight:"bold"}}>Study Date: </span>
-                            <input className="upperInput" defaultValue={this.props.cfg.startDate}/>
+                            <input id="e1" className="upperInput" readOnly="readonly" defaultValue={this.props.cfg.startDate}/>
                             <span style={{fontWeight:"bold", marginLeft:"20px"}}>單號: </span>
-                            <input className="upperInput"/>
+                            <input id="e2" className="upperInput write" style={{position:"relative", bottom:"3px"}}/>
                         </div>
                     </div>
                 </div>
@@ -31,11 +82,11 @@ class EPart extends React.Component{
                     <table border="1" cellSpacing="0" cellPadding="3" style={{marginLeft:"auto", marginRight:"auto", width:"1000px", whiteSpace: "nowrap"}}>
                         <tbody>
                             <tr>
-                                <td colSpan="4" width="20%">Name：<span>{this.props.cfg.name}</span></td>
-                                <td colSpan="4" width="20%">Age：<span>{this.props.cfg.age}</span></td>
-                                <td colSpan="4" width="20%">Patient ID：<span>{this.props.cfg.patientID}</span></td>
-                                <td colSpan="4" width="20%">Sex：<span>{this.props.cfg.sex}</span></td>
-                                <td colSpan="4" width="20%">DOB：<span>{this.props.cfg.dob}</span></td>
+                                <td colSpan="4" width="20%">Name：<span id="e3">{this.props.cfg.name}</span></td>
+                                <td colSpan="4" width="20%">Age：<span id="e4">{this.props.cfg.age}</span></td>
+                                <td colSpan="4" width="20%">Patient ID：<span id="e5">{this.props.cfg.patientID}</span></td>
+                                <td colSpan="4" width="20%">Sex：<span id="e6">{this.props.cfg.sex}</span></td>
+                                <td colSpan="4" width="20%">DOB：<span id="e7">{this.props.cfg.dob}</span></td>
                             </tr>
                         </tbody>
                     </table>
@@ -44,12 +95,12 @@ class EPart extends React.Component{
                     <table border="1" cellSpacing="0" cellPadding="3" style={{marginLeft:"auto", marginRight:"auto", width:"1000px", whiteSpace: "nowrap"}}>
                         <tbody>
                             <tr>
-                                <td colSpan="4" width="20%">Height(cm)：<span>{this.props.cfg.height}</span></td>
-                                <td colSpan="4" width="20%">Weight(kg)：<span>{this.props.cfg.weight}</span></td>
-                                <td colSpan="3" width="15%">BMI：<span>{this.props.cfg.bmi}</span></td>
-                                <td colSpan="3" width="15%">Neck(cm)：<span>{this.props.cfg.neck}</span></td>
-                                <td colSpan="3" width="15%"><div style={{overflow:"hidden"}}>Waist(cm)：<input className="myInput"/></div></td>
-                                <td colSpan="3" width="15%"><div style={{overflow:"hidden"}}>Hip(cm)：<input className="myInput"/></div></td>
+                                <td colSpan="4" width="20%">Height(cm)：<span id="e8">{this.props.cfg.height}</span></td>
+                                <td colSpan="4" width="20%">Weight(kg)：<span id="e9">{this.props.cfg.weight}</span></td>
+                                <td colSpan="3" width="15%">BMI：<span id="e10">{this.props.cfg.bmi}</span></td>
+                                <td colSpan="3" width="15%">Neck(cm)：<span id="e11">{this.props.cfg.neck}</span></td>
+                                <td colSpan="3" width="15%"><div className="write" style={{overflow:"hidden"}}>Waist(cm)：<input id="e12" className="myInput"/></div></td>
+                                <td colSpan="3" width="15%"><div className="write" style={{overflow:"hidden"}}>Hip(cm)：<input id="e13" className="myInput"/></div></td>
                             </tr>
                         </tbody>
                     </table>
@@ -58,12 +109,12 @@ class EPart extends React.Component{
                     <table border="1" cellSpacing="0" cellPadding="3" style={{marginLeft:"auto", marginRight:"auto", width:"1000px", whiteSpace: "nowrap"}}>
                         <tbody>
                             <tr>
-                                <td colSpan="4" width="20%"><div style={{overflow:"hidden"}}>HADS(A/D)：<input className="myInput"/></div></td>
-                                <td colSpan="4" width="20%"><div style={{overflow:"hidden"}}>ESS：<input className="myInput"/></div></td>
-                                <td colSpan="3" width="15%"><div style={{overflow:"hidden"}}>PSQI：<input className="myInput"/></div></td>
-                                <td colSpan="3" width="15%"><div style={{overflow:"hidden"}}>SOS：<input className="myInput"/></div></td>
-                                <td colSpan="3" width="15%"><div style={{overflow:"hidden"}}>THI：<input className="myInput"/></div></td>
-                                <td colSpan="3" width="15%"><div style={{overflow:"hidden"}}>GERD-Q：<input className="myInput"/></div></td>
+                                <td colSpan="4" width="20%"><div className="write" style={{overflow:"hidden"}}>HADS(A/D)：<input id="e14" className="myInput"/></div></td>
+                                <td colSpan="4" width="20%"><div className="write" style={{overflow:"hidden"}}>ESS：<input id="e15" className="myInput"/></div></td>
+                                <td colSpan="3" width="15%"><div className="write" style={{overflow:"hidden"}}>PSQI：<input id="e16" className="myInput"/></div></td>
+                                <td colSpan="3" width="15%"><div className="write" style={{overflow:"hidden"}}>SOS：<input id="e17" className="myInput"/></div></td>
+                                <td colSpan="3" width="15%"><div className="write" style={{overflow:"hidden"}}>THI：<input id="e18" className="myInput"/></div></td>
+                                <td colSpan="3" width="15%"><div className="write" style={{overflow:"hidden"}}>GERD-Q：<input id="e19" className="myInput"/></div></td>
                             </tr>
                         </tbody>
                     </table>
@@ -72,10 +123,10 @@ class EPart extends React.Component{
                     <table border="1" cellSpacing="0" cellPadding="3" style={{marginLeft:"auto", marginRight:"auto", width:"1000px", whiteSpace: "nowrap"}}>
                         <tbody>
                             <tr>
-                                <td colSpan="5" width="25%"><div style={{overflow:"hidden"}}>WHO(Phy/Psy)：<input className="myInput"/></div></td>
-                                <td colSpan="5" width="25%"><div style={{overflow:"hidden"}}>BP(S)(mmHg)：<input className="myInput"/></div></td>
-                                <td colSpan="5" width="25%"><div style={{overflow:"hidden"}}>BP(W)(mmHg)：<input className="myInput"/></div></td>
-                                <td colSpan="5" width="25%"><div style={{overflow:"hidden"}}>Subjective sleep quality：<input className="myInput"/></div></td>
+                                <td colSpan="5" width="25%"><div className="write" style={{overflow:"hidden"}}>WHO(Phy/Psy)：<input id="e20" className="myInput"/></div></td>
+                                <td colSpan="5" width="25%"><div className="write" style={{overflow:"hidden"}}>BP(S)(mmHg)：<input id="e21" className="myInput"/></div></td>
+                                <td colSpan="5" width="25%"><div className="write" style={{overflow:"hidden"}}>BP(W)(mmHg)：<input id="e22" className="myInput"/></div></td>
+                                <td colSpan="5" width="25%"><div className="write" style={{overflow:"hidden"}}>Subjective sleep quality：<input id="e23" className="myInput"/></div></td>
                             </tr>
                         </tbody>
                     </table>
@@ -93,30 +144,30 @@ class EPart extends React.Component{
                     <table border="1" cellSpacing="0" cellPadding="3" style={{marginLeft:"auto", marginRight:"auto", width:"1000px", whiteSpace: "nowrap"}}>
                         <tbody>
                             <tr>
-                                <td width="25%">AHI：<span>{((evn.CA + evn.MA + evn.OA + evn.OH) / ((this.props.epochNum - this.props.wake) / 2) * 60).toFixed(1)}</span></td>
-                                <td width="25%">AI：<span>{((evn.CA + evn.MA + evn.OA) / ((this.props.epochNum - this.props.wake) / 2) * 60).toFixed(1)}</span></td>
-                                <td width="25%">HI：<span>{(evn.OH / ((this.props.epochNum - this.props.wake) / 2) * 60).toFixed(1)}</span></td>
-                                <td width="25%">OI：<span>{(evn.OA / ((this.props.epochNum - this.props.wake) / 2) * 60).toFixed(1)}</span></td>
+                                <td width="25%">AHI：<span id="e24">{(((evn.CA + evn.MA + evn.OA + evn.OH) / ((this.props.epochNum - this.props.wake) / 2) * 60).toFixed(1))}</span></td>
+                                <td width="25%">AI：<span id="e25">{((evn.CA + evn.MA + evn.OA) / ((this.props.epochNum - this.props.wake) / 2) * 60).toFixed(1)}</span></td>
+                                <td width="25%">HI：<span id="e26">{(evn.OH / ((this.props.epochNum - this.props.wake) / 2) * 60).toFixed(1)}</span></td>
+                                <td width="25%">OI：<span id="e27">{(evn.OA / ((this.props.epochNum - this.props.wake) / 2) * 60).toFixed(1)}</span></td>
                             </tr>
                             <tr>
-                                <td>CI：<span>{(evn.CA / ((this.props.epochNum - this.props.wake) / 2) * 60).toFixed(1)}</span></td>
-                                <td>MI：<span>{(evn.MA / ((this.props.epochNum - this.props.wake) / 2) * 60).toFixed(1)}</span></td>
-                                <td>AHI(Left)：</td>
-                                <td>AHI(NSupine)：</td>
+                                <td>CI：<span id="e28">{(evn.CA / ((this.props.epochNum - this.props.wake) / 2) * 60).toFixed(1)}</span></td>
+                                <td>MI：<span id="e29">{(evn.MA / ((this.props.epochNum - this.props.wake) / 2) * 60).toFixed(1)}</span></td>
+                                <td>AHI(Supine)：<span id="e30"></span></td>
+                                <td>AHI(NSupine)：<span id="e31"></span></td>
                             </tr>
                             <tr>
-                                <td>AHI(REM)：</td>
-                                <td>AHI(NREM)：</td>
-                                <td>AHI(Left)：</td>
-                                <td>AHI(Right)：</td>
+                                <td>AHI(REM)：<span id="e32"></span></td>
+                                <td>AHI(NREM)：<span id="e33"></span></td>
+                                <td>AHI(Left)：<span id="e34"></span></td>
+                                <td>AHI(Right)：<span id="e35"></span></td>
                             </tr>
                             <tr>
-                                <td colSpan="2">AHI(REM-Supine)：</td>
-                                <td colSpan="2">AHI(REM-NSupine)：</td>
+                                <td colSpan="2">AHI(REM-Supine)：<span id="e36"></span></td>
+                                <td colSpan="2">AHI(REM-NSupine)：<span id="e37"></span></td>
                             </tr>
                             <tr>
-                                <td colSpan="2">AHI(NREM-Supine)：</td>
-                                <td colSpan="2">AHI(NREM-NSupine)：</td>
+                                <td colSpan="2">AHI(NREM-Supine)：<span id="e38"></span></td>
+                                <td colSpan="2">AHI(NREM-NSupine)：<span id="e39"></span></td>
                             </tr>
                         </tbody>
                     </table>

@@ -9,6 +9,13 @@ class CPart extends React.Component{
         };
     }
 
+    // 將報告資料傳回Report
+    componentDidUpdate(prevProps){
+        if(prevProps.getCPartData === 0 && this.props.getCPartData === 1){
+
+        }
+    }
+
     render(){
         let evn = this.props.eventsCount;
         return(

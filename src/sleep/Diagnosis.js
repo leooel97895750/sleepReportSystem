@@ -112,7 +112,7 @@ class Diagnosis extends React.Component{
 
     // 編號 縮排 副標題代換
     reportFormReplace(){
-        // #:編號、@:縮排，^:手動縮排
+        // #:編號、@:縮排、^:手動縮排、`:編號縮排、|:縮兩排
         let tText = document.getElementById("treatmentTextarea");
         let treatmentLines = tText.value.split('\n');
         tText.value = "";
@@ -124,15 +124,18 @@ class Diagnosis extends React.Component{
             let signal = tLine[0];
             
             tLine = tLine.replace("#", " " + number + ".");
-            tLine = tLine.replace("@", "   ");
-            tLine = tLine.replace("^", lastSignal)
+            tLine = tLine.replace("`", " " + number + ".");
+            tLine = tLine.replace("@", "    ");
+            tLine = tLine.replace("|", "         ");
+            tLine = tLine.replace("^", lastSignal);
 
-            if(signal === "-") number = 1;
-            else number++;
+            if(signal === "#" || signal === "`") number++;
 
             if(signal === "-") lastSignal = "   ";
-            else if(signal === "#") lastSignal = "   ";
-            else if(signal === "@") lastSignal = "       ";
+            else if(signal === "#") lastSignal = "    ";
+            else if(signal === "`") lastSignal = "          ";
+            else if(signal === "@") lastSignal = "          ";
+            else if(signal === "|") lastSignal = "                ";
 
             tText.value = tText.value + tLine + "\n";
         }
@@ -169,8 +172,7 @@ class Diagnosis extends React.Component{
                 "-- Snoring (R06.83):\n" +
                 "# Obstructive sleep apnea hypopnea is not likely. \n" +
                 "# Body weight control.\n" +
-                "# Further treatment with mandibular advancement device or surgery may be considered, if the patient is\n" +
-                "^ concerned about snoring.";
+                "# Further treatment with mandibular advancement device or surgery may be considered, if the patient is concerned about snoring.";
             } 
             // Obstructive sleep hypopnea (G47.33)
             else if(number === "3"){
@@ -532,8 +534,8 @@ class Diagnosis extends React.Component{
                 // Sleep latency、Awake time、Total sleep time、Sleep efficiency
                 tText.value = tText.value + tchangeLine + 
                 "-- Poor sleep efficiency (G47.8):\n" +
-                "# Sleep latency " + (this.props.sot / 2).toFixed(1) + " min; Awake time " + ((this.props.wake - this.props.sot) / 2).toFixed(1) + " min; Total sleep time " + ((this.props.epochNum - this.props.wake) / 2).toFixed(1) + " min; Sleep efficiency " + (((this.props.epochNum - this.props.wake) /this.props.epochNum) * 100).toFixed(1) + " %; \n" +
-                "^ the representation of this PSG report is limited.";
+                "# Sleep latency " + (this.props.sot / 2).toFixed(1) + " min; Awake time " + ((this.props.wake - this.props.sot) / 2).toFixed(1) + " min; Total sleep time " + ((this.props.epochNum - this.props.wake) / 2).toFixed(1) + " min; Sleep efficiency " + (((this.props.epochNum - this.props.wake) /this.props.epochNum) * 100).toFixed(1) + " %; the representation of \n" +
+                "^ this PSG report is limited.";
             }
             // Under treatment of CPAP
             else if(number === "13"){
@@ -568,24 +570,21 @@ class Diagnosis extends React.Component{
                 dText.value = dText.value + dchangeLine + "Suspect periodic limb movement (G47.61).";
                 tText.value = tText.value + tchangeLine + 
                 "-- Suspect periodic limb movement (G47.61):\n" +
-                "# PLM index ≦ 15; further evaluation of periodic leg movement may be considered, if the clinical \n" +
-                "^ symptoms / signs are correlated. ";
+                "# PLM index ≦ 15; further evaluation of periodic leg movement may be considered, if the clinical symptoms / signs are correlated. ";
             }
             // Periodic limb movement (G47.61)
             else if(number === "18"){
                 dText.value = dText.value + dchangeLine + "Periodic limb movement (G47.61).";
                 tText.value = tText.value + tchangeLine + 
                 "-- Periodic limb movement (G47.61):\n" +
-                "# PLM index > 15; further evaluation of periodic leg movement may be considered, if the clinical \n" +
-                "^ symptoms / signs are correlated. \n" +
-                "# (a) Periodic limb movement disorder can be primary or secondary. \n" +
-                "@ (b) Secondary PLMD has many different causes, including the following: DM, Iron deficiency, Anemia, \n" +
-                "^ Uremia, Spinal cord tumor / injury, OSA, Narcolepsy, Medication (Neuroleptics, antidopaminergic \n" +
-                "^ agents, tricyclic antidepressants), Withdrawal from sedative medications. \n" +
-                "@ (c) Lab tests: CBC, Hb, BUN, Crea, GOT, GPT, Glucose, Ca, Na, K, serum iron & TIBC, ferritin, folate, \n" +
-                "^ Vit. B12, TSH, T3, T4.\n" +
-                "@ (d) Benzodiazepines (eg. Clonazepam, Rivotril) is probably the most widely used drug to treat PLMD. \n" +
-                "^ In fact, medical therapy does not cure PLMD but relieves symptoms.";
+                "# PLM index > 15; further evaluation of periodic leg movement may be considered, if the clinical symptoms / signs are correlated. \n" +
+                "` (a) Periodic limb movement disorder can be primary or secondary. \n" +
+                "@ (b) Secondary PLMD has many different causes, including the following: DM, Iron deficiency, Anemia, Uremia, Spinal cord \n" +
+                "^ tumor / injury, OSA, Narcolepsy, Medication (Neuroleptics, antidopaminergic agents, tricyclic antidepressants), Withdrawal \n" +
+                "^ from sedative medications. \n" +
+                "@ (c) Lab tests: CBC, Hb, BUN, Crea, GOT, GPT, Glucose, Ca, Na, K, serum iron & TIBC, ferritin, folate, Vit. B12, TSH, T3, T4.\n" +
+                "@ (d) Benzodiazepines (eg. Clonazepam, Rivotril) is probably the most widely used drug to treat PLMD. In fact, medical therapy \n" +
+                "^ does not cure PLMD but relieves symptoms.";
             }
             // Suspect autonomic dysfunction (F41.9)
             else if(number === "19"){
@@ -599,16 +598,14 @@ class Diagnosis extends React.Component{
                 dText.value = dText.value + dchangeLine + "Suspect poor quality of life.";
                 tText.value = tText.value + tchangeLine + 
                 "-- Suspect poor quality of life:\n" +
-                "# Further evaluation and improvement of quality of life may be considered, if the clinical findings \n" +
-                "^ are correlated.";
+                "# Further evaluation and improvement of quality of life may be considered, if the clinical findings are correlated.";
             }
             // Suspect tinnitus (H93.19)
             else if(number === "21"){
                 dText.value = dText.value + dchangeLine + "Suspect tinnitus (H93.19).";
                 tText.value = tText.value + tchangeLine + 
                 "-- Suspect tinnitus (H93.19):\n" +
-                "# Further evaluation and treatment of tinnitus may be considered, if the clinical symptoms / signs \n" +
-                "^ are correlated.";
+                "# Further evaluation and treatment of tinnitus may be considered, if the clinical symptoms / signs are correlated.";
             }
             // Suspect Gastro-Esophageal reflux disease (GERD) (K21.0)
             else if(number === "22"){
@@ -622,8 +619,7 @@ class Diagnosis extends React.Component{
                 dText.value = dText.value + dchangeLine + "Suspect cardiac arrhythmia (I49.9).";
                 tText.value = tText.value + tchangeLine + 
                 "-- Suspect cardiac arrhythmia (I49.9):\n" +
-                "# Further evaluation of cardiac arrhythmia may be considered, if the clinical symptoms / signs \n" +
-                "^ are correlated.";
+                "# Further evaluation of cardiac arrhythmia may be considered, if the clinical symptoms / signs are correlated.";
             }
             // Sleep bruxism (G47.63)
             else if(number === "24"){
@@ -644,36 +640,37 @@ class Diagnosis extends React.Component{
                 dText.value = dText.value + dchangeLine + "Suspect REM behavior disorder (G47.52).";
                 tText.value = tText.value + tchangeLine + 
                 "-- Suspect REM behavior disorder (G47.52):\n" +
-                "# REM behavior disorder often may be associated with medication (such as antidepressant, Beta-blockers, \n" +
-                "^ anticholinesterase inhibitors) or other neurological conditions (such as, dementia, Parkinson's disease, \n" +
-                "^ multiple system atrophy). Further diagnosis and management by psychiatrist or neurologist may be \n" +
-                "^ considered.v";
+                "# REM behavior disorder often may be associated with medication (such as antidepressant, Beta-blockers, anticholinesterase \n" +
+                "^ inhibitors) or other neurological conditions (such as, dementia, Parkinson's disease, multiple system atrophy). Further \n" +
+                "^ diagnosis and management by psychiatrist or neurologist may be considered.";
             }
             // Suspect REM behavior disorder, provisionally (G47.52)
             else if(number === "27"){
                 dText.value = dText.value + dchangeLine + "Suspect REM behavior disorder, provisionally (G47.52).";
                 tText.value = tText.value + tchangeLine + 
                 "-- Suspect REM behavior disorder, provisionally (G47.52):\n" +
-                "# REM behavior disorder often may be associated with medication (such as antidepressant, Beta-blockers, \n" +
-                "^ anticholinesterase inhibitors) or other neurological conditions (such as, dementia, Parkinson's disease, \n" +
-                "^ multiple system atrophy). Further diagnosis and management by psychiatrist or neurologist may be \n" +
-                "^ considered.";
+                "# REM behavior disorder often may be associated with medication (such as antidepressant, Beta-blockers, anticholinesterase \n" +
+                "^ inhibitors) or other neurological conditions (such as, dementia, Parkinson's disease, multiple system atrophy). Further \n" +
+                "^ diagnosis and management by psychiatrist or neurologist may be considered.";
             }
-            // 改到這裡
             // Subclinical REM behavior disorder (G47.52)
             else if(number === "28"){
                 dText.value = dText.value + dchangeLine + "Subclinical REM behavior disorder (G47.52).";
                 tText.value = tText.value + tchangeLine + 
                 "-- Subclinical REM behavior disorder (G47.52):\n" +
                 "# Further clinical observation about dream-enacting behaviors should be followed. \n" +
-                "# REM sleep behavior without atonia (RSWA) often may be associated with medication (such as antidepressant, Beta-blockers, anticholinesterase inhibitors) or predisposing factors of other neurological conditions (such as, dementia, Parkinson's disease, multiple system atrophy). Further diagnosis and management by psychiatrist or neurologist may be considered.";
+                "# REM sleep behavior without atonia (RSWA) often may be associated with medication (such as antidepressant, Beta-blockers, \n" +
+                "^ anticholinesterase inhibitors) or predisposing factors of other neurological conditions (such as, dementia, Parkinson's disease, \n" +
+                "^ multiple system atrophy). Further diagnosis and management by psychiatrist or neurologist may be considered.";
             }
             // Suspect idiopathic REM behavior disorder (G47.52)
             else if(number === "29"){
                 dText.value = dText.value + dchangeLine + "Suspect idiopathic REM behavior disorder (G47.52).";
                 tText.value = tText.value + tchangeLine + 
                 "-- Suspect idiopathic REM behavior disorder (G47.52):\n" +
-                "# REM sleep behavior without atonia (RSWA) often may be associated with medication(such as antidepressant, Beta-blockers, anticholinesterase inhibitors) or predisposing factors of other neurological conditions (such as, dementia, Parkinson's disease, multiple system atrophy). Further diagnosis and management by psychiatrist or neurologist may be considered.";
+                "# REM sleep behavior without atonia (RSWA) often may be associated with medication (such as antidepressant, Beta-blockers, \n" +
+                "^ anticholinesterase inhibitors) or predisposing factors of other neurological conditions (such as, dementia, Parkinson's disease, \n" +
+                "^ multiple system atrophy). Further diagnosis and management by psychiatrist or neurologist may be considered.";
             }
             // Suspect nocturia (R35.1)
             else if(number === "30"){
@@ -694,34 +691,46 @@ class Diagnosis extends React.Component{
                 dText.value = dText.value + dchangeLine + "Suspect disorder of arousal from NREM Sleep.";
                 tText.value = tText.value + tchangeLine + 
                 "-- Suspect disorder of arousal from NREM Sleep:\n" +
-                "# (a)  Disorders of arousal from NREM sleep include confusional arousals, sleep walking and sleep terrors. However, other conditions that mimic the disorders of arousal should be ruled-out, such as:\n" +
-                "@ (i)  Neurologic condition (Seizures, Cluster headaches)\n" +
-                "@ (ii) Medical condition (Obstructive sleep apnea, Gastroesophageal reflux) \n" +
-                "@ (iii)Behavioral/Psychiatric condition (Conditioned arousals, Post-traumatic stress disorder, Nocturnal dissociative state, Nocturnal panic)\n" +
-                "@ (iv) Other sleep condition (Nightmares, Rhythmic movements of sleep, Rapid eye movement sleep behavior disorders, Periodic movements of sleep, Sleep deprivation, Irregular sleep-wake schedule)\n" +
-                "@ (v)  Evaluate the complete sleep history, arrange home videotapes, expanded EEG montage with continuous audiovisual monitoring and multiple night studies could be considered.\n" +
-                "# (b) The treatment in disorders of arousal from NREM sleep is often not necessary. Reassurance of their typically benign nature, lack of psychological significance, and the tendency to diminish over time, is often sufficient.\n" +
-                "# (c) Pharmacologic treatment such as tricyclic antidepressants and benzodiazepines may be effective, and they should be administered if the activity is dangerous to person or property or extremely disruptive to family members.\n" +
-                "# (d) Nonpharmacologic treatment such as psychotherapy, progressive relaxation, or hypnosis is recommended for long-term management. Sleep hygiene such as the avoidance of precipitants such as drugs and sleep deprivation is also important.";
+                "` (a) Disorders of arousal from NREM sleep include confusional arousals, sleep walking and sleep terrors. However, other \n" +
+                "^ conditions that mimic the disorders of arousal should be ruled-out, such as:\n" +
+                "| (i)   Neurologic condition (Seizures, Cluster headaches)\n" +
+                "| (ii)  Medical condition (Obstructive sleep apnea, Gastroesophageal reflux) \n" +
+                "| (iii) Behavioral/Psychiatric condition (Conditioned arousals, Post-traumatic stress disorder, Nocturnal dissociative state, \n" +
+                "^ Nocturnal panic)\n" +
+                "| (iv) Other sleep condition (Nightmares, Rhythmic movements of sleep, Rapid eye movement sleep behavior disorders, \n" +
+                "^ Periodic movements of sleep, Sleep deprivation, Irregular sleep-wake schedule)\n" +
+                "| (v)  Evaluate the complete sleep history, arrange home videotapes, expanded EEG montage with continuous audiovisual \n" +
+                "^ monitoring and multiple night studies could be considered.\n" +
+                "` (b) The treatment in disorders of arousal from NREM sleep is often not necessary. Reassurance of their typically benign \n" +
+                "^ nature, lack of psychological significance, and the tendency to diminish over time, is often sufficient.\n" +
+                "` (c) Pharmacologic treatment such as tricyclic antidepressants and benzodiazepines may be effective, and they should be \n" +
+                "^ administered if the activity is dangerous to person or property or extremely disruptive to family members.\n" +
+                "` (d) Nonpharmacologic treatment such as psychotherapy, progressive relaxation, or hypnosis is recommended for long-term \n" +
+                "^ management. Sleep hygiene such as the avoidance of precipitants such as drugs and sleep deprivation is also important.";
             }
             // Suspected sleep-related hypoventilation disorder (G47.36)
             else if(number === "33"){
                 dText.value = dText.value + dchangeLine + "Suspected sleep-related hypoventilation disorder (G47.36).";
                 tText.value = tText.value + tchangeLine + 
                 "-- Suspected sleep-related hypoventilation disorder (G47.36):\n" +
-                "# Classification of hypoventilation disorders: Primary (Congenital central alveolar hypoventilation syndrome, Idiopathic central alveolar hypoventilation); Secondary (Sleep-related hypoventilation due to a medication or substance, Sleep-related hypoventilation due to a medical disorder, Obesity hypoventilation syndrome, Late-onset central hypoventilation with hypothalamic dysfunction).\n" +
+                "# Classification of hypoventilation disorders: Primary (Congenital central alveolar hypoventilation syndrome, Idiopathic \n" +
+                "^ central alveolar hypoventilation); Secondary (Sleep-related hypoventilation due to a medication or substance, Sleep-related \n" +
+                "^ hypoventilation due to a medical disorder, Obesity hypoventilation syndrome, Late-onset central hypoventilation with \n" +
+                "^ hypothalamic dysfunction).\n" +
                 "@ (a) Chronic hypoventilation criteria: hypercapnia in wakefulness and sleep (PaCO2, Arterial carbon dioxide level ≧ 45 mmHg).\n" +
                 "@ (b) Obstructive lung diseases (Asthma, COPD) should be excluded by pulmonary function test.\n" +
                 "@ (c) Obesity-hypoventilation syndrome is most prevalent and treatable.\n" +
                 "@ (d) Other subtypes share common features and underlying disorders with central sleep apnea.\n" +
-                "@ (e) Body weight control and BiPAP are mainstay treatment. Respiratory stimulants like acetazolamide, medroxyprogesterone and theophylline could be considered.";
+                "@ (e) Body weight control and BiPAP are mainstay treatment. Respiratory stimulants like acetazolamide, medroxyprogesterone \n" +
+                "^ and theophylline could be considered.";
             }
             // Suspect Cheyne-Stokes Breathing
             else if(number === "34"){
                 dText.value = dText.value + dchangeLine + "Suspect Cheyne-Stokes Breathing.";
                 tText.value = tText.value + tchangeLine + 
                 "-- Suspect Cheyne-Stokes Breathing:\n" +
-                "# Treatment of positive airway pressure device / Adaptive Supportive Ventilation with suitable pressure is benefit for the patient's quality of life.";
+                "# Treatment of positive airway pressure device / Adaptive Supportive Ventilation with suitable pressure is benefit for the \n" +
+                "^ patient's quality of life.";
             }
         }
 
@@ -772,8 +781,8 @@ class Diagnosis extends React.Component{
                 {/* Diagnosis */}
                 <br/>
                 <div style={{width:"100%", fontSize:"20px"}}>
-                    <div style={{width:"1000px", margin:"0px auto"}}>
-                        <img src={quill} alt="diagnosis" onClick={this.diagnosisBox} style={{width:'30px', height:'30px', marginRight:'5px'}}/>
+                    <div onClick={this.diagnosisBox} style={{width:"1000px", margin:"0px auto"}}>
+                        <img src={quill} alt="diagnosis" style={{width:'30px', height:'30px', marginRight:'5px'}}/>
                         <span style={{fontWeight:"bold"}}>Diagnosis：</span>
                     </div>
                 </div>
@@ -781,7 +790,7 @@ class Diagnosis extends React.Component{
                     <table border="1" cellSpacing="0" cellPadding="3" style={{marginLeft:"auto", marginRight:"auto", width:"1000px"}}>
                         <tbody>
                             <tr>
-                                <td colSpan="4"><textarea id="diagnosisTextarea" style={{width:"968px", height:"300px", padding:"10px", fontSize:"16px"}}/></td>
+                                <td colSpan="4"><textarea id="diagnosisTextarea" style={{width:"968px", height:"300px", padding:"10px", fontSize:"18px", fontFamily:"Times New Roman"}}/></td>
                             </tr>
                         </tbody>
                     </table>
@@ -808,7 +817,7 @@ class Diagnosis extends React.Component{
                                     <option value="11" onDoubleClick={this.insertToSelected}>Mixed sleep apnea hypopnea, treated (G47.33, G47.37)</option>
                                     <option value="12" onDoubleClick={this.insertToSelected}>Poor sleep efficiency (G47.8)</option>
                                     <option value="13" onDoubleClick={this.insertToSelected}>Under treatment of CPAP</option>
-                                    <option value="14" onDoubleClick={this.insertToSelected}>Under treatment od oral appliance</option>
+                                    <option value="14" onDoubleClick={this.insertToSelected}>Under treatment of oral appliance</option>
                                     <option value="15" onDoubleClick={this.insertToSelected}>Treatment of myofunctional therapy</option>
                                     <option value="16" onDoubleClick={this.insertToSelected}>Treatment of body-weight control</option>
                                     <option value="17" onDoubleClick={this.insertToSelected}>Suspect periodic limb movement (G47.61)</option>
@@ -870,8 +879,8 @@ class Diagnosis extends React.Component{
                 {/* Suggestive Treatment and Planning */}
                 <br/>
                 <div style={{width:"100%", fontSize:"20px"}}>
-                    <div style={{width:"1000px", margin:"0px auto"}}>
-                        <img src={quill} alt="diagnosis" onClick={this.diagnosisBox} style={{width:'30px', height:'30px', marginRight:'5px'}}/>
+                    <div onClick={this.diagnosisBox} style={{width:"1000px", margin:"0px auto"}}>
+                        <img src={quill} alt="diagnosis" style={{width:'30px', height:'30px', marginRight:'5px'}}/>
                         <span style={{fontWeight:"bold"}}>Suggestive Treatment and Planning：</span>
                     </div>
                 </div>
@@ -879,7 +888,7 @@ class Diagnosis extends React.Component{
                     <table border="1" cellSpacing="0" cellPadding="3" style={{marginLeft:"auto", marginRight:"auto", width:"1000px"}}>
                         <tbody>
                             <tr>
-                                <td colSpan="4"><textarea id="treatmentTextarea" style={{width:"968px", height:"300px", padding:"10px", fontSize:"16px"}}/></td>
+                                <td colSpan="4"><textarea id="treatmentTextarea" style={{width:"968px", height:"300px", padding:"10px", fontSize:"18px" ,fontFamily:"Times New Roman"}}/></td>
                             </tr>
                             <tr>
                                 <td></td>

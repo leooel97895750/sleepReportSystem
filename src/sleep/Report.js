@@ -12,17 +12,24 @@ class Report extends React.Component{
         super(props);
         // 紀錄完整報告資料
         this.state = {
-            finalReportData: {},
+            finalReportData: {
+                EPartData: {},
+                GraphData: {},
+                DiagnosisData: {},
+                CPartData: {},
+            },
             getEPartData: 0,
             getGraphData: 0,
             getDiagnosisData: 0,
             getCPartData: 0,
         };
         this.updateEPartData = this.updateEPartData.bind(this);
+        this.updateGraphData = this.updateGraphData.bind(this);
+        this.updateDiagnosisData = this.updateDiagnosisData.bind(this);
+        this.updateCPartData = this.updateCPartData.bind(this);
     }
     // 偵測DataFlow呼叫回傳報告數值
     componentDidUpdate(prevProps){
-        
         
         // 呼叫 Dataflow 產生報告函式，並將完整報告資料傳入
         if(prevProps.getReport === 0 && this.props.getReport === 1){
@@ -38,9 +45,39 @@ class Report extends React.Component{
             this.props.downloadReport(this.state.finalReportData);
         }
     }
+
+    // getData的子元件回傳函式
     updateEPartData(EPartData){
-        this.setState({getEPartData: 0});
-        console.log(EPartData);
+        let finalReportData = this.state.finalReportData;
+        finalReportData.EPartData = EPartData;
+        this.setState({
+            getEPartData: 0,
+            finalReportData: finalReportData,
+        });
+    }
+    updateGraphData(GraphData){
+        let finalReportData = this.state.finalReportData;
+        finalReportData.GraphData = GraphData;
+        this.setState({
+            getGraphData: 0,
+            finalReportData: finalReportData,
+        });
+    }
+    updateDiagnosisData(DiagnosisData){
+        let finalReportData = this.state.finalReportData;
+        finalReportData.DiagnosisData = DiagnosisData;
+        this.setState({
+            getDiagnosisData: 0,
+            finalReportData: finalReportData,
+        });
+    }
+    updateCPartData(CPartData){
+        let finalReportData = this.state.finalReportData;
+        finalReportData.CPartData = CPartData;
+        this.setState({
+            getCPartData: 0,
+            finalReportData: finalReportData,
+        });
     }
 
     render(){
@@ -77,6 +114,7 @@ class Report extends React.Component{
                     <br/><br/>
                     <Graph 
                         getGraphData = {this.state.getGraphtData}
+                        updateGraphData = {this.updateGraphData}
                         eventsTime = {this.props.eventsTime}
                         eventsCount = {this.props.eventsCount}
                         startTime = {this.props.cfg.startTime}
@@ -92,6 +130,7 @@ class Report extends React.Component{
                     <br/><br/>
                     <Diagnosis 
                         getDiagnosisData = {this.state.getDiagnosisData}
+                        updateDiagnosisData = {this.updateDiagnosisData}
                         AHI = {((this.props.eventsCount.CA + this.props.eventsCount.MA + this.props.eventsCount.OA + this.props.eventsCount.OH) / ((this.props.epochNum - this.props.wake) / 2) * 60).toFixed(1)}
                         age = {this.props.cfg.age}
                         epochNum = {this.props.epochNum}
@@ -113,6 +152,7 @@ class Report extends React.Component{
                     {/* 中文版 */}
                     <CPart
                         getCPartData = {this.state.getCPartData}
+                        updateCPartData = {this.updateCPartData}
                         eventsCount = {this.props.eventsCount}
                         cfg = {this.props.cfg}
                         epochNum = {this.props.epochNum}

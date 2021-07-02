@@ -22,7 +22,20 @@ class Diagnosis extends React.Component{
     // 將報告資料傳回Report
     componentDidUpdate(prevProps){
         if(prevProps.getDiagnosisData === 0 && this.props.getDiagnosisData === 1){
+            let DiagnosisData = {
+                FriedmanStage: document.getElementById("d1").value,
+                TonsilSize: document.getElementById("d2").value,
+                FriedmanTonguePosition: document.getElementById("d3").value,
 
+                Technician: document.getElementById("d4").value,
+                TechnicianDate: document.getElementById("d5").textContent,
+
+                Physician: document.getElementById("d6").value,
+                PhysicianDate: document.getElementById("d7").textContent,
+                Disease: this.state.nowDiagnosis,
+                Treatment: this.state.nowTreatment,
+            };
+            this.props.updateDiagnosisData(DiagnosisData);
         }
     }
 
@@ -770,11 +783,11 @@ class Diagnosis extends React.Component{
                         <tbody>
                             <tr>
                                 <td width="20%">Friedman Stage: </td>
-                                <td width="15%"><input className="myInput write"/></td>
+                                <td width="15%"><input id="d1" className="myInput write"/></td>
                                 <td width="15%">Tonsil size: </td>
-                                <td width="10%"><input className="myInput write"/></td>
+                                <td width="10%"><input id="d2" className="myInput write"/></td>
                                 <td colSpan="2" width="25%">Friedman tongue position: </td>
-                                <td width="15%"><input className="myInput write"/></td>
+                                <td width="15%"><input id="d3" className="myInput write"/></td>
                             </tr>
                             <tr>
                                 <td colSpan="7"><textarea style={{width:"968px", height:"300px", padding:"10px"}}/></td>
@@ -782,8 +795,8 @@ class Diagnosis extends React.Component{
                             <tr>
                                 <td colSpan="4"></td>
                                 <td width="15%">Technician: </td>
-                                <td width="15%"><input className="myInput write"/></td>
-                                <td width="15%"></td>
+                                <td width="15%"><input id="d4" className="myInput write"/></td>
+                                <td width="15%"><span id="d5"></span></td>
                             </tr>
                         </tbody>
                     </table>
@@ -904,8 +917,8 @@ class Diagnosis extends React.Component{
                             <tr>
                                 <td></td>
                                 <td width="15%">Physician: </td>
-                                <td width="15%"><input className="myInput write"/></td>
-                                <td width="15%"></td>
+                                <td width="15%"><input id="d6" className="myInput write"/></td>
+                                <td width="15%"><span id="d7"></span></td>
                             </tr>
                         </tbody>
                     </table>

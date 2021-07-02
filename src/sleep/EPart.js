@@ -110,10 +110,7 @@ class EPart extends React.Component{
                 PLMI_R: document.getElementById("e86").textContent,
                 PLMI_N: document.getElementById("e87").textContent,
                 PLMI_T: document.getElementById("e88").textContent,
-
-
             };
-
             this.props.updateEPartData(EPartData);
         }
     }
@@ -236,7 +233,7 @@ class EPart extends React.Component{
                 <div style={{width:"100%", fontSize:"20px"}}>
                     <div style={{width:"1000px", margin:"0px auto"}}>
                         <span style={{fontWeight:"bold"}}>Sleep Stage：</span>
-                        <span>Start time at {this.props.cfg.startTime} ; End time at {this.props.cfg.endTime}</span>
+                        <span>Start time at <span id="e40">{this.props.cfg.startTime}</span> ; End time at <span id="e41">{this.props.cfg.endTime}</span></span>
                     </div>
                 </div>
 
@@ -244,27 +241,27 @@ class EPart extends React.Component{
                     <table border="1" cellSpacing="0" cellPadding="3" style={{marginLeft:"auto", marginRight:"auto", width:"1000px", whiteSpace: "nowrap"}}>
                         <tbody>
                             <tr>
-                                <td width="50%">Total record time(min)：<span>{this.props.cfg.totalRecordTime}</span></td>
-                                <td width="50%">Total sleep period(min)：<span>{((this.props.epochNum - this.props.sot) / 2).toFixed(1)}</span></td>
+                                <td width="50%">Total record time(min)：<span id="e42">{this.props.cfg.totalRecordTime}</span></td>
+                                <td width="50%">Total sleep period(min)：<span id="e43">{((this.props.epochNum - this.props.sot) / 2).toFixed(1)}</span></td>
                             </tr>
                             <tr>
-                                <td>Total sleep time(min)：<span>{((this.props.epochNum - this.props.wake) / 2).toFixed(1)}</span></td>
-                                <td>Awake time(min)：<span>{((this.props.wake - this.props.sot) / 2).toFixed(1)}</span></td>
+                                <td>Total sleep time(min)：<span id="e44">{((this.props.epochNum - this.props.wake) / 2).toFixed(1)}</span></td>
+                                <td>Awake time(min)：<span id="e45">{((this.props.wake - this.props.sot) / 2).toFixed(1)}</span></td>
                             </tr>
                             <tr>
-                                <td>Stage 1 (%)：<span>{((this.props.n1 / (this.props.n1 + this.props.n2 + this.props.n3 + this.props.rem)) * 100).toFixed(1)}</span></td>
-                                <td>REM (%)：<span>{((this.props.rem / (this.props.n1 + this.props.n2 + this.props.n3 + this.props.rem)) * 100).toFixed(1)}</span></td>
+                                <td>Stage 1 (%)：<span id="e46">{((this.props.n1 / (this.props.n1 + this.props.n2 + this.props.n3 + this.props.rem)) * 100).toFixed(1)}</span></td>
+                                <td>REM (%)：<span id="e47">{((this.props.rem / (this.props.n1 + this.props.n2 + this.props.n3 + this.props.rem)) * 100).toFixed(1)}</span></td>
                             </tr>
                             <tr>
-                                <td>Stage 2 (%)：<span>{((this.props.n2 / (this.props.n1 + this.props.n2 + this.props.n3 + this.props.rem)) * 100).toFixed(1)}</span></td>
-                                <td>Sleep Latency：<span>{(this.props.sot / 2).toFixed(1)}</span></td>
+                                <td>Stage 2 (%)：<span id="e48">{((this.props.n2 / (this.props.n1 + this.props.n2 + this.props.n3 + this.props.rem)) * 100).toFixed(1)}</span></td>
+                                <td>Sleep Latency：<span id="e49">{(this.props.sot / 2).toFixed(1)}</span></td>
                             </tr>
                             <tr>
-                                <td>Stage 3 (%)：<span>{((this.props.n3 / (this.props.n1 + this.props.n2 + this.props.n3 + this.props.rem)) * 100).toFixed(1)}</span></td>
-                                <td>Efficiency (%)：<span>{(((this.props.epochNum - this.props.wake) /this.props.epochNum) * 100).toFixed(1)}</span></td>
+                                <td>Stage 3 (%)：<span id="e50">{((this.props.n3 / (this.props.n1 + this.props.n2 + this.props.n3 + this.props.rem)) * 100).toFixed(1)}</span></td>
+                                <td>Efficiency (%)：<span id="e51">{(((this.props.epochNum - this.props.wake) /this.props.epochNum) * 100).toFixed(1)}</span></td>
                             </tr>
                             <tr>
-                                <td>Arousal Index (/h)：<span>{((evn.A1 + evn.A2 + evn.A3 + evn.A4) / ((this.props.epochNum - this.props.wake) / 2) * 60).toFixed(1)}</span></td>
+                                <td>Arousal Index (/h)：<span id="e52">{((evn.A1 + evn.A2 + evn.A3 + evn.A4) / ((this.props.epochNum - this.props.wake) / 2) * 60).toFixed(1)}</span></td>
                                 <td></td>
                             </tr>
                         </tbody>
@@ -283,24 +280,24 @@ class EPart extends React.Component{
                     <table border="1" cellSpacing="0" cellPadding="3" style={{marginLeft:"auto", marginRight:"auto", width:"1000px"}}>
                         <tbody>
                             <tr>
-                                <td width="50%">Obstructive apnea (counts)：<span>{evn.OA}</span></td>
-                                <td width="50%">Total duration (min)：<span>{(evn.TOA / 60)}</span></td>
+                                <td width="50%">Obstructive apnea (counts)：<span id="e53">{evn.OA}</span></td>
+                                <td width="50%">Total duration (min)：<span id="e54">{(evn.TOA / 60)}</span></td>
                             </tr>
                             <tr>
-                                <td>Central apnea (counts)：<span>{evn.CA}</span></td>
-                                <td>Total duration (min)：<span>{(evn.TCA / 60)}</span></td>
+                                <td>Central apnea (counts)：<span id="e55">{evn.CA}</span></td>
+                                <td>Total duration (min)：<span id="e56">{(evn.TCA / 60)}</span></td>
                             </tr>
                             <tr>
-                                <td>Mixed apnea (counts)：<span>{evn.MA}</span></td>
-                                <td>Total duration (min)：<span>{(evn.TMA / 60)}</span></td>
+                                <td>Mixed apnea (counts)：<span id="e57">{evn.MA}</span></td>
+                                <td>Total duration (min)：<span id="e58">{(evn.TMA / 60)}</span></td>
                             </tr>
                             <tr>
-                                <td>Hypopnea (counts)：<span>{evn.OH}</span></td>
-                                <td>Total duration (min)：<span>{(evn.TOH / 60)}</span></td>
+                                <td>Hypopnea (counts)：<span id="e59">{evn.OH}</span></td>
+                                <td>Total duration (min)：<span id="e60">{(evn.TOH / 60)}</span></td>
                             </tr>
                             <tr>
-                                <td>Longest apnea (sec)：<span>{evn.LA}</span></td>
-                                <td>Longest hypopnea (sec)：<span>{evn.LH}</span></td>
+                                <td>Longest apnea (sec)：<span id="e61">{evn.LA}</span></td>
+                                <td>Longest hypopnea (sec)：<span id="e62">{evn.LH}</span></td>
                             </tr>
                         </tbody>
                     </table>
@@ -318,12 +315,12 @@ class EPart extends React.Component{
                     <table border="1" cellSpacing="0" cellPadding="3" style={{marginLeft:"auto", marginRight:"auto", width:"1000px"}}>
                         <tbody>
                             <tr>
-                                <td width="50%">Mean SpO2 (%)：<span>{(evn.SPDS / evn.SPD).toFixed(1)}</span></td>
-                                <td width="50%">Mean desaturation (%)：<span>{(evn.SD / evn.SPD).toFixed(1)}</span></td>
+                                <td width="50%">Mean SpO2 (%)：<span id="e63">{(evn.SPDS / evn.SPD).toFixed(1)}</span></td>
+                                <td width="50%">Mean desaturation (%)：<span id="e64">{(evn.SD / evn.SPD).toFixed(1)}</span></td>
                             </tr>
                             <tr>
-                                <td>Minimum SpO2 (%)：<span>{evn.MSPD}</span></td>
-                                <td>ODI (/h)：<span>{((evn.SPD) / ((this.props.epochNum - this.props.wake) / 2) * 60).toFixed(1)}</span></td>
+                                <td>Minimum SpO2 (%)：<span id="e65">{evn.MSPD}</span></td>
+                                <td>ODI (/h)：<span id="e66">{((evn.SPD) / ((this.props.epochNum - this.props.wake) / 2) * 60).toFixed(1)}</span></td>
                             </tr>
                         </tbody>
                     </table>
@@ -341,8 +338,8 @@ class EPart extends React.Component{
                     <table border="1" cellSpacing="0" cellPadding="3" style={{marginLeft:"auto", marginRight:"auto", width:"1000px"}}>
                         <tbody>
                             <tr>
-                                <td width="50%">Total (counts)：<span>{evn.SNORE}</span></td>
-                                <td width="50%">Snore Index (/h)：<span>{((evn.SNORE) / ((this.props.epochNum - this.props.wake) / 2) * 60).toFixed(1)}</span></td>
+                                <td width="50%">Total (counts)：<span id="e67">{evn.SNORE}</span></td>
+                                <td width="50%">Snore Index (/h)：<span id="e68">{((evn.SNORE) / ((this.props.epochNum - this.props.wake) / 2) * 60).toFixed(1)}</span></td>
                             </tr>
                         </tbody>
                     </table>
@@ -367,21 +364,21 @@ class EPart extends React.Component{
                             </tr>
                             <tr>
                                 <td>Mean heart rate</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td><span id="e69"></span></td>
+                                <td><span id="e70"></span></td>
+                                <td><span id="e71"></span></td>
                             </tr>
                             <tr>
                                 <td>Lowest heart rate</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td><span id="e72"></span></td>
+                                <td><span id="e73"></span></td>
+                                <td><span id="e74"></span></td>
                             </tr>
                             <tr>
                                 <td>Hightest heart rate</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td><span id="e75"></span></td>
+                                <td><span id="e76"></span></td>
+                                <td><span id="e77"></span></td>
                             </tr>
                         </tbody>
                     </table>
@@ -399,8 +396,8 @@ class EPart extends React.Component{
                     <table border="1" cellSpacing="0" cellPadding="3" style={{marginLeft:"auto", marginRight:"auto", width:"1000px"}}>
                         <tbody>
                             <tr>
-                                <td width="50%">Mean Heart Rate：</td>
-                                <td width="50%">Minimum Heart Rate：</td>
+                                <td width="50%">Mean Heart Rate：<span id="e78"></span></td>
+                                <td width="50%">Minimum Heart Rate：<span id="e79"></span></td>
                             </tr>
                         </tbody>
                     </table>
@@ -419,21 +416,21 @@ class EPart extends React.Component{
                         <tbody>
                             <tr>
                                 <td width="40%">Total Number of Limb Movements</td>
-                                <td width="20%">REM：</td>
-                                <td width="20%">NREM：</td>
-                                <td width="20%">Total：</td>
+                                <td width="20%">REM：<span id="e80"></span></td>
+                                <td width="20%">NREM：<span id="e81"></span></td>
+                                <td width="20%">Total：<span id="e82"></span></td>
                             </tr>
                             <tr>
                                 <td>Number of Periodic Leg Movements(PLM)</td>
-                                <td>REM：</td>
-                                <td>NREM：</td>
-                                <td>Total：</td>
+                                <td>REM：<span id="e83"></span></td>
+                                <td>NREM：<span id="e84"></span></td>
+                                <td>Total：<span id="e85"></span></td>
                             </tr>
                             <tr>
                                 <td>PLM Index</td>
-                                <td>REM：</td>
-                                <td>NREM：</td>
-                                <td>Total：</td>
+                                <td>REM：<span id="e86"></span></td>
+                                <td>NREM：<span id="e87"></span></td>
+                                <td>Total：<span id="e88"></span></td>
                             </tr>
                         </tbody>
                     </table>

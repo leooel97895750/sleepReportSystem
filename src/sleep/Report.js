@@ -113,7 +113,7 @@ class Report extends React.Component{
                     {/* Graphic summary */}
                     <br/><br/>
                     <Graph 
-                        getGraphData = {this.state.getGraphtData}
+                        getGraphData = {this.state.getGraphData}
                         updateGraphData = {this.updateGraphData}
                         eventsTime = {this.props.eventsTime}
                         eventsCount = {this.props.eventsCount}

@@ -14,14 +14,27 @@ class Graph extends React.Component{
     componentDidMount(){
         this.updateCanvas();
     }
-    componentDidUpdate(prevProps){
-        this.updateCanvas();
 
+    componentDidUpdate(prevProps){
         // 將報告資料傳回Report
         if(prevProps.getGraphData === 0 && this.props.getGraphData === 1){
-
+            let GraphData = {
+                Baseline: document.getElementById("bCanvas").toDataURL('image/png'),
+                Hypnogram: document.getElementById("hCanvas").toDataURL('image/png'),
+                Event: document.getElementById("rCanvas").toDataURL('image/png'),
+                BodyPosition: document.getElementById("bpCanvas").toDataURL('image/png'),
+                HeartRate: document.getElementById("hrCanvas").toDataURL('image/png'),
+                SaO2: document.getElementById("smgCanvas").toDataURL('image/png'),
+                Sound: document.getElementById("sCanvas").toDataURL('image/png'),
+                PLM: document.getElementById("plmCanvas").toDataURL('image/png'),
+            };
+            this.props.updateGraphData(GraphData);
+        }
+        else{
+            this.updateCanvas();
         }
     }
+
     // 左邊為Label，右邊根據時間劃分區間
     updateCanvas(){
 

@@ -37,6 +37,7 @@ class EPart extends React.Component{
                 BP_S: document.getElementById("e21").value,
                 BP_W: document.getElementById("e22").value,
                 SleepQuality: document.getElementById("e23").value,
+
                 AHI: document.getElementById("e24").textContent,
                 AI: document.getElementById("e25").textContent,
                 HI: document.getElementById("e26").textContent,
@@ -53,6 +54,63 @@ class EPart extends React.Component{
                 AHI_REM_NSupine: document.getElementById("e37").textContent,
                 AHI_NREM_Supine: document.getElementById("e38").textContent,
                 AHI_NREM_NSupine: document.getElementById("e39").textContent,
+
+                StartTime: document.getElementById("e40").textContent,
+                EndTime: document.getElementById("e41").textContent,
+                TotalRecordTime: document.getElementById("e42").textContent,
+                TotalSleepPeriod: document.getElementById("e43").textContent,
+                TotalSleepTime: document.getElementById("e44").textContent,
+                AwakeTime: document.getElementById("e45").textContent,
+                Stage1: document.getElementById("e46").textContent,
+                REM: document.getElementById("e47").textContent,
+                Stage2: document.getElementById("e48").textContent,
+                SleepLatency: document.getElementById("e49").textContent,
+                Stage3: document.getElementById("e50").textContent,
+                Efficiency: document.getElementById("e51").textContent,
+                ArousalIndex: document.getElementById("e52").textContent,
+
+                OA: document.getElementById("e53").textContent,
+                OAT: document.getElementById("e54").textContent,
+                CA: document.getElementById("e55").textContent,
+                CAT: document.getElementById("e56").textContent,
+                MA: document.getElementById("e57").textContent,
+                MAT: document.getElementById("e58").textContent,
+                HA: document.getElementById("e59").textContent,
+                HAT: document.getElementById("e60").textContent,
+                LA: document.getElementById("e61").textContent,
+                LH: document.getElementById("e62").textContent,
+
+                MeanSpO2: document.getElementById("e63").textContent,
+                MeanDesat: document.getElementById("e64").textContent,
+                MinSpO2: document.getElementById("e65").textContent,
+                ODI: document.getElementById("e66").textContent,
+
+                Snore: document.getElementById("e67").textContent,
+                SnoreIndex: document.getElementById("e68").textContent,
+
+                MS: document.getElementById("e69").textContent,
+                MR: document.getElementById("e70").textContent,
+                MN: document.getElementById("e71").textContent,
+                LS: document.getElementById("e72").textContent,
+                LR: document.getElementById("e73").textContent,
+                LN: document.getElementById("e74").textContent,
+                HS: document.getElementById("e75").textContent,
+                HR: document.getElementById("e76").textContent,
+                HN: document.getElementById("e77").textContent,
+
+                MeanHR: document.getElementById("e78").textContent,
+                MinHR: document.getElementById("e79").textContent,
+
+                LM_R: document.getElementById("e80").textContent,
+                LM_N: document.getElementById("e81").textContent,
+                LM_T: document.getElementById("e82").textContent,
+                PLM_R: document.getElementById("e83").textContent,
+                PLM_N: document.getElementById("e84").textContent,
+                PLM_T: document.getElementById("e85").textContent,
+                PLMI_R: document.getElementById("e86").textContent,
+                PLMI_N: document.getElementById("e87").textContent,
+                PLMI_T: document.getElementById("e88").textContent,
+
 
             };
 

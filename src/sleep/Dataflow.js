@@ -415,25 +415,42 @@ class Dataflow extends React.Component{
             getReport: 0,
         })
         console.log(reportData);
-        var xhr = new XMLHttpRequest();
-        xhr.open('post', "http://140.116.245.43:3000/word");
-        xhr.setRequestHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document; charset=UTF-8')
-        xhr.responseType = 'blob'; //以blob的形式接收資料，一般檔案內容比較大
-        xhr.onload = function(e) {
-            var blob = this.response; //Blob資料
-            if (this.status === 200) {
-                if (blob && blob.size > 0) {
-                    let element = document.createElement('a');
-                    element.setAttribute('href', URL.createObjectURL(blob));
-                    element.setAttribute('download', 'test.docx');
-                    document.body.appendChild(element);
-                    element.click();
+        
+        //儲存圖片在server上
+        let xhr = new XMLHttpRequest();
+        xhr.open("post", "http://140.116.245.43:3000/graph");
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.onload = () => {
+            console.log(xhr.response);
+            let timestamp = xhr.response;
+            reportData.timestamp = timestamp;
+
+            // 圖片儲存完成後將timestamp傳入產生WORD
+            let xhr2 = new XMLHttpRequest();
+            xhr2.open('post', "http://140.116.245.43:3000/word");
+            xhr2.setRequestHeader('Content-Type', 'application/json');
+            xhr2.responseType = 'blob'; //以blob的形式接收資料，一般檔案內容比較大
+            xhr2.onload = () => {
+                var blob = xhr2.response; //Blob資料
+                if (xhr2.status === 200) {
+                    if (blob && blob.size > 0) {
+                        let element = document.createElement('a');
+                        element.setAttribute('href', URL.createObjectURL(blob));
+                        element.setAttribute('download', 'test.docx');
+                        document.body.appendChild(element);
+                        element.click();
+                    } 
                 } 
-            } 
-        };
-        let data = new FormData();
-        data.append('file', reportData);
-        xhr.send(data)
+            };
+            let data2 = JSON.stringify(reportData);
+            xhr2.send(data2);
+
+        }
+        xhr.onerror = function() {
+            console.log('error');
+        }
+        let data = JSON.stringify(reportData.GraphData);
+        xhr.send(data);
     }
 
 

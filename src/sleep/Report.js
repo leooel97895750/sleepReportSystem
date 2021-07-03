@@ -34,15 +34,18 @@ class Report extends React.Component{
         // 呼叫 Dataflow 產生報告函式，並將完整報告資料傳入
         if(prevProps.getReport === 0 && this.props.getReport === 1){
             // EPart資料
-            this.setState({getEPartData: 1});
-            // Graph資料
-            this.setState({getGraphData: 1});
-            // Diagnosis資料
-            this.setState({getDiagnosisData: 1});
-            // CPart資料
-            this.setState({getCPartData: 1});
-
-            this.props.downloadReport(this.state.finalReportData);
+            this.setState({getEPartData: 1}, () => {
+                // Graph資料
+                this.setState({getGraphData: 1}, () => {
+                    // Diagnosis資料
+                    this.setState({getDiagnosisData: 1}, () => {
+                        // CPart資料
+                        this.setState({getCPartData: 1}, () => {
+                            this.props.downloadReport(this.state.finalReportData);
+                        });
+                    });
+                });
+            });
         }
     }
 

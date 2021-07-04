@@ -154,8 +154,8 @@ class EPart extends React.Component{
                                 <td colSpan="4" width="20%">Weight(kg)：<span id="e9">{this.props.cfg.weight}</span></td>
                                 <td colSpan="3" width="15%">BMI：<span id="e10">{this.props.cfg.bmi}</span></td>
                                 <td colSpan="3" width="15%">Neck(cm)：<span id="e11">{this.props.cfg.neck}</span></td>
-                                <td colSpan="3" width="15%"><div className="write" style={{overflow:"hidden"}}>Waist(cm)：<input id="e12" className="myInput"/></div></td>
-                                <td colSpan="3" width="15%"><div className="write" style={{overflow:"hidden"}}>Hip(cm)：<input id="e13" className="myInput"/></div></td>
+                                <td colSpan="3" width="15%"><div style={{overflow:"hidden"}}>Waist(cm)：<input id="e12" className="myInput write"/></div></td>
+                                <td colSpan="3" width="15%"><div style={{overflow:"hidden"}}>Hip(cm)：<input id="e13" className="myInput write"/></div></td>
                             </tr>
                         </tbody>
                     </table>
@@ -164,12 +164,12 @@ class EPart extends React.Component{
                     <table border="1" cellSpacing="0" cellPadding="3" style={{marginLeft:"auto", marginRight:"auto", width:"1000px", whiteSpace: "nowrap"}}>
                         <tbody>
                             <tr>
-                                <td colSpan="4" width="20%"><div className="write" style={{overflow:"hidden"}}>HADS(A/D)：<input id="e14" className="myInput"/></div></td>
-                                <td colSpan="4" width="20%"><div className="write" style={{overflow:"hidden"}}>ESS：<input id="e15" className="myInput"/></div></td>
-                                <td colSpan="3" width="15%"><div className="write" style={{overflow:"hidden"}}>PSQI：<input id="e16" className="myInput"/></div></td>
-                                <td colSpan="3" width="15%"><div className="write" style={{overflow:"hidden"}}>SOS：<input id="e17" className="myInput"/></div></td>
-                                <td colSpan="3" width="15%"><div className="write" style={{overflow:"hidden"}}>THI：<input id="e18" className="myInput"/></div></td>
-                                <td colSpan="3" width="15%"><div className="write" style={{overflow:"hidden"}}>GERD-Q：<input id="e19" className="myInput"/></div></td>
+                                <td colSpan="4" width="20%"><div style={{overflow:"hidden"}}>HADS(A/D)：<input id="e14" className="myInput write"/></div></td>
+                                <td colSpan="4" width="20%"><div style={{overflow:"hidden"}}>ESS：<input id="e15" className="myInput write"/></div></td>
+                                <td colSpan="3" width="15%"><div style={{overflow:"hidden"}}>PSQI：<input id="e16" className="myInput write"/></div></td>
+                                <td colSpan="3" width="15%"><div style={{overflow:"hidden"}}>SOS：<input id="e17" className="myInput write"/></div></td>
+                                <td colSpan="3" width="15%"><div style={{overflow:"hidden"}}>THI：<input id="e18" className="myInput write"/></div></td>
+                                <td colSpan="3" width="15%"><div style={{overflow:"hidden"}}>GERD-Q：<input id="e19" className="myInput write"/></div></td>
                             </tr>
                         </tbody>
                     </table>
@@ -178,10 +178,10 @@ class EPart extends React.Component{
                     <table border="1" cellSpacing="0" cellPadding="3" style={{marginLeft:"auto", marginRight:"auto", width:"1000px", whiteSpace: "nowrap"}}>
                         <tbody>
                             <tr>
-                                <td colSpan="5" width="25%"><div className="write" style={{overflow:"hidden"}}>WHO(Phy/Psy)：<input id="e20" className="myInput"/></div></td>
-                                <td colSpan="5" width="25%"><div className="write" style={{overflow:"hidden"}}>BP(S)(mmHg)：<input id="e21" className="myInput"/></div></td>
-                                <td colSpan="5" width="25%"><div className="write" style={{overflow:"hidden"}}>BP(W)(mmHg)：<input id="e22" className="myInput"/></div></td>
-                                <td colSpan="5" width="25%"><div className="write" style={{overflow:"hidden"}}>Subjective sleep quality：<input id="e23" className="myInput"/></div></td>
+                                <td colSpan="5" width="25%"><div style={{overflow:"hidden"}}>WHO(Phy/Psy)：<input id="e20" className="myInput write"/></div></td>
+                                <td colSpan="5" width="25%"><div style={{overflow:"hidden"}}>BP(S)(mmHg)：<input id="e21" className="myInput write"/></div></td>
+                                <td colSpan="5" width="25%"><div style={{overflow:"hidden"}}>BP(W)(mmHg)：<input id="e22" className="myInput write"/></div></td>
+                                <td colSpan="5" width="25%"><div style={{overflow:"hidden"}}>Subjective sleep quality：<input id="e23" className="myInput write"/></div></td>
                             </tr>
                         </tbody>
                     </table>

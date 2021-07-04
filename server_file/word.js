@@ -75,6 +75,23 @@ router.post('/word', function(req, res, next) {
         g7: "./graphs/Sound" + ts + ".png",
         g8: "./graphs/PLM" + ts + ".png",
 
+        d1: dData.FriedmanStage, d2: dData.TonsilSize, d3: dData.FriedmanTonguePosition, d4: dData.Technician, d5: dData.TechnicianDate,
+        d6: dData.Physician, d7: dData.PhysicianDate,
+        Disease: dData.Disease,
+        Treatment: dData.Treatment,
+
+        c1: cData.StudyDate, c2: cData.Name, c3: cData.Age, c4: cData.PatientID, c5: cData.Sex,
+        c6: cData.DOB, c7: cData.Height, c8: cData.Weight, c9: cData.BMI, c10: cData.Neck,
+        c11: cData.Waist, c12: cData.Hip, c13: cData.AHI, c14: cData.AI, c15: cData.HI,
+        c16: cData.OI, c17: cData.CI, c18: cData.AHI_REM, c19: cData.AHI_NREM, c20: cData.AHI_SUPINE,
+        c21: cData.AHI_Supine, c22: cData.AHI_NSupine, c23: cData.StartTime, c24: cData.EndTime, c25: cData.TotalRecordTime,
+        c26: cData.TotalSleepPeriod, c27: cData.TotalSleepTime, c28: cData.AwakeTime, c29: cData.Stage1, c30: cData.Stage2,
+        c31: cData.Stage2, c32: cData.SleepLatency, c33: cData.Stage3, c34: cData.Efficiency, c35: cData.ArousalIndex,
+        c36: cData.OA, c37: cData.OAT, c38: cData.CA, c39: cData.CAT, c40: cData.MA,
+        c41: cData.MAT, c42: cData.HA, c43: cData.HAT, c44: cData.LA, c45: cData.LH,
+        c46: cData.MeanSpO2, c47: cData.MeanDesat, c48: cData.MinSpO2, c49: cData.SpO2, c50: cData.Snore,
+        c51: cData.SnoreIndex,
+
     });
 
     doc.render();

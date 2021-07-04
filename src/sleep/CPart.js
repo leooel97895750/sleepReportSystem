@@ -23,8 +23,8 @@ class CPart extends React.Component{
                 Weight: document.getElementById("c8").textContent,
                 BMI: document.getElementById("c9").textContent,
                 Neck: document.getElementById("c10").textContent,
-                Waist: document.getElementById("c11").value,
-                Hip: document.getElementById("c12").value,
+                Waist: document.getElementById("c11").textContent,
+                Hip: document.getElementById("c12").textContent,
 
                 AHI: document.getElementById("c13").textContent,
                 AI: document.getElementById("c14").textContent,
@@ -32,41 +32,43 @@ class CPart extends React.Component{
                 OI: document.getElementById("c16").textContent,
                 CI: document.getElementById("c17").textContent,
                 MI: document.getElementById("c18").textContent,
-                AHI_REM_NREM: document.getElementById("c19").textContent,
-                AHI_SUPINE_NSupine: document.getElementById("c20").textContent,
+                AHI_REM: document.getElementById("c19").textContent,
+                AHI_NREM: document.getElementById("c20").textContent,
+                AHI_Supine: document.getElementById("c21").textContent,
+                AHI_NSupine: document.getElementById("c22").textContent,
 
-                StartTime: document.getElementById("c21").textContent,
-                EndTime: document.getElementById("c22").textContent,
-                TotalRecordTime: document.getElementById("c23").textContent,
-                TotalSleepPeriod: document.getElementById("c24").textContent,
-                TotalSleepTime: document.getElementById("c25").textContent,
-                AwakeTime: document.getElementById("c26").textContent,
-                Stage1: document.getElementById("c27").textContent,
-                REM: document.getElementById("c28").textContent,
-                Stage2: document.getElementById("c29").textContent,
-                SleepLatency: document.getElementById("c30").textContent,
-                Stage3: document.getElementById("c31").textContent,
-                Efficiency: document.getElementById("c32").textContent,
-                ArousalIndex: document.getElementById("c33").textContent,
+                StartTime: document.getElementById("c23").textContent,
+                EndTime: document.getElementById("c24").textContent,
+                TotalRecordTime: document.getElementById("c25").textContent,
+                TotalSleepPeriod: document.getElementById("c26").textContent,
+                TotalSleepTime: document.getElementById("c27").textContent,
+                AwakeTime: document.getElementById("c28").textContent,
+                Stage1: document.getElementById("c29").textContent,
+                REM: document.getElementById("c30").textContent,
+                Stage2: document.getElementById("c31").textContent,
+                SleepLatency: document.getElementById("c32").textContent,
+                Stage3: document.getElementById("c33").textContent,
+                Efficiency: document.getElementById("c34").textContent,
+                ArousalIndex: document.getElementById("c35").textContent,
 
-                OA: document.getElementById("c34").textContent,
-                OAT: document.getElementById("c35").textContent,
-                CA: document.getElementById("c36").textContent,
-                CAT: document.getElementById("c37").textContent,
-                MA: document.getElementById("c38").textContent,
-                MAT: document.getElementById("c39").textContent,
-                HA: document.getElementById("c40").textContent,
-                HAT: document.getElementById("c41").textContent,
-                LA: document.getElementById("c42").textContent,
-                LH: document.getElementById("c43").textContent,
+                OA: document.getElementById("c36").textContent,
+                OAT: document.getElementById("c37").textContent,
+                CA: document.getElementById("c38").textContent,
+                CAT: document.getElementById("c39").textContent,
+                MA: document.getElementById("c40").textContent,
+                MAT: document.getElementById("c41").textContent,
+                HA: document.getElementById("c42").textContent,
+                HAT: document.getElementById("c43").textContent,
+                LA: document.getElementById("c44").textContent,
+                LH: document.getElementById("c45").textContent,
 
-                MeanSpO2: document.getElementById("c44").textContent,
-                MeanDesat: document.getElementById("c45").textContent,
-                MinSpO2: document.getElementById("c46").textContent,
-                SpO2: document.getElementById("c47").textContent,
+                MeanSpO2: document.getElementById("c46").textContent,
+                MeanDesat: document.getElementById("c47").textContent,
+                MinSpO2: document.getElementById("c48").textContent,
+                SpO2: document.getElementById("c49").textContent,
 
-                Snore: document.getElementById("c48").textContent,
-                SnoreIndex: document.getElementById("c49").textContent,
+                Snore: document.getElementById("c50").textContent,
+                SnoreIndex: document.getElementById("c51").textContent,
 
             };
             this.props.updateCPartData(CPartData);
@@ -137,10 +139,10 @@ class CPart extends React.Component{
                                 <td colSpan="2">混和型呼吸中止指數：<span id="c18">{(evn.MA / ((this.props.epochNum - this.props.wake) / 2) * 60).toFixed(1)}</span></td>                           
                             </tr>
                             <tr>
-                                <td colSpan="6">呼吸中止和淺呼吸指數(快速動眼期/非快速動眼期)：<span id="c19"></span></td>
+                                <td colSpan="6">呼吸中止和淺呼吸指數(快速動眼期/非快速動眼期)：<span id="c19">1</span>/小時 / <span id="c20">1</span>/小時</td>
                             </tr>
                             <tr>
-                                <td colSpan="6">呼吸中止和淺呼吸指數(平躺/非平躺)：<span id="c20"></span></td>
+                                <td colSpan="6">呼吸中止和淺呼吸指數(平躺/非平躺)：<span id="c21">1</span>/小時 / <span id="c22">1</span>/小時</td>
                             </tr>
 
                         </tbody>
@@ -152,7 +154,7 @@ class CPart extends React.Component{
                 <div style={{width:"100%", fontSize:"20px"}}>
                     <div style={{width:"1000px", margin:"0px auto"}}>
                         <span style={{fontWeight:"bold"}}>睡眠分期：</span>
-                        <span>開始記錄時間 <span id="c21">{this.props.cfg.startTime}</span> ; 結束紀錄時間 <span id="c22">{this.props.cfg.endTime}</span></span>
+                        <span>開始記錄時間 <span id="c23">{this.props.cfg.startTime}</span> ; 結束紀錄時間 <span id="c24">{this.props.cfg.endTime}</span></span>
                     </div>
                 </div>
 
@@ -161,37 +163,37 @@ class CPart extends React.Component{
                         <tbody>
                             <tr>
                                 <td width="20%">全部記錄時間(分鐘)：</td>
-                                <td width="30%"><span id="c23">{this.props.cfg.totalRecordTime}</span></td>
+                                <td width="30%"><span id="c25">{this.props.cfg.totalRecordTime}</span></td>
                                 <td width="20%">睡眠時間(分鐘)：</td>
-                                <td width="30%"><span id="c24">{((this.props.epochNum - this.props.sot) / 2).toFixed(1)}</span></td>
+                                <td width="30%"><span id="c26">{((this.props.epochNum - this.props.sot) / 2).toFixed(1)}</span></td>
                             </tr>
                             <tr>
                                 <td>全部睡眠時間(分鐘)：</td>
-                                <td><span id="c25">{((this.props.epochNum - this.props.wake) / 2).toFixed(1)}</span></td>
+                                <td><span id="c27">{((this.props.epochNum - this.props.wake) / 2).toFixed(1)}</span></td>
                                 <td>清醒時間(分鐘)：</td>
-                                <td><span id="c26">{((this.props.wake - this.props.sot) / 2).toFixed(1)}</span></td>
+                                <td><span id="c28">{((this.props.wake - this.props.sot) / 2).toFixed(1)}</span></td>
                             </tr>
                             <tr>
                                 <td>睡眠第一期(%)：</td>
-                                <td><span id="c27">{((this.props.n1 / (this.props.n1 + this.props.n2 + this.props.n3 + this.props.rem)) * 100).toFixed(1)}</span></td>
+                                <td><span id="c29">{((this.props.n1 / (this.props.n1 + this.props.n2 + this.props.n3 + this.props.rem)) * 100).toFixed(1)}</span></td>
                                 <td>快速動眼期(%)：</td>
-                                <td><span id="c28">{((this.props.rem / (this.props.n1 + this.props.n2 + this.props.n3 + this.props.rem)) * 100).toFixed(1)}</span></td>
+                                <td><span id="c30">{((this.props.rem / (this.props.n1 + this.props.n2 + this.props.n3 + this.props.rem)) * 100).toFixed(1)}</span></td>
                             </tr>
                             <tr>
                                 <td>睡眠第二期(%)：</td>
-                                <td><span id="c29">{((this.props.n2 / (this.props.n1 + this.props.n2 + this.props.n3 + this.props.rem)) * 100).toFixed(1)}</span></td>
+                                <td><span id="c31">{((this.props.n2 / (this.props.n1 + this.props.n2 + this.props.n3 + this.props.rem)) * 100).toFixed(1)}</span></td>
                                 <td>入睡時間(分鐘)：</td>
-                                <td><span id="c30">{(this.props.sot / 2).toFixed(1)}</span></td>
+                                <td><span id="c32">{(this.props.sot / 2).toFixed(1)}</span></td>
                             </tr>
                             <tr>
                                 <td>睡眠第三期(%)：</td>
-                                <td><span id="c31">{((this.props.n3 / (this.props.n1 + this.props.n2 + this.props.n3 + this.props.rem)) * 100).toFixed(1)}</span></td>
+                                <td><span id="c33">{((this.props.n3 / (this.props.n1 + this.props.n2 + this.props.n3 + this.props.rem)) * 100).toFixed(1)}</span></td>
                                 <td>睡眠效率(%)：</td>
-                                <td><span id="c32">{(((this.props.epochNum - this.props.wake) /this.props.epochNum) * 100).toFixed(1)}</span></td>
+                                <td><span id="c34">{(((this.props.epochNum - this.props.wake) /this.props.epochNum) * 100).toFixed(1)}</span></td>
                             </tr>
                             <tr>
                                 <td>覺醒指數(/小時)：</td>
-                                <td><span id="c33"></span></td>
+                                <td><span id="c35"></span></td>
                                 <td colSpan="2"></td>
                             </tr>
                         </tbody>
@@ -211,33 +213,33 @@ class CPart extends React.Component{
                         <tbody>
                             <tr>
                                 <td width="20%">阻塞行呼吸中止：</td>
-                                <td width="30%"><span id="c34">{evn.OA}</span></td>
+                                <td width="30%"><span id="c36">{evn.OA}</span></td>
                                 <td width="20%">總發生時間：</td>
-                                <td width="30%"><span id="c35"></span></td>
+                                <td width="30%"><span id="c37"></span></td>
                             </tr>
                             <tr>
                                 <td>中樞型呼吸中止：</td>
-                                <td><span id="c36">{evn.CA}</span></td>
-                                <td>總發生時間：</td>
-                                <td><span id="c37"></span></td>
-                            </tr>
-                            <tr>
-                                <td>混和型呼吸中止：</td>
-                                <td><span id="c38">{evn.MA}</span></td>
+                                <td><span id="c38">{evn.CA}</span></td>
                                 <td>總發生時間：</td>
                                 <td><span id="c39"></span></td>
                             </tr>
                             <tr>
-                                <td>淺呼吸：</td>
-                                <td><span id="c40">{evn.OH}</span></td>
+                                <td>混和型呼吸中止：</td>
+                                <td><span id="c40">{evn.MA}</span></td>
                                 <td>總發生時間：</td>
                                 <td><span id="c41"></span></td>
                             </tr>
                             <tr>
+                                <td>淺呼吸：</td>
+                                <td><span id="c42">{evn.OH}</span></td>
+                                <td>總發生時間：</td>
+                                <td><span id="c43"></span></td>
+                            </tr>
+                            <tr>
                                 <td>最長的呼吸中止：</td>
-                                <td><span id="c42"></span></td>
+                                <td><span id="c44"></span></td>
                                 <td>最長的淺呼吸：</td>
-                                <td><sapn id="c43"></sapn></td>
+                                <td><sapn id="c45"></sapn></td>
                             </tr>
                         </tbody>
                     </table>
@@ -256,15 +258,15 @@ class CPart extends React.Component{
                         <tbody>
                             <tr>
                                 <td width="20%">平均氧氣飽和度：</td>
-                                <td width="30%"><span id="c44"></span></td>
+                                <td width="30%"><span id="c46"></span></td>
                                 <td width="20%">血氧平均下降幅度：</td>
-                                <td width="30%"><span id="c45"></span></td>
+                                <td width="30%"><span id="c47"></span></td>
                             </tr>
                             <tr>
                                 <td>最低氧氣飽和度：</td>
-                                <td><span id="c46"></span></td>
+                                <td><span id="c48"></span></td>
                                 <td>血氧下降總數：</td>
-                                <td><span id="c47"></span></td>
+                                <td><span id="c49"></span></td>
                             </tr>
                         </tbody>
                     </table>
@@ -283,9 +285,9 @@ class CPart extends React.Component{
                         <tbody>
                             <tr>
                                 <td width="20%">總數 (次)：</td>
-                                <td width="30%"><span id="c48">{evn.SNORE}</span></td>
+                                <td width="30%"><span id="c50">{evn.SNORE}</span></td>
                                 <td width="20%">打鼾指數 (/小時)：</td>
-                                <td width="30%"><span id="c49">{((evn.SNORE) / ((this.props.epochNum - this.props.wake) / 2) * 60).toFixed(1)}</span></td>
+                                <td width="30%"><span id="c51">{((evn.SNORE) / ((this.props.epochNum - this.props.wake) / 2) * 60).toFixed(1)}</span></td>
                             </tr>
                         </tbody>
                     </table>

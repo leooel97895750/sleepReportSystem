@@ -15,6 +15,79 @@ router.post('/word', function(req, res, next) {
     let dData = reportJson.DiagnosisData;
     let cData = reportJson.CPartData;
 
+    // 診斷資料處理
+    let DiseasesDocx = [];
+    let DiseasesList = dData.Disease.split("\n");
+    for(let i=0; i<DiseasesList.length; i++){
+        DiseasesDocx.push({Disease: DiseasesList[i]});
+    }
+    
+    let TreatmentsDocx = [];
+    let TreatmentList = dData.Treatment.split("\n");
+    // 手動換行接回
+    for(let i=TreatmentList.length-1; i>=0; i--){
+        let tLine = TreatmentList[i];
+        if(tLine[0] === "^"){
+            // 接回前項並移除
+            tLine = tLine.replace("^ ", "");
+            TreatmentList[i-1] = TreatmentList[i-1] + tLine;
+            TreatmentList.splice(i, 1);
+        }
+    }
+    console.log(TreatmentList);
+    
+    // 編號 縮排 副標題代換
+    // #:編號、@:縮排、^:手動縮排、`:編號縮排、|:縮兩排
+    let number = 1;
+    for(let i=0; i<TreatmentList.length; i++){
+        let tLine = TreatmentList[i];
+        let signal = tLine[0];
+        
+        tLine = tLine.replace("# ", (number < 10 ? number + ". " : number + ". "));
+        tLine = tLine.replace("` ", (number < 10 ? number + ". " : number + ". "));
+        tLine = tLine.replace("@ ", "");
+        tLine = tLine.replace("| ", "");
+
+        if(signal === "#" || signal === "`") number++;
+
+        if(signal === "#") TreatmentsDocx.push({Treatment: tLine, s4: false, s8: false});
+        else if(signal === "`") TreatmentsDocx.push({Treatment: tLine, s4: false, s8: false});
+        else if(signal === "@") TreatmentsDocx.push({Treatment: tLine, s4: true, s8: false});
+        else if(signal === "|") TreatmentsDocx.push({Treatment: tLine, s4: true, s8: true});
+        else TreatmentsDocx.push({Treatment: tLine, s4: false, s8: false});
+    }
+    
+    // 排版
+    // for(let i=0; i<TreatmentList.length; i++){
+    //     let tLine = TreatmentList[i];
+    //     if(tLine[0] === "-"){
+    //         TreatmentsDocx.push({Treatment: tLine, hasTitle: true, hasNumber: false, hasEnglish: false, hasRoman: false});
+    //     }
+    //     else if(tLine[0] === "#"){
+    //         tLine = tLine.replace("# ", "");
+    //         TreatmentsDocx.push({Treatment: tLine, hasTitle: false, hasNumber: true, hasEnglish: false, hasRoman: false});
+    //     }
+    //     else if(tLine[0] === "`"){
+    //         tLine = tLine.replace("` ", "");
+    //         TreatmentsDocx.push({Treatment: tLine, hasTitle: false, hasNumber: true, hasEnglish: false, hasRoman: false});
+    //     }
+    //     else if(tLine[0] === "@"){
+    //         tLine = tLine.replace("@ ", "");
+    //         tLine = tLine.replace(/\([a-z]\)/, "");
+    //         TreatmentsDocx.push({Treatment: tLine, hasTitle: false, hasNumber: false, hasEnglish: true, hasRoman: false});
+    //     }
+    //     else if(tLine[0] === "|"){
+    //         tLine = tLine.replace("| ", "");
+    //         tLine = tLine.replace("(i)   ", "");
+    //         tLine = tLine.replace("(ii)  ", "");
+    //         tLine = tLine.replace("(iii) ", "");
+    //         tLine = tLine.replace("(iv)  ", "");
+    //         tLine = tLine.replace("(v)  ", "");
+    //         TreatmentsDocx.push({Treatment: tLine, hasTitle: false, hasNumber: false, hasEnglish: false, hasRoman: true});
+    //     }
+    // }
+    console.log(TreatmentsDocx);
+
     // 圖片部分
     var opts = {}
     opts.centered = true;
@@ -43,7 +116,7 @@ router.post('/word', function(req, res, next) {
     // 文件部分
     var content = fs.readFileSync(path.resolve(__dirname, './templates/sleepTemplate.docx'), 'binary');
     var zip = new PizZip(content);
-    var doc = new Docxtemplater(zip, { paragraphLoop: true, linebreaks: true });
+    var doc = new Docxtemplater(zip, { paragraphLoop: false, linebreaks: true });
 
     doc.attachModule(imageModule);
     doc.setData({
@@ -77,8 +150,9 @@ router.post('/word', function(req, res, next) {
 
         d1: dData.FriedmanStage, d2: dData.TonsilSize, d3: dData.FriedmanTonguePosition, d4: dData.Technician, d5: dData.TechnicianDate,
         d6: dData.Physician, d7: dData.PhysicianDate,
-        Disease: dData.Disease,
-        Treatment: dData.Treatment,
+        //Disease: dData.Disease,
+        Diseases: DiseasesDocx,
+        Treatments: TreatmentsDocx,
 
         c1: cData.StudyDate, c2: cData.Name, c3: cData.Age, c4: cData.PatientID, c5: cData.Sex,
         c6: cData.DOB, c7: cData.Height, c8: cData.Weight, c9: cData.BMI, c10: cData.Neck,
@@ -100,6 +174,15 @@ router.post('/word', function(req, res, next) {
     // 同步儲存檔案
     fs.writeFileSync(path.resolve(__dirname, './reports/output.docx'), buffer);
     console.log('WORD檔寫入成功');
+    // 刪除上傳的檔案
+    fs.unlinkSync(path.resolve(__dirname, "./graphs/Baseline" + ts + ".png"));
+    fs.unlinkSync(path.resolve(__dirname, "./graphs/Hypnogram" + ts + ".png"));
+    fs.unlinkSync(path.resolve(__dirname, "./graphs/Event" + ts + ".png"));
+    fs.unlinkSync(path.resolve(__dirname, "./graphs/BodyPosition" + ts + ".png"));
+    fs.unlinkSync(path.resolve(__dirname, "./graphs/HeartRate" + ts + ".png"));
+    fs.unlinkSync(path.resolve(__dirname, "./graphs/SaO2" + ts + ".png"));
+    fs.unlinkSync(path.resolve(__dirname, "./graphs/Sound" + ts + ".png"));
+    fs.unlinkSync(path.resolve(__dirname, "./graphs/PLM" + ts + ".png"));
 
     // 以docx格式回傳檔案
     res.set({"Content-Disposition": "attachment; filename=test.docx","Content-type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document;"})

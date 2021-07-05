@@ -36,56 +36,35 @@ router.post('/word', function(req, res, next) {
     }
     console.log(TreatmentList);
     
-    // 編號 縮排 副標題代換
-    // #:編號、@:縮排、^:手動縮排、`:編號縮排、|:縮兩排
-    let number = 1;
+    // 排版
     for(let i=0; i<TreatmentList.length; i++){
         let tLine = TreatmentList[i];
-        let signal = tLine[0];
-        
-        tLine = tLine.replace("# ", (number < 10 ? number + ". " : number + ". "));
-        tLine = tLine.replace("` ", (number < 10 ? number + ". " : number + ". "));
-        tLine = tLine.replace("@ ", "");
-        tLine = tLine.replace("| ", "");
-
-        if(signal === "#" || signal === "`") number++;
-
-        if(signal === "#") TreatmentsDocx.push({Treatment: tLine, s4: false, s8: false});
-        else if(signal === "`") TreatmentsDocx.push({Treatment: tLine, s4: false, s8: false});
-        else if(signal === "@") TreatmentsDocx.push({Treatment: tLine, s4: true, s8: false});
-        else if(signal === "|") TreatmentsDocx.push({Treatment: tLine, s4: true, s8: true});
-        else TreatmentsDocx.push({Treatment: tLine, s4: false, s8: false});
+        if(tLine[0] === "-"){
+            TreatmentsDocx.push({Treatment: tLine, hasTitle: true, hasNumber: false, hasEnglish: false, hasRoman: false});
+        }
+        else if(tLine[0] === "#"){
+            tLine = tLine.replace("# ", "");
+            TreatmentsDocx.push({Treatment: tLine, hasTitle: false, hasNumber: true, hasEnglish: false, hasRoman: false});
+        }
+        else if(tLine[0] === "`"){
+            tLine = tLine.replace("` ", "");
+            TreatmentsDocx.push({Treatment: tLine, hasTitle: false, hasNumber: true, hasEnglish: false, hasRoman: false});
+        }
+        else if(tLine[0] === "@"){
+            tLine = tLine.replace("@ ", "");
+            tLine = tLine.replace(/\([a-z]\)/, "");
+            TreatmentsDocx.push({Treatment: tLine, hasTitle: false, hasNumber: false, hasEnglish: true, hasRoman: false});
+        }
+        else if(tLine[0] === "|"){
+            tLine = tLine.replace("| ", "");
+            tLine = tLine.replace("(i)   ", "");
+            tLine = tLine.replace("(ii)  ", "");
+            tLine = tLine.replace("(iii) ", "");
+            tLine = tLine.replace("(iv) ", "");
+            tLine = tLine.replace("(v)  ", "");
+            TreatmentsDocx.push({Treatment: tLine, hasTitle: false, hasNumber: false, hasEnglish: false, hasRoman: true});
+        }
     }
-    
-    // 排版
-    // for(let i=0; i<TreatmentList.length; i++){
-    //     let tLine = TreatmentList[i];
-    //     if(tLine[0] === "-"){
-    //         TreatmentsDocx.push({Treatment: tLine, hasTitle: true, hasNumber: false, hasEnglish: false, hasRoman: false});
-    //     }
-    //     else if(tLine[0] === "#"){
-    //         tLine = tLine.replace("# ", "");
-    //         TreatmentsDocx.push({Treatment: tLine, hasTitle: false, hasNumber: true, hasEnglish: false, hasRoman: false});
-    //     }
-    //     else if(tLine[0] === "`"){
-    //         tLine = tLine.replace("` ", "");
-    //         TreatmentsDocx.push({Treatment: tLine, hasTitle: false, hasNumber: true, hasEnglish: false, hasRoman: false});
-    //     }
-    //     else if(tLine[0] === "@"){
-    //         tLine = tLine.replace("@ ", "");
-    //         tLine = tLine.replace(/\([a-z]\)/, "");
-    //         TreatmentsDocx.push({Treatment: tLine, hasTitle: false, hasNumber: false, hasEnglish: true, hasRoman: false});
-    //     }
-    //     else if(tLine[0] === "|"){
-    //         tLine = tLine.replace("| ", "");
-    //         tLine = tLine.replace("(i)   ", "");
-    //         tLine = tLine.replace("(ii)  ", "");
-    //         tLine = tLine.replace("(iii) ", "");
-    //         tLine = tLine.replace("(iv)  ", "");
-    //         tLine = tLine.replace("(v)  ", "");
-    //         TreatmentsDocx.push({Treatment: tLine, hasTitle: false, hasNumber: false, hasEnglish: false, hasRoman: true});
-    //     }
-    // }
     console.log(TreatmentsDocx);
 
     // 圖片部分
@@ -100,16 +79,16 @@ router.post('/word', function(req, res, next) {
 
     // 根據不同圖片回傳[width, height]
     opts.getSize = function(img, tagValue, tagName) {
-        if(tagName === "g1") return [500, 60];
-        else if(tagName === "g2") return [500, 60];
-        else if(tagName === "g3") return [500, 200];
-        else if(tagName === "g4") return [500, 50];
-        else if(tagName === "g5") return [500, 50];
-        else if(tagName === "g6") return [500, 50];
-        else if(tagName === "g7") return [500, 30];
-        else if(tagName === "g8") return [500, 30];
+        if(tagName === "g1") return [480, 60];
+        else if(tagName === "g2") return [480, 60];
+        else if(tagName === "g3") return [480, 200];
+        else if(tagName === "g4") return [480, 50];
+        else if(tagName === "g5") return [480, 50];
+        else if(tagName === "g6") return [480, 50];
+        else if(tagName === "g7") return [480, 30];
+        else if(tagName === "g8") return [480, 30];
 
-        return [400, 50];
+        return [480, 50];
     }
     var imageModule = new ImageModule(opts);
 

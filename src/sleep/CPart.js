@@ -239,7 +239,7 @@ class CPart extends React.Component{
                                 <td>最長的呼吸中止：</td>
                                 <td><span id="c44"></span></td>
                                 <td>最長的淺呼吸：</td>
-                                <td><sapn id="c45"></sapn></td>
+                                <td><span id="c45"></span></td>
                             </tr>
                         </tbody>
                     </table>

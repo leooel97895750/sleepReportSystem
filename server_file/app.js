@@ -11,6 +11,7 @@ var usersRouter = require('./routes/users');
 var mdbfileRouter = require('./routes/mdbfile');
 var wordRouter = require('./routes/word');
 var graphRouter = require('./routes/graph');
+var insertTestRouter = require('./routes/insertTest');
 
 var app = express();
 app.use(bodyParser.json());
@@ -37,6 +38,7 @@ app.use('/users', usersRouter);
 app.use('/', mdbfileRouter);
 app.use('/', wordRouter);
 app.use('/', graphRouter);
+app.use('/', insertTestRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

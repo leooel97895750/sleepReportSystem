@@ -86,7 +86,7 @@ class Report extends React.Component{
     render(){
         
         return(
-            <div style={{width:"100%"}}>
+            <div style={{width:"100%", display:this.props.display}}>
                 <div className="reportBlock" style={{fontFamily:"Times New Roman, DFKai-sb, sans-serif"}}>
 
                     

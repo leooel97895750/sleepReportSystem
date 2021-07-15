@@ -4,3 +4,14 @@
     background-color: white;
     margin: 20px;
 }
+footer{
+    bottom: 0px;
+    margin-top: 60px;
+    padding: 10px;
+    height: 40px;
+    width: calc(100% - 20px);
+    text-align: center;
+    font-size: 13px;
+    color: lightgray;
+    background-color: #343A40;
+}

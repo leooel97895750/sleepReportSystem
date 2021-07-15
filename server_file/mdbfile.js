@@ -19,7 +19,7 @@ router.post('/mdb', function(req, res, next) {
     let today = new Date(timeElapsed);
     let timestamp = today.toISOString();
     tmpFileName = 'events' + timestamp + '.MDB';
-    console.log('# save as' + tmpFileName);
+    console.log('# save as ' + tmpFileName);
     file.path = __dirname + '/uploads/' + tmpFileName;
   });
 
@@ -36,11 +36,11 @@ router.post('/mdb', function(req, res, next) {
     console.log(mytable); // ScoredEvents
     let table = events.getTable(mytable);
 
+    // 刪除上傳的檔案
+    fs.unlinkSync(path.resolve(__dirname, "./uploads/" + tmpFileName));
     // 讀取事件資料
     res.send(table.getData());
 
-    // 刪除上傳的檔案
-    fs.unlinkSync(path.resolve(__dirname, "./uploads/" + tmpFileName));
   });
 });
 

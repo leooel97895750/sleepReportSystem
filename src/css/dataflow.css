@@ -26,3 +26,35 @@
 .downloadBlock:hover {
     background-color: black;
 }
+
+.waiting {
+    opacity: 0.4;
+    padding-top: 200px;
+    font-size: 30px;
+    text-align: center;
+}
+#waitingWord{
+    animation-name: word1;
+    animation-duration: 1.5s;
+    animation-iteration-count: infinite;
+    animation-direction:alternate;
+}
+@keyframes word1{
+    from{
+        opacity: 1;
+    }
+    to{
+        opacity: 0.2;
+    }
+}
+footer{
+    bottom: 0px;
+    margin-top: 60px;
+    padding: 10px;
+    height: 40px;
+    width: calc(100% - 20px);
+    text-align: center;
+    font-size: 13px;
+    color: lightgray;
+    background-color: #343A40;
+}

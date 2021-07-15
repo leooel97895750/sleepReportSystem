@@ -1,3 +1,9 @@
+html, body{
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+}
+
 header {
     width: 100%;
     height: 80px;
@@ -29,4 +35,14 @@ header {
 }
 .navSpan:hover {
     color: lightgray;
+}
+
+footer{
+    margin-top: 60px;
+    padding: 10px;
+    height: 40px;
+    text-align: center;
+    font-size: 13px;
+    color: lightgray;
+    background-color: #343A40;
 }

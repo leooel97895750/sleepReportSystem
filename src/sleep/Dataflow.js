@@ -1,13 +1,17 @@
 import React from 'react';
 import '../css/dataflow.css';
 import Report from './Report';
-//import {getAPI, postAPI} from './API.js';
+import shark from '../image/shark.gif';
+import {getAPI, postAPI, postJsonAPI} from './API.js';
 
 
 class Dataflow extends React.Component{
     constructor(props){
         super(props);
         this.state = {
+            isLoad: 0,
+            wordOpacity: 1,
+
             getReport: 0, //是否傳資料回dataflow
             eventsTime: {'CA':[], 'OA':[], 'MA':[], 'OH':[]},
             eventsCount: {},
@@ -35,6 +39,10 @@ class Dataflow extends React.Component{
     }
 
     updateFile(e){
+        let insertTestUrl = "http://140.116.245.43:3000/insertTest";
+        getAPI(insertTestUrl, (xhttp) => {
+            console.log(xhttp.responseText);
+        });
         // 印出所有檔案陣列
         console.log(e.target.files);
 
@@ -69,6 +77,7 @@ class Dataflow extends React.Component{
                 }
                 //console.log(wake, n1, n2, n3, rem);
                 this.setState({
+                    isLoad: 1,
                     sleepStage: sleepStage,
                     epochNum: sleepStage.length,
                     sot: sot,
@@ -456,7 +465,7 @@ class Dataflow extends React.Component{
 
     render(){
         return(
-            <div style={{display: this.props.display}}>
+            <div style={{display: this.props.display, height: "100%"}}>
 
                 <div className="fileBlock">
                     <label>
@@ -484,7 +493,13 @@ class Dataflow extends React.Component{
                     </label>
                 </div>
 
+                <div className="waiting" style={{display: this.state.isLoad ? 'none' : 'block'}}>
+                    <b id="waitingWord">尚未選取PSG資料夾</b><br/>
+                    {/* <img src={shark} style={{width:"200px", height:"200px"}}/> */}
+                </div>
+
                 <Report 
+                    display = {this.state.isLoad ? 'block' : 'none'}
                     downloadReport = {this.downloadReport}
                     getReport = {this.state.getReport}
                     eventsTime = {this.state.eventsTime}
@@ -503,6 +518,10 @@ class Dataflow extends React.Component{
                     n3 = {this.state.n3}
                     rem = {this.state.rem}
                 />
+                <footer style={{position: this.state.isLoad ? 'static' : 'fixed'}}>
+                    <span>成大睡眠中心 National Cheng Kung University Hospital</span><br/>
+                    <span>成大資訊工程所 神經運算與腦機介面實驗室 National Cheng Kung University Department of Computer Science and Information Engineering NCBCI Lab</span>
+                </footer>
             </div>
         );
     }

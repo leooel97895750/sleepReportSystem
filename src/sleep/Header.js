@@ -2,7 +2,7 @@ import React from 'react';
 import '../css/header.css';
 import Search from './Search';
 import Dataflow from './Dataflow';
-import watson from '../image/watson.gif';
+
 
 // 網頁header
 class Header extends React.Component{
@@ -32,6 +32,7 @@ class Header extends React.Component{
                 </header>
                 <Dataflow display={this.state.nowPage?'none':'block'} />
                 <Search display={this.state.nowPage?'block':'none'} />
+                
             </div>
             
         );

@@ -2,7 +2,8 @@ import React from 'react';
 import '../css/dataflow.css';
 import Report from './Report';
 import shark from '../image/shark.gif';
-import {getAPI, postAPI, postJsonAPI} from './API.js';
+import {getAPI, postAPI, postJsonAPI, postMdbAPI, postWordAPI} from './functions/API.js';
+import {} from './functions/Calculate.js';
 
 
 class Dataflow extends React.Component{
@@ -96,14 +97,12 @@ class Dataflow extends React.Component{
         for(let i=0; i<e.target.files.length; i++){
             if(e.target.files[i].name === "EVENTS.MDB") eventsIndex = i;
         }
-        let url = "http://140.116.245.43:3000/mdb";
-        let xhr = new XMLHttpRequest();
-        xhr.open("POST", url);
-        xhr.onprogress = function(e) {
-            console.log(e.loaded +'/'+ e.total);
-        }
-        xhr.onload = () => {
-            let events = JSON.parse(xhr.response);
+
+        let mdbUrl = "http://140.116.245.43:3000/mdb";
+        let mdbData = new FormData();
+        mdbData.append('file', e.target.files[eventsIndex]);
+        postMdbAPI(mdbUrl, mdbData, (xhttp) => {
+            let events = JSON.parse(xhttp.response);
             console.log(events.length);
             console.log(events[0]);
             // 抓出需要的事件
@@ -186,13 +185,7 @@ class Dataflow extends React.Component{
                 eventsTime: eventsTime,
                 eventsCount: eventsCount,
             });
-        }
-        xhr.onerror = function() {
-            console.log('error');
-        }
-        let data = new FormData();
-        data.append('file', e.target.files[eventsIndex]);
-        xhr.send(data);
+        });
         
 
         // 第一層檔案讀取
@@ -425,41 +418,16 @@ class Dataflow extends React.Component{
         })
         console.log(reportData);
         
-        //儲存圖片在server上
-        let xhr = new XMLHttpRequest();
-        xhr.open("post", "http://140.116.245.43:3000/graph");
-        xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.onload = () => {
-            console.log(xhr.response);
-            let timestamp = xhr.response;
-            reportData.timestamp = timestamp;
+        // 先存圖片
+        let graphUrl = "http://140.116.245.43:3000/graph";
+        postJsonAPI(graphUrl, reportData.GraphData, (xhttp) => {
+            console.log(xhttp.responseText);
 
-            // 圖片儲存完成後將timestamp傳入產生WORD
-            let xhr2 = new XMLHttpRequest();
-            xhr2.open('post', "http://140.116.245.43:3000/word");
-            xhr2.setRequestHeader('Content-Type', 'application/json');
-            xhr2.responseType = 'blob'; //以blob的形式接收資料，一般檔案內容比較大
-            xhr2.onload = () => {
-                var blob = xhr2.response; //Blob資料
-                if (xhr2.status === 200) {
-                    if (blob && blob.size > 0) {
-                        let element = document.createElement('a');
-                        element.setAttribute('href', URL.createObjectURL(blob));
-                        element.setAttribute('download', 'test.docx');
-                        document.body.appendChild(element);
-                        element.click();
-                    } 
-                } 
-            };
-            let data2 = JSON.stringify(reportData);
-            xhr2.send(data2);
-
-        }
-        xhr.onerror = function() {
-            console.log('error');
-        }
-        let data = JSON.stringify(reportData.GraphData);
-        xhr.send(data);
+            // 增加圖片時戳並產生word檔
+            reportData.timestamp = xhttp.responseText;
+            let wordUrl = "http://140.116.245.43:3000/word";
+            postWordAPI(wordUrl, reportData);
+        });
     }
 
 
@@ -495,7 +463,7 @@ class Dataflow extends React.Component{
 
                 <div className="waiting" style={{display: this.state.isLoad ? 'none' : 'block'}}>
                     <b id="waitingWord">尚未選取PSG資料夾</b><br/>
-                    {/* <img src={shark} style={{width:"200px", height:"200px"}}/> */}
+                    <img src={shark} alt="尚未選取PSG資料夾" style={{width:"200px", height:"200px"}}/>
                 </div>
 
                 <Report 

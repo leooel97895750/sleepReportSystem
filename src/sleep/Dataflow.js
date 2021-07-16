@@ -11,7 +11,6 @@ class Dataflow extends React.Component{
         super(props);
         this.state = {
             isLoad: 0,
-            wordOpacity: 1,
 
             getReport: 0, //是否傳資料回dataflow
             eventsTime: {'CA':[], 'OA':[], 'MA':[], 'OH':[]},
@@ -37,6 +36,7 @@ class Dataflow extends React.Component{
         this.updateFile = this.updateFile.bind(this);
         this.getReportData = this.getReportData.bind(this);
         this.downloadReport = this.downloadReport.bind(this);
+        this.loadFileData = this.loadFileData.bind(this);
     }
 
     updateFile(e){
@@ -57,6 +57,28 @@ class Dataflow extends React.Component{
             else if(e.target.files[i].name === "CHANNEL24.DAT") pulseIndex = i;
         }
 
+        // 抓取caseID查詢資料庫，若有資料則load回來，若無則新增一筆並開始計算數值
+        if(configIndex === -1) alert('找不到STUDYCFG.XML');
+        else{
+            let caseIDReader = new FileReader();
+            caseIDReader.onload = (file) => {
+                let caseIDparser = new DOMParser();
+                let caseIDXML = caseIDparser.parseFromString(file.target.result, "text/xml");
+                let caseID = caseIDXML.getElementsByTagName("Reference")[0].textContent;
+
+                //getAPI caseID
+                //result == yes => load data
+                //result == no => loadFileData(e, slpstagIndex, eventsIndex, datasegmentIndex, configIndex, pulseIndex)
+                this.loadFileData(e, slpstagIndex, eventsIndex, datasegmentIndex, configIndex, pulseIndex);
+            }
+            caseIDReader.readAsText(e.target.files[configIndex]);
+        }
+
+        
+    }
+
+    // 讀取檔案並計算數值
+    loadFileData(e, slpstagIndex, eventsIndex, datasegmentIndex, configIndex, pulseIndex){
         // 解析睡眠階段: 尋找 "SLPSTAG.DAT"
         if(slpstagIndex === -1) alert('找不到SLPSTAG.DAT');
         else{

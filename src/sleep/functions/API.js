@@ -87,6 +87,5 @@ export function postMdbAPI(url, data, callFun) {
       }
   };
   xhttp.open("POST", url, true);
-  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   xhttp.send(data);
 }

@@ -3,7 +3,7 @@ import '../css/dataflow.css';
 import Report from './Report';
 import shark from '../image/shark.gif';
 import {getAPI, postAPI, postJsonAPI, postMdbAPI, postWordAPI} from './functions/API.js';
-import {stageCalculate, eventCalculate, studycfgCalculate} from './functions/Calculate.js';
+import {stageCalculate, eventCalculate, studycfgCalculate, reportDataCalculate} from './functions/Calculate.js';
 
 
 class Dataflow extends React.Component{
@@ -21,8 +21,8 @@ class Dataflow extends React.Component{
             position: [],
             sleepStage: [],
             cfg: {
-                startDate:"", name:"", age:"", patientID:"", sex:"", dob:"", 
-                height:"", weight:"", bmi:"", neck:"", startTime:"", endTime:"", totalRecordTime:""
+                startDate:"", name:"", age:"", patientID:"", sex:"", dob:"", height:"", 
+                weight:"", bmi:"", neck:"", startTime:"", endTime:"", totalRecordTime:""
             },
             epochNum: 0,
             sot: 0,
@@ -47,13 +47,6 @@ class Dataflow extends React.Component{
     }
 
     updateFile(e){
-
-        // 測試 database
-        let insertTestUrl = "http://140.116.245.43:3000/insertTest";
-        getAPI(insertTestUrl, (xhttp) => {
-            console.log(xhttp.response);
-        });
-
         // 抓取caseID查詢資料庫，若有資料則load回來，若無則新增一筆並開始計算數值
         let configIndex = -1;
         for(let i=0; i<e.target.files.length; i++) if(e.target.files[i].name === "STUDYCFG.XML") configIndex = i;
@@ -76,9 +69,10 @@ class Dataflow extends React.Component{
                     }
                     else{
                         alert('無資料 開始load file');
-                        
-                        /* 連續函式傳接呼叫: loadStageData => loadEventData => loadDataSegment => loadStudyCfg => 
-                                            loadPosition => loadSpO2 => loadPulse => loadSound 
+
+                        /* 連續函式傳接呼叫: 
+                            loadStageData => loadEventData => loadDataSegment => loadStudyCfg => 
+                            loadPosition => loadSpO2 => loadPulse => loadSound 
                         */
                         this.loadStageData(e);
                     }
@@ -268,9 +262,20 @@ class Dataflow extends React.Component{
             soundReader.onload = (file) => {
                 let sound = new Float32Array(file.target.result);
                 this.setState({sound: sound});
+                this.insertReportDataBase();
             }
             soundReader.readAsArrayBuffer(e.target.files[soundIndex]);
         }
+    }
+
+    // step 9. database insert report
+    insertReportDataBase(){
+        let reportData = reportDataCalculate(this);
+        // let insertReportUrl = "http://140.116.245.43:3000/insertReport";
+        // postJsonAPI(insertReportUrl, reportData, (xhttp) => {
+        //     let insertReportJson = JSON.parse(xhttp.responseText);
+        //     console.log(insertReportJson);
+        // });
     }
 
     // 觸發Report資料回傳

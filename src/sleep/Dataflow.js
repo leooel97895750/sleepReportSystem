@@ -44,7 +44,7 @@ class Dataflow extends React.Component{
         // 測試 database
         let insertTestUrl = "http://140.116.245.43:3000/insertTest";
         getAPI(insertTestUrl, (xhttp) => {
-            console.log(xhttp.responseText);
+            console.log(xhttp.response);
         });
 
         // 找尋需要的檔案index (channel24為心率，用於測試，每個病人不一定是24)
@@ -66,10 +66,21 @@ class Dataflow extends React.Component{
                 let caseIDXML = caseIDparser.parseFromString(file.target.result, "text/xml");
                 let caseID = caseIDXML.getElementsByTagName("Reference")[0].textContent;
 
-                //getAPI caseID
-                //result == yes => load data
-                //result == no => loadFileData(e, slpstagIndex, eventsIndex, datasegmentIndex, configIndex, pulseIndex)
-                this.loadFileData(e, slpstagIndex, eventsIndex, datasegmentIndex, configIndex, pulseIndex);
+                let caseIDUrl = "http://140.116.245.43:3000/caseID?caseID=" + caseID;
+                getAPI(caseIDUrl, (xhttp) => {
+                    let caseIDJson = JSON.parse(xhttp.responseText);
+                    console.log(caseIDJson);
+                    
+                    if(caseIDJson.length !== 0){
+                        alert('有資料');
+                        
+                    }
+                    else{
+                        alert('無資料');
+                        this.loadFileData(e, slpstagIndex, eventsIndex, datasegmentIndex, configIndex, pulseIndex);
+                    }
+                });
+                
             }
             caseIDReader.readAsText(e.target.files[configIndex]);
         }

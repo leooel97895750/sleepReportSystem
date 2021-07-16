@@ -36,7 +36,14 @@ class Dataflow extends React.Component{
         this.updateFile = this.updateFile.bind(this);
         this.getReportData = this.getReportData.bind(this);
         this.downloadReport = this.downloadReport.bind(this);
-        this.loadFileData = this.loadFileData.bind(this);
+        this.loadStageData = this.loadStageData.bind(this);
+        this.loadEventData = this.loadEventData.bind(this);
+        this.loadDataSegment = this.loadDataSegment.bind(this);
+        this.loadStudyCfg = this.loadStudyCfg.bind(this);
+        this.loadPosition = this.loadPosition.bind(this);
+        this.loadSpO2 = this.loadSpO2.bind(this);
+        this.loadPulse = this.loadPulse.bind(this);
+        this.loadSound = this.loadSound.bind(this);
     }
 
     updateFile(e){
@@ -47,17 +54,9 @@ class Dataflow extends React.Component{
             console.log(xhttp.response);
         });
 
-        // 找尋需要的檔案index (channel24為心率，用於測試，每個病人不一定是24)
-        let slpstagIndex, eventsIndex, datasegmentIndex, configIndex, pulseIndex = -1;
-        for(let i=0; i<e.target.files.length; i++){
-            if(e.target.files[i].name === "SLPSTAG.DAT") slpstagIndex = i;
-            else if(e.target.files[i].name === "EVENTS.MDB") eventsIndex = i;
-            else if(e.target.files[i].name === "DATASEGMENTS.XML") datasegmentIndex = i;
-            else if(e.target.files[i].name === "STUDYCFG.XML") configIndex = i;
-            else if(e.target.files[i].name === "CHANNEL24.DAT") pulseIndex = i;
-        }
-
         // 抓取caseID查詢資料庫，若有資料則load回來，若無則新增一筆並開始計算數值
+        let configIndex = -1;
+        for(let i=0; i<e.target.files.length; i++) if(e.target.files[i].name === "STUDYCFG.XML") configIndex = i;
         if(configIndex === -1) alert('找不到STUDYCFG.XML');
         else{
             let caseIDReader = new FileReader();
@@ -70,14 +69,18 @@ class Dataflow extends React.Component{
                 getAPI(caseIDUrl, (xhttp) => {
                     let caseIDJson = JSON.parse(xhttp.responseText);
                     console.log(caseIDJson);
-                    
+
                     if(caseIDJson.length !== 0){
                         alert('有資料');
                         
                     }
                     else{
-                        alert('無資料');
-                        this.loadFileData(e, slpstagIndex, eventsIndex, datasegmentIndex, configIndex, pulseIndex);
+                        alert('無資料 開始load file');
+                        
+                        /* 連續函式傳接呼叫: loadStageData => loadEventData => loadDataSegment => loadStudyCfg => 
+                                            loadPosition => loadSpO2 => loadPulse => loadSound 
+                        */
+                        this.loadStageData(e);
                     }
                 });
                 
@@ -88,15 +91,16 @@ class Dataflow extends React.Component{
         
     }
 
-    // 讀取檔案並計算數值
-    loadFileData(e, slpstagIndex, eventsIndex, datasegmentIndex, configIndex, pulseIndex){
-        // 解析睡眠階段: 尋找 "SLPSTAG.DAT"
+    // step 1. 解析睡眠階段: 尋找 "SLPSTAG.DAT"，參數:檔案event、檔案index、完成後下一個函式
+    loadStageData(e){
+        let slpstagIndex = -1;
+        for(let i=0; i<e.target.files.length; i++) if(e.target.files[i].name === "SLPSTAG.DAT") slpstagIndex = i;
         if(slpstagIndex === -1) alert('找不到SLPSTAG.DAT');
         else{
             let stageReader = new FileReader();
-            stageReader.onload = (e) => {
+            stageReader.onload = (file) => {
                 // 取得stage資料: 10=wake、1=n1、2=n2、3=n3、5=rem
-                let sleepStage = new Int8Array(e.target.result);
+                let sleepStage = new Int8Array(file.target.result);
 
                 // calculate function 進行計算
                 let stageData = stageCalculate(sleepStage);
@@ -112,11 +116,17 @@ class Dataflow extends React.Component{
                     n3: stageData.n3,
                     rem: stageData.rem,
                 });
+
+                this.loadEventData(e);
             }
             stageReader.readAsArrayBuffer(e.target.files[slpstagIndex]);
         }
+    }
 
-        // 解析事件
+    // step 2. 解析事件
+    loadEventData(e){
+        let eventsIndex = -1;
+        for(let i=0; i<e.target.files.length; i++) if(e.target.files[i].name === "EVENTS.MDB") eventsIndex = i;
         if(eventsIndex === -1) alert('EVENTS.MDB');
         else{
             let mdbUrl = "http://140.116.245.43:3000/mdb";
@@ -132,17 +142,20 @@ class Dataflow extends React.Component{
                     eventsTime: eventsData.eventsTime,
                     eventsCount: eventsData.eventsCount,
                 });
+
+                this.loadDataSegment(e);
             });
         }
+    }
 
-        /* 第一層檔案讀取(總時間) */
-
+    // step 3. 總時間
+    loadDataSegment(e){
         let tmpCfg = {
-            startDate:"", name:"", age:"", patientID:"", sex:"", dob:"", 
-            height:"", weight:"", bmi:"", neck:"", startTime:"", endTime:"", totalRecordTime:""
+            startDate:"", name:"", age:"", patientID:"", sex:"", dob:"", height:"", 
+            weight:"", bmi:"", neck:"", startTime:"", endTime:"", totalRecordTime:""
         };
-
-        // 解析基本資料: 尋找 "DATASEGMENTS.XML"
+        let datasegmentIndex = -1;
+        for(let i=0; i<e.target.files.length; i++) if(e.target.files[i].name === "DATASEGMENTS.XML") datasegmentIndex = i;
         if(datasegmentIndex === -1) alert('找不到DATASEGMENTS.XML');
         else{
             let datasegmentReader = new FileReader();
@@ -154,105 +167,109 @@ class Dataflow extends React.Component{
                 let duration = datasegmentXmlDoc.getElementsByTagName("Duration")[0].textContent;
                 tmpCfg.totalRecordTime = String((Number(duration) / 60).toFixed(1));
 
-                /* 第二層檔案讀取(基本資料) */
-
-                // 解析基本資料: 尋找 "STUDYCFG.XML"
-                if(configIndex === -1) alert('找不到STUDYCFG.XML');
-                else{
-                    let configReader = new FileReader();
-                    configReader.onload = (file) => {
-                        let parser = new DOMParser();
-                        let studycfgXML = parser.parseFromString(file.target.result, "text/xml");
-                        
-                        // calculate function 進行計算
-                        let studycfgData = studycfgCalculate(studycfgXML, duration);
-                        console.log(studycfgData);
-
-                        tmpCfg.startDate = studycfgData.startDate;
-                        tmpCfg.name = studycfgData.name;
-                        tmpCfg.age = studycfgData.age;
-                        tmpCfg.patientID = studycfgData.patientID;
-                        tmpCfg.sex = studycfgData.sex;
-                        tmpCfg.dob = studycfgData.dob;
-                        tmpCfg.height = studycfgData.height;
-                        tmpCfg.weight = studycfgData.weight;
-                        tmpCfg.bmi = studycfgData.bmi;
-                        tmpCfg.neck = studycfgData.neck;
-                        tmpCfg.startTime = studycfgData.startTime;
-                        tmpCfg.endTime = studycfgData.endTime;
-                        this.setState({cfg: tmpCfg});
-
-                        /* 第三層檔案讀取(訊號資料) */
-                        let channelsList = studycfgData.channelsList;
-
-                        // 解析Position
-                        let positionIndex = -1;
-                        for(let i=0; i<e.target.files.length; i++) if(e.target.files[i].name === channelsList.Position) positionIndex = i;
-                        if(positionIndex === -1) alert('找不到' + channelsList.Position);
-                        else{
-                            let positionReader = new FileReader();
-                            positionReader.onload = (file) => {
-                                let position = new Int16Array(file.target.result);
-                                this.setState({position: position});
-                            }
-                            positionReader.readAsArrayBuffer(e.target.files[positionIndex]);
-                        }
-
-                        // 解析SpO2
-                        let spo2Index = -1;
-                        for(let i=0; i<e.target.files.length; i++) if(e.target.files[i].name === channelsList.SpO2) spo2Index = i;
-                        if(spo2Index === -1) alert('找不到' + channelsList.SpO2);
-                        else{
-                            let spo2Reader = new FileReader();
-                            spo2Reader.onload = (file) => {
-                                let spo2 = new Float32Array(file.target.result);
-                                this.setState({spo2: spo2});
-                            }
-                            spo2Reader.readAsArrayBuffer(e.target.files[spo2Index]);
-                        }
-
-                        // 解析Pulse
-                        if(pulseIndex === -1) alert('找不到' + channelsList.Pulse);
-                        else{
-                            let pulseReader = new FileReader();
-                            pulseReader.onload = (file) => {
-                                let pulse = new Float32Array(file.target.result);
-                                this.setState({pulse: pulse});
-                            }
-                            pulseReader.readAsArrayBuffer(e.target.files[pulseIndex]);
-                        }
-
-                        // 解析Pulse2
-                        let pulseIndex2 = -1;
-                        for(let i=0; i<e.target.files.length; i++) if(e.target.files[i].name === channelsList.Pulse) pulseIndex2 = i;
-                        if(pulseIndex2 === -1) alert('找不到' + channelsList.Pulse);
-                        else{
-                            let pulseReader = new FileReader();
-                            pulseReader.onload = (file) => {
-                                let pulse = new Float32Array(file.target.result);
-                            }
-                            pulseReader.readAsArrayBuffer(e.target.files[pulseIndex2]);
-                        }
-
-                        // 解析Sound
-                        let soundIndex = -1;
-                        for(let i=0; i<e.target.files.length; i++) if(e.target.files[i].name === channelsList.Sound) soundIndex = i;
-                        if(soundIndex === -1) alert('找不到' + channelsList.Sound);
-                        else{
-                            let soundReader = new FileReader();
-                            soundReader.onload = (file) => {
-                                let sound = new Float32Array(file.target.result);
-                                this.setState({sound: sound});
-                            }
-                            soundReader.readAsArrayBuffer(e.target.files[soundIndex]);
-                        }
-
-                        /* 第三層檔案讀取結束 */
-                    }
-                    configReader.readAsText(e.target.files[configIndex]);
-                }
+                this.loadStudyCfg(e, duration, tmpCfg);
             }
             datasegmentReader.readAsText(e.target.files[datasegmentIndex]);
+        }
+    }
+
+    // step 4. 解析基本資料: 尋找 "STUDYCFG.XML"
+    loadStudyCfg(e, duration, tmpCfg){
+        let configIndex = -1;
+        for(let i=0; i<e.target.files.length; i++) if(e.target.files[i].name === "STUDYCFG.XML") configIndex = i;
+        if(configIndex === -1) alert('找不到STUDYCFG.XML');
+        else{
+            let configReader = new FileReader();
+            configReader.onload = (file) => {
+                let parser = new DOMParser();
+                let studycfgXML = parser.parseFromString(file.target.result, "text/xml");
+                
+                // calculate function 進行計算
+                let studycfgData = studycfgCalculate(studycfgXML, duration);
+                console.log(studycfgData);
+
+                tmpCfg.startDate = studycfgData.startDate;
+                tmpCfg.name = studycfgData.name;
+                tmpCfg.age = studycfgData.age;
+                tmpCfg.patientID = studycfgData.patientID;
+                tmpCfg.sex = studycfgData.sex;
+                tmpCfg.dob = studycfgData.dob;
+                tmpCfg.height = studycfgData.height;
+                tmpCfg.weight = studycfgData.weight;
+                tmpCfg.bmi = studycfgData.bmi;
+                tmpCfg.neck = studycfgData.neck;
+                tmpCfg.startTime = studycfgData.startTime;
+                tmpCfg.endTime = studycfgData.endTime;
+                this.setState({cfg: tmpCfg});
+
+                let channelsList = studycfgData.channelsList;
+
+                this.loadPosition(e, channelsList);
+            }
+            configReader.readAsText(e.target.files[configIndex]);
+        }
+    }
+
+    // step 5. 解析Position
+    loadPosition(e, channelsList){
+        let positionIndex = -1;
+        for(let i=0; i<e.target.files.length; i++) if(e.target.files[i].name === channelsList.Position) positionIndex = i;
+        if(positionIndex === -1) alert('找不到' + channelsList.Position);
+        else{
+            let positionReader = new FileReader();
+            positionReader.onload = (file) => {
+                let position = new Int16Array(file.target.result);
+                this.setState({position: position});
+                this.loadSpO2(e, channelsList);
+            }
+            positionReader.readAsArrayBuffer(e.target.files[positionIndex]);
+        }
+    }
+
+    // step 6. 解析SpO2
+    loadSpO2(e, channelsList){
+        let spo2Index = -1;
+        for(let i=0; i<e.target.files.length; i++) if(e.target.files[i].name === channelsList.SpO2) spo2Index = i;
+        if(spo2Index === -1) alert('找不到' + channelsList.SpO2);
+        else{
+            let spo2Reader = new FileReader();
+            spo2Reader.onload = (file) => {
+                let spo2 = new Float32Array(file.target.result);
+                this.setState({spo2: spo2});
+                this.loadPulse(e, channelsList);
+            }
+            spo2Reader.readAsArrayBuffer(e.target.files[spo2Index]);
+        }
+    }
+
+    // step 7. 解析Pulse
+    loadPulse(e, channelsList){
+        let pulseIndex = -1;
+        for(let i=0; i<e.target.files.length; i++) if(e.target.files[i].name === "CHANNEL24.DAT") pulseIndex = i;
+        if(pulseIndex === -1) alert('找不到CHANNEL24.DAT');
+        else{
+            let pulseReader = new FileReader();
+            pulseReader.onload = (file) => {
+                let pulse = new Float32Array(file.target.result);
+                this.setState({pulse: pulse});
+                this.loadSound(e, channelsList);
+            }
+            pulseReader.readAsArrayBuffer(e.target.files[pulseIndex]);
+        }
+    }
+
+    // step 8. 解析Sound
+    loadSound(e, channelsList){
+        let soundIndex = -1;
+        for(let i=0; i<e.target.files.length; i++) if(e.target.files[i].name === channelsList.Sound) soundIndex = i;
+        if(soundIndex === -1) alert('找不到' + channelsList.Sound);
+        else{
+            let soundReader = new FileReader();
+            soundReader.onload = (file) => {
+                let sound = new Float32Array(file.target.result);
+                this.setState({sound: sound});
+            }
+            soundReader.readAsArrayBuffer(e.target.files[soundIndex]);
         }
     }
 

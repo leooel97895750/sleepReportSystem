@@ -19,12 +19,10 @@ class Report extends React.Component{
                 CPartData: {},
             },
             getEPartData: 0,
-            getGraphData: 0,
             getDiagnosisData: 0,
             getCPartData: 0,
         };
         this.updateEPartData = this.updateEPartData.bind(this);
-        this.updateGraphData = this.updateGraphData.bind(this);
         this.updateDiagnosisData = this.updateDiagnosisData.bind(this);
         this.updateCPartData = this.updateCPartData.bind(this);
     }
@@ -35,14 +33,11 @@ class Report extends React.Component{
         if(prevProps.getReport === 0 && this.props.getReport === 1){
             // EPart資料
             this.setState({getEPartData: 1}, () => {
-                // Graph資料
-                this.setState({getGraphData: 1}, () => {
-                    // Diagnosis資料
-                    this.setState({getDiagnosisData: 1}, () => {
-                        // CPart資料
-                        this.setState({getCPartData: 1}, () => {
-                            this.props.downloadReport(this.state.finalReportData);
-                        });
+                // Diagnosis資料
+                this.setState({getDiagnosisData: 1}, () => {
+                    // CPart資料
+                    this.setState({getCPartData: 1}, () => {
+                        this.props.downloadReport(this.state.finalReportData);
                     });
                 });
             });
@@ -55,14 +50,6 @@ class Report extends React.Component{
         finalReportData.EPartData = EPartData;
         this.setState({
             getEPartData: 0,
-            finalReportData: finalReportData,
-        });
-    }
-    updateGraphData(GraphData){
-        let finalReportData = this.state.finalReportData;
-        finalReportData.GraphData = GraphData;
-        this.setState({
-            getGraphData: 0,
             finalReportData: finalReportData,
         });
     }
@@ -84,7 +71,7 @@ class Report extends React.Component{
     }
 
     render(){
-        
+
         return(
             <div style={{width:"100%", display:this.props.display}}>
                 <div className="reportBlock" style={{fontFamily:"Times New Roman, DFKai-sb, sans-serif"}}>
@@ -102,26 +89,20 @@ class Report extends React.Component{
                     <EPart
                         getEPartData = {this.state.getEPartData}
                         updateEPartData = {this.updateEPartData}
-                        eventsCount = {this.props.eventsCount}
-                        cfg = {this.props.cfg}
-                        epochNum = {this.props.epochNum}
-                        sot = {this.props.sot}
-                        wake = {this.props.wake}
-                        n1 = {this.props.n1}
-                        n2 = {this.props.n2}
-                        n3 = {this.props.n3}
-                        rem = {this.props.rem}
+                        reportData = {this.props.reportData}
                     />
 
                     {/* Graphic summary */}
                     <br/><br/>
                     <Graph 
-                        getGraphData = {this.state.getGraphData}
+                        getGraphData = {this.props.getGraphData}
                         updateGraphData = {this.updateGraphData}
+                        insertGraphDataBase = {this.props.insertGraphDataBase}
+                        reportData = {this.props.reportData}
                         eventsTime = {this.props.eventsTime}
                         eventsCount = {this.props.eventsCount}
-                        startTime = {this.props.cfg.startTime}
-                        endTime = {this.props.cfg.endTime}
+                        startTime = {this.props.reportData.StartTime}
+                        endTime = {this.props.reportData.EndTime}
                         epochNum = {this.props.epochNum}
                         sleepStage = {this.props.sleepStage}
                         position = {this.props.position}
@@ -134,15 +115,8 @@ class Report extends React.Component{
                     <Diagnosis 
                         getDiagnosisData = {this.state.getDiagnosisData}
                         updateDiagnosisData = {this.updateDiagnosisData}
-                        AHI = {((this.props.eventsCount.CA + this.props.eventsCount.MA + this.props.eventsCount.OA + this.props.eventsCount.OH) / ((this.props.epochNum - this.props.wake) / 2) * 60).toFixed(1)}
-                        age = {this.props.cfg.age}
-                        epochNum = {this.props.epochNum}
-                        sot = {this.props.sot}
-                        wake = {this.props.wake}
-                        n1 = {this.props.n1}
-                        n2 = {this.props.n2}
-                        n3 = {this.props.n3}
-                        rem = {this.props.rem}
+                        AHI = {this.props.reportData.AHI}
+                        age = {this.props.reportData.Age}
                     />  
 
                     
@@ -156,15 +130,7 @@ class Report extends React.Component{
                     <CPart
                         getCPartData = {this.state.getCPartData}
                         updateCPartData = {this.updateCPartData}
-                        eventsCount = {this.props.eventsCount}
-                        cfg = {this.props.cfg}
-                        epochNum = {this.props.epochNum}
-                        sot = {this.props.sot}
-                        wake = {this.props.wake}
-                        n1 = {this.props.n1}
-                        n2 = {this.props.n2}
-                        n3 = {this.props.n3}
-                        rem = {this.props.rem}
+                        reportData = {this.props.reportData}
                     />
                 </div>
             </div>

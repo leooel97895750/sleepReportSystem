@@ -10,9 +10,23 @@ class Dataflow extends React.Component{
     constructor(props){
         super(props);
         this.state = {
+            // 整個系統的報告完整資料
+            reportData: {
+                CaseID: "", StudyDate: "",Name: "", Age: 0, Sex: "", DOB: "", Height: 0, Weight: 0, BMI: 0, Neck: 0, AHI: 0, AI: 0, HI: 0, 
+                OI: 0, CI: 0, MI: 0, AHI_Supine: 0,AHI_NSupine: 0, AHI_REM: 0, AHI_NREM: 0, AHI_Left: 0, AHI_Right: 0, AHI_REM_Supine: 0,
+                AHI_REM_NSupine: 0, AHI_NREM_Supine: 0, AHI_NREM_NSupine: 0, StartTime: "", EndTime: "",TotalRecordTime: 0, TotalSleepPeriod: 0, 
+                TotalSleepTime: 0, AwakeTime: 0, Stage1: 0,REM: 0, Stage2: 0, SleepLatency: 0, Stage3: 0, Efficiency: 0, ArousalIndex: 0, 
+                OA: 0, OAT: 0, CA: 0,CAT: 0, MA: 0, MAT: 0, HA: 0, HAT: 0, LA: 0, LH: 0, MeanSpO2: 0, MeanDesat: 0, MinSpO2: 0, ODI: 0, 
+                Snore: 0, SnoreIndex: 0, MS: 0, MR: 0, MN: 0, LS: 0, LR: 0, LN: 0, HS: 0, HR: 0, HN: 0, MeanHR: 0, MinHR: 0, LM_R: 0, LM_N: 0, 
+                LM_T: 0, PLM_R: 0, PLM_N: 0, PLM_T: 0, PLMI_R: 0, PLMI_N: 0, PLMI_T: 0, Baseline_path: "", Hypnogram_path: "", Event_path: "",
+                BodyPosition_path: "", HeartRate_path: "", SaO2_path: "", Sound_path: "", PLM_path: ""
+            },
+
+            graphExist: 0,
             isLoad: 0,
 
             getReport: 0, //是否傳資料回dataflow
+            getGraphData: 0,
             eventsTime: {'CA':[], 'OA':[], 'MA':[], 'OH':[]},
             eventsCount: {},
             sound: [],
@@ -44,6 +58,8 @@ class Dataflow extends React.Component{
         this.loadSpO2 = this.loadSpO2.bind(this);
         this.loadPulse = this.loadPulse.bind(this);
         this.loadSound = this.loadSound.bind(this);
+        this.insertGraphDataBase = this.insertGraphDataBase.bind(this);
+        this.insertReportDataBase = this.insertReportDataBase.bind(this);
     }
 
     updateFile(e){
@@ -65,12 +81,22 @@ class Dataflow extends React.Component{
 
                     if(caseIDJson.length !== 0){
                         alert('有資料');
-                        
+                        let RID = caseIDJson[0].RID;
+                        let selectReportUrl = "http://140.116.245.43:3000/selectReport?rid=" + RID;
+                        getAPI(selectReportUrl, (xhttp) => {
+                            let selectReportJson = JSON.parse(xhttp.responseText);
+                            console.log(selectReportJson);
+                            this.setState({
+                                reportData: selectReportJson[0],
+                                graphExist: 1,
+                                isLoad: 1, // report頁面出現
+                            });
+                        });
                     }
                     else{
                         alert('無資料 開始load file');
-
-                        /* 連續函式傳接呼叫: 
+                        /* 
+                            連續函式傳接呼叫: 
                             loadStageData => loadEventData => loadDataSegment => loadStudyCfg => 
                             loadPosition => loadSpO2 => loadPulse => loadSound 
                         */
@@ -100,7 +126,6 @@ class Dataflow extends React.Component{
                 let stageData = stageCalculate(sleepStage);
 
                 this.setState({
-                    isLoad: 1, // report頁面出現
                     sleepStage: sleepStage,
                     epochNum: sleepStage.length,
                     sot: stageData.sot,
@@ -261,21 +286,37 @@ class Dataflow extends React.Component{
             let soundReader = new FileReader();
             soundReader.onload = (file) => {
                 let sound = new Float32Array(file.target.result);
-                this.setState({sound: sound});
-                this.insertReportDataBase();
+                this.setState({
+                    sound: sound,
+                    getGraphData: 1,
+                });
             }
             soundReader.readAsArrayBuffer(e.target.files[soundIndex]);
         }
     }
 
-    // step 9. database insert report
-    insertReportDataBase(){
-        let reportData = reportDataCalculate(this);
-        // let insertReportUrl = "http://140.116.245.43:3000/insertReport";
-        // postJsonAPI(insertReportUrl, reportData, (xhttp) => {
-        //     let insertReportJson = JSON.parse(xhttp.responseText);
-        //     console.log(insertReportJson);
-        // });
+    // step 9. Graph儲存
+    insertGraphDataBase(GraphData){
+        this.setState({getGraphData: 0});
+        let graphUrl = "http://140.116.245.43:3000/graph";
+        postJsonAPI(graphUrl, GraphData, (xhttp) => {
+            console.log(xhttp.responseText);
+            let timestamp = xhttp.responseText;
+            this.insertReportDataBase(timestamp);
+        });
+    }
+
+    // step 10. database insert report
+    insertReportDataBase(timestamp){
+        let reportData = reportDataCalculate(this, timestamp);
+        let insertReportUrl = "http://140.116.245.43:3000/insertReport";
+        postJsonAPI(insertReportUrl, reportData, (xhttp) => {
+            console.log(xhttp.responseText);
+            this.setState({
+                reportData: reportData,
+                isLoad: 1, // report頁面出現
+            });
+        });
     }
 
     // 觸發Report資料回傳
@@ -342,22 +383,20 @@ class Dataflow extends React.Component{
                 <Report 
                     display = {this.state.isLoad ? 'block' : 'none'}
                     downloadReport = {this.downloadReport}
+                    insertGraphDataBase = {this.insertGraphDataBase}
+                    getGraphData = {this.state.getGraphData}
                     getReport = {this.state.getReport}
+                    reportData = {this.state.reportData}
                     eventsTime = {this.state.eventsTime}
                     eventsCount = {this.state.eventsCount}
-                    sound = {this.state.sound}
-                    pulse = {this.state.pulse}
+                    startTime = {this.state.reportData.StartTime}
+                    endTime = {this.state.reportData.EndTime}
+                    epochNum = {this.state.epochNum}
+                    sleepStage = {this.state.sleepStage}
                     position = {this.state.position}
                     spo2 = {this.state.spo2}
-                    sleepStage = {this.state.sleepStage}
-                    cfg = {this.state.cfg}
-                    epochNum = {this.state.epochNum}
-                    sot = {this.state.sot}
-                    wake = {this.state.wake}
-                    n1 = {this.state.n1}
-                    n2 = {this.state.n2}
-                    n3 = {this.state.n3}
-                    rem = {this.state.rem}
+                    pulse = {this.state.pulse}
+                    sound = {this.state.sound}
                 />
                 <footer style={{position: this.state.isLoad ? 'static' : 'fixed'}}>
                     <span>成大睡眠中心 National Cheng Kung University Hospital</span><br/>

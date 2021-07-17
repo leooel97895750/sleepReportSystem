@@ -158,14 +158,16 @@ export function studycfgCalculate(studycfgXML, duration){
     return {startDate, name, age, patientID, sex, dob, height, weight, bmi, neck, startTime, endTime, channelsList};
 }
 
-export function reportDataCalculate(dataflow){
+// 最終網頁顯示與存入資料庫的固定數值
+export function reportDataCalculate(dataflow, timestamp){
 
     const dfs = dataflow.state;
     const evn = dfs.eventsCount;
+    const yearMonth = timestamp.slice(0, 7);
     
-
     let reportData = {
         CaseID: dfs.cfg.patientID, 
+        StudyDate: dfs.cfg.startDate,
         Name: dfs.cfg.name, 
         Age: dfs.cfg.age, 
         Sex: dfs.cfg.sex, 
@@ -173,7 +175,7 @@ export function reportDataCalculate(dataflow){
         Height: dfs.cfg.height, 
         Weight: dfs.cfg.weight, 
         BMI: dfs.cfg.bmi, 
-        Neck: dfs.cfg.waist, 
+        Neck: dfs.cfg.neck, 
         AHI: (((evn.CA + evn.MA + evn.OA + evn.OH) / ((dfs.epochNum - dfs.wake) / 2) * 60).toFixed(1)), 
         AI: ((evn.CA + evn.MA + evn.OA) / ((dfs.epochNum - dfs.wake) / 2) * 60).toFixed(1), 
         HI: (evn.OH / ((dfs.epochNum - dfs.wake) / 2) * 60).toFixed(1), 
@@ -197,7 +199,7 @@ export function reportDataCalculate(dataflow){
         TotalSleepTime: ((dfs.epochNum - dfs.wake) / 2).toFixed(1), 
         AwakeTime: ((dfs.wake - dfs.sot) / 2).toFixed(1), 
         Stage1: ((dfs.n1 / (dfs.n1 + dfs.n2 + dfs.n3 + dfs.rem)) * 100).toFixed(1),
-        REM: ((dfs.rem / (dfs.n1 + dfs.n2 + dfps.n3 + dfs.rem)) * 100).toFixed(1), 
+        REM: ((dfs.rem / (dfs.n1 + dfs.n2 + dfs.n3 + dfs.rem)) * 100).toFixed(1), 
         Stage2: ((dfs.n2 / (dfs.n1 + dfs.n2 + dfs.n3 + dfs.rem)) * 100).toFixed(1), 
         SleepLatency: (dfs.sot / 2).toFixed(1), 
         Stage3: ((dfs.n3 / (dfs.n1 + dfs.n2 + dfs.n3 + dfs.rem)) * 100).toFixed(1), 
@@ -239,14 +241,14 @@ export function reportDataCalculate(dataflow){
         PLMI_R: 0, 
         PLMI_N: 0, 
         PLMI_T: 0, 
-        Baseline_path,
-        Hypnogram_path, 
-        Event_path, 
-        BodyPosition_path, 
-        HeartRate_path, 
-        SaO2_path,
-        Sound_path, 
-        PLM_path, 
+        Baseline_path: "./graphs/" + yearMonth + "/Baseline" + timestamp + ".png",
+        Hypnogram_path: "./graphs/" + yearMonth + "/Hynogram" + timestamp + ".png",
+        Event_path: "./graphs/" + yearMonth + "/Event" + timestamp + ".png",
+        BodyPosition_path: "./graphs/" + yearMonth + "/BodyPosition" + timestamp + ".png",
+        HeartRate_path: "./graphs/" + yearMonth + "/HeartRate" + timestamp + ".png",
+        SaO2_path: "./graphs/" + yearMonth + "/SaO2" + timestamp + ".png",
+        Sound_path: "./graphs/" + yearMonth + "/Sound" + timestamp + ".png",
+        PLM_path: "./graphs/" + yearMonth + "/PLM" + timestamp + ".png",
     };
     return reportData;
 }

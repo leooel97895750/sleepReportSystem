@@ -18,29 +18,35 @@ class Graph extends React.Component{
     componentDidUpdate(prevProps){
         // 將報告資料傳回Report
         if(prevProps.getGraphData === 0 && this.props.getGraphData === 1){
-            let GraphData = {
-                Baseline: document.getElementById("bCanvas").toDataURL('image/png'),
-                Hypnogram: document.getElementById("hCanvas").toDataURL('image/png'),
-                Event: document.getElementById("rCanvas").toDataURL('image/png'),
-                BodyPosition: document.getElementById("bpCanvas").toDataURL('image/png'),
-                HeartRate: document.getElementById("hrCanvas").toDataURL('image/png'),
-                SaO2: document.getElementById("smgCanvas").toDataURL('image/png'),
-                Sound: document.getElementById("sCanvas").toDataURL('image/png'),
-                PLM: document.getElementById("plmCanvas").toDataURL('image/png'),
-            };
-            this.props.updateGraphData(GraphData);
+            console.log("only one graph");
+            this.updateCanvas(1);
         }
         else{
-            this.updateCanvas();
+            console.log('graph!');
+            this.updateCanvas(0);
         }
     }
 
-    // 左邊為Label，右邊根據時間劃分區間
-    updateCanvas(){
+    updateGrpahData(){
+        // 完成繪製
+        let GraphData = {
+            Baseline: document.getElementById("bCanvas").toDataURL('image/png'),
+            Hypnogram: document.getElementById("hCanvas").toDataURL('image/png'),
+            Event: document.getElementById("rCanvas").toDataURL('image/png'),
+            BodyPosition: document.getElementById("bpCanvas").toDataURL('image/png'),
+            HeartRate: document.getElementById("hrCanvas").toDataURL('image/png'),
+            SaO2: document.getElementById("smgCanvas").toDataURL('image/png'),
+            Sound: document.getElementById("sCanvas").toDataURL('image/png'),
+            PLM: document.getElementById("plmCanvas").toDataURL('image/png'),
+        };
+        this.props.insertGraphDataBase(GraphData);
+    }
 
-        // 1.                  
-        // baseline繪製 (100*800)
-        //                     
+    // 左邊為Label，右邊根據時間劃分區間
+    updateCanvas(isOutput){
+
+        /* 1. baseline繪製 (100*800) */
+
         let bHeight = 100;
         let bWidth = 800;
 		let bCanvas = document.getElementById("bCanvas");
@@ -105,9 +111,8 @@ class Graph extends React.Component{
         bCTX.textAlign = "end";
         bCTX.fillText(this.props.endTime, bWidth, 85);
 
-        // 2.                  
-        // Hypnogram繪製 (100*800)
-        //
+        /* 2. Hypnogram繪製 (100*800) */
+
         let hHeight = 100;
         let hWidth = 800;
 		let hCanvas = document.getElementById("hCanvas");
@@ -148,9 +153,7 @@ class Graph extends React.Component{
         let sleepStage = this.props.sleepStage;
         let stageLength = Math.ceil(((hWidth - 100) * sleepStage.length)/ (blockNum * 120));
         let randomStage = Array.from(sleepStage);
-        //console.log(randomStage);
         let stageDeleteNum = sleepStage.length - stageLength;
-        //console.log(deleteNum);
         if(stageDeleteNum > 0){
             let deleteSpace = Math.floor(sleepStage.length / stageDeleteNum);
             //console.log(deleteSpace);
@@ -185,9 +188,7 @@ class Graph extends React.Component{
             } 
         }
 
-        // 3.                  
-        // Respiratory Event Graph繪製 (100*800)
-        //
+        /* 3. Respiratory Event Graph繪製 (100*800) */
 
         let rHeight = 300;
         let rWidth = 800;
@@ -279,9 +280,8 @@ class Graph extends React.Component{
             rCTX.stroke();
         }
 
-        // 4.
-        // Body Position
-        //
+        /* 4. Body Position */
+
         let bpHeight = 100;
         let bpWidth = 800;
 		let bpCanvas = document.getElementById("bpCanvas");
@@ -318,7 +318,6 @@ class Graph extends React.Component{
             randomPosition.push(position[i*chooseSpace]);
         }
         position = null;
-        //console.log(randomPosition);
         // R:nul(0), B:soh(1), L:stx(2), F:etx(3), U:eot(4)
         let lastx = 100;
         let lasty = 0;
@@ -364,9 +363,8 @@ class Graph extends React.Component{
             bpCTX.stroke();
         }
 
-        // 5.
-        // Heart Rate(BPM)
-        //
+        /* 5. Heart Rate(BPM) */
+
         let hrHeight = 100;
         let hrWidth = 800;
 		let hrCanvas = document.getElementById("hrCanvas");
@@ -425,9 +423,8 @@ class Graph extends React.Component{
             pulselasty = pulseConvert;
         }
 
-        // 6.
-        // SaO2 Min/Max Graph
-        //
+        /* 6. SaO2 Min/Max Graph */
+
         let smgHeight = 100;
         let smgWidth = 800;
 		let smgCanvas = document.getElementById("smgCanvas");
@@ -490,9 +487,8 @@ class Graph extends React.Component{
             spo2lasty = spo2Convert;
         }
 
-        // 7.
-        // Sound
-        //
+        /* 7. Sound */
+
         let sHeight = 50;
         let sWidth = 800;
 		let sCanvas = document.getElementById("sCanvas");
@@ -539,9 +535,8 @@ class Graph extends React.Component{
             sCTX.stroke();
         }
 
-        // 8.
-        // PLM
-        //
+        /* 8. PLM */
+        
         let plmHeight = 50;
         let plmWidth = 800;
 		let plmCanvas = document.getElementById("plmCanvas");
@@ -568,6 +563,12 @@ class Graph extends React.Component{
         plmCTX.strokeStyle = "black";
         plmCTX.lineWidth = "1";
         plmCTX.stroke();
+
+        // 將graph data傳至dataflow
+        if(isOutput){
+            this.updateGrpahData();
+        } 
+
 	}
 
     render(){

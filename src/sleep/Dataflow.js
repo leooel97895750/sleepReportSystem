@@ -2,6 +2,7 @@ import React from 'react';
 import '../css/dataflow.css';
 import Report from './Report';
 import shark from '../image/shark.gif';
+import watson from '../image/watson.gif';
 import {getAPI, postAPI, postJsonAPI, postMdbAPI, postWordAPI} from './functions/API.js';
 import {stageCalculate, eventCalculate, studycfgCalculate, reportDataCalculate} from './functions/Calculate.js';
 
@@ -23,6 +24,8 @@ class Dataflow extends React.Component{
             },
 
             graphExist: 0,
+            waiting: 1,
+            loading: 0,
             isLoad: 0,
 
             getReport: 0, //是否傳資料回dataflow
@@ -77,7 +80,6 @@ class Dataflow extends React.Component{
                 let caseIDUrl = "http://140.116.245.43:3000/caseID?caseID=" + caseID;
                 getAPI(caseIDUrl, (xhttp) => {
                     let caseIDJson = JSON.parse(xhttp.responseText);
-                    console.log(caseIDJson);
 
                     if(caseIDJson.length !== 0){
                         alert('有資料');
@@ -85,7 +87,6 @@ class Dataflow extends React.Component{
                         let selectReportUrl = "http://140.116.245.43:3000/selectReport?rid=" + RID;
                         getAPI(selectReportUrl, (xhttp) => {
                             let selectReportJson = JSON.parse(xhttp.responseText);
-                            console.log(selectReportJson);
                             this.setState({
                                 reportData: selectReportJson[0],
                                 graphExist: 1,
@@ -100,6 +101,10 @@ class Dataflow extends React.Component{
                             loadStageData => loadEventData => loadDataSegment => loadStudyCfg => 
                             loadPosition => loadSpO2 => loadPulse => loadSound 
                         */
+                        this.setState({
+                            waiting: 0,
+                            loading: 1,
+                        });
                         this.loadStageData(e);
                     }
                 });
@@ -114,8 +119,10 @@ class Dataflow extends React.Component{
     // step 1. 解析睡眠階段: 尋找 "SLPSTAG.DAT"，參數:檔案event、檔案index、完成後下一個函式
     loadStageData(e){
         let slpstagIndex = -1;
-        for(let i=0; i<e.target.files.length; i++) if(e.target.files[i].name === "SLPSTAG.DAT") slpstagIndex = i;
-        if(slpstagIndex === -1) alert('找不到SLPSTAG.DAT');
+        for(let i=0; i<e.target.files.length; i++) if(e.target.files[i].name === "SLP2.DAT") slpstagIndex = i;
+        if(slpstagIndex === -1) for(let i=0; i<e.target.files.length; i++) if(e.target.files[i].name === "SLPSTAG.DAT") slpstagIndex = i;
+        
+        if(slpstagIndex === -1) alert('找不到 SLP2.DAT 或 SLPSTAG.DAT');
         else{
             let stageReader = new FileReader();
             stageReader.onload = (file) => {
@@ -205,7 +212,6 @@ class Dataflow extends React.Component{
                 
                 // calculate function 進行計算
                 let studycfgData = studycfgCalculate(studycfgXML, duration);
-                console.log(studycfgData);
 
                 tmpCfg.startDate = studycfgData.startDate;
                 tmpCfg.name = studycfgData.name;
@@ -309,11 +315,13 @@ class Dataflow extends React.Component{
     // step 10. database insert report
     insertReportDataBase(timestamp){
         let reportData = reportDataCalculate(this, timestamp);
+        console.log(reportData);
         let insertReportUrl = "http://140.116.245.43:3000/insertReport";
         postJsonAPI(insertReportUrl, reportData, (xhttp) => {
             console.log(xhttp.responseText);
             this.setState({
                 reportData: reportData,
+                loading: 0,
                 isLoad: 1, // report頁面出現
             });
         });
@@ -375,9 +383,16 @@ class Dataflow extends React.Component{
                     </label>
                 </div>
 
-                <div className="waiting" style={{display: this.state.isLoad ? 'none' : 'block'}}>
+                <div className="waiting" style={{display: this.state.waiting ? 'block' : 'none'}}>
                     <b id="waitingWord">尚未選取PSG資料夾</b><br/>
                     <img src={shark} alt="尚未選取PSG資料夾" style={{width:"200px", height:"200px"}}/>
+                </div>
+
+                <div className="waiting" style={{display: this.state.loading ? 'block' : 'none'}}>
+                    <b id="loadingWord1">檔案讀取中...</b><br/>
+                    <b id="loadingWord2">資料庫建立中...</b><br/>
+                    <b id="loadingWord3">資料計算中...</b><br/>
+                    <img src={watson} alt="資料處理中" style={{width:"200px", height:"200px"}}/>
                 </div>
 
                 <Report 

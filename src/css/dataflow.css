@@ -40,12 +40,47 @@
     animation-direction:alternate;
 }
 @keyframes word1{
-    from{
-        opacity: 1;
-    }
-    to{
-        opacity: 0.2;
-    }
+    0% {opacity: 1;}
+    100% {opacity: 0.2;}
+}
+#loadingWord1{
+    animation-name: lw1;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+    animation-direction:normal;
+}
+@keyframes lw1{
+    0% {opacity: 1;}
+    25% {opacity: 0.6;}
+    50% {opacity: 0.2;}
+    75% {opacity: 0.6;}
+    100% {opacity: 1;}
+}
+#loadingWord2{
+    animation-name: lw2;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+    animation-direction:normal;
+}
+@keyframes lw2{
+    0% {opacity: 0.6;}
+    25% {opacity: 0.2;}
+    50% {opacity: 0.6;}
+    75% {opacity: 1;}
+    100% {opacity: 0.6;}
+}
+#loadingWord3{
+    animation-name: lw3;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+    animation-direction:normal;
+}
+@keyframes lw3{
+    0% {opacity: 0.2;}
+    25% {opacity: 0.6;}
+    50% {opacity: 1;}
+    75% {opacity: 0.6;}
+    100% {opacity: 0.2;}
 }
 footer{
     bottom: 0px;

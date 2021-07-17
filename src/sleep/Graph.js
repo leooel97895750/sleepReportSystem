@@ -17,7 +17,7 @@ class Graph extends React.Component{
     }
 
     componentDidUpdate(prevProps){
-        console.log(this.props.graphExist);
+        
         // 將server儲存的圖片載回
         if(this.props.graphExist){
             let getGraphData = {
@@ -33,7 +33,6 @@ class Graph extends React.Component{
             let getGrpahUrl = "http://140.116.245.43:3000/getGraph";
             postJsonAPI(getGrpahUrl, getGraphData, (xhttp) => {
                 let getGrpahJson = JSON.parse(xhttp.responseText);
-                console.log(getGrpahJson);
 
                 let graphNameList = ["Baseline", "Hypnogram", "Event", "BodyPosition", "HeartRate", "SaO2", "Sound", "PLM"];
                 let canvasNameList = ["bCanvas", "hCanvas", "rCanvas", "bpCanvas", "hrCanvas", "smgCanvas", "sCanvas", "plmCanvas"];

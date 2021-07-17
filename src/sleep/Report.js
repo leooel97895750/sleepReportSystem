@@ -96,7 +96,7 @@ class Report extends React.Component{
                     <br/><br/>
                     <Graph 
                         getGraphData = {this.props.getGraphData}
-                        updateGraphData = {this.updateGraphData}
+                        graphExist = {this.props.graphExist}
                         insertGraphDataBase = {this.props.insertGraphDataBase}
                         reportData = {this.props.reportData}
                         eventsTime = {this.props.eventsTime}

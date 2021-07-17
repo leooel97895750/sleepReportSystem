@@ -383,6 +383,7 @@ class Dataflow extends React.Component{
                 <Report 
                     display = {this.state.isLoad ? 'block' : 'none'}
                     downloadReport = {this.downloadReport}
+                    graphExist = {this.state.graphExist}
                     insertGraphDataBase = {this.insertGraphDataBase}
                     getGraphData = {this.state.getGraphData}
                     getReport = {this.state.getReport}

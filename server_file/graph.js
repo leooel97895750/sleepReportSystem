@@ -10,6 +10,13 @@ router.post('/graph', function(req, res, next) {
     let timeElapsed = Date.now();
     let today = new Date(timeElapsed);
     let timestamp = today.toISOString();
+    let yearMonth = timestamp.slice(0, 7);
+    console.log(yearMonth);
+
+    // 同步創建資料夾
+    if(!fs.existsSync(path.resolve(__dirname, "./graphs/" + yearMonth))){
+        fs.mkdirSync(path.resolve(__dirname, "./graphs/" + yearMonth));
+    }
 
     // 非同步完成所有圖片儲存後返回 timestamp，失敗返回graph bad
     function promise(number){
@@ -19,7 +26,7 @@ router.post('/graph', function(req, res, next) {
             let base64Data = base64DataList[number].replace(/^data:image\/png;base64,/, "");
             let filename = fileNameList[number];
 
-            fs.writeFile(path.resolve(__dirname, "./graphs/"+ filename + timestamp +".png"), base64Data, 'base64', function(err) {
+            fs.writeFile(path.resolve(__dirname, "./graphs/" + yearMonth + "/" + filename + timestamp + ".png"), base64Data, 'base64', function(err) {
                 if(err) reject(filename + timestamp + '.png寫入失敗');
                 else resolve(filename + timestamp + '.png寫入成功');
             });

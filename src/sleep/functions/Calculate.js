@@ -242,7 +242,7 @@ export function reportDataCalculate(dataflow, timestamp){
         PLMI_N: 0, 
         PLMI_T: 0, 
         Baseline_path: "./graphs/" + yearMonth + "/Baseline" + timestamp + ".png",
-        Hypnogram_path: "./graphs/" + yearMonth + "/Hynogram" + timestamp + ".png",
+        Hypnogram_path: "./graphs/" + yearMonth + "/Hypnogram" + timestamp + ".png",
         Event_path: "./graphs/" + yearMonth + "/Event" + timestamp + ".png",
         BodyPosition_path: "./graphs/" + yearMonth + "/BodyPosition" + timestamp + ".png",
         HeartRate_path: "./graphs/" + yearMonth + "/HeartRate" + timestamp + ".png",

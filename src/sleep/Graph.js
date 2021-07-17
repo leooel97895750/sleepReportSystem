@@ -1,5 +1,6 @@
 import React from 'react';
 import '../css/graph.css';
+import {postJsonAPI} from './functions/API.js';
 
 
 // Report繪圖
@@ -16,11 +17,43 @@ class Graph extends React.Component{
     }
 
     componentDidUpdate(prevProps){
-        // 將報告資料傳回Report
-        if(prevProps.getGraphData === 0 && this.props.getGraphData === 1){
+        console.log(this.props.graphExist);
+        // 將server儲存的圖片載回
+        if(this.props.graphExist){
+            let getGraphData = {
+                Baseline_path: this.props.reportData.Baseline_path,
+                Hypnogram_path: this.props.reportData.Hypnogram_path,
+                Event_path: this.props.reportData.Event_path,
+                BodyPosition_path: this.props.reportData.BodyPosition_path,
+                HeartRate_path: this.props.reportData.HeartRate_path,
+                SaO2_path: this.props.reportData.SaO2_path,
+                Sound_path: this.props.reportData.Sound_path,
+                PLM_path: this.props.reportData.PLM_path,
+            };
+            let getGrpahUrl = "http://140.116.245.43:3000/getGraph";
+            postJsonAPI(getGrpahUrl, getGraphData, (xhttp) => {
+                let getGrpahJson = JSON.parse(xhttp.responseText);
+                console.log(getGrpahJson);
+
+                let graphNameList = ["Baseline", "Hypnogram", "Event", "BodyPosition", "HeartRate", "SaO2", "Sound", "PLM"];
+                let canvasNameList = ["bCanvas", "hCanvas", "rCanvas", "bpCanvas", "hrCanvas", "smgCanvas", "sCanvas", "plmCanvas"];
+                for(let i=0; i<8; i++){
+                    let myCanvas = document.getElementById(canvasNameList[i]);
+                    let ctx = myCanvas.getContext("2d");
+                    let image = new Image();
+                    image.onload = function() { ctx.drawImage(image, 0, 0); }
+                    image.src = "data:image/png;base64," + getGrpahJson[graphNameList[i]];
+                }
+            });
+        }
+
+        // 將canvas傳成base64傳至dataflow
+        else if(prevProps.getGraphData === 0 && this.props.getGraphData === 1){
             console.log("only one graph");
             this.updateCanvas(1);
         }
+
+        // 更新canvas
         else{
             console.log('graph!');
             this.updateCanvas(0);
@@ -592,7 +625,7 @@ class Graph extends React.Component{
                 <div style={{width:"1000px", margin:"0px auto", fontWeight:"bold"}}>
                     Respiratory Event Graph
                     <div style={{width:"100%"}}>
-                        <canvas id = "rCanvas" width = "800px" height = "100px" style={{display:"block", margin:"0px auto"}}/>
+                        <canvas id = "rCanvas" width = "800px" height = "300px" style={{display:"block", margin:"0px auto"}}/>
                     </div>
                 </div>
                 <div style={{width:"1000px", margin:"0px auto", fontWeight:"bold"}}>
@@ -616,13 +649,13 @@ class Graph extends React.Component{
                 <div style={{width:"1000px", margin:"0px auto", fontWeight:"bold"}}>
                     Sound
                     <div style={{width:"100%"}}>
-                        <canvas id = "sCanvas" width = "800px" height = "100px" style={{display:"block", margin:"0px auto"}}/>
+                        <canvas id = "sCanvas" width = "800px" height = "50px" style={{display:"block", margin:"0px auto"}}/>
                     </div>
                 </div>
                 <div style={{width:"1000px", margin:"0px auto", fontWeight:"bold"}}>
                     PLM
                     <div style={{width:"100%"}}>
-                        <canvas id = "plmCanvas" width = "800px" height = "100px" style={{display:"block", margin:"0px auto"}}/>
+                        <canvas id = "plmCanvas" width = "800px" height = "50px" style={{display:"block", margin:"0px auto"}}/>
                     </div>
                 </div>
             </div>

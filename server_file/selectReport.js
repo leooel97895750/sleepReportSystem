@@ -13,13 +13,14 @@ let pool = mariadb.createPool({
 let express = require('express');
 let router = express.Router();
 
-router.get('/insertTest', function(req, res, next) {
+// 查詢report所有資料
+router.get('/selectReport', function(req, res, next) {
     
-    let p1 = 9789;
+    let p1 = req.query.rid;
 
     pool.getConnection()
     .then(conn => {
-        conn.query("insert into `test`(var1) values(?)", [p1])
+        conn.query("select * from report where RID=?", [p1])
         .then(result => {
             res.send(result);
             conn.release();

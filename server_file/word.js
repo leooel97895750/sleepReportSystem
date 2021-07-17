@@ -154,14 +154,6 @@ router.post('/word', function(req, res, next) {
     fs.writeFileSync(path.resolve(__dirname, './reports/output.docx'), buffer);
     console.log('WORD檔寫入成功');
     // 刪除上傳的檔案
-    fs.unlinkSync(path.resolve(__dirname, "./graphs/Baseline" + ts + ".png"));
-    fs.unlinkSync(path.resolve(__dirname, "./graphs/Hypnogram" + ts + ".png"));
-    fs.unlinkSync(path.resolve(__dirname, "./graphs/Event" + ts + ".png"));
-    fs.unlinkSync(path.resolve(__dirname, "./graphs/BodyPosition" + ts + ".png"));
-    fs.unlinkSync(path.resolve(__dirname, "./graphs/HeartRate" + ts + ".png"));
-    fs.unlinkSync(path.resolve(__dirname, "./graphs/SaO2" + ts + ".png"));
-    fs.unlinkSync(path.resolve(__dirname, "./graphs/Sound" + ts + ".png"));
-    fs.unlinkSync(path.resolve(__dirname, "./graphs/PLM" + ts + ".png"));
 
     // 以docx格式回傳檔案
     res.set({"Content-Disposition": "attachment; filename=test.docx","Content-type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document;"})

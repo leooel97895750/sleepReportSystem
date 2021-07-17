@@ -102,6 +102,7 @@ class Dataflow extends React.Component{
                             loadPosition => loadSpO2 => loadPulse => loadSound 
                         */
                         this.setState({
+                            isLoad: 0,
                             waiting: 0,
                             loading: 1,
                         });
@@ -121,7 +122,7 @@ class Dataflow extends React.Component{
         let slpstagIndex = -1;
         for(let i=0; i<e.target.files.length; i++) if(e.target.files[i].name === "SLP2.DAT") slpstagIndex = i;
         if(slpstagIndex === -1) for(let i=0; i<e.target.files.length; i++) if(e.target.files[i].name === "SLPSTAG.DAT") slpstagIndex = i;
-        
+
         if(slpstagIndex === -1) alert('找不到 SLP2.DAT 或 SLPSTAG.DAT');
         else{
             let stageReader = new FileReader();

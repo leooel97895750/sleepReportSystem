@@ -159,11 +159,11 @@ export function studycfgCalculate(studycfgXML, duration){
 }
 
 // 最終網頁顯示與存入資料庫的固定數值
-export function reportDataCalculate(dataflow, timestamp){
+export function reportDataCalculate(dataflow){
 
     const dfs = dataflow.state;
     const evn = dfs.eventsCount;
-    const yearMonth = timestamp.slice(0, 7);
+    const yearMonth = dfs.timestamp.slice(0, 7);
     
     let reportData = {
         CaseID: dfs.cfg.patientID + ":" + dfs.cfg.startDate, 
@@ -241,14 +241,14 @@ export function reportDataCalculate(dataflow, timestamp){
         PLMI_R: 0, 
         PLMI_N: 0, 
         PLMI_T: 0, 
-        Baseline_path: "./graphs/" + yearMonth + "/Baseline" + timestamp + ".png",
-        Hypnogram_path: "./graphs/" + yearMonth + "/Hypnogram" + timestamp + ".png",
-        Event_path: "./graphs/" + yearMonth + "/Event" + timestamp + ".png",
-        BodyPosition_path: "./graphs/" + yearMonth + "/BodyPosition" + timestamp + ".png",
-        HeartRate_path: "./graphs/" + yearMonth + "/HeartRate" + timestamp + ".png",
-        SaO2_path: "./graphs/" + yearMonth + "/SaO2" + timestamp + ".png",
-        Sound_path: "./graphs/" + yearMonth + "/Sound" + timestamp + ".png",
-        PLM_path: "./graphs/" + yearMonth + "/PLM" + timestamp + ".png",
+        Baseline_path: "./graphs/" + yearMonth + "/Baseline" + dfs.timestamp + ".png",
+        Hypnogram_path: "./graphs/" + yearMonth + "/Hypnogram" + dfs.timestamp + ".png",
+        Event_path: "./graphs/" + yearMonth + "/Event" + dfs.timestamp + ".png",
+        BodyPosition_path: "./graphs/" + yearMonth + "/BodyPosition" + dfs.timestamp + ".png",
+        HeartRate_path: "./graphs/" + yearMonth + "/HeartRate" + dfs.timestamp + ".png",
+        SaO2_path: "./graphs/" + yearMonth + "/SaO2" + dfs.timestamp + ".png",
+        Sound_path: "./graphs/" + yearMonth + "/Sound" + dfs.timestamp + ".png",
+        PLM_path: "./graphs/" + yearMonth + "/PLM" + dfs.timestamp + ".png",
     };
     return reportData;
 }

@@ -29,6 +29,8 @@ class Dataflow extends React.Component{
             loading: 0,
             isLoad: 0,
 
+            timestamp: "",
+
             getReport: 0, //是否傳資料回dataflow
             getGraphData: 0,
             events: {},
@@ -106,7 +108,11 @@ class Dataflow extends React.Component{
                             loadStageData => loadEventData => loadDataSegment => loadStudyCfg => 
                             loadPosition => loadSpO2 => loadPulse => loadSound 
                         */
+                        let timeElapsed = Date.now();
+                        let today = new Date(timeElapsed);
+                        let timestamp = today.toISOString();
                         this.setState({
+                            timestamp: timestamp,
                             isLoad: 0,
                             waiting: 0,
                             loading: 1,
@@ -161,7 +167,7 @@ class Dataflow extends React.Component{
         for(let i=0; i<e.target.files.length; i++) if(e.target.files[i].name === "EVENTS.MDB") eventsIndex = i;
         if(eventsIndex === -1) alert('EVENTS.MDB');
         else{
-            let mdbUrl = "http://140.116.245.43:3000/mdb";
+            let mdbUrl = "http://140.116.245.43:3000/mdb?timestamp=" + this.state.timestamp;
             let mdbData = new FormData();
             mdbData.append('file', e.target.files[eventsIndex]);
             postMdbAPI(mdbUrl, mdbData, (xhttp) => {
@@ -311,17 +317,16 @@ class Dataflow extends React.Component{
     // step 9. Graph儲存
     insertGraphDataBase(GraphData){
         this.setState({getGraphData: 0});
-        let graphUrl = "http://140.116.245.43:3000/graph";
+        let graphUrl = "http://140.116.245.43:3000/graph?timestamp=" + this.state.timestamp;
         postJsonAPI(graphUrl, GraphData, (xhttp) => {
             console.log(xhttp.responseText);
-            let timestamp = xhttp.responseText;
-            this.insertReportDataBase(timestamp);
+            this.insertReportDataBase();
         });
     }
 
     // step 10. database insert report
-    insertReportDataBase(timestamp){
-        let reportData = reportDataCalculate(this, timestamp);
+    insertReportDataBase(){
+        let reportData = reportDataCalculate(this);
         console.log(reportData);
         let insertReportUrl = "http://140.116.245.43:3000/insertReport";
         postJsonAPI(insertReportUrl, reportData, (xhttp) => {
@@ -356,12 +361,8 @@ class Dataflow extends React.Component{
 
     // step 12. bulk insert event
     insertEventDataBase(){
-        let insertEventUrl = "http://140.116.245.43:3000/insertEvent";
-        let eventsData = {
-            RID: this.state.RID,
-            events: this.state.events,
-        };
-        postJsonAPI(insertEventUrl, eventsData, (xhttp) => {
+        let insertEventUrl = "http://140.116.245.43:3000/insertEvent?timestamp=" + this.state.timestamp + "&rid=" + this.state.RID;
+        getAPI(insertEventUrl, (xhttp) => {
             console.log(xhttp.responseText);
             this.insertPositionDataBase();
         });
@@ -369,10 +370,15 @@ class Dataflow extends React.Component{
 
     // step 13. bulk insert position
     insertPositionDataBase(){
+        let randomPosition = [];
+        let chooseSpace = Math.floor(this.state.position.length / this.state.epochNum);
+        for(let i=0; i<this.state.epochNum; i++){
+            randomPosition.push(this.state.position[i*chooseSpace]);
+        }
         let insertPositionUrl = "http://140.116.245.43:3000/insertPosition";
         let positionData = {
             RID: this.state.RID,
-            position: this.state.position,
+            position: randomPosition,
         };
         postJsonAPI(insertPositionUrl, positionData, (xhttp) => {
             console.log(xhttp.responseText);

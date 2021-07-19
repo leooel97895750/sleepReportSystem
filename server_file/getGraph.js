@@ -6,7 +6,6 @@ const bodyParser = require('body-parser');
 
 router.post('/getGraph', function(req, res, next) {
     let getGraphJson = req.body;
-    console.log(getGraphJson);
 
     try{
         let Baseline = fs.readFileSync(path.join(__dirname, getGraphJson.Baseline_path), {encoding: 'base64'});
@@ -17,7 +16,7 @@ router.post('/getGraph', function(req, res, next) {
         let SaO2 = fs.readFileSync(path.join(__dirname, getGraphJson.SaO2_path), {encoding: 'base64'});
         let Sound = fs.readFileSync(path.join(__dirname, getGraphJson.Sound_path), {encoding: 'base64'});
         let PLM = fs.readFileSync(path.join(__dirname, getGraphJson.PLM_path), {encoding: 'base64'});
-        
+
         let graphData = {
             Baseline: Baseline,
             Hypnogram: Hypnogram, 

@@ -7,11 +7,10 @@ const bodyParser = require('body-parser');
 router.post('/graph', function(req, res, next) {
     let graphJson = req.body;
     //console.log(graphJson);
-    let timeElapsed = Date.now();
-    let today = new Date(timeElapsed);
-    let timestamp = today.toISOString();
+
+    let timestamp = req.query.timestamp;
     let yearMonth = timestamp.slice(0, 7);
-    console.log(yearMonth);
+    //console.log(yearMonth);
 
     // 同步創建資料夾
     if(!fs.existsSync(path.resolve(__dirname, "./graphs/" + yearMonth))){
@@ -64,7 +63,7 @@ router.post('/graph', function(req, res, next) {
     })
     .then((msg) => {
         console.log(msg);
-        res.send(timestamp);
+        res.send("graph good");
     })
     .catch((err) => {
         console.log(err);

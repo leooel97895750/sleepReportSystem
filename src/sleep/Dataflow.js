@@ -3,7 +3,7 @@ import '../css/dataflow.css';
 import Report from './Report';
 import shark from '../image/shark.gif';
 import watson from '../image/watson.gif';
-import {getAPI, postAPI, postJsonAPI, postMdbAPI, postWordAPI} from './functions/API.js';
+import {getAPI, postAPI, postJsonAPI, postMdbAPI, getWordAPI} from './functions/API.js';
 import {stageCalculate, eventCalculate, studycfgCalculate, reportDataCalculate} from './functions/Calculate.js';
 
 
@@ -55,7 +55,6 @@ class Dataflow extends React.Component{
 
         };
         this.updateFile = this.updateFile.bind(this);
-        this.getReportData = this.getReportData.bind(this);
         this.downloadReport = this.downloadReport.bind(this);
         this.loadStageData = this.loadStageData.bind(this);
         this.loadEventData = this.loadEventData.bind(this);
@@ -67,6 +66,9 @@ class Dataflow extends React.Component{
         this.loadSound = this.loadSound.bind(this);
         this.insertGraphDataBase = this.insertGraphDataBase.bind(this);
         this.insertReportDataBase = this.insertReportDataBase.bind(this);
+        this.insertStageDataBase = this.insertStageDataBase.bind(this);
+        this.insertEventDataBase = this.insertEventDataBase.bind(this);
+        this.insertPositionDataBase = this.insertPositionDataBase.bind(this);
     }
 
     updateFile(e){
@@ -120,19 +122,16 @@ class Dataflow extends React.Component{
                         this.loadStageData(e);
                     }
                 });
-                
             }
             caseIDReader.readAsText(e.target.files[configIndex]);
         }
-
-        
     }
 
     // step 1. 解析睡眠階段: 尋找 "SLPSTAG.DAT"，參數:檔案event、檔案index、完成後下一個函式
     loadStageData(e){
+        // 有兩種檔案，可能要看LST來分別
         let slpstagIndex = -1;
-        for(let i=0; i<e.target.files.length; i++) if(e.target.files[i].name === "SLP2.DAT") slpstagIndex = i;
-        if(slpstagIndex === -1) for(let i=0; i<e.target.files.length; i++) if(e.target.files[i].name === "SLPSTAG.DAT") slpstagIndex = i;
+        for(let i=0; i<e.target.files.length; i++) if(e.target.files[i].name === "SLPSTAG.DAT") slpstagIndex = i;
 
         if(slpstagIndex === -1) alert('找不到 SLP2.DAT 或 SLPSTAG.DAT');
         else{
@@ -389,31 +388,11 @@ class Dataflow extends React.Component{
         });
     }
 
-    // 觸發Report資料回傳
-    getReportData(){
-        this.setState({
-            getReport: 1,
-        })
+    // 產生WORD並下載
+    downloadReport(){
+        let wordUrl = "http://140.116.245.43:3000/word?rid=" + this.state.RID;
+        getWordAPI(wordUrl);
     }
-    // 傳入資料產生WORD並下載
-    downloadReport(reportData){
-        this.setState({
-            getReport: 0,
-        })
-        console.log(reportData);
-        
-        // 先存圖片
-        let graphUrl = "http://140.116.245.43:3000/graph";
-        postJsonAPI(graphUrl, reportData.GraphData, (xhttp) => {
-            console.log(xhttp.responseText);
-
-            // 增加圖片時戳並產生word檔
-            reportData.timestamp = xhttp.responseText;
-            let wordUrl = "http://140.116.245.43:3000/word";
-            postWordAPI(wordUrl, reportData);
-        });
-    }
-
 
     render(){
         return(
@@ -439,7 +418,7 @@ class Dataflow extends React.Component{
                     <label>
                         <span className="fileButton">下載報告檔</span>
                         <button 
-                            onClick = {this.getReportData}
+                            onClick = {this.downloadReport}
                             style = {{display: 'none'}}
                         />
                     </label>
@@ -454,7 +433,7 @@ class Dataflow extends React.Component{
                     <b id="loadingWord4">檔案讀取中...</b><br/>
                     <b id="loadingWord3">資料庫建立中...</b><br/>
                     <b id="loadingWord2">數值計算中...</b><br/>
-                    <b id="loadingWord1">圖片繪製中...</b><br/>
+                    <b id="loadingWord1">圖型繪製中...</b><br/>
                     <img src={watson} alt="資料處理中" style={{width:"200px", height:"200px"}}/>
                 </div>
 
@@ -464,7 +443,6 @@ class Dataflow extends React.Component{
                     graphExist = {this.state.graphExist}
                     insertGraphDataBase = {this.insertGraphDataBase}
                     getGraphData = {this.state.getGraphData}
-                    getReport = {this.state.getReport}
                     reportData = {this.state.reportData}
                     eventsTime = {this.state.eventsTime}
                     eventsCount = {this.state.eventsCount}

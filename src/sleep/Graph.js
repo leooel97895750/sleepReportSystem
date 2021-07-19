@@ -48,13 +48,12 @@ class Graph extends React.Component{
 
         // 將canvas傳成base64傳至dataflow
         else if(prevProps.getGraphData === 0 && this.props.getGraphData === 1){
-            console.log("only one graph");
+            console.log("graph update after rendering");
             this.updateCanvas(1);
         }
 
         // 更新canvas
         else{
-            console.log('graph!');
             this.updateCanvas(0);
         }
     }

@@ -50,7 +50,7 @@ export function postJsonAPI(url, data, callFun) {
   xhttp.send(JSON.stringify(data));
 }
 
-export function postWordAPI(url, data) {
+export function getWordAPI(url) {
   let xhttp = new XMLHttpRequest();
   xhttp.responseType = 'blob';
   xhttp.onload = () => {
@@ -66,9 +66,8 @@ export function postWordAPI(url, data) {
     } 
   }
 
-  xhttp.open("POST", url, true);
-  xhttp.setRequestHeader("Content-type", "application/json");
-  xhttp.send(JSON.stringify(data));
+  xhttp.open("GET", url, true);
+  xhttp.send();
 }
 
 export function postMdbAPI(url, data, callFun) {

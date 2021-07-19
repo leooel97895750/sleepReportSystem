@@ -166,7 +166,7 @@ export function reportDataCalculate(dataflow, timestamp){
     const yearMonth = timestamp.slice(0, 7);
     
     let reportData = {
-        CaseID: dfs.cfg.patientID, 
+        CaseID: dfs.cfg.patientID + ":" + dfs.cfg.startDate, 
         StudyDate: dfs.cfg.startDate,
         Name: dfs.cfg.name, 
         Age: dfs.cfg.age, 

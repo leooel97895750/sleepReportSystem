@@ -12,6 +12,7 @@ class Dataflow extends React.Component{
         super(props);
         this.state = {
             // 整個系統的報告完整資料
+            RID: 0,
             reportData: {
                 CaseID: "", StudyDate: "",Name: "", Age: 0, Sex: "", DOB: "", Height: 0, Weight: 0, BMI: 0, Neck: 0, AHI: 0, AI: 0, HI: 0, 
                 OI: 0, CI: 0, MI: 0, AHI_Supine: 0,AHI_NSupine: 0, AHI_REM: 0, AHI_NREM: 0, AHI_Left: 0, AHI_Right: 0, AHI_REM_Supine: 0,
@@ -30,6 +31,7 @@ class Dataflow extends React.Component{
 
             getReport: 0, //是否傳資料回dataflow
             getGraphData: 0,
+            events: {},
             eventsTime: {'CA':[], 'OA':[], 'MA':[], 'OH':[]},
             eventsCount: {},
             sound: [],
@@ -76,8 +78,10 @@ class Dataflow extends React.Component{
                 let caseIDparser = new DOMParser();
                 let caseIDXML = caseIDparser.parseFromString(file.target.result, "text/xml");
                 let caseID = caseIDXML.getElementsByTagName("Reference")[0].textContent;
+                let rawStartDate = caseIDXML.getElementsByTagName("StartDate")[0].textContent.split("/");
+                let startDate = rawStartDate[2] + "/" + String(Number(rawStartDate[1])) + "/" + String(Number(rawStartDate[0]));
 
-                let caseIDUrl = "http://140.116.245.43:3000/caseID?caseID=" + caseID;
+                let caseIDUrl = "http://140.116.245.43:3000/caseID?caseID=" + caseID + ":" + startDate;
                 getAPI(caseIDUrl, (xhttp) => {
                     let caseIDJson = JSON.parse(xhttp.responseText);
 
@@ -90,6 +94,7 @@ class Dataflow extends React.Component{
                             this.setState({
                                 reportData: selectReportJson[0],
                                 graphExist: 1,
+                                waiting: 0,
                                 isLoad: 1, // report頁面出現
                             });
                         });
@@ -166,6 +171,7 @@ class Dataflow extends React.Component{
                 let eventsData = eventCalculate(events);
     
                 this.setState({
+                    events: events,
                     eventsTime: eventsData.eventsTime,
                     eventsCount: eventsData.eventsCount,
                 });
@@ -320,8 +326,57 @@ class Dataflow extends React.Component{
         let insertReportUrl = "http://140.116.245.43:3000/insertReport";
         postJsonAPI(insertReportUrl, reportData, (xhttp) => {
             console.log(xhttp.responseText);
+            this.setState({reportData: reportData}, () => {
+                this.insertStageDataBase();
+            });
+        });
+    }
+
+    // step 11. bulk insert stage
+    insertStageDataBase(){
+        let caseIDUrl = "http://140.116.245.43:3000/caseID?caseID=" + this.state.reportData.CaseID;
+        getAPI(caseIDUrl, (xhttp) => {
+            let caseIDJson = JSON.parse(xhttp.responseText);
+            let RID = caseIDJson[0].RID;
+
+            this.setState({RID: RID}, () => {
+                let insertStageUrl = "http://140.116.245.43:3000/insertStage";
+                let stageData = {
+                    RID: this.state.RID,
+                    stage: Array.from(this.state.sleepStage),
+                };
+                console.log(stageData);
+                postJsonAPI(insertStageUrl, stageData, (xhttp) => {
+                    console.log(xhttp.responseText);
+                    this.insertEventDataBase();
+                });
+            });
+        });
+    }
+
+    // step 12. bulk insert event
+    insertEventDataBase(){
+        let insertEventUrl = "http://140.116.245.43:3000/insertEvent";
+        let eventsData = {
+            RID: this.state.RID,
+            events: this.state.events,
+        };
+        postJsonAPI(insertEventUrl, eventsData, (xhttp) => {
+            console.log(xhttp.responseText);
+            this.insertPositionDataBase();
+        });
+    }
+
+    // step 13. bulk insert position
+    insertPositionDataBase(){
+        let insertPositionUrl = "http://140.116.245.43:3000/insertPosition";
+        let positionData = {
+            RID: this.state.RID,
+            position: this.state.position,
+        };
+        postJsonAPI(insertPositionUrl, positionData, (xhttp) => {
+            console.log(xhttp.responseText);
             this.setState({
-                reportData: reportData,
                 loading: 0,
                 isLoad: 1, // report頁面出現
             });
@@ -390,9 +445,10 @@ class Dataflow extends React.Component{
                 </div>
 
                 <div className="waiting" style={{display: this.state.loading ? 'block' : 'none'}}>
-                    <b id="loadingWord1">檔案讀取中...</b><br/>
-                    <b id="loadingWord2">資料庫建立中...</b><br/>
-                    <b id="loadingWord3">資料計算中...</b><br/>
+                    <b id="loadingWord4">檔案讀取中...</b><br/>
+                    <b id="loadingWord3">資料庫建立中...</b><br/>
+                    <b id="loadingWord2">數值計算中...</b><br/>
+                    <b id="loadingWord1">圖片繪製中...</b><br/>
                     <img src={watson} alt="資料處理中" style={{width:"200px", height:"200px"}}/>
                 </div>
 

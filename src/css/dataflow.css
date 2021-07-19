@@ -45,7 +45,7 @@
 }
 #loadingWord1{
     animation-name: lw1;
-    animation-duration: 1s;
+    animation-duration: 1.5s;
     animation-iteration-count: infinite;
     animation-direction:normal;
 }
@@ -58,7 +58,7 @@
 }
 #loadingWord2{
     animation-name: lw2;
-    animation-duration: 1s;
+    animation-duration: 1.5s;
     animation-iteration-count: infinite;
     animation-direction:normal;
 }
@@ -71,7 +71,7 @@
 }
 #loadingWord3{
     animation-name: lw3;
-    animation-duration: 1s;
+    animation-duration: 1.5s;
     animation-iteration-count: infinite;
     animation-direction:normal;
 }
@@ -81,6 +81,19 @@
     50% {opacity: 1;}
     75% {opacity: 0.6;}
     100% {opacity: 0.2;}
+}
+#loadingWord4{
+    animation-name: lw4;
+    animation-duration: 1.5s;
+    animation-iteration-count: infinite;
+    animation-direction:normal;
+}
+@keyframes lw4{
+    0% {opacity: 0.6;}
+    25% {opacity: 1;}
+    50% {opacity: 0.6;}
+    75% {opacity: 0.2;}
+    100% {opacity: 0.6;}
 }
 footer{
     bottom: 0px;

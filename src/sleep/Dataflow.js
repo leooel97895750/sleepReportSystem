@@ -3,7 +3,7 @@ import '../css/dataflow.css';
 import Report from './Report';
 import shark from '../image/shark.gif';
 import watson from '../image/watson.gif';
-import {getAPI, postAPI, postJsonAPI, postMdbAPI, getWordAPI} from './functions/API.js';
+import {getAPI, postJsonAPI, postMdbAPI, getWordAPI} from './functions/API.js';
 import {stageCalculate, eventCalculate, studycfgCalculate, reportDataCalculate} from './functions/Calculate.js';
 
 
@@ -14,7 +14,7 @@ class Dataflow extends React.Component{
             // 整個系統的報告完整資料
             RID: 0,
             reportData: {
-                CaseID: "", StudyDate: "",Name: "", Age: 0, Sex: "", DOB: "", Height: 0, Weight: 0, BMI: 0, Neck: 0, AHI: 0, AI: 0, HI: 0, 
+                PatientID: "", StudyDate: "",Name: "", Age: 0, Sex: "", DOB: "", Height: 0, Weight: 0, BMI: 0, Neck: 0, AHI: 0, AI: 0, HI: 0, 
                 OI: 0, CI: 0, MI: 0, AHI_Supine: 0,AHI_NSupine: 0, AHI_REM: 0, AHI_NREM: 0, AHI_Left: 0, AHI_Right: 0, AHI_REM_Supine: 0,
                 AHI_REM_NSupine: 0, AHI_NREM_Supine: 0, AHI_NREM_NSupine: 0, StartTime: "", EndTime: "",TotalRecordTime: 0, TotalSleepPeriod: 0, 
                 TotalSleepTime: 0, AwakeTime: 0, Stage1: 0,REM: 0, Stage2: 0, SleepLatency: 0, Stage3: 0, Efficiency: 0, ArousalIndex: 0, 
@@ -72,26 +72,26 @@ class Dataflow extends React.Component{
     }
 
     updateFile(e){
-        // 抓取caseID查詢資料庫，若有資料則load回來，若無則新增一筆並開始計算數值
+        // 抓取patientID查詢資料庫，若有資料則load回來，若無則新增一筆並開始計算數值
         let configIndex = -1;
         for(let i=0; i<e.target.files.length; i++) if(e.target.files[i].name === "STUDYCFG.XML") configIndex = i;
         if(configIndex === -1) alert('找不到STUDYCFG.XML');
         else{
-            let caseIDReader = new FileReader();
-            caseIDReader.onload = (file) => {
-                let caseIDparser = new DOMParser();
-                let caseIDXML = caseIDparser.parseFromString(file.target.result, "text/xml");
-                let caseID = caseIDXML.getElementsByTagName("Reference")[0].textContent;
-                let rawStartDate = caseIDXML.getElementsByTagName("StartDate")[0].textContent.split("/");
+            let patientIDReader = new FileReader();
+            patientIDReader.onload = (file) => {
+                let patientIDparser = new DOMParser();
+                let patientIDXML = patientIDparser.parseFromString(file.target.result, "text/xml");
+                let patientID = patientIDXML.getElementsByTagName("Reference")[0].textContent;
+                let rawStartDate = patientIDXML.getElementsByTagName("StartDate")[0].textContent.split("/");
                 let startDate = rawStartDate[2] + "/" + String(Number(rawStartDate[1])) + "/" + String(Number(rawStartDate[0]));
 
-                let caseIDUrl = "http://140.116.245.43:3000/caseID?caseID=" + caseID + ":" + startDate;
-                getAPI(caseIDUrl, (xhttp) => {
-                    let caseIDJson = JSON.parse(xhttp.responseText);
+                let patientIDUrl = "http://140.116.245.43:3000/patientID?patientID=" + patientID + ":" + startDate;
+                getAPI(patientIDUrl, (xhttp) => {
+                    let patientIDJson = JSON.parse(xhttp.responseText);
 
-                    if(caseIDJson.length !== 0){
+                    if(patientIDJson.length !== 0){
                         alert('有資料');
-                        let RID = caseIDJson[0].RID;
+                        let RID = patientIDJson[0].RID;
                         let selectReportUrl = "http://140.116.245.43:3000/selectReport?rid=" + RID;
                         getAPI(selectReportUrl, (xhttp) => {
                             let selectReportJson = JSON.parse(xhttp.responseText);
@@ -105,11 +105,9 @@ class Dataflow extends React.Component{
                     }
                     else{
                         alert('無資料 開始load file');
-                        /* 
-                            連續函式傳接呼叫: 
-                            loadStageData => loadEventData => loadDataSegment => loadStudyCfg => 
-                            loadPosition => loadSpO2 => loadPulse => loadSound 
-                        */
+                        
+                        // 連續函式傳接呼叫: 
+
                         let timeElapsed = Date.now();
                         let today = new Date(timeElapsed);
                         let timestamp = today.toISOString();
@@ -123,7 +121,7 @@ class Dataflow extends React.Component{
                     }
                 });
             }
-            caseIDReader.readAsText(e.target.files[configIndex]);
+            patientIDReader.readAsText(e.target.files[configIndex]);
         }
     }
 
@@ -338,10 +336,10 @@ class Dataflow extends React.Component{
 
     // step 11. bulk insert stage
     insertStageDataBase(){
-        let caseIDUrl = "http://140.116.245.43:3000/caseID?caseID=" + this.state.reportData.CaseID;
-        getAPI(caseIDUrl, (xhttp) => {
-            let caseIDJson = JSON.parse(xhttp.responseText);
-            let RID = caseIDJson[0].RID;
+        let patientIDUrl = "http://140.116.245.43:3000/patientID?patientID=" + this.state.reportData.PatientID;
+        getAPI(patientIDUrl, (xhttp) => {
+            let patientIDJson = JSON.parse(xhttp.responseText);
+            let RID = patientIDJson[0].RID;
 
             this.setState({RID: RID}, () => {
                 let insertStageUrl = "http://140.116.245.43:3000/insertStage";

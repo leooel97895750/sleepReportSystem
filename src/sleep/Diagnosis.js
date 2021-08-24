@@ -1,5 +1,6 @@
 import React from 'react';
 import '../css/diagnosis.css';
+import Treatment from './Treatment';
 import close from '../image/close.png';
 import quill from '../image/quill.png';
 
@@ -790,7 +791,17 @@ class Diagnosis extends React.Component{
                                 <td width="15%"><input id="d3" className="myInput write"/></td>
                             </tr>
                             <tr>
-                                <td colSpan="7"><textarea style={{width:"968px", height:"300px", padding:"10px", fontSize:"18px" ,fontFamily:"Times New Roman, DFKai-sb, sans-serif"}}/></td>
+                                {/* <td colSpan="7"><textarea style={{width:"968px", height:"300px", padding:"10px", fontSize:"18px" ,fontFamily:"Times New Roman, DFKai-sb, sans-serif"}}/></td> */}
+                                <td colSpan="7">
+                                    <Treatment></Treatment>
+                                    {/* <div contentEditable={true} style={{width:"968px", height:"300px", padding:"10px", fontSize:"18px" ,fontFamily:"Times New Roman, DFKai-sb, sans-serif"}}>
+                                        <ol>
+                                            <li><div style={{wordWrap: "break-word"}}>asdfasaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaad</div></li>
+                                            <div style={{position:"relative", left:"-30px"}}>--???</div>
+                                            <li>bbb</li>
+                                        </ol>
+                                    </div> */}
+                                </td>
                             </tr>
                             <tr>
                                 <td colSpan="4"></td>

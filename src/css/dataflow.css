@@ -41,7 +41,8 @@
 }
 @keyframes word1{
     0% {opacity: 1;}
-    100% {opacity: 0.2;}
+    25% {opacity: 1;}
+    100% {opacity: 0.3;}
 }
 #loadingWord1{
     animation-name: lw1;
@@ -51,9 +52,9 @@
 }
 @keyframes lw1{
     0% {opacity: 1;}
-    25% {opacity: 0.6;}
-    50% {opacity: 0.2;}
-    75% {opacity: 0.6;}
+    25% {opacity: 0.7;}
+    50% {opacity: 0.3;}
+    75% {opacity: 0.7;}
     100% {opacity: 1;}
 }
 #loadingWord2{
@@ -63,11 +64,11 @@
     animation-direction:normal;
 }
 @keyframes lw2{
-    0% {opacity: 0.6;}
-    25% {opacity: 0.2;}
-    50% {opacity: 0.6;}
+    0% {opacity: 0.7;}
+    25% {opacity: 0.3;}
+    50% {opacity: 0.7;}
     75% {opacity: 1;}
-    100% {opacity: 0.6;}
+    100% {opacity: 0.7;}
 }
 #loadingWord3{
     animation-name: lw3;
@@ -76,11 +77,11 @@
     animation-direction:normal;
 }
 @keyframes lw3{
-    0% {opacity: 0.2;}
-    25% {opacity: 0.6;}
+    0% {opacity: 0.3;}
+    25% {opacity: 0.7;}
     50% {opacity: 1;}
-    75% {opacity: 0.6;}
-    100% {opacity: 0.2;}
+    75% {opacity: 0.7;}
+    100% {opacity: 0.3;}
 }
 #loadingWord4{
     animation-name: lw4;
@@ -89,11 +90,11 @@
     animation-direction:normal;
 }
 @keyframes lw4{
-    0% {opacity: 0.6;}
+    0% {opacity: 0.7;}
     25% {opacity: 1;}
-    50% {opacity: 0.6;}
-    75% {opacity: 0.2;}
-    100% {opacity: 0.6;}
+    50% {opacity: 0.7;}
+    75% {opacity: 0.3;}
+    100% {opacity: 0.7;}
 }
 footer{
     bottom: 0px;

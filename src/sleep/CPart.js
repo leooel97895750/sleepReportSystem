@@ -78,6 +78,7 @@ class CPart extends React.Component{
     render(){
 
         const rpd = this.props.reportData;
+        //console.log(rpd);
 
         return(
             <div>
@@ -99,7 +100,7 @@ class CPart extends React.Component{
                             <tr>
                                 <td width="20%">姓名：<span id="c2">{rpd.Name}</span></td>
                                 <td width="20%">年齡：<span id="c3">{rpd.Age}</span></td>
-                                <td width="20%">病歷號：<span id="c4">{rpd.CaseID.split(':')[0]}</span></td>
+                                <td width="20%">病歷號：<span id="c4">{rpd.PatientID.split(':')[0]}</span></td>
                                 <td width="20%">性別：<span id="c5">{rpd.Sex === 'Male' ? '男' : '女'}</span></td>
                                 <td width="20%">生日：<span id="c6">{rpd.DOB}</span></td>
                             </tr>

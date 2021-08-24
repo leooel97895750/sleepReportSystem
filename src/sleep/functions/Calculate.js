@@ -83,7 +83,7 @@ export function eventCalculate(events){
         // Limb movement(Right)(PLM)
         else if(event.EVT_TYPE === 13){}
         // Obstructive Hypopnea
-        else if(event.EVT_TYPE === 29 && event.MAN_SCORED === 1){
+        else if(event.EVT_TYPE === 29){
             eventsCount.OH = eventsCount.OH + 1;
             eventsCount.TOH = eventsCount.TOH + event.EVT_LENGTH;
             eventsTime.OH.push(event.EVT_TIME);
@@ -166,7 +166,7 @@ export function reportDataCalculate(dataflow){
     const yearMonth = dfs.timestamp.slice(0, 7);
     
     let reportData = {
-        CaseID: dfs.cfg.patientID + ":" + dfs.cfg.startDate, 
+        PatientID: dfs.cfg.patientID + ":" + dfs.cfg.startDate,
         StudyDate: dfs.cfg.startDate,
         Name: dfs.cfg.name, 
         Age: dfs.cfg.age, 

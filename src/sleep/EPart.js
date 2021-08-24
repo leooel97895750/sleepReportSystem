@@ -141,7 +141,7 @@ class EPart extends React.Component{
                             <tr>
                                 <td colSpan="4" width="20%">Name：<span id="e3">{rpd.Name}</span></td>
                                 <td colSpan="4" width="20%">Age：<span id="e4">{rpd.Age}</span></td>
-                                <td colSpan="4" width="20%">Patient ID：<span id="e5">{rpd.CaseID.split(':')[0]}</span></td>
+                                <td colSpan="4" width="20%">Patient ID：<span id="e5">{rpd.PatientID.split(':')[0]}</span></td>
                                 <td colSpan="4" width="20%">Sex：<span id="e6">{rpd.Sex}</span></td>
                                 <td colSpan="4" width="20%">DOB：<span id="e7">{rpd.DOB}</span></td>
                             </tr>

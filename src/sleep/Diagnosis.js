@@ -75,7 +75,7 @@ class Diagnosis extends React.Component{
             nowDisease: nowDisease,
         });
         // 重洗textarea
-        this.insertToReport();
+        //this.insertToReport();
     }
 
     // 移除病歷
@@ -94,7 +94,7 @@ class Diagnosis extends React.Component{
             nowDisease: nowDisease,
         });
         // 重洗textarea
-        this.insertToReport();
+        //this.insertToReport();
     }
 
     // 根據age AHI來給予相對應的嚴重程度與治療手段
@@ -791,17 +791,7 @@ class Diagnosis extends React.Component{
                                 <td width="15%"><input id="d3" className="myInput write"/></td>
                             </tr>
                             <tr>
-                                {/* <td colSpan="7"><textarea style={{width:"968px", height:"300px", padding:"10px", fontSize:"18px" ,fontFamily:"Times New Roman, DFKai-sb, sans-serif"}}/></td> */}
-                                <td colSpan="7">
-                                    <Treatment></Treatment>
-                                    {/* <div contentEditable={true} style={{width:"968px", height:"300px", padding:"10px", fontSize:"18px" ,fontFamily:"Times New Roman, DFKai-sb, sans-serif"}}>
-                                        <ol>
-                                            <li><div style={{wordWrap: "break-word"}}>asdfasaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaad</div></li>
-                                            <div style={{position:"relative", left:"-30px"}}>--???</div>
-                                            <li>bbb</li>
-                                        </ol>
-                                    </div> */}
-                                </td>
+                                <td colSpan="7"><textarea style={{width:"968px", height:"300px", padding:"10px", fontSize:"18px" ,fontFamily:"Times New Roman, DFKai-sb, sans-serif"}}/></td>
                             </tr>
                             <tr>
                                 <td colSpan="4"></td>
@@ -923,7 +913,14 @@ class Diagnosis extends React.Component{
                     <table border="1" cellSpacing="0" cellPadding="3" style={{marginLeft:"auto", marginRight:"auto", width:"1000px"}}>
                         <tbody>
                             <tr>
-                                <td colSpan="4"><textarea id="treatmentTextarea" style={{width:"968px", height:"300px", padding:"10px", fontSize:"18px" ,fontFamily:"Times New Roman, DFKai-sb, sans-serif"}}/></td>
+                                {/* <td colSpan="4"><textarea id="treatmentTextarea" style={{width:"968px", height:"300px", padding:"10px", fontSize:"18px" ,fontFamily:"Times New Roman, DFKai-sb, sans-serif"}}/></td> */}
+                                <td colSpan="4">
+                                    <Treatment
+                                        nowDisease = {this.state.nowDisease}
+                                        age = {this.props.age}
+                                        AHI = {this.props.AHI}
+                                    />
+                                </td>
                             </tr>
                             <tr>
                                 <td></td>

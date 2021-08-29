@@ -117,6 +117,10 @@ class Report extends React.Component{
                         updateDiagnosisData = {this.updateDiagnosisData}
                         AHI = {this.props.reportData.AHI}
                         age = {this.props.reportData.Age}
+                        awakeTime = {this.props.AwakeTime}
+                        sleepLatency = {this.props.SleepLatency}
+                        totalSleepTime = {this.props.TotalSleepTime}
+                        SE = {this.props.Efficiency}
                     />  
 
                     

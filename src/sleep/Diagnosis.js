@@ -264,7 +264,7 @@ class Diagnosis extends React.Component{
                              "@ (e) stroke, encephalitis, head injury,\n" +
                              "@ (f) medication (opioids), \n" +
                              "@ (g) unknown.";
-                let treat2 = "-- Obstructive sleep apnea hypopnea (Moderate) (G47.33):\n" +
+                let treat2 = "-- Mixed sleep hypopnea (Moderate) (G47.33, G47.37):\n" +
                              "# Body weight control.\n" +
                              "# Further treatment of CPAP or mandibular advancement device or myofunctional therapy or surgery may be considered.\n" +
                              "# AHI (REM / Non-REM) > 2, good surgical improvement can be predicted.\n" +
@@ -277,7 +277,7 @@ class Diagnosis extends React.Component{
                              "@ (e) stroke, encephalitis, head injury,\n" +
                              "@ (f) medication (opioids), \n" +
                              "@ (g) unknown.";
-                let treat3 = "-- Obstructive sleep apnea hypopnea (Severe) (G47.33):\n" +
+                let treat3 = "-- Mixed sleep hypopnea (Severe) (G47.33, G47.37):\n" +
                              "# Body weight control.\n" +
                              "# Further treatment of CPAP or surgery may be considered.\n" +
                              "# AHI > 60, AHI (REM / Non-REM) < 2, limited surgical improvement can be predicted.\n" +
@@ -363,7 +363,7 @@ class Diagnosis extends React.Component{
                              "@ (e) stroke, encephalitis, head injury,\n" +
                              "@ (f) medication (opioids), \n" +
                              "@ (g) unknown.";
-                let treat2 = "-- Central sleep hypopnea (Mild) (G47.37):\n" +
+                let treat2 = "-- Central sleep hypopnea (Moderate) (G47.37):\n" +
                              "# Obstructive sleep apnea hypopnea is not likely.\n" +
                              "# The possible etiologies of central sleep hypopnea include \n" +
                              "@ (a) congestive heart failure, \n" +
@@ -919,8 +919,15 @@ class Diagnosis extends React.Component{
                                         nowDisease = {this.state.nowDisease}
                                         age = {this.props.age}
                                         AHI = {this.props.AHI}
+                                        awakeTime = {this.props.awakeTime}
+                                        sleepLatency = {this.props.sleepLatency}
+                                        totalSleepTime = {this.props.totalSleepTime}
+                                        SE = {this.props.SE}
                                     />
                                 </td>
+                            </tr>
+                            <tr>
+                                <td colSpan="4"><textarea id="treatmentTextarea" style={{width:"968px", height:"100px", padding:"10px", fontSize:"18px" ,fontFamily:"Times New Roman, DFKai-sb, sans-serif"}}/></td>
                             </tr>
                             <tr>
                                 <td></td>

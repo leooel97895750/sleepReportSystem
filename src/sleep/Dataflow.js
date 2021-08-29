@@ -28,6 +28,7 @@ class Dataflow extends React.Component{
             waiting: 1,
             loading: 0,
             isLoad: 0,
+            gifDisplay: 'inline-block',
 
             timestamp: "",
 
@@ -69,6 +70,7 @@ class Dataflow extends React.Component{
         this.insertStageDataBase = this.insertStageDataBase.bind(this);
         this.insertEventDataBase = this.insertEventDataBase.bind(this);
         this.insertPositionDataBase = this.insertPositionDataBase.bind(this);
+        this.isGif = this.isGif.bind(this);
     }
 
     updateFile(e){
@@ -112,6 +114,7 @@ class Dataflow extends React.Component{
                         let today = new Date(timeElapsed);
                         let timestamp = today.toISOString();
                         this.setState({
+                            graphExist: 0,
                             timestamp: timestamp,
                             isLoad: 0,
                             waiting: 0,
@@ -392,6 +395,14 @@ class Dataflow extends React.Component{
         getWordAPI(wordUrl);
     }
 
+    // 關閉GIF
+    isGif(e){
+        let gifDisplay = "";
+        if(e.target.checked === true) gifDisplay = "none"
+        else gifDisplay = "inline-block";
+        this.setState({gifDisplay: gifDisplay});
+    }
+
     render(){
         return(
             <div style={{display: this.props.display, height: "100%"}}>
@@ -422,9 +433,14 @@ class Dataflow extends React.Component{
                     </label>
                 </div>
 
+                <div className="toolBox">
+                    <input type="checkbox" id="isGif" name="isGif" value="1" onChange={this.isGif}/>
+                    <span>close GIF</span>
+                </div>
+
                 <div className="waiting" style={{display: this.state.waiting ? 'block' : 'none'}}>
                     <b id="waitingWord">尚未選取PSG資料夾</b><br/>
-                    <img src={shark} alt="尚未選取PSG資料夾" style={{width:"200px", height:"200px"}}/>
+                    <img src={shark} alt="尚未選取PSG資料夾" style={{display: this.state.gifDisplay, width:"200px", height:"200px"}}/>
                 </div>
 
                 <div className="waiting" style={{display: this.state.loading ? 'block' : 'none'}}>
@@ -432,7 +448,7 @@ class Dataflow extends React.Component{
                     <b id="loadingWord3">資料庫建立中...</b><br/>
                     <b id="loadingWord2">數值計算中...</b><br/>
                     <b id="loadingWord1">圖型繪製中...</b><br/>
-                    <img src={watson} alt="資料處理中" style={{width:"200px", height:"200px"}}/>
+                    <img src={watson} alt="資料處理中" style={{display: this.state.gifDisplay, width:"200px", height:"200px"}}/>
                 </div>
 
                 <Report 

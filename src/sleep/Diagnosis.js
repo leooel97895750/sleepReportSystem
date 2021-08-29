@@ -93,6 +93,18 @@ class Diagnosis extends React.Component{
         });
     }
 
+    technicianDate(){
+        let tDate = document.getElementById("d5");
+        let today = new Date();
+        tDate.textContent = today.getFullYear() + '/' + today.getMonth() + '/' + today.getDate();
+    }
+
+    physicianDate(){
+        let pDate = document.getElementById("d7");
+        let today = new Date();
+        pDate.textContent = today.getFullYear() + '/' + today.getMonth() + '/' + today.getDate();
+    }
+
     render(){
         return(
             <div>
@@ -108,11 +120,40 @@ class Diagnosis extends React.Component{
                         <tbody>
                             <tr>
                                 <td width="20%">Friedman Stage: </td>
-                                <td width="15%"><input id="d1" className="myInput write"/></td>
+                                <td width="15%">
+                                    <input id="d1" list="friedmanStage" className="myInput write"/>
+                                    <datalist id="friedmanStage">
+                                        <option value="Ⅰ"/>
+                                        <option value="Ⅱ"/>
+                                        <option value="Ⅲ"/>
+                                        <option value="Ⅳ"/>
+                                        <option value="缺"/>
+                                    </datalist>
+                                </td>
                                 <td width="15%">Tonsil size: </td>
-                                <td width="10%"><input id="d2" className="myInput write"/></td>
+                                <td width="10%">
+                                    <input id="d2" list="tonsilSize" className="myInput write"/>
+                                    <datalist id="tonsilSize">
+                                        <option value="0"/>
+                                        <option value="1"/>
+                                        <option value="2"/>
+                                        <option value="3"/>
+                                        <option value="4"/>
+                                        <option value="缺"/>
+                                    </datalist>
+                                </td>
                                 <td colSpan="2" width="25%">Friedman tongue position: </td>
-                                <td width="15%"><input id="d3" className="myInput write"/></td>
+                                <td width="15%">
+                                    <input id="d3" list="friedmanTonguePosition" className="myInput write"/>
+                                    <datalist id="friedmanTonguePosition">
+                                        <option value="Ⅰ"/>
+                                        <option value="Ⅱa"/>
+                                        <option value="Ⅱb"/>
+                                        <option value="Ⅲ"/>
+                                        <option value="Ⅳ"/>
+                                        <option value="缺"/>
+                                    </datalist>
+                                </td>
                             </tr>
                             <tr>
                                 <td colSpan="7"><textarea style={{width:"968px", height:"300px", padding:"10px", fontSize:"18px" ,fontFamily:"Times New Roman, DFKai-sb, sans-serif"}}/></td>
@@ -120,7 +161,16 @@ class Diagnosis extends React.Component{
                             <tr>
                                 <td colSpan="4"></td>
                                 <td width="15%">Technician: </td>
-                                <td width="15%"><input id="d4" className="myInput write"/></td>
+                                <td width="15%">
+                                    <input id="d4" list="technician" className="myInput write" onChange={this.technicianDate}/>
+                                    <datalist id="technician">
+                                        <option value="林文貴"/>
+                                        <option value="林麗真"/>
+                                        <option value="林怡君"/>
+                                        <option value="侯幸汝"/>
+                                        <option value="廖芙欣"/>
+                                    </datalist>
+                                </td>
                                 <td width="15%"><span id="d5"></span></td>
                             </tr>
                         </tbody>
@@ -246,12 +296,24 @@ class Diagnosis extends React.Component{
                                 </td>
                             </tr>
                             <tr>
-                                <td colSpan="4"><textarea id="treatmentTextarea" style={{width:"968px", height:"100px", padding:"10px", fontSize:"18px" ,fontFamily:"Times New Roman, DFKai-sb, sans-serif"}}/></td>
+                                <td colSpan="4"><textarea id="treatmentTextarea" placeholder="額外補充..." style={{width:"968px", height:"100px", padding:"10px", fontSize:"18px" ,fontFamily:"Times New Roman, DFKai-sb, sans-serif"}}/></td>
                             </tr>
                             <tr>
                                 <td></td>
                                 <td width="15%">Physician: </td>
-                                <td width="15%"><input id="d6" className="myInput write"/></td>
+                                <td width="15%">
+                                    <input id="d6" list="physician" className="myInput write" onChange={this.physicianDate}/>
+                                    <datalist id="physician">
+                                        <option value="林政佑 醫師"/>
+                                        <option value="張展旗 醫師"/>
+                                        <option value="蘇柏嵐 醫師"/>
+                                        <option value="廖信閔 醫師"/>
+                                        <option value="呂宗樺 醫師"/>
+                                        <option value="洪煒斌 醫師"/>
+                                        <option value="陳致嘉 醫師"/>
+                                        <option value="鄭翔如 醫師"/>
+                                    </datalist>
+                                </td>
                                 <td width="15%"><span id="d7"></span></td>
                             </tr>
                         </tbody>

@@ -656,7 +656,7 @@ class Treatment extends React.Component{
 
     // 隨時更新修改的HTML內容
     handleChange = e => {
-        let parser = new DOMParser();
+        // let parser = new DOMParser();
         // let html = parser.parseFromString(e.target.value, "text/html");
         this.setState({
             // html: html,

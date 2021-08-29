@@ -107,3 +107,9 @@ footer{
     color: lightgray;
     background-color: #343A40;
 }
+
+.toolBox{
+    margin: 20px;
+    margin-top: 50px;
+    float: right;
+}

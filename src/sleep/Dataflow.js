@@ -37,6 +37,7 @@ class Dataflow extends React.Component{
             events: {},
             eventsTime: {'CA':[], 'OA':[], 'MA':[], 'OH':[]},
             eventsCount: {},
+            ahiIndex: {},
             sound: [],
             pulse: [],
             spo2: [],
@@ -155,37 +156,13 @@ class Dataflow extends React.Component{
                     rem: stageData.rem,
                 });
 
-                this.loadEventData(e);
+                this.loadDataSegment(e);
             }
             stageReader.readAsArrayBuffer(e.target.files[slpstagIndex]);
         }
     }
 
-    // step 2. 解析事件
-    loadEventData(e){
-        let eventsIndex = -1;
-        for(let i=0; i<e.target.files.length; i++) if(e.target.files[i].name === "EVENTS.MDB") eventsIndex = i;
-        if(eventsIndex === -1) alert('EVENTS.MDB');
-        else{
-            let mdbUrl = "http://140.116.245.43:3000/mdb?timestamp=" + this.state.timestamp;
-            let mdbData = new FormData();
-            mdbData.append('file', e.target.files[eventsIndex]);
-            postMdbAPI(mdbUrl, mdbData, (xhttp) => {
-                let events = JSON.parse(xhttp.response);
     
-                // calculate function 進行計算
-                let eventsData = eventCalculate(events);
-    
-                this.setState({
-                    events: events,
-                    eventsTime: eventsData.eventsTime,
-                    eventsCount: eventsData.eventsCount,
-                });
-
-                this.loadDataSegment(e);
-            });
-        }
-    }
 
     // step 3. 總時間
     loadDataSegment(e){
@@ -307,10 +284,35 @@ class Dataflow extends React.Component{
                 let sound = new Float32Array(file.target.result);
                 this.setState({
                     sound: sound,
-                    getGraphData: 1,
-                });
+                }, () => {this.loadEventData(e)});
             }
             soundReader.readAsArrayBuffer(e.target.files[soundIndex]);
+        }
+    }
+
+    // step 2. 解析事件
+    loadEventData(e){
+        let eventsIndex = -1;
+        for(let i=0; i<e.target.files.length; i++) if(e.target.files[i].name === "EVENTS.MDB") eventsIndex = i;
+        if(eventsIndex === -1) alert('EVENTS.MDB');
+        else{
+            let mdbUrl = "http://140.116.245.43:3000/mdb?timestamp=" + this.state.timestamp;
+            let mdbData = new FormData();
+            mdbData.append('file', e.target.files[eventsIndex]);
+            postMdbAPI(mdbUrl, mdbData, (xhttp) => {
+                let events = JSON.parse(xhttp.response);
+    
+                // calculate function 進行計算
+                let eventsData = eventCalculate(this, events);
+    
+                this.setState({
+                    events: events,
+                    eventsTime: eventsData.eventsTime,
+                    eventsCount: eventsData.eventsCount,
+                    ahiIndex: eventsData.ahiIndex,
+                    getGraphData: 1,
+                });
+            });
         }
     }
 

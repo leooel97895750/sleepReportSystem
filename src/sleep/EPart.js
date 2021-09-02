@@ -231,7 +231,7 @@ class EPart extends React.Component{
                             </tr>
                             <tr>
                                 <td colSpan="2">AHI(REM-Supine)：<span id="e40"></span>{rpd.AHI_REM_Supine}</td>
-                                <td colSpan="2">AHI(REM-NSupine)：<span id="e41"></span>{rpd.AHI_REM_NSupine}</td>
+                                <td colSpan="2">AHI(REM-NSupine)：<span id="e41"></span>{rpd.AHI_REM_NSupine === 'NaN' ? '0' : rpd.AHI_REM_NSupine}</td>
                             </tr>
                             <tr>
                                 <td colSpan="2">AHI(NREM-Supine)：<span id="e42"></span>{rpd.AHI_NREM_Supine}</td>

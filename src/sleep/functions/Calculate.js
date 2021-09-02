@@ -22,9 +22,34 @@ export function stageCalculate(sleepStage){
     return {sot, wake, n1, n2, n3, rem};
 }
 
-// 計算event相關的數據: 出現次數、持續時間...
-export function eventCalculate(events){
+function ahiIndexCalculate(event, dfs, ahiIndex){
 
+    let epoch = Math.floor(event.EVT_TIME / 30);
+    let positionPoint = Math.floor(event.EVT_TIME * 25);
+    let nowStage = dfs.sleepStage[epoch];
+    let nowPosition = dfs.position[positionPoint];
+    if(nowPosition === 1) ahiIndex.AHI_Supine += 1;
+    if(nowPosition !== 1) ahiIndex.AHI_NSupine += 1;
+    if(nowStage === 5) ahiIndex.AHI_REM += 1;
+    if(nowStage !== 5) ahiIndex.AHI_NREM += 1;
+    if(nowPosition === 2) ahiIndex.AHI_Left += 1;
+    if(nowPosition === 0) ahiIndex.AHI_Right += 1;
+    if(nowPosition === 1 && nowStage === 5) ahiIndex.AHI_REM_Supine += 1;
+    if(nowPosition !== 1 && nowStage === 5) ahiIndex.AHI_REM_NSupine += 1;
+    if(nowPosition === 1 && nowStage !== 5) ahiIndex.AHI_NREM_Supine += 1;
+    if(nowPosition !== 1 && nowStage !== 5) ahiIndex.AHI_NREM_NSupine += 1;
+
+    return ahiIndex;
+}
+// 計算event相關的數據: 出現次數、持續時間...
+export function eventCalculate(dataflow, events){
+
+    const dfs = dataflow.state;
+
+    // 計算不同情況的AHI
+    // stage: 30秒1個點    position: 1秒25個點
+
+    let ahiIndex = {'AHI_Supine':0, 'AHI_NSupine':0, 'AHI_REM':0, 'AHI_NREM':0, 'AHI_Left':0, 'AHI_Right':0, 'AHI_REM_Supine':0, 'AHI_REM_NSupine':0, 'AHI_NREM_Supine':0, 'AHI_NREM_NSupine':0};
     let eventsTime = {'CA':[], 'OA':[], 'MA':[], 'OH':[]};
     let eventsCount = {'CA':0, 'TCA':0, 'OA':0, 'TOA':0, 'MA':0, 'TMA':0, 'LA':0, 'SPD':0, 'SPDS':0, 'MSPD':100, 'SD':0, 'SPA':0, 'A1':0, 'A2':0, 'A3':0, 'A4':0, 'OH':0, 'TOH':0, 'LH':0, 'RERA':0, 'SNORE':0};
     
@@ -32,51 +57,54 @@ export function eventCalculate(events){
         let event = events[i];
         // Central Apnea
         if(event.EVT_TYPE === 1 && event.MAN_SCORED === 1){
-            eventsCount.CA = eventsCount.CA + 1;
+            eventsCount.CA += 1;
             eventsCount.TCA = eventsCount.TCA + event.EVT_LENGTH;
             eventsTime.CA.push(event.EVT_TIME);
             if(eventsCount.LA < event.EVT_LENGTH) eventsCount.LA = event.EVT_LENGTH;
+            ahiIndex = ahiIndexCalculate(event, dfs, ahiIndex);
         }
         // Obstructive Apnea
         else if(event.EVT_TYPE === 2 && event.MAN_SCORED === 1){
-            eventsCount.OA = eventsCount.OA + 1;
+            eventsCount.OA += 1;
             eventsCount.TOA = eventsCount.TOA + event.EVT_LENGTH;
             eventsTime.OA.push(event.EVT_TIME);
             if(eventsCount.LA < event.EVT_LENGTH) eventsCount.LA = event.EVT_LENGTH;
+            ahiIndex = ahiIndexCalculate(event, dfs, ahiIndex);
         }
         // Mixed Apnea
         else if(event.EVT_TYPE === 3 && event.MAN_SCORED === 1){
-            eventsCount.MA = eventsCount.MA + 1;
+            eventsCount.MA += 1;
             eventsCount.TMA = eventsCount.TMA + event.EVT_LENGTH;
             eventsTime.MA.push(event.EVT_TIME);
             if(eventsCount.LA < event.EVT_LENGTH) eventsCount.LA = event.EVT_LENGTH;
+            ahiIndex = ahiIndexCalculate(event, dfs, ahiIndex);
         }
         // SpO2 Desat
         else if(event.EVT_TYPE === 4){
-            eventsCount.SPD = eventsCount.SPD + 1;
+            eventsCount.SPD += 1;
             eventsCount.SPDS = eventsCount.SPDS + event.PARAM2;
             eventsCount.SD = eventsCount.SD + event.PARAM1;
             if(eventsCount.MSPD > event.PARAM2) eventsCount.MSPD = event.PARAM2;
         }
         // SpO2 Artifact
         else if(event.EVT_TYPE === 6 && event.MAN_SCORED === 1){
-            eventsCount.SPA = eventsCount.SPA + 1;
+            eventsCount.SPA += 1;
         }
         // Arousal 1 ARO RES
         else if(event.EVT_TYPE === 7 && event.MAN_SCORED === 1){
-            eventsCount.A1 = eventsCount.A1 + 1;
+            eventsCount.A1 += 1;
         }
         // Arousal 2 ARO Limb
         else if(event.EVT_TYPE === 8 && event.MAN_SCORED === 1){
-            eventsCount.A2 = eventsCount.A2 + 1;
+            eventsCount.A2 += 1;
         }
         // Arousal 3 ARO SPONT
         else if(event.EVT_TYPE === 9 && event.MAN_SCORED === 1){
-            eventsCount.A3 = eventsCount.A3 + 1;
+            eventsCount.A3 += 1;
         }
         // Arousal 4 ARO PLM
         else if(event.EVT_TYPE === 10 && event.MAN_SCORED === 1){
-            eventsCount.A4 = eventsCount.A4 + 1;
+            eventsCount.A4 += 1;
         }
         // Limb movement(Left)(PLM)
         else if(event.EVT_TYPE === 12){}
@@ -84,24 +112,25 @@ export function eventCalculate(events){
         else if(event.EVT_TYPE === 13){}
         // Obstructive Hypopnea
         else if(event.EVT_TYPE === 29){
-            eventsCount.OH = eventsCount.OH + 1;
+            eventsCount.OH += 1;
             eventsCount.TOH = eventsCount.TOH + event.EVT_LENGTH;
             eventsTime.OH.push(event.EVT_TIME);
             if(eventsCount.LH < event.EVT_LENGTH) eventsCount.LH = event.EVT_LENGTH;
+            ahiIndex = ahiIndexCalculate(event, dfs, ahiIndex);
         }
         // RERA
         else if(event.EVT_TYPE === 32){
-            eventsCount.RERA = eventsCount.RERA + 1;
+            eventsCount.RERA += 1;
         }
         // Snore
         else if(event.EVT_TYPE === 33){
-            eventsCount.SNORE = eventsCount.SNORE + 1;
+            eventsCount.SNORE += 1;
         }
     }
     eventsCount.LA = eventsCount.LA.toFixed(0);
     eventsCount.LH = eventsCount.LH.toFixed(0);
 
-    return {eventsCount, eventsTime};
+    return {eventsCount, eventsTime, ahiIndex};
 }
 
 // 計算STUDYCFG
@@ -164,7 +193,23 @@ export function reportDataCalculate(dataflow){
     const dfs = dataflow.state;
     const evn = dfs.eventsCount;
     const yearMonth = dfs.timestamp.slice(0, 7);
-    
+
+    // 計算position時間
+    let ahiIndexTime = {'supine':0, 'nsupine':0, 'left':0, 'right':0, 'remSupine':0, 'remNsupine':0, 'nremSupine':0, 'nremNsupine':0};
+    for(let i=0; i<dfs.position.length; i++){
+        if(dfs.position[i] === 1 && dfs.sleepStage[Math.floor(i/(25*30))] !== 10) ahiIndexTime.supine += 1;
+        if(dfs.position[i] !== 1 && dfs.sleepStage[Math.floor(i/(25*30))] !== 10) ahiIndexTime.nsupine += 1;
+        if(dfs.position[i] === 2 && dfs.sleepStage[Math.floor(i/(25*30))] !== 10) ahiIndexTime.left += 1;
+        if(dfs.position[i] === 0 && dfs.sleepStage[Math.floor(i/(25*30))] !== 10) ahiIndexTime.right += 1;
+
+        if(dfs.position[i] === 1 && dfs.sleepStage[Math.floor(i/(25*30))] === 5 && dfs.sleepStage[Math.floor(i/(25*30))] !== 10) ahiIndexTime.remSupine += 1;
+        if(dfs.position[i] !== 1 && dfs.sleepStage[Math.floor(i/(25*30))] === 5 && dfs.sleepStage[Math.floor(i/(25*30))] !== 10) ahiIndexTime.remNsupine += 1;
+        if(dfs.position[i] === 1 && dfs.sleepStage[Math.floor(i/(25*30))] !== 5 && dfs.sleepStage[Math.floor(i/(25*30))] !== 10) ahiIndexTime.nremSupine += 1;
+        if(dfs.position[i] !== 1 && dfs.sleepStage[Math.floor(i/(25*30))] !== 5 && dfs.sleepStage[Math.floor(i/(25*30))] !== 10) ahiIndexTime.nremNsupine += 1;
+    }
+    console.log(ahiIndexTime);
+
+    // 睡眠報告資料
     let reportData = {
         PatientID: dfs.cfg.patientID + ":" + dfs.cfg.startDate,
         StudyDate: dfs.cfg.startDate,
@@ -182,16 +227,16 @@ export function reportDataCalculate(dataflow){
         OI: (evn.OA / ((dfs.epochNum - dfs.wake) / 2) * 60).toFixed(1), 
         CI: (evn.CA / ((dfs.epochNum - dfs.wake) / 2) * 60).toFixed(1), 
         MI: (evn.MA / ((dfs.epochNum - dfs.wake) / 2) * 60).toFixed(1), 
-        AHI_Supine: 0,
-        AHI_NSupine: 0, 
-        AHI_REM: 0, 
-        AHI_NREM: 0, 
-        AHI_Left: 0, 
-        AHI_Right: 0, 
-        AHI_REM_Supine: 0,
-        AHI_REM_NSupine: 0, 
-        AHI_NREM_Supine: 0, 
-        AHI_NREM_NSupine: 0, 
+        AHI_Supine: (dfs.ahiIndex.AHI_Supine / (ahiIndexTime.supine / (25 * 60 * 60))).toFixed(1), //時間除的不對
+        AHI_NSupine: (dfs.ahiIndex.AHI_NSupine / (ahiIndexTime.nsupine / (25 * 60 * 60))).toFixed(1),
+        AHI_REM: (dfs.ahiIndex.AHI_REM / (dfs.rem / 2) * 60).toFixed(1),
+        AHI_NREM: (dfs.ahiIndex.AHI_NREM / ((dfs.n1 + dfs.n2 + dfs.n3) / 2) * 60).toFixed(1),
+        AHI_Left: (dfs.ahiIndex.AHI_Left / (ahiIndexTime.left / (25 * 60 * 60))).toFixed(1),
+        AHI_Right: (dfs.ahiIndex.AHI_Right / (ahiIndexTime.right / (25 * 60 * 60))).toFixed(1),
+        AHI_REM_Supine: (dfs.ahiIndex.AHI_REM_Supine / (ahiIndexTime.remSupine / (25 * 60 * 60))).toFixed(1),
+        AHI_REM_NSupine: (dfs.ahiIndex.AHI_REM_NSupine / (ahiIndexTime.remNsupine / (25 * 60 * 60))).toFixed(1),
+        AHI_NREM_Supine: (dfs.ahiIndex.AHI_NREM_Supine / (ahiIndexTime.nremSupine / (25 * 60 * 60))).toFixed(1),
+        AHI_NREM_NSupine: (dfs.ahiIndex.AHI_NREM_NSupine / (ahiIndexTime.nremNsupine / (25 * 60 * 60))).toFixed(1),
         StartTime: dfs.cfg.startTime, 
         EndTime: dfs.cfg.endTime,
         TotalRecordTime: dfs.cfg.totalRecordTime, 

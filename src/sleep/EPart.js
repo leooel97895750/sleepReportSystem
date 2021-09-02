@@ -115,6 +115,7 @@ class EPart extends React.Component{
         }
     }
 
+    // 輸入資料與CPart欄位連動
     waistUpdate(){
         let waist = document.getElementById("e12").value;
         document.getElementById("c11").textContent = waist;

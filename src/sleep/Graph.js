@@ -39,6 +39,7 @@ class Graph extends React.Component{
                 for(let i=0; i<8; i++){
                     let myCanvas = document.getElementById(canvasNameList[i]);
                     let ctx = myCanvas.getContext("2d");
+                    ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
                     let image = new Image();
                     image.onload = function() { ctx.drawImage(image, 0, 0); }
                     image.src = "data:image/png;base64," + getGrpahJson[graphNameList[i]];
@@ -84,6 +85,7 @@ class Graph extends React.Component{
         bCanvas.height = bHeight;
         bCanvas.width = bWidth;
         let bCTX = bCanvas.getContext("2d");
+        bCTX.clearRect(0, 0, bCanvas.width, bCanvas.height);
         // 左側Label
         bCTX.font = "14px Arial";
         bCTX.fillText("Time", 5, 15);
@@ -150,6 +152,7 @@ class Graph extends React.Component{
         hCanvas.height = hHeight;
         hCanvas.width = hWidth;
         let hCTX = hCanvas.getContext("2d");
+        hCTX.clearRect(0, 0, hCanvas.width, hCanvas.height);
         // 左側Label
         hCTX.font = "14px Arial";
         hCTX.textAlign = "end";
@@ -227,6 +230,7 @@ class Graph extends React.Component{
         rCanvas.height = rHeight;
         rCanvas.width = rWidth;
         let rCTX = rCanvas.getContext("2d");
+        rCTX.clearRect(0, 0, rCanvas.width, rCanvas.height);
         // 左側Label
         rCTX.font = "16px Arial";
         rCTX.fillStyle = "black";
@@ -319,6 +323,7 @@ class Graph extends React.Component{
         bpCanvas.height = bpHeight;
         bpCanvas.width = bpWidth;
         let bpCTX = bpCanvas.getContext("2d");
+        bpCTX.clearRect(0, 0, bpCanvas.width, bpCanvas.height);
         // 左側Label
         bpCTX.font = "15px Arial";
         bpCTX.textAlign = "end";
@@ -402,6 +407,7 @@ class Graph extends React.Component{
         hrCanvas.height = hrHeight;
         hrCanvas.width = hrWidth;
         let hrCTX = hrCanvas.getContext("2d");
+        hrCTX.clearRect(0, 0, hrCanvas.width, hrCanvas.height);
         // 左側Label
         hrCTX.textAlign = "end";
         hrCTX.fillStyle = "black";
@@ -462,6 +468,7 @@ class Graph extends React.Component{
         smgCanvas.height = smgHeight;
         smgCanvas.width = smgWidth;
         let smgCTX = smgCanvas.getContext("2d");
+        smgCTX.clearRect(0, 0, smgCanvas.width, smgCanvas.height);
         // 左側Label
         smgCTX.font = "15px Arial";
         smgCTX.textAlign = "start";
@@ -526,6 +533,7 @@ class Graph extends React.Component{
         sCanvas.height = sHeight;
         sCanvas.width = sWidth;
         let sCTX = sCanvas.getContext("2d");
+        sCTX.clearRect(0, 0, sCanvas.width, sCanvas.height);
         // 左側Label
         sCTX.font = "12px Arial";
         sCTX.textAlign = "end";
@@ -574,6 +582,7 @@ class Graph extends React.Component{
         plmCanvas.height = plmHeight;
         plmCanvas.width = plmWidth;
         let plmCTX = plmCanvas.getContext("2d");
+        plmCTX.clearRect(0, 0, plmCanvas.width, plmCanvas.height);
         // 左側Label
         plmCTX.font = "12px Arial";
         plmCTX.textAlign = "end";

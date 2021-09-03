@@ -1,118 +1,44 @@
 import React from 'react';
 import '../css/report.css';
+import {postJsonAPI} from './functions/API.js';
 
 class EPart extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-
+            inputReportData: {
+                'CaseID': '',
+                'Waist': null,
+                'Hip': null,
+                'HADS_A': null,
+                'HADS_D': null,
+                'ESS': null,
+                'PSQI': null,
+                'SOS': null,
+                'THI': null,
+                'GERD_Q': null,
+                'WHO_Phy': null,
+                'WHO_Psy': null,
+                'BP_S_D': null,
+                'BP_S_S': null,
+                'BP_W_D': null,
+                'BP_W_S': null,
+                'SleepQuality': null
+            },
         };
     }
 
-    
-    componentDidUpdate(prevProps){
-        if(prevProps.getEPartData === 0 && this.props.getEPartData === 1){
-            // 將報告資料傳回Report
-            let EPartData = {
-                StudyDate: document.getElementById("e1").value,
-                CaseNumber: document.getElementById("e2").value,
-                Name: document.getElementById("e3").textContent,
-                Age: document.getElementById("e4").textContent,
-                PatientID: document.getElementById("e5").textContent,
-                Sex: document.getElementById("e6").textContent,
-                DOB: document.getElementById("e7").textContent,
-                Height: document.getElementById("e8").textContent,
-                Weight: document.getElementById("e9").textContent,
-                BMI: document.getElementById("e10").textContent,
-                Neck: document.getElementById("e11").textContent,
-                Waist: document.getElementById("e12").value,
-                Hip: document.getElementById("e13").value,
-                HADS: document.getElementById("e14").value,
-                ESS: document.getElementById("e15").value,
-                PSQI: document.getElementById("e16").value,
-                SOS: document.getElementById("e17").value,
-                THI: document.getElementById("e18").value,
-                GERD_Q: document.getElementById("e19").value,
-                WHO: document.getElementById("e20").value,
-                BP_S: document.getElementById("e21").value,
-                BP_W: document.getElementById("e22").value,
-                SleepQuality: document.getElementById("e23").value,
-
-                AHI: document.getElementById("e24").textContent,
-                AI: document.getElementById("e25").textContent,
-                HI: document.getElementById("e26").textContent,
-                OI: document.getElementById("e27").textContent,
-                CI: document.getElementById("e28").textContent,
-                MI: document.getElementById("e29").textContent,
-                AHI_Supine: document.getElementById("e30").textContent,
-                AHI_NSupine: document.getElementById("e31").textContent,
-                AHI_REM: document.getElementById("e32").textContent,
-                AHI_NREM: document.getElementById("e33").textContent,
-                AHI_Left: document.getElementById("e34").textContent,
-                AHI_Right: document.getElementById("e35").textContent,
-                AHI_REM_Supine: document.getElementById("e36").textContent,
-                AHI_REM_NSupine: document.getElementById("e37").textContent,
-                AHI_NREM_Supine: document.getElementById("e38").textContent,
-                AHI_NREM_NSupine: document.getElementById("e39").textContent,
-
-                StartTime: document.getElementById("e40").textContent,
-                EndTime: document.getElementById("e41").textContent,
-                TotalRecordTime: document.getElementById("e42").textContent,
-                TotalSleepPeriod: document.getElementById("e43").textContent,
-                TotalSleepTime: document.getElementById("e44").textContent,
-                AwakeTime: document.getElementById("e45").textContent,
-                Stage1: document.getElementById("e46").textContent,
-                REM: document.getElementById("e47").textContent,
-                Stage2: document.getElementById("e48").textContent,
-                SleepLatency: document.getElementById("e49").textContent,
-                Stage3: document.getElementById("e50").textContent,
-                Efficiency: document.getElementById("e51").textContent,
-                ArousalIndex: document.getElementById("e52").textContent,
-
-                OA: document.getElementById("e53").textContent,
-                OAT: document.getElementById("e54").textContent,
-                CA: document.getElementById("e55").textContent,
-                CAT: document.getElementById("e56").textContent,
-                MA: document.getElementById("e57").textContent,
-                MAT: document.getElementById("e58").textContent,
-                HA: document.getElementById("e59").textContent,
-                HAT: document.getElementById("e60").textContent,
-                LA: document.getElementById("e61").textContent,
-                LH: document.getElementById("e62").textContent,
-
-                MeanSpO2: document.getElementById("e63").textContent,
-                MeanDesat: document.getElementById("e64").textContent,
-                MinSpO2: document.getElementById("e65").textContent,
-                ODI: document.getElementById("e66").textContent,
-
-                Snore: document.getElementById("e67").textContent,
-                SnoreIndex: document.getElementById("e68").textContent,
-
-                MS: document.getElementById("e69").textContent,
-                MR: document.getElementById("e70").textContent,
-                MN: document.getElementById("e71").textContent,
-                LS: document.getElementById("e72").textContent,
-                LR: document.getElementById("e73").textContent,
-                LN: document.getElementById("e74").textContent,
-                HS: document.getElementById("e75").textContent,
-                HR: document.getElementById("e76").textContent,
-                HN: document.getElementById("e77").textContent,
-
-                MeanHR: document.getElementById("e78").textContent,
-                MinHR: document.getElementById("e79").textContent,
-
-                LM_R: document.getElementById("e80").textContent,
-                LM_N: document.getElementById("e81").textContent,
-                LM_T: document.getElementById("e82").textContent,
-                PLM_R: document.getElementById("e83").textContent,
-                PLM_N: document.getElementById("e84").textContent,
-                PLM_T: document.getElementById("e85").textContent,
-                PLMI_R: document.getElementById("e86").textContent,
-                PLMI_N: document.getElementById("e87").textContent,
-                PLMI_T: document.getElementById("e88").textContent,
-            };
-            this.props.updateEPartData(EPartData);
-        }
+    databaseUpdate(e, key){
+        let inputReportData = this.state.inputReportData;
+        inputReportData[key] = e.target.value;
+        this.setState({inputReportData: inputReportData}, () => {
+            // 更新資料庫
+            inputReportData['RID'] = this.props.RID;
+            let updateEPartReportUrl = "http://140.116.245.43:3000/updateEPartReport";
+            postJsonAPI(updateEPartReportUrl, inputReportData, (xhttp) => {
+                console.log(xhttp.responseText);
+            });
+        });
     }
 
     // 輸入資料與CPart欄位連動
@@ -167,8 +93,8 @@ class EPart extends React.Component{
                                 <td colSpan="4" width="20%">Weight(kg)：<span id="e9">{rpd.Weight}</span></td>
                                 <td colSpan="3" width="15%">BMI：<span id="e10">{rpd.BMI}</span></td>
                                 <td colSpan="3" width="15%">Neck(cm)：<span id="e11">{rpd.Neck}</span></td>
-                                <td colSpan="3" width="15%"><div style={{overflow:"hidden"}}>Waist(cm)：<input id="e12" className="myInput write" style={{width:"47px", textAlign:"center"}} onChange={this.waistUpdate}/></div></td>
-                                <td colSpan="3" width="15%"><div style={{overflow:"hidden"}}>Hip(cm)：<input id="e13" className="myInput write" style={{width:"60px", textAlign:"center"}} onChange={this.hipUpdate}/></div></td>
+                                <td colSpan="3" width="15%"><div style={{overflow:"hidden"}}>Waist(cm)：<input id="e12" className="myInput write" defaultValue={rpd.Waist} style={{width:"47px", textAlign:"center"}} onChange={e => {this.waistUpdate(); this.databaseUpdate(e, 'Waist')}}/></div></td>
+                                <td colSpan="3" width="15%"><div style={{overflow:"hidden"}}>Hip(cm)：<input id="e13" className="myInput write" defaultValue={rpd.Hip} style={{width:"60px", textAlign:"center"}} onChange={e => {this.hipUpdate(); this.databaseUpdate(e, 'Hip')}}/></div></td>
                             </tr>
                         </tbody>
                     </table>

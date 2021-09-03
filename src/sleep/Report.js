@@ -87,6 +87,7 @@ class Report extends React.Component{
                     
                     {/* 英文版 */}
                     <EPart
+                        RID = {this.props.RID}
                         getEPartData = {this.state.getEPartData}
                         updateEPartData = {this.updateEPartData}
                         reportData = {this.props.reportData}

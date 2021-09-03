@@ -46,7 +46,7 @@
 }
 #loadingWord1{
     animation-name: lw1;
-    animation-duration: 1.5s;
+    animation-duration: 0.5s;
     animation-iteration-count: infinite;
     animation-direction:normal;
 }
@@ -59,7 +59,7 @@
 }
 #loadingWord2{
     animation-name: lw2;
-    animation-duration: 1.5s;
+    animation-duration: 0.5s;
     animation-iteration-count: infinite;
     animation-direction:normal;
 }
@@ -72,7 +72,7 @@
 }
 #loadingWord3{
     animation-name: lw3;
-    animation-duration: 1.5s;
+    animation-duration: 0.5s;
     animation-iteration-count: infinite;
     animation-direction:normal;
 }
@@ -85,7 +85,7 @@
 }
 #loadingWord4{
     animation-name: lw4;
-    animation-duration: 1.5s;
+    animation-duration: 0.5s;
     animation-iteration-count: infinite;
     animation-direction:normal;
 }

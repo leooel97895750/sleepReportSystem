@@ -441,6 +441,7 @@ class Dataflow extends React.Component{
                 </div>
 
                 <Report 
+                    RID = {this.state.RID}
                     display = {this.state.isLoad ? 'block' : 'none'}
                     downloadReport = {this.downloadReport}
                     graphExist = {this.state.graphExist}

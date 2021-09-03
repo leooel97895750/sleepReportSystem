@@ -52,7 +52,14 @@ export function eventCalculate(dataflow, events){
     let ahiIndex = {'AHI_Supine':0, 'AHI_NSupine':0, 'AHI_REM':0, 'AHI_NREM':0, 'AHI_Left':0, 'AHI_Right':0, 'AHI_REM_Supine':0, 'AHI_REM_NSupine':0, 'AHI_NREM_Supine':0, 'AHI_NREM_NSupine':0};
     let eventsTime = {'CA':[], 'OA':[], 'MA':[], 'OH':[]};
     let eventsCount = {'CA':0, 'TCA':0, 'OA':0, 'TOA':0, 'MA':0, 'TMA':0, 'LA':0, 'SPD':0, 'SPDS':0, 'MSPD':100, 'SD':0, 'SPA':0, 'A1':0, 'A2':0, 'A3':0, 'A4':0, 'OH':0, 'TOH':0, 'LH':0, 'RERA':0, 'SNORE':0};
-    
+    let plmCount = {'lm':0, 'plm':0, 'remLm':0, 'nremLm':0, 'remPlm':0, 'nremPlm':0};
+    let plmTime = [];
+    let plmSerial = 0;
+    let plmLastSecond = 0;
+    let tmpPlmTime = [];
+    let tmpPlmStage = [];
+    let startPlm = 0;
+
     for(let i=0; i<events.length; i++){
         let event = events[i];
         // Central Apnea
@@ -106,10 +113,58 @@ export function eventCalculate(dataflow, events){
         else if(event.EVT_TYPE === 10 && event.MAN_SCORED === 1){
             eventsCount.A4 += 1;
         }
-        // Limb movement(Left)(PLM)
-        else if(event.EVT_TYPE === 12){}
-        // Limb movement(Right)(PLM)
-        else if(event.EVT_TYPE === 13){}
+        // Limb movement(Left)(PLM)、Limb movement(Right)(PLM)
+        else if(event.EVT_TYPE === 12 || event.EVT_TYPE === 13){
+            plmCount.lm += 1;
+            if(dfs.sleepStage[Math.floor(event.EVT_TIME / 30)] === 5){
+                plmCount.remLm += 1;
+            }
+            else plmCount.nremLm += 1;
+
+            if((Number(event.EVT_TIME) - plmLastSecond) <= 90){
+                plmSerial += 1;
+                
+                if(plmSerial >= 4){
+                    if(startPlm === 0){
+                        plmTime.concat(tmpPlmTime);
+                        tmpPlmTime = [];
+                        plmCount.plm += 4;
+                        for(let i=0; i<tmpPlmStage.length; i++){
+                            if(tmpPlmStage[i] === 5){
+                                plmCount.remPlm += 1;
+                            }
+                            else{
+                                plmCount.nremPlm += 1;
+                            }
+                        }
+                        tmpPlmStage = [];
+                        startPlm = 1;
+                    }
+                    else{
+                        plmTime.push(event.EVT_TIME);
+                        plmCount.plm += 1;
+                        if(dfs.sleepStage[Math.floor(event.EVT_TIME / 30)] === 5){
+                            plmCount.remPlm += 1;
+                        }
+                        else{
+                            plmCount.nremPlm += 1;
+                        }
+                    }
+                }
+                else{
+                    tmpPlmTime.push(event.EVT_TIME);
+                    tmpPlmStage.push(dfs.sleepStage[Math.floor(event.EVT_TIME / 30)]);
+                }
+            }
+            else{
+                startPlm = 0;
+                plmSerial = 0;
+                tmpPlmTime = [];
+                tmpPlmStage = [];
+            }
+            plmLastSecond = Number(event.EVT_TIME);
+
+        }
         // Obstructive Hypopnea
         else if(event.EVT_TYPE === 29){
             eventsCount.OH += 1;
@@ -130,7 +185,7 @@ export function eventCalculate(dataflow, events){
     eventsCount.LA = eventsCount.LA.toFixed(0);
     eventsCount.LH = eventsCount.LH.toFixed(0);
 
-    return {eventsCount, eventsTime, ahiIndex};
+    return {eventsCount, eventsTime, ahiIndex, plmCount, plmTime};
 }
 
 // 計算STUDYCFG
@@ -209,6 +264,42 @@ export function reportDataCalculate(dataflow){
     }
     console.log(ahiIndexTime);
 
+    // 計算心率 (暫時用channel24來算 sample rate 1)
+    let heartRate = {'MS':0, 'MSC':0, 'MR': 0, 'MRC':0, 'MN':0, 'MNC':0, 'LS':10000, 'LR':10000, 'LN':10000, 'HS':0, 'HR':0, 'HN':0};
+    for(let i=0; i<dfs.pulse.length; i++){
+        let nowStage = dfs.sleepStage[Math.floor(i / 30)];
+        if(nowStage !== 10){
+            heartRate.MS += dfs.pulse[i];
+            heartRate.MSC += 1;
+            if(dfs.pulse[i] < heartRate.LS){
+                heartRate.LS = dfs.pulse[i];
+            }
+            if(dfs.pulse[i] > heartRate.HS){
+                heartRate.HS = dfs.pulse[i];
+            }
+            if(nowStage === 5){
+                heartRate.MR += dfs.pulse[i];
+                heartRate.MRC += 1;
+                if(dfs.pulse[i] < heartRate.LR){
+                    heartRate.LR = dfs.pulse[i];
+                }
+                if(dfs.pulse[i] > heartRate.HR){
+                    heartRate.HR = dfs.pulse[i];
+                }
+            }
+            else{
+                heartRate.MN += dfs.pulse[i];
+                heartRate.MNC += 1;
+                if(dfs.pulse[i] < heartRate.LN){
+                    heartRate.LN = dfs.pulse[i];
+                }
+                if(dfs.pulse[i] > heartRate.HN){
+                    heartRate.HN = dfs.pulse[i];
+                }
+            }
+        }
+    }
+
     // 睡眠報告資料
     let reportData = {
         PatientID: dfs.cfg.patientID + ":" + dfs.cfg.startDate,
@@ -266,26 +357,26 @@ export function reportDataCalculate(dataflow){
         ODI: ((evn.SPD) / ((dfs.epochNum - dfs.wake) / 2) * 60).toFixed(1), 
         Snore: evn.SNORE,
         SnoreIndex: ((evn.SNORE) / ((dfs.epochNum - dfs.wake) / 2) * 60).toFixed(1), 
-        MS: 0, 
-        MR: 0, 
-        MN: 0, 
-        LS: 0, 
-        LR: 0, 
-        LN: 0, 
-        HS: 0, 
-        HR: 0, 
-        HN: 0, 
-        MeanHR: 0, 
-        MinHR: 0, 
-        LM_R: 0,
-        LM_N: 0, 
-        LM_T: 0, 
-        PLM_R: 0, 
-        PLM_N: 0, 
-        PLM_T: 0, 
-        PLMI_R: 0, 
-        PLMI_N: 0, 
-        PLMI_T: 0, 
+        MS: Math.round(heartRate.MS / heartRate.MSC), 
+        MR: Math.round(heartRate.MR / heartRate.MRC), 
+        MN: Math.round(heartRate.MN / heartRate.MNC), 
+        LS: heartRate.LS, 
+        LR: heartRate.LR, 
+        LN: heartRate.LN,
+        HS: heartRate.HS, 
+        HR: heartRate.HR, 
+        HN: heartRate.HN, 
+        MeanHR: Math.round(heartRate.MS / heartRate.MSC), 
+        MinHR: heartRate.LS, 
+        LM_R: dfs.plmCount.remLm,
+        LM_N: dfs.plmCount.nremLm, 
+        LM_T: dfs.plmCount.lm, 
+        PLM_R: dfs.plmCount.remPlm, 
+        PLM_N: dfs.plmCount.nremPlm, 
+        PLM_T: dfs.plmCount.plm, 
+        PLMI_R: (dfs.plmCount.remPlm / (dfs.rem / 2) * 60).toFixed(1), 
+        PLMI_N: (dfs.plmCount.nremPlm / ((dfs.n1 + dfs.n2 + dfs.n3) / 2) * 60).toFixed(1), 
+        PLMI_T: (dfs.plmCount.plm / ((dfs.epochNum - dfs.wake) / 2) * 60).toFixed(1), 
         Baseline_path: "./graphs/" + yearMonth + "/Baseline" + dfs.timestamp + ".png",
         Hypnogram_path: "./graphs/" + yearMonth + "/Hypnogram" + dfs.timestamp + ".png",
         Event_path: "./graphs/" + yearMonth + "/Event" + dfs.timestamp + ".png",

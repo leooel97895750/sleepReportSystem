@@ -38,6 +38,8 @@ class Dataflow extends React.Component{
             eventsTime: {'CA':[], 'OA':[], 'MA':[], 'OH':[]},
             eventsCount: {},
             ahiIndex: {},
+            plmCount: {},
+            plmTime: [],
             sound: [],
             pulse: [],
             spo2: [],
@@ -310,6 +312,8 @@ class Dataflow extends React.Component{
                     eventsTime: eventsData.eventsTime,
                     eventsCount: eventsData.eventsCount,
                     ahiIndex: eventsData.ahiIndex,
+                    plmCount: eventsData.plmCount,
+                    plmTime: eventsData.plmTime,
                     getGraphData: 1,
                 });
             });

@@ -22,7 +22,7 @@ class Search extends React.Component{
                     
                 </div>
                 <footer style={{position: this.state.isLoad ? 'static' : 'fixed'}}>
-                    <span>成大睡眠中心 National Cheng Kung University Hospital</span><br/>
+                    <span>成大醫院睡眠中心 National Cheng Kung University Hospital</span><br/>
                     <span>成大資訊工程所 神經運算與腦機介面實驗室 National Cheng Kung University Department of Computer Science and Information Engineering NCBCI Lab</span>
                 </footer>
             </div>

@@ -50,8 +50,10 @@ export function eventCalculate(dataflow, events){
     // stage: 30秒1個點    position: 1秒25個點
 
     let ahiIndex = {'AHI_Supine':0, 'AHI_NSupine':0, 'AHI_REM':0, 'AHI_NREM':0, 'AHI_Left':0, 'AHI_Right':0, 'AHI_REM_Supine':0, 'AHI_REM_NSupine':0, 'AHI_NREM_Supine':0, 'AHI_NREM_NSupine':0};
+    
     let eventsTime = {'CA':[], 'OA':[], 'MA':[], 'OH':[]};
     let eventsCount = {'CA':0, 'TCA':0, 'OA':0, 'TOA':0, 'MA':0, 'TMA':0, 'LA':0, 'SPD':0, 'SPDS':0, 'MSPD':100, 'SD':0, 'SPA':0, 'A1':0, 'A2':0, 'A3':0, 'A4':0, 'OH':0, 'TOH':0, 'LH':0, 'RERA':0, 'SNORE':0};
+    
     let plmCount = {'lm':0, 'plm':0, 'remLm':0, 'nremLm':0, 'remPlm':0, 'nremPlm':0};
     let plmTime = [];
     let plmSerial = 0;
@@ -59,6 +61,8 @@ export function eventCalculate(dataflow, events){
     let tmpPlmTime = [];
     let tmpPlmStage = [];
     let startPlm = 0;
+
+    let snoreTime ={'time':[], 'param3':[]};
 
     for(let i=0; i<events.length; i++){
         let event = events[i];
@@ -180,12 +184,14 @@ export function eventCalculate(dataflow, events){
         // Snore
         else if(event.EVT_TYPE === 33){
             eventsCount.SNORE += 1;
+            snoreTime.time.push(event.EVT_TIME);
+            snoreTime.param3.push(event.PARAM3);
         }
     }
     eventsCount.LA = eventsCount.LA.toFixed(0);
     eventsCount.LH = eventsCount.LH.toFixed(0);
 
-    return {eventsCount, eventsTime, ahiIndex, plmCount, plmTime};
+    return {eventsCount, eventsTime, ahiIndex, plmCount, plmTime, snoreTime};
 }
 
 // 計算STUDYCFG

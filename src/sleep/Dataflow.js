@@ -40,7 +40,7 @@ class Dataflow extends React.Component{
             ahiIndex: {},
             plmCount: {},
             plmTime: [],
-            sound: [],
+            snoreTime: {'time':[], 'param3':[]},
             pulse: [],
             spo2: [],
             position: [],
@@ -67,7 +67,6 @@ class Dataflow extends React.Component{
         this.loadPosition = this.loadPosition.bind(this);
         this.loadSpO2 = this.loadSpO2.bind(this);
         this.loadPulse = this.loadPulse.bind(this);
-        this.loadSound = this.loadSound.bind(this);
         this.insertGraphDataBase = this.insertGraphDataBase.bind(this);
         this.insertReportDataBase = this.insertReportDataBase.bind(this);
         this.insertStageDataBase = this.insertStageDataBase.bind(this);
@@ -269,26 +268,9 @@ class Dataflow extends React.Component{
             pulseReader.onload = (file) => {
                 let pulse = new Float32Array(file.target.result);
                 this.setState({pulse: pulse});
-                this.loadSound(e, channelsList);
+                this.loadEventData(e);
             }
             pulseReader.readAsArrayBuffer(e.target.files[pulseIndex]);
-        }
-    }
-
-    // step 8. 解析Sound
-    loadSound(e, channelsList){
-        let soundIndex = -1;
-        for(let i=0; i<e.target.files.length; i++) if(e.target.files[i].name === channelsList.Sound) soundIndex = i;
-        if(soundIndex === -1) alert('找不到' + channelsList.Sound);
-        else{
-            let soundReader = new FileReader();
-            soundReader.onload = (file) => {
-                let sound = new Float32Array(file.target.result);
-                this.setState({
-                    sound: sound,
-                }, () => {this.loadEventData(e)});
-            }
-            soundReader.readAsArrayBuffer(e.target.files[soundIndex]);
         }
     }
 
@@ -314,6 +296,7 @@ class Dataflow extends React.Component{
                     ahiIndex: eventsData.ahiIndex,
                     plmCount: eventsData.plmCount,
                     plmTime: eventsData.plmTime,
+                    snoreTime: eventsData.snoreTime,
                     getGraphData: 1,
                 });
             });
@@ -466,6 +449,7 @@ class Dataflow extends React.Component{
                     reportData = {this.state.reportData}
                     eventsTime = {this.state.eventsTime}
                     eventsCount = {this.state.eventsCount}
+                    snoreTime = {this.state.snoreTime}
                     startTime = {this.state.reportData.StartTime}
                     endTime = {this.state.reportData.EndTime}
                     epochNum = {this.state.epochNum}
@@ -476,7 +460,7 @@ class Dataflow extends React.Component{
                     sound = {this.state.sound}
                 />
                 <footer style={{position: this.state.isLoad ? 'static' : 'fixed'}}>
-                    <span>成大睡眠中心 National Cheng Kung University Hospital</span><br/>
+                    <span>成大醫院睡眠中心 National Cheng Kung University Hospital</span><br/>
                     <span>成大資訊工程所 神經運算與腦機介面實驗室 National Cheng Kung University Department of Computer Science and Information Engineering NCBCI Lab</span>
                 </footer>
             </div>

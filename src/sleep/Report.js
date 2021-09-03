@@ -101,6 +101,7 @@ class Report extends React.Component{
                         reportData = {this.props.reportData}
                         eventsTime = {this.props.eventsTime}
                         eventsCount = {this.props.eventsCount}
+                        snoreTime = {this.props.snoreTime}
                         startTime = {this.props.reportData.StartTime}
                         endTime = {this.props.reportData.EndTime}
                         epochNum = {this.props.epochNum}
@@ -108,7 +109,6 @@ class Report extends React.Component{
                         position = {this.props.position}
                         spo2 = {this.props.spo2}
                         pulse = {this.props.pulse}
-                        sound = {this.props.sound}
                     />
 
                     <br/><br/>

@@ -555,20 +555,13 @@ class Graph extends React.Component{
         sCTX.lineWidth = "1";
         sCTX.stroke();
 
-        let sound = this.props.sound;
-        let randomSound = [];
-        let soundSpace = Math.floor(sound.length / 700);
-        for(let i=0; i<700; i++){
-            randomSound.push(sound[i*soundSpace]);
-        }
-        sound = null;
-
-
-        for(let i=0; i<700; i++){
-
+        let snoreTime = this.props.snoreTime.time;
+        let snoreParam3 = this.props.snoreTime.param3;
+        for(let i=0; i<snoreTime.length; i++){
+            let snorePoint = snoreTime[i] * (700 / (this.props.epochNum * 30));
             sCTX.beginPath();
-            sCTX.moveTo(100 + i, 40);
-            sCTX.lineTo(100 + i, (40 - randomSound[i]*200));
+            sCTX.moveTo(100 + snorePoint, 40);
+            sCTX.lineTo(100 + snorePoint, 35 - snoreParam3[i] * 10);
             sCTX.strokeStyle = "blue";
             sCTX.lineWidth = 1;
             sCTX.stroke();

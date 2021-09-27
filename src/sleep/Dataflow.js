@@ -14,14 +14,17 @@ class Dataflow extends React.Component{
             // 整個系統的報告完整資料
             RID: 0,
             reportData: {
-                PatientID: "", StudyDate: "",Name: "", Age: 0, Sex: "", DOB: "", Height: 0, Weight: 0, BMI: 0, Neck: 0, AHI: 0, AI: 0, HI: 0, 
-                OI: 0, CI: 0, MI: 0, AHI_Supine: 0,AHI_NSupine: 0, AHI_REM: 0, AHI_NREM: 0, AHI_Left: 0, AHI_Right: 0, AHI_REM_Supine: 0,
-                AHI_REM_NSupine: 0, AHI_NREM_Supine: 0, AHI_NREM_NSupine: 0, StartTime: "", EndTime: "",TotalRecordTime: 0, TotalSleepPeriod: 0, 
-                TotalSleepTime: 0, AwakeTime: 0, Stage1: 0,REM: 0, Stage2: 0, SleepLatency: 0, Stage3: 0, Efficiency: 0, ArousalIndex: 0, 
-                OA: 0, OAT: 0, CA: 0,CAT: 0, MA: 0, MAT: 0, HA: 0, HAT: 0, LA: 0, LH: 0, MeanSpO2: 0, MeanDesat: 0, MinSpO2: 0, ODI: 0, 
-                Snore: 0, SnoreIndex: 0, MS: 0, MR: 0, MN: 0, LS: 0, LR: 0, LN: 0, HS: 0, HR: 0, HN: 0, MeanHR: 0, MinHR: 0, LM_R: 0, LM_N: 0, 
-                LM_T: 0, PLM_R: 0, PLM_N: 0, PLM_T: 0, PLMI_R: 0, PLMI_N: 0, PLMI_T: 0, Baseline_path: "", Hypnogram_path: "", Event_path: "",
-                BodyPosition_path: "", HeartRate_path: "", SaO2_path: "", Sound_path: "", PLM_path: ""
+                RID: 0, CaseID: "", PatientID: "", StudyDate: "", Since: "", Name: "", Age: 0, Sex: "", DOB: "", Height: 0, Weight: 0, BMI: 0,
+                Neck: 0, Waist: null, Hip: null, HADS_A: null, HADS_D: null, ESS: null, PSQI: null, SOS: null, THI: null, GERD_Q: null, WHO_Phy: null, WHO_Psy: null,
+                BP_S_D: null, BP_S_S: null, BP_W_D: null, BP_W_S: null, SleepQuality: null, AHI: 0, AI: 0, HI: 0, OI: 0, CI: 0, MI: 0, AHI_Supine: 0,
+                AHI_NSupine: 0, AHI_REM: 0, AHI_NREM: 0, AHI_Left: 0, AHI_Right: 0, AHI_REM_Supine: 0, AHI_REM_NSupine: 0, AHI_NREM_Supine: 0, 
+                AHI_NREM_NSupine: 0, StartTime: "", EndTime: "",TotalRecordTime: 0, TotalSleepPeriod: 0, TotalSleepTime: 0, AwakeTime: 0, 
+                Stage1: 0,REM: 0, Stage2: 0, SleepLatency: 0, Stage3: 0, Efficiency: 0, ArousalIndex: 0, OA: 0, OAT: 0, CA: 0,CAT: 0, MA: 0, 
+                MAT: 0, HA: 0, HAT: 0, LA: 0, LH: 0, MeanSpO2: 0, MeanDesat: 0, MinSpO2: 0, ODI: 0, Snore: 0, SnoreIndex: 0, MS: 0, MR: 0, 
+                MN: 0, LS: 0, LR: 0, LN: 0, HS: 0, HR: 0, HN: 0, MeanHR: 0, MinHR: 0, LM_R: 0, LM_N: 0, LM_T: 0, PLM_R: 0, PLM_N: 0, PLM_T: 0, 
+                PLMI_R: 0, PLMI_N: 0, PLMI_T: 0, Baseline_path: "", Hypnogram_path: "", Event_path: "", BodyPosition_path: "", HeartRate_path: "", 
+                SaO2_path: "", Sound_path: "", PLM_path: "", FriedmanStage: "", TonsilSize: "", FriedmanTonguePosition: "", Technician: "", 
+                TechnicianDate: "", Physician: "", PhysicianDate: "", Comment: "", Disease: "", Treatment: ""
             },
 
             graphExist: 0,
@@ -96,6 +99,7 @@ class Dataflow extends React.Component{
                     if(patientIDJson.length !== 0){
                         alert('有資料');
                         let RID = patientIDJson[0].RID;
+                        this.setState({RID: RID});
                         let selectReportUrl = "http://140.116.245.43:3000/selectReport?rid=" + RID;
                         getAPI(selectReportUrl, (xhttp) => {
                             let selectReportJson = JSON.parse(xhttp.responseText);

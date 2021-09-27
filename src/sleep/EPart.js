@@ -6,33 +6,40 @@ class EPart extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            inputReportData: {
-                'CaseID': '',
-                'Waist': null,
-                'Hip': null,
-                'HADS_A': null,
-                'HADS_D': null,
-                'ESS': null,
-                'PSQI': null,
-                'SOS': null,
-                'THI': null,
-                'GERD_Q': null,
-                'WHO_Phy': null,
-                'WHO_Psy': null,
-                'BP_S_D': null,
-                'BP_S_S': null,
-                'BP_W_D': null,
-                'BP_W_S': null,
-                'SleepQuality': null
-            },
+
         };
     }
 
+    // 是否是該是null
+    nullCheck(str){
+        return str === "" ? null : str; 
+    }
+    // 當input欄位改變時更新資料庫
     databaseUpdate(e, key){
-        let inputReportData = this.state.inputReportData;
-        inputReportData[key] = e.target.value;
+        let inputReportData = {
+            'CaseID': this.nullCheck(document.getElementById("e2").value),
+            'Waist': this.nullCheck(document.getElementById("e12").value),
+            'Hip': this.nullCheck(document.getElementById("e13").value),
+            'HADS_A': this.nullCheck(document.getElementById("e14").value),
+            'HADS_D': this.nullCheck(document.getElementById("e15").value),
+            'ESS': this.nullCheck(document.getElementById("e16").value),
+            'PSQI': this.nullCheck(document.getElementById("e17").value),
+            'SOS': this.nullCheck(document.getElementById("e18").value),
+            'THI': this.nullCheck(document.getElementById("e19").value),
+            'GERD_Q': this.nullCheck(document.getElementById("e20").value),
+            'WHO_Phy': this.nullCheck(document.getElementById("e21").value),
+            'WHO_Psy': this.nullCheck(document.getElementById("e22").value),
+            'BP_S_D': this.nullCheck(document.getElementById("e23").value),
+            'BP_S_S': this.nullCheck(document.getElementById("e24").value),
+            'BP_W_D': this.nullCheck(document.getElementById("e25").value),
+            'BP_W_S': this.nullCheck(document.getElementById("e26").value),
+            'SleepQuality': this.nullCheck(document.getElementById("e27").value),
+        };
+        inputReportData[key] = this.nullCheck(e.target.value);
+        console.log(inputReportData);
         this.setState({inputReportData: inputReportData}, () => {
             // 更新資料庫
+            console.log(this.props.RID);
             inputReportData['RID'] = this.props.RID;
             let updateEPartReportUrl = "http://140.116.245.43:3000/updateEPartReport";
             postJsonAPI(updateEPartReportUrl, inputReportData, (xhttp) => {
@@ -103,12 +110,12 @@ class EPart extends React.Component{
                     <table border="1" cellSpacing="0" cellPadding="3" style={{marginLeft:"auto", marginRight:"auto", width:"1000px", whiteSpace: "nowrap"}}>
                         <tbody>
                             <tr>
-                                <td colSpan="4" width="20%"><div style={{overflow:"hidden"}}>HADS(A/D)：<input id="e14" className="myInput write" style={{width:"30px", textAlign:"center"}}/> / <input id="e15" className="myInput write" style={{width:"30px", textAlign:"center"}}/></div></td>
-                                <td colSpan="4" width="20%"><div style={{overflow:"hidden"}}>ESS：<input id="e16" className="myInput write" style={{width:"140px", textAlign:"center"}}/></div></td>
-                                <td colSpan="3" width="15%"><div style={{overflow:"hidden"}}>PSQI：<input id="e17" className="myInput write" style={{width:"83px", textAlign:"center"}}/></div></td>
-                                <td colSpan="3" width="15%"><div style={{overflow:"hidden"}}>SOS：<input id="e18" className="myInput write" style={{width:"90px", textAlign:"center"}}/></div></td>
-                                <td colSpan="3" width="15%"><div style={{overflow:"hidden"}}>THI：<input id="e19" className="myInput write"  style={{width:"90px", textAlign:"center"}}/></div></td>
-                                <td colSpan="3" width="15%"><div style={{overflow:"hidden"}}>GERD-Q：<input id="e20" className="myInput write" style={{width:"54px", textAlign:"center"}}/></div></td>
+                                <td colSpan="4" width="20%"><div style={{overflow:"hidden"}}>HADS(A/D)：<input id="e14" className="myInput write" defaultValue={rpd.HADS_A} style={{width:"30px", textAlign:"center"}} onChange={e => {this.databaseUpdate(e, 'HADS_A')}}/> / <input id="e15" className="myInput write" defaultValue={rpd.HADS_D} style={{width:"30px", textAlign:"center"}} onChange={e => {this.databaseUpdate(e, 'HADS_D')}}/></div></td>
+                                <td colSpan="4" width="20%"><div style={{overflow:"hidden"}}>ESS：<input id="e16" className="myInput write" defaultValue={rpd.ESS} style={{width:"140px", textAlign:"center"}} onChange={e => {this.databaseUpdate(e, 'ESS')}}/></div></td>
+                                <td colSpan="3" width="15%"><div style={{overflow:"hidden"}}>PSQI：<input id="e17" className="myInput write" defaultValue={rpd.PSQI} style={{width:"83px", textAlign:"center"}} onChange={e => {this.databaseUpdate(e, 'PSQI')}}/></div></td>
+                                <td colSpan="3" width="15%"><div style={{overflow:"hidden"}}>SOS：<input id="e18" className="myInput write" defaultValue={rpd.SOS} style={{width:"90px", textAlign:"center"}} onChange={e => {this.databaseUpdate(e, 'SOS')}}/></div></td>
+                                <td colSpan="3" width="15%"><div style={{overflow:"hidden"}}>THI：<input id="e19" className="myInput write" defaultValue={rpd.THI}  style={{width:"90px", textAlign:"center"}} onChange={e => {this.databaseUpdate(e, 'THI')}}/></div></td>
+                                <td colSpan="3" width="15%"><div style={{overflow:"hidden"}}>GERD-Q：<input id="e20" className="myInput write" defaultValue={rpd.GERD_Q} style={{width:"54px", textAlign:"center"}} onChange={e => {this.databaseUpdate(e, 'GERD_Q')}}/></div></td>
                             </tr>
                         </tbody>
                     </table>
@@ -117,10 +124,10 @@ class EPart extends React.Component{
                     <table border="1" cellSpacing="0" cellPadding="3" style={{marginLeft:"auto", marginRight:"auto", width:"1000px", whiteSpace: "nowrap"}}>
                         <tbody>
                             <tr>
-                                <td colSpan="5" width="25%"><div style={{overflow:"hidden"}}>WHO(Phy/Psy)：<input id="e21" className="myInput write" style={{width:"43px", textAlign:"center"}}/> / <input id="e22" className="myInput write" style={{width:"43px", textAlign:"center"}}/></div></td>
-                                <td colSpan="5" width="25%"><div style={{overflow:"hidden"}}>BP(S)(mmHg)：<input id="e23" className="myInput write"  style={{width:"50px", textAlign:"center"}}/> / <input id="e24" className="myInput write"  style={{width:"50px", textAlign:"center"}}/></div></td>
-                                <td colSpan="5" width="25%"><div style={{overflow:"hidden"}}>BP(W)(mmHg)：<input id="e25" className="myInput write"  style={{width:"45px", textAlign:"center"}}/> / <input id="e26" className="myInput write"  style={{width:"45px", textAlign:"center"}}/></div></td>
-                                <td colSpan="5" width="25%"><div style={{overflow:"hidden"}}>Subjective sleep quality：<input id="e27" className="myInput write" style={{width:"50px", textAlign:"center"}}/></div></td>
+                                <td colSpan="5" width="25%"><div style={{overflow:"hidden"}}>WHO(Phy/Psy)：<input id="e21" className="myInput write" defaultValue={rpd.WHO_Phy} style={{width:"43px", textAlign:"center"}} onChange={e => {this.databaseUpdate(e, 'WHO_Phy')}}/> / <input id="e22" className="myInput write" defaultValue={rpd.WHO_Psy} style={{width:"43px", textAlign:"center"}} onChange={e => {this.databaseUpdate(e, 'WHO_Psy')}}/></div></td>
+                                <td colSpan="5" width="25%"><div style={{overflow:"hidden"}}>BP(S)(mmHg)：<input id="e23" className="myInput write" defaultValue={rpd.BP_S_D} style={{width:"50px", textAlign:"center"}} onChange={e => {this.databaseUpdate(e, 'BP_S_D')}}/> / <input id="e24" className="myInput write" defaultValue={rpd.BP_S_S} style={{width:"50px", textAlign:"center"}} onChange={e => {this.databaseUpdate(e, 'BP_S_S')}}/></div></td>
+                                <td colSpan="5" width="25%"><div style={{overflow:"hidden"}}>BP(W)(mmHg)：<input id="e25" className="myInput write" defaultValue={rpd.BP_W_D} style={{width:"45px", textAlign:"center"}} onChange={e => {this.databaseUpdate(e, 'BP_W_D')}}/> / <input id="e26" className="myInput write" defaultValue={rpd.BP_W_S} style={{width:"45px", textAlign:"center"}} onChange={e => {this.databaseUpdate(e, 'BP_W_S')}}/></div></td>
+                                <td colSpan="5" width="25%"><div style={{overflow:"hidden"}}>Subjective sleep quality：<input id="e27" className="myInput write" defaultValue={rpd.SleepQuality} style={{width:"50px", textAlign:"center"}} onChange={e => {this.databaseUpdate(e, 'SleepQuality')}}/></div></td>
                             </tr>
                         </tbody>
                     </table>
@@ -254,7 +261,7 @@ class EPart extends React.Component{
                     <table border="1" cellSpacing="0" cellPadding="3" style={{marginLeft:"auto", marginRight:"auto", width:"1000px"}}>
                         <tbody>
                             <tr>
-                                <td width="50%">Mean SpO2 (%)：<span id="e67">{rpd.MeamSpO2}</span></td>
+                                <td width="50%">Mean SpO2 (%)：<span id="e67">{rpd.MeanSpO2}</span></td>
                                 <td width="50%">Mean desaturation (%)：<span id="e68">{rpd.MeanDesat}</span></td>
                             </tr>
                             <tr>

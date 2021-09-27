@@ -14,11 +14,24 @@ class Diagnosis extends React.Component{
             nowDisease: [],
             nowDiagnosis: "",
             nowTreatment: "",
+            firstRender: 0,
         };
         this.diagnosisBox = this.diagnosisBox.bind(this);
         this.diagnosisBoxClose = this.diagnosisBoxClose.bind(this);
         this.insertToSelected = this.insertToSelected.bind(this);
         this.deleteFromSelected = this.deleteFromSelected.bind(this);
+    }
+
+    // 當抓到資料庫的疾病陣列資料後渲染
+    componentDidUpdate(){
+        if(this.props.reportData.DiseaseList.length !== 0 && this.state.firstRender === 0){
+            console.log(this.props.reportData.DiseaseList);
+            let nowDisease = this.props.reportData.DiseaseList.split(',');
+            this.setState({
+                nowDisease: nowDisease,
+                firstRender: 1,
+            });
+        }
     }
     
     // 是否是該是null
@@ -27,6 +40,8 @@ class Diagnosis extends React.Component{
     }
     // 當input欄位改變時更新資料庫
     databaseUpdate(e, key){
+        console.log(this.state.nowDisease);
+        console.log(this.state.nowDisease.join());
         let inputReportData = {
             FriedmanStage: this.nullCheck(document.getElementById("d1").value),
             TonsilSize: this.nullCheck(document.getElementById("d2").value),
@@ -37,8 +52,8 @@ class Diagnosis extends React.Component{
             PhysicianDate: this.nullCheck(document.getElementById("d7").textContent),
             Comment: this.nullCheck(document.getElementById("comment").value),
             ExtraTreatment: this.nullCheck(document.getElementById("extraTreatment").value),
+            DiseaseList: this.nullCheck(this.state.nowDisease.join()),
         };
-        inputReportData[key] = this.nullCheck(e.target.value);
         console.log(inputReportData);
         this.setState({inputReportData: inputReportData}, () => {
             // 更新資料庫
@@ -82,9 +97,7 @@ class Diagnosis extends React.Component{
                 myDisease.add(option);
             }
         }
-        this.setState({
-            nowDisease: nowDisease,
-        });
+        this.setState({nowDisease: nowDisease}, () => {this.databaseUpdate()});
     }
 
     // 移除病歷
@@ -99,9 +112,7 @@ class Diagnosis extends React.Component{
             nowDisease.splice(nowDisease.indexOf(number), 1);
             myDisease.remove(selectedDisease[i].index);
         }
-        this.setState({
-            nowDisease: nowDisease,
-        });
+        this.setState({nowDisease: nowDisease}, () => {this.databaseUpdate()});
     }
 
     // 自動填入技師日期

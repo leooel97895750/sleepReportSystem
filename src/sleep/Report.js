@@ -113,7 +113,9 @@ class Report extends React.Component{
                     />
 
                     <br/><br/>
-                    <Diagnosis 
+                    <Diagnosis
+                        RID = {this.props.RID}
+                        reportData = {this.props.reportData}
                         getDiagnosisData = {this.state.getDiagnosisData}
                         updateDiagnosisData = {this.updateDiagnosisData}
                         AHI = {this.props.reportData.AHI}

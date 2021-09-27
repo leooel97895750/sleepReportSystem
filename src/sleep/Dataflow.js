@@ -23,8 +23,8 @@ class Dataflow extends React.Component{
                 MAT: 0, HA: 0, HAT: 0, LA: 0, LH: 0, MeanSpO2: 0, MeanDesat: 0, MinSpO2: 0, ODI: 0, Snore: 0, SnoreIndex: 0, MS: 0, MR: 0, 
                 MN: 0, LS: 0, LR: 0, LN: 0, HS: 0, HR: 0, HN: 0, MeanHR: 0, MinHR: 0, LM_R: 0, LM_N: 0, LM_T: 0, PLM_R: 0, PLM_N: 0, PLM_T: 0, 
                 PLMI_R: 0, PLMI_N: 0, PLMI_T: 0, Baseline_path: "", Hypnogram_path: "", Event_path: "", BodyPosition_path: "", HeartRate_path: "", 
-                SaO2_path: "", Sound_path: "", PLM_path: "", FriedmanStage: "", TonsilSize: "", FriedmanTonguePosition: "", Technician: "", 
-                TechnicianDate: "", Physician: "", PhysicianDate: "", Comment: "", Disease: "", Treatment: ""
+                SaO2_path: "", Sound_path: "", PLM_path: "", FriedmanStage: null, TonsilSize: null, FriedmanTonguePosition: null, Technician: null, 
+                TechnicianDate: null, Physician: null, PhysicianDate: null, Comment: null, DiseaseList: null, Disease: null, Treatment: null
             },
 
             graphExist: 0,

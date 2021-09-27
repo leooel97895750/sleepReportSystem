@@ -3,6 +3,7 @@ import '../css/diagnosis.css';
 import Treatment from './Treatment';
 import close from '../image/close.png';
 import quill from '../image/quill.png';
+import {postJsonAPI} from './functions/API.js';
 
 
 class Diagnosis extends React.Component{
@@ -20,24 +21,34 @@ class Diagnosis extends React.Component{
         this.deleteFromSelected = this.deleteFromSelected.bind(this);
     }
     
-    // 將報告資料傳回Report
-    componentDidUpdate(prevProps){
-        if(prevProps.getDiagnosisData === 0 && this.props.getDiagnosisData === 1){
-            let DiagnosisData = {
-                FriedmanStage: document.getElementById("d1").value,
-                TonsilSize: document.getElementById("d2").value,
-                FriedmanTonguePosition: document.getElementById("d3").value,
-
-                Technician: document.getElementById("d4").value,
-                TechnicianDate: document.getElementById("d5").textContent,
-
-                Physician: document.getElementById("d6").value,
-                PhysicianDate: document.getElementById("d7").textContent,
-                Disease: this.state.nowDiagnosis,
-                Treatment: this.state.nowTreatment,
-            };
-            this.props.updateDiagnosisData(DiagnosisData);
-        }
+    // 是否是該是null
+    nullCheck(str){
+        return str === "" ? null : str; 
+    }
+    // 當input欄位改變時更新資料庫
+    databaseUpdate(e, key){
+        let inputReportData = {
+            FriedmanStage: this.nullCheck(document.getElementById("d1").value),
+            TonsilSize: this.nullCheck(document.getElementById("d2").value),
+            FriedmanTonguePosition: this.nullCheck(document.getElementById("d3").value),
+            Technician: this.nullCheck(document.getElementById("d4").value),
+            TechnicianDate: this.nullCheck(document.getElementById("d5").textContent),
+            Physician: this.nullCheck(document.getElementById("d6").value),
+            PhysicianDate: this.nullCheck(document.getElementById("d7").textContent),
+            Comment: this.nullCheck(document.getElementById("comment").value),
+            ExtraTreatment: this.nullCheck(document.getElementById("extraTreatment").value),
+        };
+        inputReportData[key] = this.nullCheck(e.target.value);
+        console.log(inputReportData);
+        this.setState({inputReportData: inputReportData}, () => {
+            // 更新資料庫
+            console.log(this.props.RID);
+            inputReportData['RID'] = this.props.RID;
+            let updateDiagnosisReport = "http://140.116.245.43:3000/updateDiagnosisReport";
+            postJsonAPI(updateDiagnosisReport, inputReportData, (xhttp) => {
+                console.log(xhttp.responseText);
+            });
+        });
     }
 
     diagnosisBox(){
@@ -93,12 +104,14 @@ class Diagnosis extends React.Component{
         });
     }
 
+    // 自動填入技師日期
     technicianDate(){
         let tDate = document.getElementById("d5");
         let today = new Date();
         tDate.textContent = today.getFullYear() + '/' + today.getMonth() + '/' + today.getDate();
     }
 
+    // 自動填入醫師日期
     physicianDate(){
         let pDate = document.getElementById("d7");
         let today = new Date();
@@ -106,6 +119,9 @@ class Diagnosis extends React.Component{
     }
 
     render(){
+
+        const rpd = this.props.reportData;
+
         return(
             <div>
                 {/* Findings and Comments */}
@@ -121,7 +137,7 @@ class Diagnosis extends React.Component{
                             <tr>
                                 <td width="20%">Friedman Stage: </td>
                                 <td width="15%">
-                                    <input id="d1" list="friedmanStage" className="myInput write"/>
+                                    <input id="d1" list="friedmanStage" className="myInput write" defaultValue={rpd.FriedmanStage} onChange={e => {this.databaseUpdate(e, 'FriedmanStage')}}/>
                                     <datalist id="friedmanStage">
                                         <option value="Ⅰ"/>
                                         <option value="Ⅱ"/>
@@ -132,7 +148,7 @@ class Diagnosis extends React.Component{
                                 </td>
                                 <td width="15%">Tonsil size: </td>
                                 <td width="10%">
-                                    <input id="d2" list="tonsilSize" className="myInput write"/>
+                                    <input id="d2" list="tonsilSize" className="myInput write" defaultValue={rpd.TonsilSize} onChange={e => {this.databaseUpdate(e, 'TonsilSize')}}/>
                                     <datalist id="tonsilSize">
                                         <option value="0"/>
                                         <option value="1"/>
@@ -144,7 +160,7 @@ class Diagnosis extends React.Component{
                                 </td>
                                 <td colSpan="2" width="25%">Friedman tongue position: </td>
                                 <td width="15%">
-                                    <input id="d3" list="friedmanTonguePosition" className="myInput write"/>
+                                    <input id="d3" list="friedmanTonguePosition" className="myInput write" defaultValue={rpd.FriedmanTonguePosition} onChange={e => {this.databaseUpdate(e, 'FriedmanTonguePosition')}}/>
                                     <datalist id="friedmanTonguePosition">
                                         <option value="Ⅰ"/>
                                         <option value="Ⅱa"/>
@@ -156,13 +172,13 @@ class Diagnosis extends React.Component{
                                 </td>
                             </tr>
                             <tr>
-                                <td colSpan="7"><textarea style={{width:"968px", height:"300px", padding:"10px", fontSize:"18px" ,fontFamily:"Times New Roman, DFKai-sb, sans-serif"}}/></td>
+                                <td colSpan="7"><textarea id="comment" defaultValue={rpd.Comment} onInput={e => {this.databaseUpdate(e, 'Comment')}} style={{width:"968px", height:"300px", padding:"10px", fontSize:"18px" ,fontFamily:"Times New Roman, DFKai-sb, sans-serif"}}/></td>
                             </tr>
                             <tr>
                                 <td colSpan="4"></td>
                                 <td width="15%">Technician: </td>
                                 <td width="15%">
-                                    <input id="d4" list="technician" className="myInput write" onChange={this.technicianDate}/>
+                                    <input id="d4" list="technician" className="myInput write" defaultValue={rpd.Technician} onChange={e => {this.technicianDate(); this.databaseUpdate(e, 'Technician')}}/>
                                     <datalist id="technician">
                                         <option value="林文貴"/>
                                         <option value="林麗真"/>
@@ -171,7 +187,7 @@ class Diagnosis extends React.Component{
                                         <option value="廖芙欣"/>
                                     </datalist>
                                 </td>
-                                <td width="15%"><span id="d5"></span></td>
+                                <td width="15%"><span id="d5">{rpd.TechnicianDate}</span></td>
                             </tr>
                         </tbody>
                     </table>
@@ -296,13 +312,13 @@ class Diagnosis extends React.Component{
                                 </td>
                             </tr>
                             <tr>
-                                <td colSpan="4"><textarea id="treatmentTextarea" placeholder="額外補充..." style={{width:"968px", height:"100px", padding:"10px", fontSize:"18px" ,fontFamily:"Times New Roman, DFKai-sb, sans-serif"}}/></td>
+                                <td colSpan="4"><textarea id="extraTreatment" defaultValue={rpd.ExtraTreatment} onInput={e => {this.databaseUpdate(e, 'ExtraTreatment')}} placeholder="額外補充..." style={{width:"968px", height:"100px", padding:"10px", fontSize:"18px" ,fontFamily:"Times New Roman, DFKai-sb, sans-serif"}}/></td>
                             </tr>
                             <tr>
                                 <td></td>
                                 <td width="15%">Physician: </td>
                                 <td width="15%">
-                                    <input id="d6" list="physician" className="myInput write" onChange={this.physicianDate}/>
+                                    <input id="d6" list="physician" className="myInput write" defaultValue={rpd.Physician} onChange={e => {this.physicianDate(); this.databaseUpdate(e, 'Physician')}}/>
                                     <datalist id="physician">
                                         <option value="林政佑 醫師"/>
                                         <option value="張展旗 醫師"/>
@@ -314,7 +330,7 @@ class Diagnosis extends React.Component{
                                         <option value="鄭翔如 醫師"/>
                                     </datalist>
                                 </td>
-                                <td width="15%"><span id="d7"></span></td>
+                                <td width="15%"><span id="d7">{rpd.PhysicianDate}</span></td>
                             </tr>
                         </tbody>
                     </table>

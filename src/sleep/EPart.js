@@ -14,6 +14,7 @@ class EPart extends React.Component{
     nullCheck(str){
         return str === "" ? null : str; 
     }
+
     // 當input欄位改變時更新資料庫
     databaseUpdate(e, key){
         let inputReportData = {
@@ -35,8 +36,6 @@ class EPart extends React.Component{
             BP_W_S: this.nullCheck(document.getElementById("e26").value),
             SleepQuality: this.nullCheck(document.getElementById("e27").value),
         };
-        inputReportData[key] = this.nullCheck(e.target.value);
-        console.log(inputReportData);
         this.setState({inputReportData: inputReportData}, () => {
             // 更新資料庫
             console.log(this.props.RID);
@@ -73,7 +72,7 @@ class EPart extends React.Component{
                             <span style={{fontWeight:"bold"}}>Study Date: </span>
                             <input id="e1" className="upperInput" readOnly="readonly" defaultValue={rpd.StudyDate}/>
                             <span style={{fontWeight:"bold", marginLeft:"20px"}}>單號: </span>
-                            <input id="e2" className="upperInput write" style={{position:"relative", bottom:"3px", width:"200px"}}/>
+                            <input id="e2" className="upperInput write" defaultValue={rpd.CaseID} style={{position:"relative", bottom:"3px", width:"200px"}} onChange={e => {this.databaseUpdate(e, 'CaseID')}}/>
                         </div>
                     </div>
                 </div>

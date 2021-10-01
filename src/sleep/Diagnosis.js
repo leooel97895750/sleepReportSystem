@@ -24,7 +24,7 @@ class Diagnosis extends React.Component{
 
     // 當抓到資料庫的疾病陣列資料後渲染
     componentDidUpdate(){
-        if(this.props.reportData.DiseaseList.length !== 0 && this.state.firstRender === 0){
+        if(this.state.firstRender === 0 && this.props.reportData.DiseaseList.length !== 0){
             console.log(this.props.reportData.DiseaseList);
             let nowDisease = this.props.reportData.DiseaseList.split(',');
             this.setState({
@@ -38,6 +38,7 @@ class Diagnosis extends React.Component{
     nullCheck(str){
         return str === "" ? null : str; 
     }
+    
     // 當input欄位改變時更新資料庫
     databaseUpdate(e, key){
         console.log(this.state.nowDisease);

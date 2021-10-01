@@ -50,7 +50,7 @@ export function postJsonAPI(url, data, callFun) {
   xhttp.send(JSON.stringify(data));
 }
 
-export function getWordAPI(url) {
+export function getWordAPI(url, filename) {
   let xhttp = new XMLHttpRequest();
   xhttp.responseType = 'blob';
   xhttp.onload = () => {
@@ -59,7 +59,7 @@ export function getWordAPI(url) {
         if (blob && blob.size > 0) {
             let element = document.createElement('a');
             element.setAttribute('href', URL.createObjectURL(blob));
-            element.setAttribute('download', 'test.docx');
+            element.setAttribute('download', filename + '.docx');
             document.body.appendChild(element);
             element.click();
         } 

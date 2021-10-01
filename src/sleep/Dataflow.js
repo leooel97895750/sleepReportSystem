@@ -3,8 +3,10 @@ import '../css/dataflow.css';
 import Report from './Report';
 import shark from '../image/shark.gif';
 import watson from '../image/watson.gif';
+import violet from '../image/violet.gif';
 import {getAPI, postJsonAPI, postMdbAPI, getWordAPI} from './functions/API.js';
 import {stageCalculate, eventCalculate, studycfgCalculate, reportDataCalculate} from './functions/Calculate.js';
+import { getAllByDisplayValue } from '@testing-library/dom';
 
 
 class Dataflow extends React.Component{
@@ -32,6 +34,8 @@ class Dataflow extends React.Component{
             loading: 0,
             isLoad: 0,
             gifDisplay: 'inline-block',
+            isDownloadBox: 'none',
+            isReprtList: 'none',
 
             timestamp: "",
 
@@ -76,6 +80,10 @@ class Dataflow extends React.Component{
         this.insertEventDataBase = this.insertEventDataBase.bind(this);
         this.insertPositionDataBase = this.insertPositionDataBase.bind(this);
         this.isGif = this.isGif.bind(this);
+        this.downloadBox = this.downloadBox.bind(this);
+        this.downloadBoxClose = this.downloadBoxClose.bind(this);
+        this.reportList = this.reportList.bind(this);
+        this.reportListClose = this.reportListClose.bind(this);
     }
 
     updateFile(e){
@@ -382,10 +390,58 @@ class Dataflow extends React.Component{
         });
     }
 
+    isNull(value){
+        return value === null ? '缺' : value;
+    }
+    // 開啟舊報告
+    reportList(){
+        let selectDateURL = "http://140.116.245.43:3000/selectDate?page=0";
+        getAPI(selectDateURL, (xhttp) => {
+            let dateJson = JSON.parse(xhttp.responseText);
+            console.log(dateJson);
+
+            let parent = document.getElementById("oldReportList");
+            for(let i=0; i<dateJson.length; i++){
+                let child = document.createElement("li");
+                child.innerHTML = "<div class='oldBlock'>" + 
+                                  "<div class='old'>" + dateJson[i].Name + "</div>" + 
+                                  "<div class='old'>" + dateJson[i].PatientID.split(':')[0] + "</div>" +
+                                  "<div class='old'>" + dateJson[i].StudyDate + "</div>" +
+                                  "<div class='old'>" + dateJson[i].Since.split('T')[0] + "</div>" +
+                                  "<div class='old'>" + this.isNull(dateJson[i].TechnicianDate) + "</div>" +
+                                  "<div class='old'>" + this.isNull(dateJson[i].PhysicianDate) + "</div>" +
+                                  "</div>";
+                parent.appendChild(child);
+            }
+        });
+        this.setState({isReprtList: 'block'});
+    }
+    reportListClose(e){
+        if(e.target.className === "reportListBackground" || e.target.className === "downloadButtonNo"){
+            this.setState({isReprtList: 'none'});
+        }
+    }
+
+    // 輸入報告名稱欄位顯示
+    downloadBox(){
+        this.setState({isDownloadBox: 'block'});
+    }
+    downloadBoxClose(e){
+        if(e.target.className === "downloadBackground" || e.target.className === "downloadButtonNo"){
+            this.setState({isDownloadBox: 'none'});
+        }
+    }
+
     // 產生WORD並下載
     downloadReport(){
-        let wordUrl = "http://140.116.245.43:3000/word?rid=" + this.state.RID;
-        getWordAPI(wordUrl);
+        let filename = document.getElementById("reportFilename").value;
+        if(filename !== ""){
+            let wordUrl = "http://140.116.245.43:3000/word?rid=" + this.state.RID + "&filename=" + filename;
+            getWordAPI(wordUrl, filename);
+            this.setState({isDownloadBox: 'none'});
+            console.log(filename);
+        }
+        else alert('請輸入報告檔案名稱');
     }
 
     // 關閉GIF
@@ -400,9 +456,10 @@ class Dataflow extends React.Component{
         return(
             <div style={{display: this.props.display, height: "100%"}}>
 
+                {/* 建立新報告 */}
                 <div className="fileBlock">
                     <label>
-                        <span className="fileButton">選擇資料夾</span>
+                        <span className="fileButton">建立新報告</span>
                         <input 
                             onChange = {this.updateFile}
                             type = "file" 
@@ -416,26 +473,76 @@ class Dataflow extends React.Component{
                     </label>
                 </div>
 
-                <div className="downloadBlock">
+                {/* 開啟舊報告 */}
+                <div className="fileList">
                     <label>
-                        <span className="fileButton">下載報告檔</span>
+                        <span className="fileButton">開啟舊報告</span>
                         <button 
-                            onClick = {this.downloadReport}
+                            onClick = {this.reportList}
                             style = {{display: 'none'}}
                         />
                     </label>
                 </div>
+                <div className="reportListBackground" style={{display: this.state.isReprtList}} onClick={this.reportListClose}>
+                    <div className="reportListBox">
+                        <div style={{textAlign: "left", fontWeight: "bold"}}>
+                            <div className="old">姓名</div>
+                            <div className="old">病歷號</div>
+                            <div className="old">StudyDate</div>
+                            <div className="old">建立日期</div>
+                            <div className="old">技師填寫日期</div>
+                            <div className="old">醫師填寫日期</div>
+                        </div>
+                        
+                        <div style={{border: "1px gray solid", height: "500px", borderRadius: "5px", opacity: "0.8", overflowY: "scroll"}}>
+                            <ul id="oldReportList" style={{listStyleType: 'none', padding: "0px"}}>
 
+                            </ul>
+                        </div>
+                        <div style={{position: "absolute", bottom: "30px", right: "10px"}}>
+                            <span className="downloadButtonYes">確定</span>
+                            <span className="downloadButtonNo" onClick={this.reportListClose}>取消</span>
+                        </div>
+                    </div>
+                </div>
+
+                {/* 下載報告檔 */}
+                <div className="downloadBlock">
+                    <label>
+                        <span className="fileButton">下載報告檔</span>
+                        <button 
+                            onClick = {this.downloadBox}
+                            style = {{display: 'none'}}
+                        />
+                    </label>
+                </div>
+                <div className="downloadBackground" style={{display: this.state.isDownloadBox}} onClick={this.downloadBoxClose}>
+                    <div className="downloadBox">
+                        <div style={{border: "1px gray solid", height: "340px", borderRadius: "5px", opacity: "0.8"}}>
+                            <h2>輸入Word檔案名稱</h2>
+                            <input type="text" id="reportFilename" style={{textAlign: "center"}}/><span>.docx</span><br/><br/>
+                            <img src={violet} alt="產生報告檔" style={{display: this.state.gifDisplay, width:"200px", height:"200px", opacity:"0.7"}}/>
+                        </div>
+                        <div style={{position: "absolute", bottom: "30px", right: "10px"}}>
+                            <span className="downloadButtonYes" onClick={this.downloadReport}>確定</span>
+                            <span className="downloadButtonNo" onClick={this.downloadBoxClose}>取消</span>
+                        </div>
+                    </div>
+                </div>
+                
+                {/* GIF顯示選項 */}
                 <div className="toolBox">
                     <input type="checkbox" id="isGif" name="isGif" value="1" onChange={this.isGif}/>
                     <span>close GIF</span>
                 </div>
 
+                {/* 尚未選取動畫 */}
                 <div className="waiting" style={{display: this.state.waiting ? 'block' : 'none'}}>
                     <b id="waitingWord">尚未選取PSG資料夾</b><br/>
                     <img src={shark} alt="尚未選取PSG資料夾" style={{display: this.state.gifDisplay, width:"200px", height:"200px"}}/>
                 </div>
 
+                {/* 計算資料動畫 */}
                 <div className="waiting" style={{display: this.state.loading ? 'block' : 'none'}}>
                     <b id="loadingWord4">檔案讀取中...</b><br/>
                     <b id="loadingWord3">資料庫建立中...</b><br/>
@@ -464,10 +571,12 @@ class Dataflow extends React.Component{
                     pulse = {this.state.pulse}
                     sound = {this.state.sound}
                 />
+
                 <footer style={{position: this.state.isLoad ? 'static' : 'fixed'}}>
                     <span>成大醫院睡眠中心 National Cheng Kung University Hospital</span><br/>
                     <span>成大資訊工程所 神經運算與腦機介面實驗室 National Cheng Kung University Department of Computer Science and Information Engineering NCBCI Lab</span>
                 </footer>
+
             </div>
         );
     }

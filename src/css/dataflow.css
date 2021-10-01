@@ -14,7 +14,52 @@
 .fileBlock:hover {
     background-color: black;
 }
-
+.fileList {
+    display: inline-block;
+    background-color: #343A40;
+    margin: 20px;
+    margin-left: 10px;
+    padding: 10px;
+    border-radius: 5px;
+}
+.fileList:hover {
+    background-color: black;
+}
+.reportListBackground {
+    background-color: rgba(0,0,0,0.5);
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    top: 0px;
+    left: 0px;
+    z-index: 10;
+}
+.reportListBox {
+    position: fixed;
+    height: 560px;
+    width: 660px;
+    padding: 20px;
+    top: calc(50% - 300px);
+    left: calc(50% - 350px);
+    border-radius: 5px;
+    background-color: white;
+    text-align: center;
+    z-index: 11;
+}
+.oldBlock {
+    text-align:left; 
+    border-bottom: gray 1px solid;
+}
+.oldBlock:hover {
+    color: white;
+    background-color: #343A40;
+}
+.old {
+    display: inline-block;
+    width: 80px;
+    text-align: right;
+    margin: 10px;
+}
 .downloadBlock {
     display: inline-block;
     background-color: #343A40;
@@ -26,7 +71,44 @@
 .downloadBlock:hover {
     background-color: black;
 }
-
+.downloadBackground {
+    background-color: rgba(0,0,0,0.5);
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    top: 0px;
+    left: 0px;
+    z-index: 10;
+}
+.downloadBox {
+    position: fixed;
+    height: 400px;
+    width: 400px;
+    padding: 20px;
+    top: calc(50% - 220px);
+    left: calc(50% - 220px);
+    border-radius: 5px;
+    background-color: white;
+    text-align: center;
+    z-index: 11;
+}
+.downloadButtonYes {
+    background-color: #343A40;
+    color: white;
+    margin: 10px;
+    padding: 10px 25px;
+    border-radius: 5px;
+}
+.downloadButtonNo {
+    background-color: #343A40;
+    color: white;
+    margin: 10px;
+    padding: 10px 25px;
+    border-radius: 5px;
+}
+.downloadButton:hover {
+    background-color: black;
+}
 .waiting {
     opacity: 0.4;
     padding-top: 200px;

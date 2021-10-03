@@ -23,8 +23,11 @@ class Diagnosis extends React.Component{
     }
 
     // 當抓到資料庫的疾病陣列資料後渲染
+    isNull(value){
+        return value === null ? [] : value;
+    }
     componentDidUpdate(){
-        if(this.state.firstRender === 0 && this.props.reportData.DiseaseList.length !== 0){
+        if(this.state.firstRender === 0 && this.isNull(this.props.reportData.DiseaseList).length !== 0){
             console.log(this.props.reportData.DiseaseList);
             let nowDisease = this.props.reportData.DiseaseList.split(',');
             this.setState({

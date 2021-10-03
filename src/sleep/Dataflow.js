@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom'
 import '../css/dataflow.css';
 import Report from './Report';
 import shark from '../image/shark.gif';
@@ -6,7 +7,7 @@ import watson from '../image/watson.gif';
 import violet from '../image/violet.gif';
 import {getAPI, postJsonAPI, postMdbAPI, getWordAPI} from './functions/API.js';
 import {stageCalculate, eventCalculate, studycfgCalculate, reportDataCalculate} from './functions/Calculate.js';
-import { getAllByDisplayValue } from '@testing-library/dom';
+// import { getAllByDisplayValue } from '@testing-library/dom';
 
 
 class Dataflow extends React.Component{
@@ -35,7 +36,7 @@ class Dataflow extends React.Component{
             isLoad: 0,
             gifDisplay: 'inline-block',
             isDownloadBox: 'none',
-            isReprtList: 'none',
+            isReportList: 'none',
 
             timestamp: "",
 
@@ -393,33 +394,51 @@ class Dataflow extends React.Component{
     isNull(value){
         return value === null ? '缺' : value;
     }
+
     // 開啟舊報告
     reportList(){
         let selectDateURL = "http://140.116.245.43:3000/selectDate?page=0";
         getAPI(selectDateURL, (xhttp) => {
             let dateJson = JSON.parse(xhttp.responseText);
-            console.log(dateJson);
 
-            let parent = document.getElementById("oldReportList");
-            for(let i=0; i<dateJson.length; i++){
-                let child = document.createElement("li");
-                child.innerHTML = "<div class='oldBlock'>" + 
-                                  "<div class='old'>" + dateJson[i].Name + "</div>" + 
-                                  "<div class='old'>" + dateJson[i].PatientID.split(':')[0] + "</div>" +
-                                  "<div class='old'>" + dateJson[i].StudyDate + "</div>" +
-                                  "<div class='old'>" + dateJson[i].Since.split('T')[0] + "</div>" +
-                                  "<div class='old'>" + this.isNull(dateJson[i].TechnicianDate) + "</div>" +
-                                  "<div class='old'>" + this.isNull(dateJson[i].PhysicianDate) + "</div>" +
-                                  "</div>";
-                parent.appendChild(child);
-            }
+            // 將資料庫取回來的Report條列掛載，並加入雙擊事件
+            let all = dateJson.map((val, i) => {
+                let name = React.createElement('div', {className: 'old', key: i+'name'}, val.Name);
+                let patientID = React.createElement('div', {className: 'old', key: i+'patientID'}, val.PatientID.split(':')[0]);
+                let studyDate = React.createElement('div', {className: 'old', key: i+'studyDate'}, val.StudyDate);
+                let since = React.createElement('div', {className: 'old', key: i+'since'}, val.Since.split('T')[0]);
+                let tDate = React.createElement('div', {className: 'old', key: i+'tDate'}, this.isNull(val.TechnicianDate));
+                let pDate = React.createElement('div', {className: 'old', key: i+'pDate'}, this.isNull(val.PhysicianDate));
+                let eachOldBlock = React.createElement('div', {className: 'oldBlock', key: i+'eachOldBlock'}, [name, patientID, studyDate, since, tDate, pDate]);
+                let li = React.createElement('li', {key: i+'li', onDoubleClick: () => this.loadReport(val.RID)}, [eachOldBlock]);
+                return li;
+            });
+            ReactDOM.render(all, document.getElementById("oldReportList"));
+
         });
-        this.setState({isReprtList: 'block'});
+        this.setState({isReportList: 'block'});
     }
     reportListClose(e){
         if(e.target.className === "reportListBackground" || e.target.className === "downloadButtonNo"){
-            this.setState({isReprtList: 'none'});
+            this.setState({isReportList: 'none'});
         }
+    }
+
+    // 直接從資料庫取出報告
+    loadReport(RID){
+        console.log(RID);
+        this.setState({RID: RID});
+        let selectReportUrl = "http://140.116.245.43:3000/selectReport?rid=" + RID;
+        getAPI(selectReportUrl, (xhttp) => {
+            let selectReportJson = JSON.parse(xhttp.responseText);
+            this.setState({
+                reportData: selectReportJson[0],
+                graphExist: 1,
+                waiting: 0,
+                isLoad: 1, // report頁面出現
+                isReportList: 'none',
+            });
+        });
     }
 
     // 輸入報告名稱欄位顯示
@@ -483,7 +502,7 @@ class Dataflow extends React.Component{
                         />
                     </label>
                 </div>
-                <div className="reportListBackground" style={{display: this.state.isReprtList}} onClick={this.reportListClose}>
+                <div className="reportListBackground" style={{display: this.state.isReportList}} onClick={this.reportListClose}>
                     <div className="reportListBox">
                         <div style={{textAlign: "left", fontWeight: "bold"}}>
                             <div className="old">姓名</div>
@@ -500,7 +519,7 @@ class Dataflow extends React.Component{
                             </ul>
                         </div>
                         <div style={{position: "absolute", bottom: "30px", right: "10px"}}>
-                            <span className="downloadButtonYes">確定</span>
+                            <span>左鍵雙擊載入報告...</span>
                             <span className="downloadButtonNo" onClick={this.reportListClose}>取消</span>
                         </div>
                     </div>

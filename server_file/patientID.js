@@ -13,14 +13,14 @@ let pool = mariadb.createPool({
 let express = require('express');
 let router = express.Router();
 
-// 查詢此caseID，若不存在則插入一筆，若存在則回傳RID
-router.get('/caseID', function(req, res, next) {
+// 查詢此patientID，若不存在則插入一筆，若存在則回傳RID
+router.get('/patientID', function(req, res, next) {
     
-    let p1 = req.query.caseID;
+    let p1 = req.query.patientID;
 
     pool.getConnection()
     .then(conn => {
-        conn.query("select RID from report where caseID=?", [p1])
+        conn.query("select RID from report where patientID=?", [p1])
         .then(result => {
             res.send(result);
             conn.release();

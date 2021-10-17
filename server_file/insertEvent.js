@@ -59,7 +59,7 @@ router.get('/insertEvent', function(req, res, next) {
         let epoch = Math.ceil(data[i].EVT_TIME / 30);
         values.push([Number(RID), Number(data[i].EVT_TYPE), Number(data[i].EVT_TIME), Number(epoch), Number(data[i].EVT_LENGTH), Number(data[i].PARAM1), Number(data[i].PARAM2), Number(data[i].PARAM3), Number(data[i].MAN_SCORED)]);
     }
-    console.log(values);
+    //console.log(values);
 
     pool.getConnection()
     .then(conn => {

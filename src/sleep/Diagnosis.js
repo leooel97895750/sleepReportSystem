@@ -59,7 +59,6 @@ class Diagnosis extends React.Component{
     
     // 當input欄位改變時更新資料庫
     databaseUpdate(e, key){
-        console.log(this.state.nowDisease);
         let inputReportData = {
             FriedmanStage: this.nullCheck(document.getElementById("d1").value),
             TonsilSize: this.nullCheck(document.getElementById("d2").value),

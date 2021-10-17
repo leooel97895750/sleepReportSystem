@@ -63,11 +63,11 @@ router.post('/graph', function(req, res, next) {
     })
     .then((msg) => {
         console.log(msg);
-        res.send("graph good");
+        res.send("graph update complete");
     })
     .catch((err) => {
         console.log(err);
-        res.send("graph bad");
+        res.send("graph update fail");
     });
     
 });

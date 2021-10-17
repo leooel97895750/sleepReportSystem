@@ -70,7 +70,11 @@ class Treatment extends React.Component{
                 }
                 else if(nowDisease[i] === '3'){
                     let condition = this.ageAHIcondition();
-                    if(condition === "c0" || condition === "a0") alert("AHI為正常值，無Obstructive sleep hypopnea (G47.33).");
+                    console.log(condition);
+                    if(condition === "c0" || condition === "a0"){
+                        alert("AHI為正常值，無Obstructive sleep hypopnea (G47.33).");
+                        this.props.deleteFromSelectedByTreatment(nowDisease[i]);
+                    } 
                     else if(condition === "c1" || condition === "a1"){
                         dText.value = dText.value + dchangeLine + "Obstructive sleep hypopnea (Mild) (G47.33).";
                         this.insertTreatment(ol, "span", titleStyle, "Obstructive sleep hypopnea (Mild) (G47.33):");
@@ -98,7 +102,10 @@ class Treatment extends React.Component{
                 }
                 else if(nowDisease[i] === '4'){
                     let condition = this.ageAHIcondition();
-                    if(condition === "c0" || condition === "a0") alert("AHI為正常值，無Obstructive sleep apnea hypopnea (G47.33).");
+                    if(condition === "c0" || condition === "a0"){
+                        alert("AHI為正常值，無Obstructive sleep apnea hypopnea (G47.33).");
+                        this.props.deleteFromSelectedByTreatment(nowDisease[i]);
+                    } 
                     else if(condition === "c1" || condition === "a1"){
                         dText.value = dText.value + dchangeLine + "Obstructive sleep apnea hypopnea (Mild) (G47.33).";
                         this.insertTreatment(ol, "span", titleStyle, "Obstructive sleep apnea hypopnea (Mild) (G47.33):");
@@ -126,7 +133,10 @@ class Treatment extends React.Component{
                 }
                 else if(nowDisease[i] === '5'){
                     let condition = this.ageAHIcondition();
-                    if(condition === "c0" || condition === "a0") alert("AHI為正常值，無Mixed sleep hypopnea (G47.33, G47.37).");
+                    if(condition === "c0" || condition === "a0"){
+                        alert("AHI為正常值，無Mixed sleep hypopnea (G47.33, G47.37).");
+                        this.props.deleteFromSelectedByTreatment(nowDisease[i]);
+                    } 
                     else if(condition === "c1" || condition === "a1"){
                         dText.value = dText.value + dchangeLine + "Mixed sleep hypopnea (Mild) (G47.33, G47.37).";
                         this.insertTreatment(ol, "span", titleStyle, "Mixed sleep hypopnea (Mild) (G47.33, G47.37):");
@@ -190,7 +200,10 @@ class Treatment extends React.Component{
                 }
                 else if(nowDisease[i] === '6'){
                     let condition = this.ageAHIcondition();
-                    if(condition === "c0" || condition === "a0") alert("AHI為正常值，無Mixed sleep apnea hypopnea (G47.33, G47.37).");
+                    if(condition === "c0" || condition === "a0"){
+                        alert("AHI為正常值，無Mixed sleep apnea hypopnea (G47.33, G47.37).");
+                        this.props.deleteFromSelectedByTreatment(nowDisease[i]);
+                    } 
                     else if(condition === "c1" || condition === "a1"){
                         dText.value = dText.value + dchangeLine + "Mixed sleep apnea hypopnea (Mild) (G47.33, G47.37).";
                         this.insertTreatment(ol, "span", titleStyle, "Mixed sleep apnea hypopnea (Mild) (G47.33, G47.37):");
@@ -254,7 +267,10 @@ class Treatment extends React.Component{
                 }
                 else if(nowDisease[i] === '7'){
                     let condition = this.ageAHIcondition();
-                    if(condition === "c0" || condition === "a0") alert("AHI為正常值，無Central sleep hypopnea (G47.37).");
+                    if(condition === "c0" || condition === "a0"){
+                        alert("AHI為正常值，無Central sleep hypopnea (G47.37).");
+                        this.props.deleteFromSelectedByTreatment(nowDisease[i]);
+                    } 
                     else if(condition === "c1" || condition === "a1"){
                         dText.value = dText.value + dchangeLine + "Central sleep hypopnea (Mild) (G47.37).";
                         this.insertTreatment(ol, "span", titleStyle, "Central sleep hypopnea (Mild) (G47.37):");
@@ -309,7 +325,10 @@ class Treatment extends React.Component{
                 }
                 else if(nowDisease[i] === '8'){
                     let condition = this.ageAHIcondition();
-                    if(condition === "c0" || condition === "a0") alert("AHI為正常值，無Central sleep apnea hypopnea (G47.37).");
+                    if(condition === "c0" || condition === "a0"){
+                        alert("AHI為正常值，無Central sleep apnea hypopnea (G47.37).");
+                        this.props.deleteFromSelectedByTreatment(nowDisease[i]);
+                    } 
                     else if(condition === "c1" || condition === "a1"){
                         dText.value = dText.value + dchangeLine + "Central sleep apnea hypopnea (Mild) (G47.37).";
                         this.insertTreatment(ol, "span", titleStyle, "Central sleep apnea hypopnea (Mild) (G47.37):");
@@ -364,7 +383,10 @@ class Treatment extends React.Component{
                 }
                 else if(nowDisease[i] === '9'){
                     let condition = this.ageAHIcondition();
-                    if(condition === "c0" || condition === "a0") alert("AHI為正常值，無Obstructive sleep hypopnea, treated (G47.33).");
+                    if(condition === "c0" || condition === "a0"){
+                        alert("AHI為正常值，無Obstructive sleep hypopnea, treated (G47.33).");
+                        this.props.deleteFromSelectedByTreatment(nowDisease[i]);
+                    } 
                     else if(condition === "c1" || condition === "a1"){
                         dText.value = dText.value + dchangeLine + "Obstructive sleep hypopnea, treated (Mild) (G47.33).";
                         this.insertTreatment(ol, "span", titleStyle, "Obstructive sleep hypopnea, treated (Mild) (G47.33):");
@@ -395,7 +417,10 @@ class Treatment extends React.Component{
                 }
                 else if(nowDisease[i] === '10'){
                     let condition = this.ageAHIcondition();
-                    if(condition === "c0" || condition === "a0") alert("AHI為正常值，無Obstructive sleep apnea hypopnea, treated (G47.33).");
+                    if(condition === "c0" || condition === "a0"){
+                        alert("AHI為正常值，無Obstructive sleep apnea hypopnea, treated (G47.33).");
+                        this.props.deleteFromSelectedByTreatment(nowDisease[i]);
+                    } 
                     else if(condition === "c1" || condition === "a1"){
                         dText.value = dText.value + dchangeLine + "Obstructive sleep apnea hypopnea, treated (Mild) (G47.33).";
                         this.insertTreatment(ol, "span", titleStyle, "Obstructive sleep apnea hypopnea, treated (Mild) (G47.33):");
@@ -426,7 +451,10 @@ class Treatment extends React.Component{
                 }
                 else if(nowDisease[i] === '11'){
                     let condition = this.ageAHIcondition();
-                    if(condition === "c0" || condition === "a0") alert("AHI為正常值，無Mixed sleep apnea hypopnea, treated (G47.33, G47.37).");
+                    if(condition === "c0" || condition === "a0"){
+                        alert("AHI為正常值，無Mixed sleep apnea hypopnea, treated (G47.33, G47.37).");
+                        this.props.deleteFromSelectedByTreatment(nowDisease[i]);
+                    } 
                     else if(condition === "c1" || condition === "a1"){
                         dText.value = dText.value + dchangeLine + "Mixed sleep apnea hypopnea, treated (Mild) (G47.33, G47.37).";
                         this.insertTreatment(ol, "span", titleStyle, "Mixed sleep apnea hypopnea, treated (Mild) (G47.33, G47.37):");

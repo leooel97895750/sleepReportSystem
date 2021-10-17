@@ -203,7 +203,7 @@ class CPart extends React.Component{
                                 <td>最低氧氣飽和度：</td>
                                 <td><span id="c48">{rpd.MinSpO2}</span></td>
                                 <td>血氧下降總數：</td>
-                                <td><span id="c49"></span></td>
+                                <td><span id="c49">{rpd.SpO2Count}</span></td>
                             </tr>
                         </tbody>
                     </table>

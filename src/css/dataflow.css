@@ -37,10 +37,10 @@
 .reportListBox {
     position: fixed;
     height: 600px;
-    width: 800px;
+    width: 1000px;
     padding: 20px;
     top: calc(50% - 320px);
-    left: calc(50% - 420px);
+    left: calc(50% - 520px);
     border-radius: 5px;
     background-color: white;
     text-align: center;
@@ -49,6 +49,9 @@
 .oldBlock {
     text-align:left; 
     border-bottom: gray 1px solid;
+    background-color: #EEEEEE;
+    margin-left: 10px;
+    margin-right: 10px;
 }
 .oldBlock:hover {
     color: white;
@@ -57,6 +60,12 @@
 .old {
     display: inline-block;
     width: 110px;
+    text-align: right;
+    margin: 10px;
+}
+.old2 {
+    display: inline-block;
+    width: 180px;
     text-align: right;
     margin: 10px;
 }

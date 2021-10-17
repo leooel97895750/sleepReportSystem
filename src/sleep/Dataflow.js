@@ -23,7 +23,7 @@ class Dataflow extends React.Component{
                 AHI_NSupine: 0, AHI_REM: 0, AHI_NREM: 0, AHI_Left: 0, AHI_Right: 0, AHI_REM_Supine: 0, AHI_REM_NSupine: 0, AHI_NREM_Supine: 0, 
                 AHI_NREM_NSupine: 0, StartTime: "", EndTime: "",TotalRecordTime: 0, TotalSleepPeriod: 0, TotalSleepTime: 0, AwakeTime: 0, 
                 Stage1: 0,REM: 0, Stage2: 0, SleepLatency: 0, Stage3: 0, Efficiency: 0, ArousalIndex: 0, OA: 0, OAT: 0, CA: 0,CAT: 0, MA: 0, 
-                MAT: 0, HA: 0, HAT: 0, LA: 0, LH: 0, MeanSpO2: 0, MeanDesat: 0, MinSpO2: 0, ODI: 0, Snore: 0, SnoreIndex: 0, MS: 0, MR: 0, 
+                MAT: 0, HA: 0, HAT: 0, LA: 0, LH: 0, SpO2Count: 0, MeanSpO2: 0, MeanDesat: 0, MinSpO2: 0, ODI: 0, Snore: 0, SnoreIndex: 0, MS: 0, MR: 0, 
                 MN: 0, LS: 0, LR: 0, LN: 0, HS: 0, HR: 0, HN: 0, MeanHR: 0, MinHR: 0, LM_R: 0, LM_N: 0, LM_T: 0, PLM_R: 0, PLM_N: 0, PLM_T: 0, 
                 PLMI_R: 0, PLMI_N: 0, PLMI_T: 0, Baseline_path: "", Hypnogram_path: "", Event_path: "", BodyPosition_path: "", HeartRate_path: "", 
                 SaO2_path: "", Sound_path: "", PLM_path: "", FriedmanStage: null, TonsilSize: null, FriedmanTonguePosition: null, Technician: null, 
@@ -391,13 +391,13 @@ class Dataflow extends React.Component{
         });
     }
 
-    isNull(value){
-        return value === null ? '缺' : value;
+    isNull(date, name){
+        return date === null ? '缺' : name + ' ' + date;
     }
 
     // 開啟舊報告
     reportList(){
-        let selectDateURL = "http://140.116.245.43:3000/selectDate?page=0";
+        let selectDateURL = "http://140.116.245.43:3000/selectDate";
         getAPI(selectDateURL, (xhttp) => {
             let dateJson = JSON.parse(xhttp.responseText);
 
@@ -407,8 +407,8 @@ class Dataflow extends React.Component{
                 let patientID = React.createElement('div', {className: 'old', key: i+'patientID'}, val.PatientID.split(':')[0]);
                 let studyDate = React.createElement('div', {className: 'old', key: i+'studyDate'}, val.StudyDate);
                 let since = React.createElement('div', {className: 'old', key: i+'since'}, val.Since.split('T')[0]);
-                let tDate = React.createElement('div', {className: 'old', key: i+'tDate'}, this.isNull(val.TechnicianDate));
-                let pDate = React.createElement('div', {className: 'old', key: i+'pDate'}, this.isNull(val.PhysicianDate));
+                let tDate = React.createElement('div', {className: 'old2', key: i+'tDate'}, this.isNull(val.TechnicianDate, val.Technician));
+                let pDate = React.createElement('div', {className: 'old2', key: i+'pDate'}, this.isNull(val.PhysicianDate, val.Physician));
                 let eachOldBlock = React.createElement('div', {className: 'oldBlock', key: i+'eachOldBlock'}, [name, patientID, studyDate, since, tDate, pDate]);
                 let li = React.createElement('li', {key: i+'li', onDoubleClick: () => this.loadReport(val.RID)}, [eachOldBlock]);
                 return li;
@@ -504,13 +504,13 @@ class Dataflow extends React.Component{
                 </div>
                 <div className="reportListBackground" style={{display: this.state.isReportList}} onClick={this.reportListClose}>
                     <div className="reportListBox">
-                        <div style={{textAlign: "left", fontWeight: "bold"}}>
+                        <div style={{textAlign: "left", fontWeight: "bold", marginLeft: "10px", marginRight: "10px"}}>
                             <div className="old">姓名</div>
                             <div className="old">病歷號</div>
                             <div className="old">StudyDate</div>
                             <div className="old">建立日期</div>
-                            <div className="old">技師填寫日期</div>
-                            <div className="old">醫師填寫日期</div>
+                            <div className="old2">技師填寫日期</div>
+                            <div className="old2">醫師填寫日期</div>
                         </div>
                         
                         <div style={{border: "1px gray solid", height: "500px", borderRadius: "5px", opacity: "0.8", overflowY: "scroll"}}>
@@ -540,7 +540,7 @@ class Dataflow extends React.Component{
                         <div style={{border: "1px gray solid", height: "340px", borderRadius: "5px", opacity: "0.8"}}>
                             <h2>輸入Word檔案名稱</h2>
                             <input type="text" id="reportFilename" style={{textAlign: "center"}}/><span>.docx</span><br/><br/>
-                            <img src={violet} alt="產生報告檔" style={{display: this.state.gifDisplay, width:"200px", height:"200px", opacity:"0.7"}}/>
+                            <img src={violet} alt="產生報告檔" style={{display: this.state.gifDisplay, width:"180px", height:"180px", opacity:"0.7"}}/>
                         </div>
                         <div style={{position: "absolute", bottom: "30px", right: "10px"}}>
                             <span className="downloadButtonYes" onClick={this.downloadReport}>確定</span>

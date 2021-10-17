@@ -20,6 +20,7 @@ class Diagnosis extends React.Component{
         this.diagnosisBoxClose = this.diagnosisBoxClose.bind(this);
         this.insertToSelected = this.insertToSelected.bind(this);
         this.deleteFromSelected = this.deleteFromSelected.bind(this);
+        this.deleteFromSelectedByTreatment = this.deleteFromSelectedByTreatment.bind(this);
     }
 
     // 當抓到資料庫的疾病陣列資料後渲染
@@ -33,6 +34,20 @@ class Diagnosis extends React.Component{
             this.setState({
                 nowDisease: nowDisease,
                 firstRender: 1,
+            }, () => {
+                let myDisease = document.getElementById("myDisease");
+                for(let i=0; i<nowDisease.length; i++){
+                    let number = nowDisease[i];
+                    let option = document.createElement("option");
+                    option.ondblclick = this.deleteFromSelected;
+                    for(let j=0; j<document.getElementById('disease').childNodes.length; j++){
+                        if(document.getElementById('disease').childNodes[j].value === number){
+                            option.text = document.getElementById('disease').childNodes[j].text;
+                        }
+                    }
+                    option.value = number;
+                    myDisease.add(option);
+                }
             });
         }
     }
@@ -45,7 +60,6 @@ class Diagnosis extends React.Component{
     // 當input欄位改變時更新資料庫
     databaseUpdate(e, key){
         console.log(this.state.nowDisease);
-        console.log(this.state.nowDisease.join());
         let inputReportData = {
             FriedmanStage: this.nullCheck(document.getElementById("d1").value),
             TonsilSize: this.nullCheck(document.getElementById("d2").value),
@@ -58,10 +72,9 @@ class Diagnosis extends React.Component{
             ExtraTreatment: this.nullCheck(document.getElementById("extraTreatment").value),
             DiseaseList: this.nullCheck(this.state.nowDisease.join()),
         };
-        console.log(inputReportData);
+
         this.setState({inputReportData: inputReportData}, () => {
             // 更新資料庫
-            console.log(this.props.RID);
             inputReportData['RID'] = this.props.RID;
             let updateDiagnosisReport = "http://140.116.245.43:3000/updateDiagnosisReport";
             postJsonAPI(updateDiagnosisReport, inputReportData, (xhttp) => {
@@ -94,7 +107,7 @@ class Diagnosis extends React.Component{
             }
             else{
                 nowDisease.push(number);
-                var option = document.createElement("option");
+                let option = document.createElement("option");
                 option.ondblclick = this.deleteFromSelected;
                 option.text = selectedDisease[i].text;
                 option.value = number;
@@ -119,18 +132,31 @@ class Diagnosis extends React.Component{
         this.setState({nowDisease: nowDisease}, () => {this.databaseUpdate()});
     }
 
-    // 自動填入技師日期
+    // 由treatment移除病例
+    deleteFromSelectedByTreatment(number){
+        let myDisease = document.getElementById("myDisease");
+        let nowDisease = this.state.nowDisease;  
+        nowDisease.splice(nowDisease.indexOf(number), 1);
+        for(let i=0; i<myDisease.length; i++){
+            if(myDisease[i].value === number) myDisease.remove(i);
+        }
+        this.setState({nowDisease: nowDisease}, () => {this.databaseUpdate()});
+    }
+
+    // 自動填入技師日期(js月是0~11)
     technicianDate(){
         let tDate = document.getElementById("d5");
         let today = new Date();
-        tDate.textContent = today.getFullYear() + '/' + today.getMonth() + '/' + today.getDate();
+        let month = today.getMonth() + 1;
+        tDate.textContent = today.getFullYear() + '/' + month + '/' + today.getDate();
     }
 
     // 自動填入醫師日期
     physicianDate(){
         let pDate = document.getElementById("d7");
         let today = new Date();
-        pDate.textContent = today.getFullYear() + '/' + today.getMonth() + '/' + today.getDate();
+        let month = today.getMonth() + 1;
+        pDate.textContent = today.getFullYear() + '/' + month + '/' + today.getDate();
     }
 
     render(){
@@ -316,6 +342,7 @@ class Diagnosis extends React.Component{
                             <tr>
                                 <td colSpan="4">
                                     <Treatment
+                                        deleteFromSelectedByTreatment = {this.deleteFromSelectedByTreatment}
                                         nowDisease = {this.state.nowDisease}
                                         age = {this.props.age}
                                         AHI = {this.props.AHI}

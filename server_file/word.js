@@ -232,142 +232,384 @@ router.get('/word', function(req, res, next) {
                     let condition = ageAHIcondition(rd.Age, rd.AHI);
                     if(condition === "c1" || condition === "a1"){
                         DiseasesDocx.push({Disease: "Mixed sleep apnea hypopnea (Mild) (G47.33, G47.37)."});
+                        tword(TreatmentsDocx, 1, 0, 0, 0, "Mixed sleep apnea hypopnea (Mild) (G47.33, G47.37):");
+                        tword(TreatmentsDocx, 0, 1, 0, 0, "Body weight control.");
+                        tword(TreatmentsDocx, 0, 1, 0, 0, "Further treatment of mandibular advancement device or myofunctional therapy or surgery may be considered.");
+                        tword(TreatmentsDocx, 0, 1, 0, 0, "AHI (REM / Non-REM) > 2, good surgical improvement can be predicted.");
+                        tword(TreatmentsDocx, 0, 1, 0, 0, "AHI (Supine / Non-supine) > 2, good body position therapy can be predicted.");
+                        tword(TreatmentsDocx, 0, 1, 0, 0, "The possible etiologies of central sleep apnea include");
+                        tword(TreatmentsDocx, 0, 0, 1, 0, "congestive heart failure,");
+                        tword(TreatmentsDocx, 0, 0, 1, 0, "hypothyroid disease,");
+                        tword(TreatmentsDocx, 0, 0, 1, 0, "renal failure,");
+                        tword(TreatmentsDocx, 0, 0, 1, 0, "neurological disease (parkinson's dz, alzheimer's dz),");
+                        tword(TreatmentsDocx, 0, 0, 1, 0, "stroke, encephalitis, head injury,");
+                        tword(TreatmentsDocx, 0, 0, 1, 0, "medication (opioids),");
+                        tword(TreatmentsDocx, 0, 0, 1, 0, "unknown.");
                     }
                     else if(condition === "c2" || condition === "a2"){
                         DiseasesDocx.push({Disease: "Mixed sleep apnea hypopnea (Moderate) (G47.33, G47.37)."});
+                        tword(TreatmentsDocx, 1, 0, 0, 0, "Mixed sleep apnea hypopnea (Moderate) (G47.33, G47.37):");
+                        tword(TreatmentsDocx, 0, 1, 0, 0, "Body weight control.");
+                        tword(TreatmentsDocx, 0, 1, 0, 0, "Further treatment of CPAP or mandibular advancement device or myofunctional therapy or surgery may be considered.");
+                        tword(TreatmentsDocx, 0, 1, 0, 0, "AHI (REM / Non-REM) > 2, good surgical improvement can be predicted.");
+                        tword(TreatmentsDocx, 0, 1, 0, 0, "AHI (Supine / Non-supine) > 2, good body position therapy can be predicted.");
+                        tword(TreatmentsDocx, 0, 1, 0, 0, "The possible etiologies of central sleep apnea include");
+                        tword(TreatmentsDocx, 0, 0, 1, 0, "congestive heart failure,");
+                        tword(TreatmentsDocx, 0, 0, 1, 0, "hypothyroid disease,");
+                        tword(TreatmentsDocx, 0, 0, 1, 0, "renal failure,");
+                        tword(TreatmentsDocx, 0, 0, 1, 0, "neurological disease (parkinson's dz, alzheimer's dz),");
+                        tword(TreatmentsDocx, 0, 0, 1, 0, "stroke, encephalitis, head injury,");
+                        tword(TreatmentsDocx, 0, 0, 1, 0, "medication (opioids),");
+                        tword(TreatmentsDocx, 0, 0, 1, 0, "unknown.");
                     }
                     else if(condition === "c3" || condition === "a3"){
                         DiseasesDocx.push({Disease: "Mixed sleep apnea hypopnea (Severe) (G47.33, G47.37)."});
+                        tword(TreatmentsDocx, 1, 0, 0, 0, "Mixed sleep apnea hypopnea (Severe) (G47.33, G47.37):");
+                        tword(TreatmentsDocx, 0, 1, 0, 0, "Body weight control.");
+                        tword(TreatmentsDocx, 0, 1, 0, 0, "Further treatment of CPAP or surgery may be considered.");
+                        tword(TreatmentsDocx, 0, 1, 0, 0, "AHI > 60, AHI (REM / Non-REM) < 2, limited surgical improvement can be predicted.");
+                        tword(TreatmentsDocx, 0, 1, 0, 0, "AHI (Supine / Non-supine) < 2, limited body position therapy can be predicted.");
+                        tword(TreatmentsDocx, 0, 1, 0, 0, "The possible etiologies of central sleep apnea include");
+                        tword(TreatmentsDocx, 0, 0, 1, 0, "congestive heart failure,");
+                        tword(TreatmentsDocx, 0, 0, 1, 0, "hypothyroid disease,");
+                        tword(TreatmentsDocx, 0, 0, 1, 0, "renal failure,");
+                        tword(TreatmentsDocx, 0, 0, 1, 0, "neurological disease (parkinson's dz, alzheimer's dz),");
+                        tword(TreatmentsDocx, 0, 0, 1, 0, "stroke, encephalitis, head injury,");
+                        tword(TreatmentsDocx, 0, 0, 1, 0, "medication (opioids),");
+                        tword(TreatmentsDocx, 0, 0, 1, 0, "unknown.");
                     }
                 }
                 else if(d === '7'){
                     let condition = ageAHIcondition(rd.Age, rd.AHI);
                     if(condition === "c1" || condition === "a1"){
                         DiseasesDocx.push({Disease: "Central sleep hypopnea (Mild) (G47.37)."});
+                        tword(TreatmentsDocx, 1, 0, 0, 0, "Central sleep hypopnea (Mild) (G47.37):");
+                        tword(TreatmentsDocx, 0, 1, 0, 0, "Obstructive sleep apnea hypopnea is not likely.");
+                        tword(TreatmentsDocx, 0, 1, 0, 0, "The possible etiologies of central sleep hypopnea include");
+                        tword(TreatmentsDocx, 0, 0, 1, 0, "congestive heart failure,");
+                        tword(TreatmentsDocx, 0, 0, 1, 0, "hypothyroid disease,");
+                        tword(TreatmentsDocx, 0, 0, 1, 0, "renal failure,");
+                        tword(TreatmentsDocx, 0, 0, 1, 0, "neurological disease (parkinson's dz, alzheimer's dz),");
+                        tword(TreatmentsDocx, 0, 0, 1, 0, "stroke, encephalitis, head injury,");
+                        tword(TreatmentsDocx, 0, 0, 1, 0, "medication (opioids),");
+                        tword(TreatmentsDocx, 0, 0, 1, 0, "unknown.");
                     }
                     else if(condition === "c2" || condition === "a2"){
                         DiseasesDocx.push({Disease: "Central sleep hypopnea (Moderate) (G47.37)."});
+                        tword(TreatmentsDocx, 1, 0, 0, 0, "Central sleep hypopnea (Moderate) (G47.37):");
+                        tword(TreatmentsDocx, 0, 1, 0, 0, "Obstructive sleep apnea hypopnea is not likely.");
+                        tword(TreatmentsDocx, 0, 1, 0, 0, "The possible etiologies of central sleep hypopnea include");
+                        tword(TreatmentsDocx, 0, 0, 1, 0, "congestive heart failure,");
+                        tword(TreatmentsDocx, 0, 0, 1, 0, "hypothyroid disease,");
+                        tword(TreatmentsDocx, 0, 0, 1, 0, "renal failure,");
+                        tword(TreatmentsDocx, 0, 0, 1, 0, "neurological disease (parkinson's dz, alzheimer's dz),");
+                        tword(TreatmentsDocx, 0, 0, 1, 0, "stroke, encephalitis, head injury,");
+                        tword(TreatmentsDocx, 0, 0, 1, 0, "medication (opioids),");
+                        tword(TreatmentsDocx, 0, 0, 1, 0, "unknown.");
                     }
                     else if(condition === "c3" || condition === "a3"){
                         DiseasesDocx.push({Disease: "Central sleep hypopnea (Severe) (G47.37)."});
+                        tword(TreatmentsDocx, 1, 0, 0, 0, "Central sleep hypopnea (Severe) (G47.37):");
+                        tword(TreatmentsDocx, 0, 1, 0, 0, "Obstructive sleep apnea hypopnea is not likely.");
+                        tword(TreatmentsDocx, 0, 1, 0, 0, "The possible etiologies of central sleep hypopnea include");
+                        tword(TreatmentsDocx, 0, 0, 1, 0, "congestive heart failure,");
+                        tword(TreatmentsDocx, 0, 0, 1, 0, "hypothyroid disease,");
+                        tword(TreatmentsDocx, 0, 0, 1, 0, "renal failure,");
+                        tword(TreatmentsDocx, 0, 0, 1, 0, "neurological disease (parkinson's dz, alzheimer's dz),");
+                        tword(TreatmentsDocx, 0, 0, 1, 0, "stroke, encephalitis, head injury,");
+                        tword(TreatmentsDocx, 0, 0, 1, 0, "medication (opioids),");
+                        tword(TreatmentsDocx, 0, 0, 1, 0, "unknown.");
                     }
                 }
                 else if(d === '8'){
                     let condition = ageAHIcondition(rd.Age, rd.AHI);
                     if(condition === "c1" || condition === "a1"){
                         DiseasesDocx.push({Disease: "Central sleep apnea hypopnea (Mild) (G47.37)."});
+                        tword(TreatmentsDocx, 1, 0, 0, 0, "Central sleep apnea hypopnea (Mild) (G47.37):");
+                        tword(TreatmentsDocx, 0, 1, 0, 0, "Obstructive sleep apnea hypopnea is not likely.");
+                        tword(TreatmentsDocx, 0, 1, 0, 0, "The possible etiologies of central sleep hypopnea include");
+                        tword(TreatmentsDocx, 0, 0, 1, 0, "congestive heart failure,");
+                        tword(TreatmentsDocx, 0, 0, 1, 0, "hypothyroid disease,");
+                        tword(TreatmentsDocx, 0, 0, 1, 0, "renal failure,");
+                        tword(TreatmentsDocx, 0, 0, 1, 0, "neurological disease (parkinson's dz, alzheimer's dz),");
+                        tword(TreatmentsDocx, 0, 0, 1, 0, "stroke, encephalitis, head injury,");
+                        tword(TreatmentsDocx, 0, 0, 1, 0, "medication (opioids),");
+                        tword(TreatmentsDocx, 0, 0, 1, 0, "unknown.");
                     }
                     else if(condition === "c2" || condition === "a2"){
                         DiseasesDocx.push({Disease: "Central sleep apnea hypopnea (Moderate) (G47.37)."});
+                        tword(TreatmentsDocx, 1, 0, 0, 0, "Central sleep apnea hypopnea (Moderate) (G47.37):");
+                        tword(TreatmentsDocx, 0, 1, 0, 0, "Obstructive sleep apnea hypopnea is not likely.");
+                        tword(TreatmentsDocx, 0, 1, 0, 0, "The possible etiologies of central sleep hypopnea include");
+                        tword(TreatmentsDocx, 0, 0, 1, 0, "congestive heart failure,");
+                        tword(TreatmentsDocx, 0, 0, 1, 0, "hypothyroid disease,");
+                        tword(TreatmentsDocx, 0, 0, 1, 0, "renal failure,");
+                        tword(TreatmentsDocx, 0, 0, 1, 0, "neurological disease (parkinson's dz, alzheimer's dz),");
+                        tword(TreatmentsDocx, 0, 0, 1, 0, "stroke, encephalitis, head injury,");
+                        tword(TreatmentsDocx, 0, 0, 1, 0, "medication (opioids),");
+                        tword(TreatmentsDocx, 0, 0, 1, 0, "unknown.");
                     }
                     else if(condition === "c3" || condition === "a3"){
                         DiseasesDocx.push({Disease: "Central sleep apnea hypopnea (Severe) (G47.37)."});
+                        tword(TreatmentsDocx, 1, 0, 0, 0, "Central sleep apnea hypopnea (Severe) (G47.37):");
+                        tword(TreatmentsDocx, 0, 1, 0, 0, "Obstructive sleep apnea hypopnea is not likely.");
+                        tword(TreatmentsDocx, 0, 1, 0, 0, "The possible etiologies of central sleep hypopnea include");
+                        tword(TreatmentsDocx, 0, 0, 1, 0, "congestive heart failure,");
+                        tword(TreatmentsDocx, 0, 0, 1, 0, "hypothyroid disease,");
+                        tword(TreatmentsDocx, 0, 0, 1, 0, "renal failure,");
+                        tword(TreatmentsDocx, 0, 0, 1, 0, "neurological disease (parkinson's dz, alzheimer's dz),");
+                        tword(TreatmentsDocx, 0, 0, 1, 0, "stroke, encephalitis, head injury,");
+                        tword(TreatmentsDocx, 0, 0, 1, 0, "medication (opioids),");
+                        tword(TreatmentsDocx, 0, 0, 1, 0, "unknown.");
                     }
                 }
                 else if(d === '9'){
                     let condition = ageAHIcondition(rd.Age, rd.AHI);
                     if(condition === "c1" || condition === "a1"){
                         DiseasesDocx.push({Disease: "Obstructive sleep hypopnea, treated (Mild) (G47.33)."});
+                        tword(TreatmentsDocx, 1, 0, 0, 0, "Obstructive sleep hypopnea, treated (Mild) (G47.33):");
+                        tword(TreatmentsDocx, 0, 1, 0, 0, "Compared with pre-Tx PSG report, OSA severity is improved obviously.");
+                        tword(TreatmentsDocx, 0, 1, 0, 0, "Body weight control.");
+                        tword(TreatmentsDocx, 0, 1, 0, 0, "Further treatment of mandibular advancement device or myofunctional therapy or surgery may be considered.");
+                        tword(TreatmentsDocx, 0, 1, 0, 0, "AHI (REM / Non-REM) > 2, good surgical improvement can be predicted.");
+                        tword(TreatmentsDocx, 0, 1, 0, 0, "AHI (Supine / Non-supine) > 2, good body position therapy can be predicted.");
                     }
                     else if(condition === "c2" || condition === "a2"){
                         DiseasesDocx.push({Disease: "Obstructive sleep hypopnea, treated (Moderate) (G47.33)."});
+                        tword(TreatmentsDocx, 1, 0, 0, 0, "Obstructive sleep hypopnea, treated (Moderate) (G47.33):");
+                        tword(TreatmentsDocx, 0, 1, 0, 0, "Compared with pre-Tx PSG report, OSA severity is improved limitedly.");
+                        tword(TreatmentsDocx, 0, 1, 0, 0, "Body weight control.");
+                        tword(TreatmentsDocx, 0, 1, 0, 0, "Further treatment of CPAP or mandibular advancement device or myofunctional therapy or surgery may be considered.");
+                        tword(TreatmentsDocx, 0, 1, 0, 0, "AHI (REM / Non-REM) < 2, limited surgical improvement can be predicted.");
+                        tword(TreatmentsDocx, 0, 1, 0, 0, "AHI (Supine / Non-supine) > 2, good body position therapy can be predicted.");
                     }
                     else if(condition === "c3" || condition === "a3"){
                         DiseasesDocx.push({Disease: "Obstructive sleep hypopnea, treated (Severe) (G47.33)."});
+                        tword(TreatmentsDocx, 1, 0, 0, 0, "Obstructive sleep hypopnea, treated (Severe) (G47.33):");
+                        tword(TreatmentsDocx, 0, 1, 0, 0, "Compared with pre-Tx PSG report, OSA severity is improved limitedly.");
+                        tword(TreatmentsDocx, 0, 1, 0, 0, "Body weight control.");
+                        tword(TreatmentsDocx, 0, 1, 0, 0, "Further treatment of CPAP or surgery may be considered.");
+                        tword(TreatmentsDocx, 0, 1, 0, 0, "AHI > 60, AHI (REM / Non-REM) < 2, limited surgical improvement can be predicted.");
+                        tword(TreatmentsDocx, 0, 1, 0, 0, "AHI (Supine / Non-supine) < 2, limited body position therapy can be predicted.");
                     }
                 }
                 else if(d === '10'){
                     let condition = ageAHIcondition(rd.Age, rd.AHI);
                     if(condition === "c1" || condition === "a1"){
                         DiseasesDocx.push({Disease: "Obstructive sleep apnea hypopnea, treated (Mild) (G47.33)."});
+                        tword(TreatmentsDocx, 1, 0, 0, 0, "Obstructive sleep apnea hypopnea, treated (Mild) (G47.33):");
+                        tword(TreatmentsDocx, 0, 1, 0, 0, "Compared with pre-Tx PSG report, OSA severity is improved obviously.");
+                        tword(TreatmentsDocx, 0, 1, 0, 0, "Body weight control.");
+                        tword(TreatmentsDocx, 0, 1, 0, 0, "Further treatment of mandibular advancement device or myofunctional therapy or surgery may be considered.");
+                        tword(TreatmentsDocx, 0, 1, 0, 0, "AHI (REM / Non-REM) > 2, good surgical improvement can be predicted.");
+                        tword(TreatmentsDocx, 0, 1, 0, 0, "AHI (Supine / Non-supine) > 2, good body position therapy can be predicted.");
                     }
                     else if(condition === "c2" || condition === "a2"){
                         DiseasesDocx.push({Disease: "Obstructive sleep apnea hypopnea, treated (Moderate) (G47.33)."});
+                        tword(TreatmentsDocx, 1, 0, 0, 0, "Obstructive sleep apnea hypopnea, treated (Moderate) (G47.33):");
+                        tword(TreatmentsDocx, 0, 1, 0, 0, "Compared with pre-Tx PSG report, OSA severity is improved limitedly.");
+                        tword(TreatmentsDocx, 0, 1, 0, 0, "Body weight control.");
+                        tword(TreatmentsDocx, 0, 1, 0, 0, "Further treatment of CPAP or mandibular advancement device or myofunctional therapy or surgery may be considered.");
+                        tword(TreatmentsDocx, 0, 1, 0, 0, "AHI (REM / Non-REM) < 2, limited surgical improvement can be predicted.");
+                        tword(TreatmentsDocx, 0, 1, 0, 0, "AHI (Supine / Non-supine) > 2, good body position therapy can be predicted.");
                     }
                     else if(condition === "c3" || condition === "a3"){
                         DiseasesDocx.push({Disease: "Obstructive sleep apnea hypopnea, treated (Severe) (G47.33)."});
+                        tword(TreatmentsDocx, 1, 0, 0, 0, "Obstructive sleep apnea hypopnea, treated (Severe) (G47.33):");
+                        tword(TreatmentsDocx, 0, 1, 0, 0, "Compared with pre-Tx PSG report, OSA severity is improved limitedly.");
+                        tword(TreatmentsDocx, 0, 1, 0, 0, "Body weight control.");
+                        tword(TreatmentsDocx, 0, 1, 0, 0, "Further treatment of CPAP or surgery may be considered.");
+                        tword(TreatmentsDocx, 0, 1, 0, 0, "AHI > 60, AHI (REM / Non-REM) < 2, limited surgical improvement can be predicted.");
+                        tword(TreatmentsDocx, 0, 1, 0, 0, "AHI (Supine / Non-supine) < 2, limited body position therapy can be predicted.");
                     }
                 }
                 else if(d === '11'){
                     let condition = ageAHIcondition(rd.Age, rd.AHI);
                     if(condition === "c1" || condition === "a1"){
                         DiseasesDocx.push({Disease: "Mixed sleep apnea hypopnea, treated (Mild) (G47.33, G47.37)."});
+                        tword(TreatmentsDocx, 1, 0, 0, 0, "Mixed sleep apnea hypopnea, treated (Mild) (G47.33, G47.37):");
+                        tword(TreatmentsDocx, 0, 1, 0, 0, "Compared with pre-Tx PSG report, OSA severity is improved obviously.");
+                        tword(TreatmentsDocx, 0, 1, 0, 0, "Body weight control.");
+                        tword(TreatmentsDocx, 0, 1, 0, 0, "Further treatment of mandibular advancement device or myofunctional therapy or surgery may be considered.");
+                        tword(TreatmentsDocx, 0, 1, 0, 0, "AHI (REM / Non-REM) > 2, good surgical improvement can be predicted.");
+                        tword(TreatmentsDocx, 0, 1, 0, 0, "AHI (Supine / Non-supine) > 2, good body position therapy can be predicted.");
+                        tword(TreatmentsDocx, 0, 1, 0, 0, "The possible etiologies of central sleep apnea include");
+                        tword(TreatmentsDocx, 0, 0, 1, 0, "congestive heart failure,");
+                        tword(TreatmentsDocx, 0, 0, 1, 0, "hypothyroid disease,");
+                        tword(TreatmentsDocx, 0, 0, 1, 0, "renal failure,");
+                        tword(TreatmentsDocx, 0, 0, 1, 0, "neurological disease (parkinson's dz, alzheimer's dz),");
+                        tword(TreatmentsDocx, 0, 0, 1, 0, "stroke, encephalitis, head injury,");
+                        tword(TreatmentsDocx, 0, 0, 1, 0, "medication (opioids),");
+                        tword(TreatmentsDocx, 0, 0, 1, 0, "unknown.");
                     }
                     else if(condition === "c2" || condition === "a2"){
                         DiseasesDocx.push({Disease: "Mixed sleep apnea hypopnea, treated (Moderate) (G47.33, G47.37)."});
+                        tword(TreatmentsDocx, 1, 0, 0, 0, "Mixed sleep apnea hypopnea, treated (Moderate) (G47.33, G47.37):");
+                        tword(TreatmentsDocx, 0, 1, 0, 0, "Compared with pre-Tx PSG report, OSA severity is improved limitedly.");
+                        tword(TreatmentsDocx, 0, 1, 0, 0, "Body weight control.");
+                        tword(TreatmentsDocx, 0, 1, 0, 0, "Further treatment of CPAP or mandibular advancement device or myofunctional therapy or surgery may be considered.");
+                        tword(TreatmentsDocx, 0, 1, 0, 0, "AHI (REM / Non-REM) < 2, limited surgical improvement can be predicted.");
+                        tword(TreatmentsDocx, 0, 1, 0, 0, "AHI (Supine / Non-supine) > 2, good body position therapy can be predicted.");
+                        tword(TreatmentsDocx, 0, 1, 0, 0, "The possible etiologies of central sleep apnea include");
+                        tword(TreatmentsDocx, 0, 0, 1, 0, "congestive heart failure,");
+                        tword(TreatmentsDocx, 0, 0, 1, 0, "hypothyroid disease,");
+                        tword(TreatmentsDocx, 0, 0, 1, 0, "renal failure,");
+                        tword(TreatmentsDocx, 0, 0, 1, 0, "neurological disease (parkinson's dz, alzheimer's dz),");
+                        tword(TreatmentsDocx, 0, 0, 1, 0, "stroke, encephalitis, head injury,");
+                        tword(TreatmentsDocx, 0, 0, 1, 0, "medication (opioids),");
+                        tword(TreatmentsDocx, 0, 0, 1, 0, "unknown.");
                     }
                     else if(condition === "c3" || condition === "a3"){
                         DiseasesDocx.push({Disease: "Mixed sleep apnea hypopnea, treated (Severe) (G47.33, G47.37)."});
+                        tword(TreatmentsDocx, 1, 0, 0, 0, "Mixed sleep apnea hypopnea, treated (Severe) (G47.33, G47.37):");
+                        tword(TreatmentsDocx, 0, 1, 0, 0, "Compared with pre-Tx PSG report, OSA severity is improved limitedly.");
+                        tword(TreatmentsDocx, 0, 1, 0, 0, "Body weight control.");
+                        tword(TreatmentsDocx, 0, 1, 0, 0, "Further treatment of CPAP or surgery may be considered.");
+                        tword(TreatmentsDocx, 0, 1, 0, 0, "AHI > 60, AHI (REM / Non-REM) < 2, limited surgical improvement can be predicted.");
+                        tword(TreatmentsDocx, 0, 1, 0, 0, "AHI (Supine / Non-supine) < 2, limited body position therapy can be predicted.");
+                        tword(TreatmentsDocx, 0, 1, 0, 0, "The possible etiologies of central sleep apnea include");
+                        tword(TreatmentsDocx, 0, 0, 1, 0, "congestive heart failure,");
+                        tword(TreatmentsDocx, 0, 0, 1, 0, "hypothyroid disease,");
+                        tword(TreatmentsDocx, 0, 0, 1, 0, "renal failure,");
+                        tword(TreatmentsDocx, 0, 0, 1, 0, "neurological disease (parkinson's dz, alzheimer's dz),");
+                        tword(TreatmentsDocx, 0, 0, 1, 0, "stroke, encephalitis, head injury,");
+                        tword(TreatmentsDocx, 0, 0, 1, 0, "medication (opioids),");
+                        tword(TreatmentsDocx, 0, 0, 1, 0, "unknown.");
                     }
                 }
                 else if(d === '12'){
                     DiseasesDocx.push({Disease: "Poor sleep efficiency (G47.8)."});
+                    tword(TreatmentsDocx, 1, 0, 0, 0, "Poor sleep efficiency (G47.8):");
+                    tword(TreatmentsDocx, 0, 1, 0, 0, "Sleep latency " + rd.SleepLatency + " min; Awake time " + rd.AwakeTime + " min; Total sleep time " + rd.TotalSleepTime + " min; Sleep efficiency " + rd.SE + " %; the representation of this PSG report is limited.");
                 }
                 else if(d === '13'){
                     DiseasesDocx.push({Disease: "Under treatment of CPAP."});
+                    tword(TreatmentsDocx, 1, 0, 0, 0, "Under treatment of CPAP:");
+                    tword(TreatmentsDocx, 0, 1, 0, 0, "With the use of CPAP (15 cmH2O), OSA severity was improved significantly.");
                 }
                 else if(d === '14'){
                     DiseasesDocx.push({Disease: "Under treatment of oral appliance."});
+                    tword(TreatmentsDocx, 1, 0, 0, 0, "Under treatment of oral appliance:");
+                    tword(TreatmentsDocx, 0, 1, 0, 0, "With the use of oral appliance, OSA severity was improved partially.");
                 }
                 else if(d === '15'){
                     DiseasesDocx.push({Disease: "Treatment of myofunctional therapy."});
+                    tword(TreatmentsDocx, 1, 0, 0, 0, "Treatment of myofunctional therapy:");
+                    tword(TreatmentsDocx, 0, 1, 0, 0, "Compared with pre-Tx PSG report, OSA severity is improved partially.");
                 }
                 else if(d === '16'){
                     DiseasesDocx.push({Disease: "Treatment of body-weight control."});
+                    tword(TreatmentsDocx, 1, 0, 0, 0, "Treatment of body-weight control:");
+                    tword(TreatmentsDocx, 0, 1, 0, 0, "Compared with pre-Tx PSG report, OSA severity is improved partially.");
                 }
                 else if(d === '17'){
                     DiseasesDocx.push({Disease: "Suspect periodic limb movement (G47.61)."});
+                    tword(TreatmentsDocx, 1, 0, 0, 0, "Suspect periodic limb movement (G47.61):");
+                    tword(TreatmentsDocx, 0, 1, 0, 0, "PLM index ≦ 15; further evaluation of periodic leg movement may be considered, if the clinical symptoms / signs are correlated.");
                 }
                 else if(d === '18'){
                     DiseasesDocx.push({Disease: "Periodic limb movement (G47.61)."});
+                    tword(TreatmentsDocx, 1, 0, 0, 0, "Periodic limb movement (G47.61):");
+                    tword(TreatmentsDocx, 0, 1, 0, 0, "PLM index > 15; further evaluation of periodic leg movement may be considered, if the clinical symptoms / signs are correlated.");
+                    tword(TreatmentsDocx, 0, 0, 1, 0, "Periodic limb movement disorder can be primary or secondary.");
+                    tword(TreatmentsDocx, 0, 0, 1, 0, "Secondary PLMD has many different causes, including the following: DM, Iron deficiency, Anemia, Uremia, Spinal cord tumor / injury, OSA, Narcolepsy, Medication (Neuroleptics, antidopaminergic agents, tricyclic antidepressants), Withdrawal from sedative medications.");
+                    tword(TreatmentsDocx, 0, 0, 1, 0, "Lab tests: CBC, Hb, BUN, Crea, GOT, GPT, Glucose, Ca, Na, K, serum iron & TIBC, ferritin, folate, Vit. B12, TSH, T3, T4.");
+                    tword(TreatmentsDocx, 0, 0, 1, 0, "Benzodiazepines (eg. Clonazepam, Rivotril) is probably the most widely used drug to treat PLMD. In fact, medical therapy does not cure PLMD but relieves symptoms.");
                 }
                 else if(d === '19'){
                     DiseasesDocx.push({Disease: "Suspect autonomic dysfunction (F41.9)."});
+                    tword(TreatmentsDocx, 1, 0, 0, 0, "Suspect autonomic dysfunction (F41.9):");
+                    tword(TreatmentsDocx, 0, 1, 0, 0, "According the patient's history, further evaluation of autonomic function is suggested.");
                 }
                 else if(d === '20'){
                     DiseasesDocx.push({Disease: "Suspect poor quality of life."});
+                    tword(TreatmentsDocx, 1, 0, 0, 0, "Suspect poor quality of life:");
+                    tword(TreatmentsDocx, 0, 1, 0, 0, "Further evaluation and improvement of quality of life may be considered, if the clinical findings are correlated.");
                 }
                 else if(d === '21'){
                     DiseasesDocx.push({Disease: "Suspect tinnitus (H93.19)."});
+                    tword(TreatmentsDocx, 1, 0, 0, 0, "Suspect tinnitus (H93.19):");
+                    tword(TreatmentsDocx, 0, 1, 0, 0, "Further evaluation and treatment of tinnitus may be considered, if the clinical symptoms / signs are correlated.");
                 }
                 else if(d === '22'){
                     DiseasesDocx.push({Disease: "Suspect Gastro-Esophageal reflux disease (GERD) (K21.0)."});
+                    tword(TreatmentsDocx, 1, 0, 0, 0, "Suspect Gastro-Esophageal reflux disease (GERD) (K21.0):");
+                    tword(TreatmentsDocx, 0, 1, 0, 0, "Further evaluation of GERD may be considered, if the clinical symptoms / signs are correlated.");
                 }
                 else if(d === '23'){
                     DiseasesDocx.push({Disease: "Suspect cardiac arrhythmia (I49.9)."});
+                    tword(TreatmentsDocx, 1, 0, 0, 0, "Suspect cardiac arrhythmia (I49.9):");
+                    tword(TreatmentsDocx, 0, 1, 0, 0, "Further evaluation of GERD may be considered, if the clinical symptoms / signs are correlated.");
                 }
                 else if(d === '24'){
                     DiseasesDocx.push({Disease: "Sleep bruxism (G47.63)."});
+                    tword(TreatmentsDocx, 1, 0, 0, 0, "Sleep bruxism (G47.63):");
+                    tword(TreatmentsDocx, 0, 1, 0, 0, "Due to sleep bruxism, further dental evaluation and management may be considered.");
                 }
                 else if(d === '25'){
                     DiseasesDocx.push({Disease: "Alpha sleep."});
+                    tword(TreatmentsDocx, 1, 0, 0, 0, "Alpha sleep:");
+                    tword(TreatmentsDocx, 0, 1, 0, 0, "According the patient's history, further evaluation of alpha sleep is suggested.");
                 }
                 else if(d === '26'){
                     DiseasesDocx.push({Disease: "Suspect REM behavior disorder (G47.52)."});
+                    tword(TreatmentsDocx, 1, 0, 0, 0, "Suspect REM behavior disorder (G47.52):");
+                    tword(TreatmentsDocx, 0, 1, 0, 0, "REM behavior disorder often may be associated with medication (such as antidepressant, Beta-blockers, anticholinesterase inhibitors) or other neurological conditions (such as, dementia, Parkinson's disease, multiple system atrophy). Further diagnosis and management by psychiatrist or neurologist may be considered.");
                 }
                 else if(d === '27'){
                     DiseasesDocx.push({Disease: "Suspect REM behavior disorder, provisionally (G47.52)."});
+                    tword(TreatmentsDocx, 1, 0, 0, 0, "Suspect REM behavior disorder, provisionally (G47.52):");
+                    tword(TreatmentsDocx, 0, 1, 0, 0, "REM behavior disorder often may be associated with medication (such as antidepressant, Beta-blockers, anticholinesterase inhibitors) or other neurological conditions (such as, dementia, Parkinson's disease, multiple system atrophy). Further diagnosis and management by psychiatrist or neurologist may be considered.");
                 }
                 else if(d === '28'){
                     DiseasesDocx.push({Disease: "Subclinical REM behavior disorder (G47.52)."});
+                    tword(TreatmentsDocx, 1, 0, 0, 0, "Subclinical REM behavior disorder (G47.52):");
+                    tword(TreatmentsDocx, 0, 1, 0, 0, "Further clinical observation about dream-enacting behaviors should be followed.");
+                    tword(TreatmentsDocx, 0, 1, 0, 0, "REM sleep behavior without atonia (RSWA) often may be associated with medication (such as antidepressant, Beta-blockers, anticholinesterase inhibitors) or predisposing factors of other neurological conditions (such as, dementia, Parkinson's disease, multiple system atrophy). Further diagnosis and management by psychiatrist or neurologist may be considered.");
                 }
                 else if(d === '29'){
                     DiseasesDocx.push({Disease: "Suspect idiopathic REM behavior disorder (G47.52)."});
+                    tword(TreatmentsDocx, 1, 0, 0, 0, "Suspect idiopathic REM behavior disorder (G47.52):");
+                    tword(TreatmentsDocx, 0, 1, 0, 0, "REM sleep behavior without atonia (RSWA) often may be associated with medication (such as antidepressant, Beta-blockers, anticholinesterase inhibitors) or predisposing factors of other neurological conditions (such as, dementia, Parkinson's disease, multiple system atrophy). Further diagnosis and management by psychiatrist or neurologist may be considered.");
                 }
                 else if(d === '30'){
                     DiseasesDocx.push({Disease: "Suspect nocturia (R35.1)."});
+                    tword(TreatmentsDocx, 1, 0, 0, 0, "Suspect nocturia (R35.1):");
+                    tword(TreatmentsDocx, 0, 1, 0, 0, "Further evaluation of nocturia may be considered, if the clinical symptoms / signs are correlated.");
                 }
                 else if(d === '31'){
                     DiseasesDocx.push({Disease: "Sleep related groaning (G47.8)."});
+                    tword(TreatmentsDocx, 1, 0, 0, 0, "Sleep related groaning (G47.8):");
+                    tword(TreatmentsDocx, 0, 1, 0, 0, "According the patient's history, further evaluation of sleep related groaning is suggested.");
                 }
                 else if(d === '32'){
                     DiseasesDocx.push({Disease: "Suspect disorder of arousal from NREM Sleep."});
+                    tword(TreatmentsDocx, 1, 0, 0, 0, "Suspect disorder of arousal from NREM Sleep:");
+                    tword(TreatmentsDocx, 0, 1, 0, 0, " ");
+                    tword(TreatmentsDocx, 0, 0, 1, 0, "Disorders of arousal from NREM sleep include confusional arousals, sleep walking and sleep terrors. However, other conditions that mimic the disorders of arousal should be ruled-out, such as:");
+                    tword(TreatmentsDocx, 0, 0, 0, 1, "Neurologic condition (Seizures, Cluster headaches)");
+                    tword(TreatmentsDocx, 0, 0, 0, 1, "Medical condition (Obstructive sleep apnea, Gastroesophageal reflux)");
+                    tword(TreatmentsDocx, 0, 0, 0, 1, "Behavioral/Psychiatric condition (Conditioned arousals, Post-traumatic stress disorder, Nocturnal dissociative state, Nocturnal panic)");
+                    tword(TreatmentsDocx, 0, 0, 0, 1, "Other sleep condition (Nightmares, Rhythmic movements of sleep, Rapid eye movement sleep behavior disorders, Periodic movements of sleep, Sleep deprivation, Irregular sleep-wake schedule)");
+                    tword(TreatmentsDocx, 0, 0, 0, 1, "Evaluate the complete sleep history, arrange home videotapes, expanded EEG montage with continuous audiovisual monitoring and multiple night studies could be considered.");
+                    tword(TreatmentsDocx, 0, 0, 1, 0, "The treatment in disorders of arousal from NREM sleep is often not necessary. Reassurance of their typically benign nature, lack of psychological significance, and the tendency to diminish over time, is often sufficient.");
+                    tword(TreatmentsDocx, 0, 0, 1, 0, "Pharmacologic treatment such as tricyclic antidepressants and benzodiazepines may be effective, and they should be administered if the activity is dangerous to person or property or extremely disruptive to family members.");
+                    tword(TreatmentsDocx, 0, 0, 1, 0, "Nonpharmacologic treatment such as psychotherapy, progressive relaxation, or hypnosis is recommended for long-term management. Sleep hygiene such as the avoidance of precipitants such as drugs and sleep deprivation is also important.");
                 }
                 else if(d === '33'){
                     DiseasesDocx.push({Disease: "Suspected sleep-related hypoventilation disorder (G47.36)."});
+                    tword(TreatmentsDocx, 1, 0, 0, 0, "Suspected sleep-related hypoventilation disorder (G47.36):");
+                    tword(TreatmentsDocx, 0, 1, 0, 0, "Classification of hypoventilation disorders: Primary (Congenital central alveolar hypoventilation syndrome, Idiopathic central alveolar hypoventilation); Secondary (Sleep-related hypoventilation due to a medication or substance, Sleep-related hypoventilation due to a medical disorder, Obesity hypoventilation syndrome, Late-onset central hypoventilation with hypothalamic dysfunction).");
+                    tword(TreatmentsDocx, 0, 0, 1, 0, "Chronic hypoventilation criteria: hypercapnia in wakefulness and sleep (PaCO2, Arterial carbon dioxide level ≧ 45 mmHg).");
+                    tword(TreatmentsDocx, 0, 0, 1, 0, "Obstructive lung diseases (Asthma, COPD) should be excluded by pulmonary function test.");
+                    tword(TreatmentsDocx, 0, 0, 1, 0, "Obesity-hypoventilation syndrome is most prevalent and treatable.");
+                    tword(TreatmentsDocx, 0, 0, 1, 0, "Other subtypes share common features and underlying disorders with central sleep apnea.");
+                    tword(TreatmentsDocx, 0, 0, 1, 0, "Body weight control and BiPAP are mainstay treatment. Respiratory stimulants like acetazolamide, medroxyprogesterone and theophylline could be considered.");
                 }
                 else if(d === '34'){
                     DiseasesDocx.push({Disease: "Suspect Cheyne-Stokes Breathing."});
+                    tword(TreatmentsDocx, 1, 0, 0, 0, "Suspect Cheyne-Stokes Breathing:");
+                    tword(TreatmentsDocx, 0, 1, 0, 0, "Treatment of positive airway pressure device / Adaptive Supportive Ventilation with suitable pressure is benefit for the patient's quality of life.");
                 }
                 
             }

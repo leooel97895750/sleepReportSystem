@@ -70,7 +70,6 @@ class Treatment extends React.Component{
                 }
                 else if(nowDisease[i] === '3'){
                     let condition = this.ageAHIcondition();
-                    console.log(condition);
                     if(condition === "c0" || condition === "a0"){
                         alert("AHI為正常值，無Obstructive sleep hypopnea (G47.33).");
                         this.props.deleteFromSelectedByTreatment(nowDisease[i]);

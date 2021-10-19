@@ -72,7 +72,7 @@ class EPart extends React.Component{
                             <span style={{fontWeight:"bold"}}>Study Date: </span>
                             <input id="e1" className="upperInput" readOnly="readonly" defaultValue={rpd.StudyDate}/>
                             <span style={{fontWeight:"bold", marginLeft:"20px"}}>單號: </span>
-                            <input id="e2" className="upperInput write" defaultValue={rpd.CaseID} style={{position:"relative", bottom:"3px", width:"200px"}} onChange={e => {this.databaseUpdate(e, 'CaseID')}}/>
+                            <input id="e2" className="upperInput write" defaultValue={rpd.CaseID} style={{position:"relative", bottom:"3px", width:"200px", textAlign:"center"}} onChange={e => {this.databaseUpdate(e, 'CaseID')}}/>
                         </div>
                     </div>
                 </div>

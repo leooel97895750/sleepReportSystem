@@ -100,9 +100,6 @@ router.get('/word', function(req, res, next) {
             var doc = new Docxtemplater(zip, { paragraphLoop: false, linebreaks: true });
 
             doc.attachModule(imageModule);
-
-            // rd內容修改
-            rd.CaseID = rd.CaseID.split(":")[0];
             
             // Diseases and treatment 根據資料庫中疾病列表去產生縮排迴圈內容
             let DiseasesDocx = [];
@@ -617,7 +614,7 @@ router.get('/word', function(req, res, next) {
             doc.setData({
 
                 // EPart區域
-                e1: rd.StudyDate, e2: n2w(rd.CaseID), e3: rd.Name, e4: rd.Age, e5: rd.PatientID.split(':')[0], e6: rd.Sex, e7: rd.DOB, 
+                e1: rd.StudyDate, e2: n2s(rd.CaseID), e3: rd.Name, e4: rd.Age, e5: rd.PatientID.split(':')[0], e6: rd.Sex, e7: rd.DOB, 
                 e8: rd.Height, e9: rd.Weight, e10: rd.BMI, e11: rd.Neck, e12: n2s(rd.Waist), e13: n2s(rd.Hip), e14: n2s(rd.HADS_A), 
                 e15: n2s(rd.HADS_D), e16: n2s(rd.ESS), e17: n2s(rd.PSQI), e18: n2s(rd.SOS), e19: n2s(rd.THI), e20: n2s(rd.GERD_Q), 
                 e21: n2s(rd.WHO_Phy), e22: n2s(rd.WHO_Psy), e23: n2s(rd.BP_S_D), e24: n2s(rd.BP_S_S), e25: n2s(rd.BP_W_D), 

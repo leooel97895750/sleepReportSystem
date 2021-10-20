@@ -696,7 +696,7 @@ class Treatment extends React.Component{
         return <ContentEditable
             innerRef = {this.contentEditable}
             html = {this.state.htmltext}
-            disabled = {false}
+            disabled = {true}
             onChange = {this.handleChange}
             style = {{width:"968px", height:"300px", overflowY:"scroll" ,padding:"10px", fontSize:"18px" ,fontFamily:"Times New Roman, DFKai-sb, sans-serif"}}
         />

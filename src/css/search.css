@@ -1,8 +1,8 @@
 .searchBlock {
     width: calc( 100% - 40 );
-    height: 500px;
     background-color: white;
     margin: 20px;
+    font-family: "Times New Roman", "微軟正黑體", sans-serif;
 }
 footer{
     bottom: 0px;
@@ -14,4 +14,37 @@ footer{
     font-size: 13px;
     color: lightgray;
     background-color: #343A40;
+}
+.fileButton {
+    font-size: 20px;
+    
+    color: white;
+    
+}
+.fileBlock {
+    display: inline-block;
+    background-color: #343A40;
+    margin: 20px;
+    padding: 10px;
+    border-radius: 5px;
+}
+.fileBlock:hover {
+    background-color: black;
+}
+.selectLabel{
+    display: inline-block;
+    width: 100px;
+    padding: 10px;
+    font-size: 20px;
+
+}
+.searchInput{
+    border: 0px;
+    outline: none;
+    font-size: 20px;
+    border-bottom: 3px gray solid;
+    width: 85%;
+}
+.jsontable{
+
 }

@@ -245,7 +245,7 @@ class Diagnosis extends React.Component{
                     <table border="1" cellSpacing="0" cellPadding="3" style={{marginLeft:"auto", marginRight:"auto", width:"1000px"}}>
                         <tbody>
                             <tr>
-                                <td colSpan="4"><textarea id="diagnosisTextarea" style={{width:"968px", height:"300px", padding:"10px", fontSize:"18px", fontFamily:"Times New Roman, DFKai-sb, sans-serif"}}/></td>
+                                <td colSpan="4"><textarea id="diagnosisTextarea" readOnly="readonly" style={{width:"968px", height:"300px", padding:"10px", fontSize:"18px", fontFamily:"Times New Roman, DFKai-sb, sans-serif"}}/></td>
                             </tr>
                         </tbody>
                     </table>

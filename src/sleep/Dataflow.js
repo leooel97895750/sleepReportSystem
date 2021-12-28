@@ -6,7 +6,7 @@ import shark from '../image/shark.gif';
 import watson from '../image/watson.gif';
 import violet from '../image/violet.gif';
 import {getAPI, postJsonAPI, postMdbAPI, getWordAPI} from './functions/API.js';
-import {stageCalculate, eventCalculate, studycfgCalculate, reportDataCalculate} from './functions/Calculate.js';
+import {stageCalculate, pulseFilterCalculate, eventCalculate, studycfgCalculate, reportDataCalculate} from './functions/Calculate.js';
 // import { getAllByDisplayValue } from '@testing-library/dom';
 
 
@@ -129,6 +129,19 @@ class Dataflow extends React.Component{
                         let today = new Date(timeElapsed);
                         let timestamp = today.toISOString();
                         this.setState({
+                            reportData: {
+                                RID: 0, CaseID: "", PatientID: "", StudyDate: "", Since: "", Name: "", Age: 0, Sex: "", DOB: "", Height: 0, Weight: 0, BMI: 0,
+                                Neck: 0, Waist: null, Hip: null, HADS_A: null, HADS_D: null, ESS: null, PSQI: null, SOS: null, THI: null, GERD_Q: null, WHO_Phy: null, WHO_Psy: null,
+                                BP_S_D: null, BP_S_S: null, BP_W_D: null, BP_W_S: null, SleepQuality: null, AHI: 0, AI: 0, HI: 0, OI: 0, CI: 0, MI: 0, AHI_Supine: 0,
+                                AHI_NSupine: 0, AHI_REM: 0, AHI_NREM: 0, AHI_Left: 0, AHI_Right: 0, AHI_REM_Supine: 0, AHI_REM_NSupine: 0, AHI_NREM_Supine: 0, 
+                                AHI_NREM_NSupine: 0, StartTime: "", EndTime: "",TotalRecordTime: 0, TotalSleepPeriod: 0, TotalSleepTime: 0, AwakeTime: 0, 
+                                Stage1: 0,REM: 0, Stage2: 0, SleepLatency: 0, Stage3: 0, Efficiency: 0, ArousalIndex: 0, OA: 0, OAT: 0, CA: 0,CAT: 0, MA: 0, 
+                                MAT: 0, HA: 0, HAT: 0, LA: 0, LH: 0, SpO2Count: 0, MeanSpO2: 0, MeanDesat: 0, MinSpO2: 0, ODI: 0, Snore: 0, SnoreIndex: 0, MS: 0, MR: 0, 
+                                MN: 0, LS: 0, LR: 0, LN: 0, HS: 0, HR: 0, HN: 0, MeanHR: 0, MinHR: 0, LM_R: 0, LM_N: 0, LM_T: 0, PLM_R: 0, PLM_N: 0, PLM_T: 0, 
+                                PLMI_R: 0, PLMI_N: 0, PLMI_T: 0, Baseline_path: "", Hypnogram_path: "", Event_path: "", BodyPosition_path: "", HeartRate_path: "", 
+                                SaO2_path: "", Sound_path: "", PLM_path: "", FriedmanStage: null, TonsilSize: null, FriedmanTonguePosition: null, Technician: null, 
+                                TechnicianDate: null, Physician: null, PhysicianDate: null, Comment: null, DiseaseList: [], Disease: null, Treatment: null
+                            },
                             graphExist: 0,
                             timestamp: timestamp,
                             isLoad: 0,
@@ -243,7 +256,7 @@ class Dataflow extends React.Component{
     loadPosition(e, channelsList){
         let positionIndex = -1;
         for(let i=0; i<e.target.files.length; i++) if(e.target.files[i].name === channelsList.Position) positionIndex = i;
-        if(positionIndex === -1) alert('找不到' + channelsList.Position);
+        if(positionIndex === -1) alert('找不到position ' + channelsList.Position);
         else{
             let positionReader = new FileReader();
             positionReader.onload = (file) => {
@@ -259,7 +272,7 @@ class Dataflow extends React.Component{
     loadSpO2(e, channelsList){
         let spo2Index = -1;
         for(let i=0; i<e.target.files.length; i++) if(e.target.files[i].name === channelsList.SpO2) spo2Index = i;
-        if(spo2Index === -1) alert('找不到' + channelsList.SpO2);
+        if(spo2Index === -1) alert('找不到spo2 ' + channelsList.SpO2);
         else{
             let spo2Reader = new FileReader();
             spo2Reader.onload = (file) => {
@@ -272,7 +285,7 @@ class Dataflow extends React.Component{
     }
 
     // step 7. 解析Pulse
-    loadPulse(e, channelsList){
+    loadPulse(e){
         let pulseIndex = -1;
         for(let i=0; i<e.target.files.length; i++) if(e.target.files[i].name === "CHANNEL24.DAT") pulseIndex = i;
         if(pulseIndex === -1) alert('找不到CHANNEL24.DAT');
@@ -280,6 +293,8 @@ class Dataflow extends React.Component{
             let pulseReader = new FileReader();
             pulseReader.onload = (file) => {
                 let pulse = new Float32Array(file.target.result);
+                pulse = pulseFilterCalculate(pulse);
+                console.log(pulse);
                 this.setState({pulse: pulse});
                 this.loadEventData(e);
             }
@@ -291,7 +306,7 @@ class Dataflow extends React.Component{
     loadEventData(e){
         let eventsIndex = -1;
         for(let i=0; i<e.target.files.length; i++) if(e.target.files[i].name === "EVENTS.MDB") eventsIndex = i;
-        if(eventsIndex === -1) alert('EVENTS.MDB');
+        if(eventsIndex === -1) alert('no EVENTS.MDB');
         else{
             let mdbUrl = "http://140.116.245.43:3000/mdb?timestamp=" + this.state.timestamp;
             let mdbData = new FormData();
@@ -387,7 +402,7 @@ class Dataflow extends React.Component{
             this.setState({
                 loading: 0,
                 isLoad: 1, // report頁面出現
-            });
+            }, () => {console.log(this.state.reportData)});
         });
     }
 
@@ -592,7 +607,7 @@ class Dataflow extends React.Component{
                 />
 
                 <footer style={{position: this.state.isLoad ? 'static' : 'fixed'}}>
-                    <span>成大醫院睡眠中心 National Cheng Kung University Hospital</span><br/>
+                    <span>成大醫院睡眠醫學中心 National Cheng Kung University Hospital Sleep Center</span><br/>
                     <span>成大資訊工程所 神經運算與腦機介面實驗室 National Cheng Kung University Department of Computer Science and Information Engineering NCBCI Lab</span>
                 </footer>
 

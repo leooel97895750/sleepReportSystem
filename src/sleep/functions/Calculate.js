@@ -1,4 +1,3 @@
-
 // 計算睡眠階段
 export function stageCalculate(sleepStage){
 
@@ -20,6 +19,35 @@ export function stageCalculate(sleepStage){
     }
 
     return {sot, wake, n1, n2, n3, rem};
+}
+
+// pulse訊號前處理(sample rate 1)：去除artifact、濾波(lowpass filter)
+export function pulseFilterCalculate(pulse){
+    let newPulse = [];
+    let pulseLength = pulse.length;
+
+    // 去除artifact：抓取異常數值區域，重新賦值(前段mean)
+    let pulseMean = 90; // default value 90 避免一開頭就artifact
+    let bpmThreshold = 40; // default value 40 低於則視為artifact
+    for(let i=0; i<pulseLength; i++){
+        if(pulse[i] >= bpmThreshold) pulseMean = pulseMean*0.9 + pulse[i]*0.1;
+        else pulse[i] = pulseMean;
+    }
+
+    // moving average(前後端長度自適應)
+    let windows = 50;
+    for(let i=0; i<pulseLength; i++){
+        let left = (i - windows/2) < 0 ? 0 : (i - windows/2);
+        let right = (i + windows/2) >= pulseLength ? pulseLength : (i + windows/2);
+        let windowsValue = pulse.slice(left, right);
+        let sum = 0;
+        for(let j=0; j<windowsValue.length; j++){
+            sum = sum + windowsValue[j];
+        }
+        let avg = sum / windowsValue.length;
+        newPulse.push(avg);
+    }
+    return newPulse;
 }
 
 function ahiIndexCalculate(event, dfs, ahiIndex){
@@ -383,14 +411,14 @@ export function reportDataCalculate(dataflow){
         MS: Math.round(heartRate.MS / heartRate.MSC), 
         MR: Math.round(heartRate.MR / heartRate.MRC), 
         MN: Math.round(heartRate.MN / heartRate.MNC), 
-        LS: heartRate.LS, 
-        LR: heartRate.LR, 
-        LN: heartRate.LN,
-        HS: heartRate.HS, 
-        HR: heartRate.HR, 
-        HN: heartRate.HN, 
+        LS: Math.round(heartRate.LS), 
+        LR: Math.round(heartRate.LR), 
+        LN: Math.round(heartRate.LN),
+        HS: Math.round(heartRate.HS), 
+        HR: Math.round(heartRate.HR), 
+        HN: Math.round(heartRate.HN), 
         MeanHR: Math.round(heartRate.MS / heartRate.MSC), 
-        MinHR: heartRate.LS, 
+        MinHR: Math.round(heartRate.LS), 
         LM_R: dfs.plmCount.remLm,
         LM_N: dfs.plmCount.nremLm, 
         LM_T: dfs.plmCount.lm, 

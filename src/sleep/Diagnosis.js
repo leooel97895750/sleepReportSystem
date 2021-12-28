@@ -14,7 +14,6 @@ class Diagnosis extends React.Component{
             nowDisease: [],
             nowDiagnosis: "",
             nowTreatment: "",
-            firstRender: 0,
         };
         this.diagnosisBox = this.diagnosisBox.bind(this);
         this.diagnosisBoxClose = this.diagnosisBoxClose.bind(this);
@@ -25,17 +24,17 @@ class Diagnosis extends React.Component{
 
     // 當抓到資料庫的疾病陣列資料後渲染
     isNull(value){
-        return value === null ? [] : value;
+        return value === null ? "" : value;
     }
-    componentDidUpdate(){
-        if(this.state.firstRender === 0 && this.isNull(this.props.reportData.DiseaseList).length !== 0){
-            console.log(this.props.reportData.DiseaseList);
-            let nowDisease = this.props.reportData.DiseaseList.split(',');
+    componentDidUpdate(prevProps){
+        if(prevProps.reportData.DiseaseList !== this.props.reportData.DiseaseList){
+            let diseaseListNull = this.isNull(this.props.reportData.DiseaseList);
+            let nowDisease = diseaseListNull.toString().split(',');
             this.setState({
                 nowDisease: nowDisease,
-                firstRender: 1,
             }, () => {
                 let myDisease = document.getElementById("myDisease");
+                myDisease.textContent = "";
                 for(let i=0; i<nowDisease.length; i++){
                     let number = nowDisease[i];
                     let option = document.createElement("option");
@@ -49,6 +48,7 @@ class Diagnosis extends React.Component{
                     myDisease.add(option);
                 }
             });
+            
         }
     }
     

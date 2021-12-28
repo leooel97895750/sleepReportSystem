@@ -1,7 +1,5 @@
 import React from 'react';
-import ReactTable from 'react-table-6'
-import JsonTable from 'ts-react-json-table'
-import 'react-table-6/react-table.css'
+import JsonTable from 'ts-react-json-table';
 import '../css/search.css';
 import question from '../image/question.png';
 import {postJsonAPI} from './functions/API.js';

@@ -50,6 +50,29 @@ export function pulseFilterCalculate(pulse){
     return newPulse;
 }
 
+// SpO2訊號前處理(sample rate 1)：去除artifact(尚未實作技師手動標記去除，需調動dataflow順序)、濾波(lowpass filter)
+export function spo2FilterCalculate(spo2){
+    let spo2Length = spo2.length;
+
+    // 去除artifact：抓取異常數值區域，重新賦值(前段mean)
+    let spo2Mean = 90; // default value 90 避免一開頭就artifact
+    let spo2Threshold = 60; // default value 40 低於則視為artifact
+    for(let i=0; i<spo2Length; i++){
+        if(spo2[i] >= spo2Threshold) spo2Mean = spo2Mean*0.9 + spo2[i]*0.1;
+        else{
+            spo2[i] = spo2Mean;
+            // 回填20秒
+            for(let j=1; j<20; j++){
+                if(spo2[i-j] < spo2Mean){
+                    spo2[i-j] = spo2Mean;
+                }
+                else break;
+            }
+        }
+    }
+    return spo2;
+}
+
 function ahiIndexCalculate(event, dfs, ahiIndex){
 
     let epoch = Math.floor(event.EVT_TIME / 30);

@@ -6,7 +6,7 @@ import shark from '../image/shark.gif';
 import watson from '../image/watson.gif';
 import violet from '../image/violet.gif';
 import {getAPI, postJsonAPI, postMdbAPI, getWordAPI} from './functions/API.js';
-import {stageCalculate, pulseFilterCalculate, eventCalculate, studycfgCalculate, reportDataCalculate} from './functions/Calculate.js';
+import {stageCalculate, pulseFilterCalculate, spo2FilterCalculate, eventCalculate, studycfgCalculate, reportDataCalculate} from './functions/Calculate.js';
 // import { getAllByDisplayValue } from '@testing-library/dom';
 
 
@@ -277,6 +277,8 @@ class Dataflow extends React.Component{
             let spo2Reader = new FileReader();
             spo2Reader.onload = (file) => {
                 let spo2 = new Float32Array(file.target.result);
+                console.log(spo2);
+                spo2 = spo2FilterCalculate(spo2);
                 this.setState({spo2: spo2});
                 this.loadPulse(e, channelsList);
             }
@@ -294,7 +296,6 @@ class Dataflow extends React.Component{
             pulseReader.onload = (file) => {
                 let pulse = new Float32Array(file.target.result);
                 pulse = pulseFilterCalculate(pulse);
-                console.log(pulse);
                 this.setState({pulse: pulse});
                 this.loadEventData(e);
             }

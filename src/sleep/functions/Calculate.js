@@ -107,6 +107,8 @@ export function eventCalculate(dataflow, events){
     
     let plmCount = {'lm':0, 'plm':0, 'remLm':0, 'nremLm':0, 'remPlm':0, 'nremPlm':0};
     let plmTime = [];
+    let plmContinuous = 0;
+    let plm4Array = [];
     let plmSerial = 0;
     let plmLastSecond = 0;
     let tmpPlmTime = [];
@@ -176,48 +178,60 @@ export function eventCalculate(dataflow, events){
             }
             else plmCount.nremLm += 1;
 
-            if((Number(event.EVT_TIME) - plmLastSecond) <= 90){
-                plmSerial += 1;
-                
-                if(plmSerial >= 4){
-                    if(startPlm === 0){
-                        plmTime.concat(tmpPlmTime);
-                        tmpPlmTime = [];
-                        plmCount.plm += 4;
-                        for(let i=0; i<tmpPlmStage.length; i++){
-                            if(tmpPlmStage[i] === 5){
-                                plmCount.remPlm += 1;
-                            }
-                            else{
-                                plmCount.nremPlm += 1;
-                            }
-                        }
-                        tmpPlmStage = [];
-                        startPlm = 1;
+            // PLM計算
+            // 找下一個LM
+            for(let j=i+1; j<events.length; j++){
+                if(events[j].EVT_TYPE === 12 || events[j].EVT_TYPE === 13){
+
+                    //console.log(event.EVT_TIME, event.EVT_LENGTH);
+                    // 進入PLM判斷
+                    if((Number(events[j].EVT_TIME) - Number(event.EVT_TIME)) <= 90){
+                        plmContinuous = 1;
+                        
+                        //console.log("進入90秒");
+                        // 算!
+                        plm4Array.push(Math.ceil(event.EVT_TIME / 30));
+                        //console.log(event.EVT_TIME, event.EVT_LENGTH);
                     }
+                    // 脫離PLM判斷
                     else{
-                        plmTime.push(event.EVT_TIME);
-                        plmCount.plm += 1;
-                        if(dfs.sleepStage[Math.floor(event.EVT_TIME / 30)] === 5){
-                            plmCount.remPlm += 1;
+                        // 斷掉的第一個也算在上一組PLM裡面
+                        if(plmContinuous === 1){
+                            
+                            //console.log("雖然脫離了但還是算");
+                            // 算!
+                            plm4Array.push(Math.ceil(event.EVT_TIME / 30));
+                            //console.log(event.EVT_TIME, event.EVT_LENGTH);
+
+                            plmContinuous = 0;
                         }
                         else{
-                            plmCount.nremPlm += 1;
+                            // plm斷掉
+                            //console.log("斷掉了");
+                            plm4Array = [];
+                            plmContinuous = 0;
                         }
                     }
-                }
-                else{
-                    tmpPlmTime.push(event.EVT_TIME);
-                    tmpPlmStage.push(dfs.sleepStage[Math.floor(event.EVT_TIME / 30)]);
+
+                    //console.log(" ");
+                    // PLM次數計算
+                    if(plm4Array.length === 4){
+                        for(let k=0; k<4; k++){
+                            plmTime.push(plm4Array[k]);
+                        }
+                    }
+                    else if(plm4Array.length > 4){
+                        plmTime.push(plm4Array[plm4Array.length - 1]);
+                    }
+
+                    if(plmContinuous === 0){
+                        plm4Array = [];
+                    }
+
+                    
+                    break;
                 }
             }
-            else{
-                startPlm = 0;
-                plmSerial = 0;
-                tmpPlmTime = [];
-                tmpPlmStage = [];
-            }
-            plmLastSecond = Number(event.EVT_TIME);
 
         }
         // Obstructive Hypopnea
@@ -242,6 +256,7 @@ export function eventCalculate(dataflow, events){
     eventsCount.LA = eventsCount.LA.toFixed(0);
     eventsCount.LH = eventsCount.LH.toFixed(0);
 
+    console.log(plmCount, plmTime);
     return {eventsCount, eventsTime, ahiIndex, plmCount, plmTime, snoreTime};
 }
 

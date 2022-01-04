@@ -34,15 +34,15 @@ export function pulseFilterCalculate(pulse){
         else pulse[i] = pulseMean;
     }
 
-    // moving average(前後端長度自適應)
-    let windows = 20;
+    // moving average(前後端長度自適應) 這裡怪怪的
+    let windows = 2;
     for(let i=0; i<pulseLength; i++){
         let left = (i - windows/2) < 0 ? 0 : (i - windows/2);
         let right = (i + windows/2) >= pulseLength ? pulseLength : (i + windows/2);
         let windowsValue = pulse.slice(left, right);
         let sum = 0;
         for(let j=0; j<windowsValue.length; j++){
-            sum = sum + windowsValue[j];
+            sum += windowsValue[j];
         }
         let avg = sum / windowsValue.length;
         newPulse.push(avg);
@@ -57,17 +57,15 @@ export function spo2FilterCalculate(spo2, spo2Artifact){
     let artifactTime = spo2Artifact.time;
     let artifactDuration = spo2Artifact.duration;
 
-    console.log(spo2);
     // 如果一開始就artifact的話陣列-1處就會報錯
     for(let i=0; i<artifactTime.length; i++){
         let startTime = Math.floor(artifactTime[i]);
         let endTime = Math.floor(artifactTime[i]) + Math.ceil(artifactDuration[i]);
-        console.log(Math.floor(artifactTime[i]), Math.ceil(artifactDuration[i]));
         for(let j=startTime; j<=endTime; j++){
             spo2[j] = spo2[Math.floor(artifactTime[i])-1];
         }
     }
-    console.log(spo2);
+
     let spo2Mean = 90; // default value 90 避免一開頭就artifact
     let spo2Threshold = 40; // default value 40 低於則視為artifact
     for(let i=0; i<spo2Length; i++){

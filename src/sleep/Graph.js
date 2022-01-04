@@ -431,15 +431,21 @@ class Graph extends React.Component{
             hrCTX.stroke();
         }
         let pulse = this.props.pulse;
+        let m = 0;
+        for(let i=0; i<pulse.length; i++){
+            if(pulse[i] > m) m= pulse[i];
+        }
+        console.log(m);
         let randomPulse = [];
         let pulseSpace = Math.floor(pulse.length / stagePixels);
         for(let i=0; i<stagePixels; i++){
             randomPulse.push(pulse[i*pulseSpace]);
         }
-        pulse = null;
-
+        console.log(randomPulse);
+        
         let pulselastx = 100;
         let pulselasty = (120 - randomPulse[0])*((hrHeight*5/6)/100) + 10;
+        //let pulselasty = 85 -((17 * randomPulse[0]) - 140) / 20;
         hrCTX.setLineDash([]);
         for(let i=0; i<stagePixels; i++){
             let pulseConvert = (120 - randomPulse[i])*((hrHeight*5/6)/100) + 10;

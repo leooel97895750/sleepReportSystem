@@ -51,10 +51,23 @@ export function pulseFilterCalculate(pulse){
 }
 
 // SpO2訊號前處理(sample rate 1)：去除artifact(尚未實作技師手動標記去除，需調動dataflow順序)、濾波(lowpass filter)
-export function spo2FilterCalculate(spo2){
+export function spo2FilterCalculate(spo2, spo2Artifact){
     let spo2Length = spo2.length;
 
-    // 去除artifact：抓取異常數值區域，重新賦值(前段mean)
+    let artifactTime = spo2Artifact.time;
+    let artifactDuration = spo2Artifact.duration;
+
+    console.log(spo2);
+    // 如果一開始就artifact的話陣列-1處就會報錯
+    for(let i=0; i<artifactTime.length; i++){
+        let startTime = Math.floor(artifactTime[i]);
+        let endTime = Math.floor(artifactTime[i]) + Math.ceil(artifactDuration[i]);
+        console.log(Math.floor(artifactTime[i]), Math.ceil(artifactDuration[i]));
+        for(let j=startTime; j<=endTime; j++){
+            spo2[j] = spo2[Math.floor(artifactTime[i])-1];
+        }
+    }
+    console.log(spo2);
     let spo2Mean = 90; // default value 90 避免一開頭就artifact
     let spo2Threshold = 40; // default value 40 低於則視為artifact
     for(let i=0; i<spo2Length; i++){
@@ -105,6 +118,8 @@ export function eventCalculate(dataflow, events){
     let eventsTime = {'CA':[], 'OA':[], 'MA':[], 'OH':[]};
     let eventsCount = {'CA':0, 'TCA':0, 'OA':0, 'TOA':0, 'MA':0, 'TMA':0, 'LA':0, 'SPD':0, 'SPDS':0, 'MSPD':100, 'SD':0, 'SPA':0, 'A1':0, 'A2':0, 'A3':0, 'A4':0, 'OH':0, 'TOH':0, 'LH':0, 'RERA':0, 'SNORE':0};
     
+    let spo2Artifact = {'time':[], 'duration':[]};
+
     let plmGraph = {'time':[], 'high':[]};
     let plmCount = {'lm':0, 'plm':0, 'remLm':0, 'nremLm':0, 'remPlm':0, 'nremPlm':0};
     let plmTime = [];
@@ -149,6 +164,8 @@ export function eventCalculate(dataflow, events){
         // SpO2 Artifact
         else if(event.EVT_TYPE === 6 && event.MAN_SCORED === 1){
             eventsCount.SPA += 1;
+            spo2Artifact.time.push(event.EVT_TIME);
+            spo2Artifact.duration.push(event.EVT_LENGTH);
         }
         // Arousal 1 ARO RES
         else if(event.EVT_TYPE === 7 && event.MAN_SCORED === 1){
@@ -250,7 +267,6 @@ export function eventCalculate(dataflow, events){
     eventsCount.LH = eventsCount.LH.toFixed(0);
 
     // 計算PLM在睡眠階段的分布
-    console.log(plmCount, plmTime);
     plmCount.plm = plmTime.length;
     for(let i=0; i<plmTime.length; i++){
         if(dfs.sleepStage[plmTime[i]] === 5){
@@ -259,7 +275,7 @@ export function eventCalculate(dataflow, events){
         else plmCount.nremPlm += 1;
     }
 
-    return {eventsCount, eventsTime, ahiIndex, plmCount, plmGraph, snoreTime};
+    return {eventsCount, eventsTime, ahiIndex, spo2Artifact, plmCount, plmGraph, snoreTime};
 }
 
 // 計算STUDYCFG
@@ -293,12 +309,8 @@ export function studycfgCalculate(studycfgXML, duration){
     let endTime = String(finalHour).padStart(2, '0') + ":" + String(finalMin).padStart(2, '0') + ":" + String(finalSec).padStart(2, '0');
 
     // 校正時間
-    let calTime = studycfgXML.getElementsByTagName("CalStartTime")[0].textContent;
-    let calTimeSplit = calTime.split(":");
-    // 計算startTime - calTime 如果剛好跨天的話就會出錯>.< 到時候遇到再修
-    let calSec = (Number(startTimeSplit[2]) + Number(startTimeSplit[1])*60 + Number(startTimeSplit[0])*360) - (Number(calTimeSplit[2]) + Number(calTimeSplit[1])*60 + Number(calTimeSplit[0])*360);
-    console.log(calSec);
-
+    let calSec = studycfgXML.getElementsByTagName("CalLength")[0].textContent;
+    
     // 名字
     let name = studycfgXML.getElementsByTagName("Surname")[0].textContent;
 
@@ -343,7 +355,6 @@ export function reportDataCalculate(dataflow){
         if(dfs.position[i] === 1 && dfs.sleepStage[Math.floor(i/(25*30))] !== 5 && dfs.sleepStage[Math.floor(i/(25*30))] !== 10) ahiIndexTime.nremSupine += 1;
         if(dfs.position[i] !== 1 && dfs.sleepStage[Math.floor(i/(25*30))] !== 5 && dfs.sleepStage[Math.floor(i/(25*30))] !== 10) ahiIndexTime.nremNsupine += 1;
     }
-    console.log(ahiIndexTime);
 
     // 計算心率 (暫時用channel24來算 sample rate 1)
     let heartRate = {'MS':0, 'MSC':0, 'MR': 0, 'MRC':0, 'MN':0, 'MNC':0, 'LS':10000, 'LR':10000, 'LN':10000, 'HS':0, 'HR':0, 'HN':0};
@@ -380,6 +391,11 @@ export function reportDataCalculate(dataflow){
             }
         }
     }
+
+    // 計算spo2
+    let spo2Mean = 0;
+    for(let i=0; i<dfs.spo2.length; i++) spo2Mean += dfs.spo2[i];
+    spo2Mean = spo2Mean / dfs.spo2.length;
 
     // 睡眠報告資料
     let reportData = {
@@ -449,10 +465,10 @@ export function reportDataCalculate(dataflow){
         LA: evn.LA, 
         LH: evn.LH, 
         SpO2Count: evn.SPD,
-        MeanSpO2: (evn.SPDS / evn.SPD).toFixed(1), 
+        MeanSpO2: spo2Mean.toFixed(1), 
         MeanDesat: (evn.SD / evn.SPD).toFixed(1), 
         MinSpO2: evn.MSPD, 
-        ODI: ((evn.SPD) / ((dfs.epochNum - dfs.wake) / 2) * 60).toFixed(1), 
+        ODI: ((evn.SPD) / ((dfs.epochNum - dfs.sot) / 2) * 60).toFixed(1), 
         Snore: evn.SNORE,
         SnoreIndex: ((evn.SNORE) / ((dfs.epochNum - dfs.wake) / 2) * 60).toFixed(1), 
         MS: Math.round(heartRate.MS / heartRate.MSC), 

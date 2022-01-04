@@ -46,6 +46,7 @@ class Dataflow extends React.Component{
             eventsTime: {'CA':[], 'OA':[], 'MA':[], 'OH':[]},
             eventsCount: {},
             ahiIndex: {},
+            spo2Artifact: {'time':[], 'duration':[]},
             plmCount: {},
             plmGraph: {'time':[], 'high': []},
             snoreTime: {'time':[], 'param3':[]},
@@ -170,9 +171,7 @@ class Dataflow extends React.Component{
         }
     }
 
-    
-
-    // step 3. 總時間
+    // step 2. 抓取總時間
     loadDataSegment = (e) => {
         let tmpCfg = {
             startDate:"", name:"", age:"", patientID:"", sex:"", dob:"", height:"", 
@@ -197,7 +196,7 @@ class Dataflow extends React.Component{
         }
     }
 
-    // step 4. 解析基本資料: 尋找 "STUDYCFG.XML"
+    // step 3. 解析基本資料: 尋找 "STUDYCFG.XML"
     loadStudyCfg = (e, duration, tmpCfg) => {
         let configIndex = -1;
         for(let i=0; i<e.target.files.length; i++) if(e.target.files[i].name === "STUDYCFG.XML") configIndex = i;
@@ -224,17 +223,16 @@ class Dataflow extends React.Component{
                 tmpCfg.startTime = studycfgData.startTime;
                 tmpCfg.endTime = studycfgData.endTime;
                 tmpCfg.calSec =studycfgData.calSec;
-                this.setState({cfg: tmpCfg});
-
-                let channelsList = studycfgData.channelsList;
-
-                this.loadPosition(e, channelsList);
+                this.setState({cfg: tmpCfg}, () => {
+                    let channelsList = studycfgData.channelsList;
+                    this.loadPosition(e, channelsList);
+                });
             }
             configReader.readAsText(e.target.files[configIndex]);
         }
     }
 
-    // step 5. 解析Position
+    // step 4. 解析Position
     loadPosition = (e, channelsList) => {
         let positionIndex = -1;
         for(let i=0; i<e.target.files.length; i++) if(e.target.files[i].name === channelsList.Position) positionIndex = i;
@@ -245,33 +243,14 @@ class Dataflow extends React.Component{
                 let position = new Int16Array(file.target.result);
                 // 去除calibration sampling rate 25
                 this.setState({position: position.slice(this.state.cfg.calSec*25, position.length)});
-                this.loadSpO2(e, channelsList);
+                this.loadPulse(e, channelsList);
             }
             positionReader.readAsArrayBuffer(e.target.files[positionIndex]);
         }
     }
 
-    // step 6. 解析SpO2
-    loadSpO2 = (e, channelsList) => {
-        let spo2Index = -1;
-        for(let i=0; i<e.target.files.length; i++) if(e.target.files[i].name === channelsList.SpO2) spo2Index = i;
-        if(spo2Index === -1) alert('找不到spo2 ' + channelsList.SpO2);
-        else{
-            let spo2Reader = new FileReader();
-            spo2Reader.onload = (file) => {
-                let spo2 = new Float32Array(file.target.result);
-                // 去除calibration sampling rate 1
-                spo2 = spo2.slice(this.state.cfg.calSec, spo2.length);
-                spo2 = spo2FilterCalculate(spo2);
-                this.setState({spo2: spo2});
-                this.loadPulse(e, channelsList);
-            }
-            spo2Reader.readAsArrayBuffer(e.target.files[spo2Index]);
-        }
-    }
-
-    // step 7. 解析Pulse
-    loadPulse = (e) => {
+    // step 5. 解析Pulse
+    loadPulse = (e, channelsList) => {
         let pulseIndex = -1;
         for(let i=0; i<e.target.files.length; i++) if(e.target.files[i].name === "CHANNEL24.DAT") pulseIndex = i;
         if(pulseIndex === -1) alert('找不到CHANNEL24.DAT');
@@ -283,14 +262,14 @@ class Dataflow extends React.Component{
                 pulse = pulse.slice(this.state.cfg.calSec, pulse.length);
                 pulse = pulseFilterCalculate(pulse);
                 this.setState({pulse: pulse});
-                this.loadEventData(e);
+                this.loadEventData(e, channelsList);
             }
             pulseReader.readAsArrayBuffer(e.target.files[pulseIndex]);
         }
     }
 
-    // step 2. 解析事件
-    loadEventData = (e) => {
+    // step 6. 解析事件
+    loadEventData = (e, channelsList) => {
         let eventsIndex = -1;
         for(let i=0; i<e.target.files.length; i++) if(e.target.files[i].name === "EVENTS.MDB") eventsIndex = i;
         if(eventsIndex === -1) alert('no EVENTS.MDB');
@@ -309,16 +288,38 @@ class Dataflow extends React.Component{
                     eventsTime: eventsData.eventsTime,
                     eventsCount: eventsData.eventsCount,
                     ahiIndex: eventsData.ahiIndex,
+                    spo2Artifact: eventsData.spo2Artifact,
                     plmCount: eventsData.plmCount,
                     plmGraph: eventsData.plmGraph,
-                    snoreTime: eventsData.snoreTime,
-                    getGraphData: 1,
-                });
+                    snoreTime: eventsData.snoreTime
+                }, () => {this.loadSpO2(e, channelsList)});
             });
         }
     }
 
-    // step 9. Graph儲存
+    // step 7. 解析SpO2
+    loadSpO2 = (e, channelsList) => {
+        let spo2Index = -1;
+        for(let i=0; i<e.target.files.length; i++) if(e.target.files[i].name === channelsList.SpO2) spo2Index = i;
+        if(spo2Index === -1) alert('找不到spo2 ' + channelsList.SpO2);
+        else{
+            let spo2Reader = new FileReader();
+            spo2Reader.onload = (file) => {
+                let spo2 = new Float32Array(file.target.result);
+                // 去除calibration sampling rate 1
+                spo2 = spo2.slice(this.state.cfg.calSec, spo2.length);
+                spo2 = spo2FilterCalculate(spo2, this.state.spo2Artifact);
+                
+                this.setState({
+                    spo2: spo2,
+                    getGraphData: 1
+                });
+            }
+            spo2Reader.readAsArrayBuffer(e.target.files[spo2Index]);
+        }
+    }
+
+    // step 8. Graph儲存
     insertGraphDataBase = (GraphData) => {
         this.setState({getGraphData: 0});
         let graphUrl = "http://140.116.245.43:3000/graph?timestamp=" + this.state.timestamp;
@@ -328,10 +329,9 @@ class Dataflow extends React.Component{
         });
     }
 
-    // step 10. database insert report
+    // step 9. database insert report
     insertReportDataBase = () => {
         let reportData = reportDataCalculate(this);
-        console.log(reportData);
         let insertReportUrl = "http://140.116.245.43:3000/insertReport";
         postJsonAPI(insertReportUrl, reportData, (xhttp) => {
             console.log(xhttp.responseText);
@@ -341,7 +341,7 @@ class Dataflow extends React.Component{
         });
     }
 
-    // step 11. bulk insert stage
+    // step 10. bulk insert stage
     insertStageDataBase = () => {
         let patientIDUrl = "http://140.116.245.43:3000/patientID?patientID=" + this.state.reportData.PatientID;
         getAPI(patientIDUrl, (xhttp) => {
@@ -363,7 +363,7 @@ class Dataflow extends React.Component{
         });
     }
 
-    // step 12. bulk insert event
+    // step 11. bulk insert event
     insertEventDataBase = () => {
         let insertEventUrl = "http://140.116.245.43:3000/insertEvent?timestamp=" + this.state.timestamp + "&rid=" + this.state.RID;
         getAPI(insertEventUrl, (xhttp) => {
@@ -372,7 +372,7 @@ class Dataflow extends React.Component{
         });
     }
 
-    // step 13. bulk insert position
+    // step 12. bulk insert position
     insertPositionDataBase = () => {
         let randomPosition = [];
         let chooseSpace = Math.floor(this.state.position.length / this.state.epochNum);

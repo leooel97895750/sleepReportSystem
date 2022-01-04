@@ -105,12 +105,13 @@ export function eventCalculate(dataflow, events){
     let eventsTime = {'CA':[], 'OA':[], 'MA':[], 'OH':[]};
     let eventsCount = {'CA':0, 'TCA':0, 'OA':0, 'TOA':0, 'MA':0, 'TMA':0, 'LA':0, 'SPD':0, 'SPDS':0, 'MSPD':100, 'SD':0, 'SPA':0, 'A1':0, 'A2':0, 'A3':0, 'A4':0, 'OH':0, 'TOH':0, 'LH':0, 'RERA':0, 'SNORE':0};
     
+    let plmGraph = {'time':[], 'high':[]};
     let plmCount = {'lm':0, 'plm':0, 'remLm':0, 'nremLm':0, 'remPlm':0, 'nremPlm':0};
     let plmTime = [];
     let plmContinuous = 0;
     let plm4Array = [];
 
-    let snoreTime ={'time':[], 'param3':[]};
+    let snoreTime = {'time':[], 'param3':[]};
 
     for(let i=0; i<events.length; i++){
         let event = events[i];
@@ -167,8 +168,11 @@ export function eventCalculate(dataflow, events){
         }
         // Limb movement(Left)(PLM)、Limb movement(Right)(PLM)
         else if(event.EVT_TYPE === 12 || event.EVT_TYPE === 13){
+            plmGraph.time.push(event.EVT_TIME);
+            plmGraph.high.push(event.EVT_LENGTH);
+
             plmCount.lm += 1;
-            if(dfs.sleepStage[Math.ceil(event.EVT_TIME / 30)] === 5){
+            if(dfs.sleepStage[Math.floor(event.EVT_TIME / 30)] === 5){
                 plmCount.remLm += 1;
             }
             else plmCount.nremLm += 1;
@@ -184,7 +188,7 @@ export function eventCalculate(dataflow, events){
                         plmContinuous = 1;
                         //console.log("進入90秒");
                         // 算!
-                        plm4Array.push(Math.ceil(event.EVT_TIME / 30));
+                        plm4Array.push(Math.floor(event.EVT_TIME / 30));
                         //console.log(event.EVT_TIME, event.EVT_LENGTH);
                     }
                     // 脫離PLM判斷 
@@ -193,7 +197,7 @@ export function eventCalculate(dataflow, events){
                         if(plmContinuous === 1){
                             //console.log("雖然脫離了但還是算");
                             // 算!
-                            plm4Array.push(Math.ceil(event.EVT_TIME / 30));
+                            plm4Array.push(Math.floor(event.EVT_TIME / 30));
                             //console.log(event.EVT_TIME, event.EVT_LENGTH);
                             plmContinuous = 0;
                         }
@@ -255,7 +259,7 @@ export function eventCalculate(dataflow, events){
         else plmCount.nremPlm += 1;
     }
 
-    return {eventsCount, eventsTime, ahiIndex, plmCount, plmTime, snoreTime};
+    return {eventsCount, eventsTime, ahiIndex, plmCount, plmGraph, snoreTime};
 }
 
 // 計算STUDYCFG

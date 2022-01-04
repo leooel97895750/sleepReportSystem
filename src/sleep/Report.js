@@ -110,6 +110,7 @@ class Report extends React.Component{
                         position = {this.props.position}
                         spo2 = {this.props.spo2}
                         pulse = {this.props.pulse}
+                        plmGraph = {this.props.plmGraph}
                     />
 
                     <br/><br/>

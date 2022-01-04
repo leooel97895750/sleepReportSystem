@@ -47,7 +47,7 @@ class Dataflow extends React.Component{
             eventsCount: {},
             ahiIndex: {},
             plmCount: {},
-            plmTime: [],
+            plmGraph: {'time':[], 'high': []},
             snoreTime: {'time':[], 'param3':[]},
             pulse: [],
             spo2: [],
@@ -324,7 +324,7 @@ class Dataflow extends React.Component{
                     eventsCount: eventsData.eventsCount,
                     ahiIndex: eventsData.ahiIndex,
                     plmCount: eventsData.plmCount,
-                    plmTime: eventsData.plmTime,
+                    plmGraph: eventsData.plmGraph,
                     snoreTime: eventsData.snoreTime,
                     getGraphData: 1,
                 });
@@ -605,6 +605,7 @@ class Dataflow extends React.Component{
                     spo2 = {this.state.spo2}
                     pulse = {this.state.pulse}
                     sound = {this.state.sound}
+                    plmGraph = {this.state.plmGraph}
                 />
 
                 <footer style={{position: this.state.isLoad ? 'static' : 'fixed'}}>

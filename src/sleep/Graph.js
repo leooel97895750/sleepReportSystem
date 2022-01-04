@@ -100,8 +100,8 @@ class Graph extends React.Component{
         bCTX.stroke();
         // 畫Block刻度
         
-        let blockNum = Math.ceil(this.props.epochNum / 120);
-        let blockWidth = Math.floor((bWidth - 110) / blockNum);
+        let blockNum = Math.ceil(this.props.epochNum / 120); // 幾小時
+        let blockWidth = Math.floor((bWidth - 110) / blockNum);  // 每個小時的寬度
         for(let i=0; i<=blockNum; i++){
             bCTX.beginPath();
             bCTX.moveTo(100 + blockWidth*i, 25);
@@ -183,20 +183,15 @@ class Graph extends React.Component{
             hCTX.stroke();
 
         }
-        // 畫階段圖，因canvas最小單位為1px，採平均隨機抽樣
-        let sleepStage = this.props.sleepStage;
-        let stageLength = Math.ceil(((hWidth - 100) * sleepStage.length)/ (blockNum * 120));
-        let randomStage = Array.from(sleepStage);
-        let stageDeleteNum = sleepStage.length - stageLength;
-        if(stageDeleteNum > 0){
-            let deleteSpace = Math.floor(sleepStage.length / stageDeleteNum);
-            //console.log(deleteSpace);
-            // 從尾部平均刪除
-            for(let i=stageDeleteNum-1; i>=0; i--){
-                randomStage.splice(i*deleteSpace, 1);
-            }                                                                                                                                                                                         
+        let stage = this.props.sleepStage;
+        console.log(stage);
+        let stagePixels = Math.floor(stage.length / 120) * blockWidth + (stage.length % 120) * (blockWidth / 120);
+        let randomStage = [];
+        for(let i=0; i<stagePixels; i++){
+            let index = Math.round(i * (stage.length / stagePixels));
+            randomStage.push(stage[index]);
         }
-        for(let i=0; i<stageLength; i++){
+        for(let i=0; i<randomStage.length; i++){
             
             if(randomStage[i] === 5){
                 hCTX.fillStyle = "#AA0000";
@@ -560,7 +555,7 @@ class Graph extends React.Component{
         for(let i=0; i<snoreTime.length; i++){
             let snorePoint = snoreTime[i] * (700 / (this.props.epochNum * 30));
             sCTX.beginPath();
-            sCTX.moveTo(100 + snorePoint, 40);
+            sCTX.moveTo(100 + snorePoint, 39);
             sCTX.lineTo(100 + snorePoint, 35 - snoreParam3[i] * 10);
             sCTX.strokeStyle = "blue";
             sCTX.lineWidth = 1;
@@ -596,6 +591,18 @@ class Graph extends React.Component{
         plmCTX.strokeStyle = "black";
         plmCTX.lineWidth = "1";
         plmCTX.stroke();
+
+        let plmTime = this.props.plmGraph.time;
+        let plmHigh = this.props.plmGraph.high;
+        for(let i=0; i<plmTime.length; i++){
+            let plmPoint = plmTime[i] * (700 / (this.props.epochNum * 30));
+            plmCTX.beginPath();
+            plmCTX.moveTo(100 + plmPoint, 39);
+            plmCTX.lineTo(100 + plmPoint, 39 - plmHigh[i]);
+            plmCTX.strokeStyle = "blue";
+            plmCTX.lineWidth = 1;
+            plmCTX.stroke();
+        }
 
         // 將graph data傳至dataflow
         if(isOutput){

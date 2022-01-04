@@ -292,6 +292,13 @@ export function studycfgCalculate(studycfgXML, duration){
     let finalHour = totalHour % 24;
     let endTime = String(finalHour).padStart(2, '0') + ":" + String(finalMin).padStart(2, '0') + ":" + String(finalSec).padStart(2, '0');
 
+    // 校正時間
+    let calTime = studycfgXML.getElementsByTagName("CalStartTime")[0].textContent;
+    let calTimeSplit = calTime.split(":");
+    // 計算startTime - calTime 如果剛好跨天的話就會出錯>.< 到時候遇到再修
+    let calSec = (Number(startTimeSplit[2]) + Number(startTimeSplit[1])*60 + Number(startTimeSplit[0])*360) - (Number(calTimeSplit[2]) + Number(calTimeSplit[1])*60 + Number(calTimeSplit[0])*360);
+    console.log(calSec);
+
     // 名字
     let name = studycfgXML.getElementsByTagName("Surname")[0].textContent;
 
@@ -313,7 +320,7 @@ export function studycfgCalculate(studycfgXML, duration){
         channelsList[channel.getElementsByTagName("Label")[0].textContent] = channel.getElementsByTagName("Filename")[0].textContent;
     }
     
-    return {startDate, name, age, patientID, sex, dob, height, weight, bmi, neck, startTime, endTime, channelsList};
+    return {startDate, name, age, patientID, sex, dob, height, weight, bmi, neck, startTime, endTime, channelsList, calSec};
 }
 
 // 最終網頁顯示與存入資料庫的固定數值

@@ -55,7 +55,7 @@ class Dataflow extends React.Component{
             sleepStage: [],
             cfg: {
                 startDate:"", name:"", age:"", patientID:"", sex:"", dob:"", height:"", 
-                weight:"", bmi:"", neck:"", startTime:"", endTime:"", totalRecordTime:""
+                weight:"", bmi:"", neck:"", startTime:"", endTime:"", totalRecordTime:"", calSec:""
             },
             epochNum: 0,
             sot: 0,
@@ -242,6 +242,7 @@ class Dataflow extends React.Component{
                 tmpCfg.neck = studycfgData.neck;
                 tmpCfg.startTime = studycfgData.startTime;
                 tmpCfg.endTime = studycfgData.endTime;
+                tmpCfg.calSec =studycfgData.calSec;
                 this.setState({cfg: tmpCfg});
 
                 let channelsList = studycfgData.channelsList;
@@ -261,7 +262,8 @@ class Dataflow extends React.Component{
             let positionReader = new FileReader();
             positionReader.onload = (file) => {
                 let position = new Int16Array(file.target.result);
-                this.setState({position: position});
+                // 去除calibration sampling rate 25
+                this.setState({position: position.slice(this.state.cfg.calSec*25, position.length)});
                 this.loadSpO2(e, channelsList);
             }
             positionReader.readAsArrayBuffer(e.target.files[positionIndex]);
@@ -277,6 +279,8 @@ class Dataflow extends React.Component{
             let spo2Reader = new FileReader();
             spo2Reader.onload = (file) => {
                 let spo2 = new Float32Array(file.target.result);
+                // 去除calibration sampling rate 1
+                spo2 = spo2.slice(this.state.cfg.calSec, spo2.length);
                 spo2 = spo2FilterCalculate(spo2);
                 this.setState({spo2: spo2});
                 this.loadPulse(e, channelsList);
@@ -294,6 +298,8 @@ class Dataflow extends React.Component{
             let pulseReader = new FileReader();
             pulseReader.onload = (file) => {
                 let pulse = new Float32Array(file.target.result);
+                // 去除calibration sampling rate 1
+                pulse = pulse.slice(this.state.cfg.calSec, pulse.length);
                 pulse = pulseFilterCalculate(pulse);
                 this.setState({pulse: pulse});
                 this.loadEventData(e);

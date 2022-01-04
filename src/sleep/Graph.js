@@ -184,7 +184,7 @@ class Graph extends React.Component{
 
         }
         let stage = this.props.sleepStage;
-        console.log(stage);
+        // stagePixels：真正epoch長度，必然小於700 pixels
         let stagePixels = Math.floor(stage.length / 120) * blockWidth + (stage.length % 120) * (blockWidth / 120);
         let randomStage = [];
         for(let i=0; i<stagePixels; i++){
@@ -269,9 +269,10 @@ class Graph extends React.Component{
             rCTX.lineWidth = "1";
             rCTX.stroke();
         }
+        
         for(let i=0; i<this.props.eventsTime.CA.length; i++){
             let eventEpoch = Math.ceil(this.props.eventsTime.CA[i] / 30);
-            let eventIndex = Math.round((eventEpoch * 700) / this.props.epochNum);
+            let eventIndex = Math.round((eventEpoch * stagePixels) / this.props.epochNum);
             rCTX.beginPath();
             rCTX.moveTo(100 + eventIndex, 12);
             rCTX.lineTo(100 + eventIndex, 35);
@@ -281,7 +282,7 @@ class Graph extends React.Component{
         }
         for(let i=0; i<this.props.eventsTime.OA.length; i++){
             let eventEpoch = Math.ceil(this.props.eventsTime.OA[i] / 30);
-            let eventIndex = Math.round((eventEpoch * 700) / this.props.epochNum);
+            let eventIndex = Math.round((eventEpoch * stagePixels) / this.props.epochNum);
             rCTX.beginPath();
             rCTX.moveTo(100 + eventIndex, 47);
             rCTX.lineTo(100 + eventIndex, 70);
@@ -291,7 +292,7 @@ class Graph extends React.Component{
         }
         for(let i=0; i<this.props.eventsTime.MA.length; i++){
             let eventEpoch = Math.ceil(this.props.eventsTime.MA[i] / 30);
-            let eventIndex = Math.round((eventEpoch * 700) / this.props.epochNum);
+            let eventIndex = Math.round((eventEpoch * stagePixels) / this.props.epochNum);
             rCTX.beginPath();
             rCTX.moveTo(100 + eventIndex, 82);
             rCTX.lineTo(100 + eventIndex, 105);
@@ -301,7 +302,7 @@ class Graph extends React.Component{
         }
         for(let i=0; i<this.props.eventsTime.OH.length; i++){
             let eventEpoch = Math.ceil(this.props.eventsTime.OH[i] / 30);
-            let eventIndex = Math.round((eventEpoch * 700) / this.props.epochNum);
+            let eventIndex = Math.round((eventEpoch * stagePixels) / this.props.epochNum);
             rCTX.beginPath();
             rCTX.moveTo(100 + eventIndex, 117);
             rCTX.lineTo(100 + eventIndex, 140);
@@ -344,8 +345,8 @@ class Graph extends React.Component{
         }
         let position = this.props.position;
         let randomPosition = [];
-        let chooseSpace = Math.floor(position.length / 700);
-        for(let i=0; i<700; i++){
+        let chooseSpace = Math.floor(position.length / stagePixels);
+        for(let i=0; i<stagePixels; i++){
             randomPosition.push(position[i*chooseSpace]);
         }
         position = null;
@@ -431,8 +432,8 @@ class Graph extends React.Component{
         }
         let pulse = this.props.pulse;
         let randomPulse = [];
-        let pulseSpace = Math.floor(pulse.length / 700);
-        for(let i=0; i<700; i++){
+        let pulseSpace = Math.floor(pulse.length / stagePixels);
+        for(let i=0; i<stagePixels; i++){
             randomPulse.push(pulse[i*pulseSpace]);
         }
         pulse = null;
@@ -440,7 +441,7 @@ class Graph extends React.Component{
         let pulselastx = 100;
         let pulselasty = (120 - randomPulse[0])*((hrHeight*5/6)/100) + 10;
         hrCTX.setLineDash([]);
-        for(let i=0; i<700; i++){
+        for(let i=0; i<stagePixels; i++){
             let pulseConvert = (120 - randomPulse[i])*((hrHeight*5/6)/100) + 10;
             if(randomPulse[i] >= 20 && randomPulse[i] <=120){
                 hrCTX.beginPath();
@@ -496,8 +497,8 @@ class Graph extends React.Component{
         }
         let spo2 = this.props.spo2;
         let randomSpo2 = [];
-        let spo2Space = Math.floor(spo2.length / 700);
-        for(let i=0; i<700; i++){
+        let spo2Space = Math.floor(spo2.length / stagePixels);
+        for(let i=0; i<stagePixels; i++){
             randomSpo2.push(spo2[i*spo2Space]);
         }
         spo2 = null;
@@ -505,7 +506,7 @@ class Graph extends React.Component{
         let spo2lastx = 100;
         let spo2lasty = 10;
         smgCTX.setLineDash([]);
-        for(let i=0; i<700; i++){
+        for(let i=0; i<stagePixels; i++){
             let spo2Convert = (100 - randomSpo2[i])*((smgHeight*5/6)/50) + 10;
             if(randomSpo2[i] >= 50 && randomSpo2[i] <= 100){
                 smgCTX.beginPath();
@@ -553,7 +554,7 @@ class Graph extends React.Component{
         let snoreTime = this.props.snoreTime.time;
         let snoreParam3 = this.props.snoreTime.param3;
         for(let i=0; i<snoreTime.length; i++){
-            let snorePoint = snoreTime[i] * (700 / (this.props.epochNum * 30));
+            let snorePoint = snoreTime[i] * (stagePixels / (this.props.epochNum * 30));
             sCTX.beginPath();
             sCTX.moveTo(100 + snorePoint, 39);
             sCTX.lineTo(100 + snorePoint, 35 - snoreParam3[i] * 10);
@@ -595,7 +596,7 @@ class Graph extends React.Component{
         let plmTime = this.props.plmGraph.time;
         let plmHigh = this.props.plmGraph.high;
         for(let i=0; i<plmTime.length; i++){
-            let plmPoint = plmTime[i] * (700 / (this.props.epochNum * 30));
+            let plmPoint = plmTime[i] * (stagePixels / (this.props.epochNum * 30));
             plmCTX.beginPath();
             plmCTX.moveTo(100 + plmPoint, 39);
             plmCTX.lineTo(100 + plmPoint, 39 - plmHigh[i]);

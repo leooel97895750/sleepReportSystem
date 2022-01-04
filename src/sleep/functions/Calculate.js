@@ -35,7 +35,7 @@ export function pulseFilterCalculate(pulse){
     }
 
     // moving average(前後端長度自適應)
-    let windows = 50;
+    let windows = 20;
     for(let i=0; i<pulseLength; i++){
         let left = (i - windows/2) < 0 ? 0 : (i - windows/2);
         let right = (i + windows/2) >= pulseLength ? pulseLength : (i + windows/2);
@@ -56,7 +56,7 @@ export function spo2FilterCalculate(spo2){
 
     // 去除artifact：抓取異常數值區域，重新賦值(前段mean)
     let spo2Mean = 90; // default value 90 避免一開頭就artifact
-    let spo2Threshold = 60; // default value 40 低於則視為artifact
+    let spo2Threshold = 40; // default value 40 低於則視為artifact
     for(let i=0; i<spo2Length; i++){
         if(spo2[i] >= spo2Threshold) spo2Mean = spo2Mean*0.9 + spo2[i]*0.1;
         else{

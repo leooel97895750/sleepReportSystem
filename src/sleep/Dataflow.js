@@ -277,7 +277,6 @@ class Dataflow extends React.Component{
             let spo2Reader = new FileReader();
             spo2Reader.onload = (file) => {
                 let spo2 = new Float32Array(file.target.result);
-                console.log(spo2);
                 spo2 = spo2FilterCalculate(spo2);
                 this.setState({spo2: spo2});
                 this.loadPulse(e, channelsList);

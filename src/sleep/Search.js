@@ -11,9 +11,6 @@ class Search extends React.Component{
         this.state = {
             data: [],
         };
-        this.sendQuery = this.sendQuery.bind(this);
-        this.csvDownload = this.csvDownload.bind(this);
-        this.jsonDownload = this.jsonDownload.bind(this);
     }
 
     selectBox(){
@@ -21,7 +18,7 @@ class Search extends React.Component{
     }
 
     // 送出查詢，並產生表格
-    sendQuery(){
+    sendQuery = () => {
         let selectValue = document.getElementById("selectBox").value;
         let fromValue = document.getElementById("fromBox").value;
         let whereValue = document.getElementById("whereBox").value;
@@ -46,7 +43,7 @@ class Search extends React.Component{
         }
     }
 
-    buildData = data => {
+    buildData = (data) => {
         return new Promise((resolve, reject) => {
         // 最後所有的資料會存在這
         let arrayData = [];
@@ -66,7 +63,7 @@ class Search extends React.Component{
         })
     
     }
-    downloadCSV = data => {
+    downloadCSV = (data) => {
         let csvContent = '';
         Array.prototype.forEach.call(data, d => {
             let dataString = d.join(',') + '\n';
@@ -82,12 +79,12 @@ class Search extends React.Component{
         link.setAttribute('download', fileName);
         link.click();
     }
-    csvDownload(){
+    csvDownload = () => {
         let data = this.state.data;
         this.buildData(data).then(data => this.downloadCSV(data));
     }
 
-    jsonDownload(){
+    jsonDownload = () => {
         // 下載的檔案名稱
         let fileName = 'json_' + (new Date()).getTime() + '.json';
 

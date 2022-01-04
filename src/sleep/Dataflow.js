@@ -66,28 +66,9 @@ class Dataflow extends React.Component{
             rem: 0,
 
         };
-        this.updateFile = this.updateFile.bind(this);
-        this.downloadReport = this.downloadReport.bind(this);
-        this.loadStageData = this.loadStageData.bind(this);
-        this.loadEventData = this.loadEventData.bind(this);
-        this.loadDataSegment = this.loadDataSegment.bind(this);
-        this.loadStudyCfg = this.loadStudyCfg.bind(this);
-        this.loadPosition = this.loadPosition.bind(this);
-        this.loadSpO2 = this.loadSpO2.bind(this);
-        this.loadPulse = this.loadPulse.bind(this);
-        this.insertGraphDataBase = this.insertGraphDataBase.bind(this);
-        this.insertReportDataBase = this.insertReportDataBase.bind(this);
-        this.insertStageDataBase = this.insertStageDataBase.bind(this);
-        this.insertEventDataBase = this.insertEventDataBase.bind(this);
-        this.insertPositionDataBase = this.insertPositionDataBase.bind(this);
-        this.isGif = this.isGif.bind(this);
-        this.downloadBox = this.downloadBox.bind(this);
-        this.downloadBoxClose = this.downloadBoxClose.bind(this);
-        this.reportList = this.reportList.bind(this);
-        this.reportListClose = this.reportListClose.bind(this);
     }
 
-    updateFile(e){
+    updateFile = (e) => {
         // 抓取patientID查詢資料庫，若有資料則load回來，若無則新增一筆並開始計算數值
         let configIndex = -1;
         for(let i=0; i<e.target.files.length; i++) if(e.target.files[i].name === "STUDYCFG.XML") configIndex = i;
@@ -157,7 +138,7 @@ class Dataflow extends React.Component{
     }
 
     // step 1. 解析睡眠階段: 尋找 "SLPSTAG.DAT"，參數:檔案event、檔案index、完成後下一個函式
-    loadStageData(e){
+    loadStageData = (e) => {
         // 有兩種檔案，可能要看LST來分別
         let slpstagIndex = -1;
         for(let i=0; i<e.target.files.length; i++) if(e.target.files[i].name === "SLPSTAG.DAT") slpstagIndex = i;
@@ -192,7 +173,7 @@ class Dataflow extends React.Component{
     
 
     // step 3. 總時間
-    loadDataSegment(e){
+    loadDataSegment = (e) => {
         let tmpCfg = {
             startDate:"", name:"", age:"", patientID:"", sex:"", dob:"", height:"", 
             weight:"", bmi:"", neck:"", startTime:"", endTime:"", totalRecordTime:""
@@ -217,7 +198,7 @@ class Dataflow extends React.Component{
     }
 
     // step 4. 解析基本資料: 尋找 "STUDYCFG.XML"
-    loadStudyCfg(e, duration, tmpCfg){
+    loadStudyCfg = (e, duration, tmpCfg) => {
         let configIndex = -1;
         for(let i=0; i<e.target.files.length; i++) if(e.target.files[i].name === "STUDYCFG.XML") configIndex = i;
         if(configIndex === -1) alert('找不到STUDYCFG.XML');
@@ -254,7 +235,7 @@ class Dataflow extends React.Component{
     }
 
     // step 5. 解析Position
-    loadPosition(e, channelsList){
+    loadPosition = (e, channelsList) => {
         let positionIndex = -1;
         for(let i=0; i<e.target.files.length; i++) if(e.target.files[i].name === channelsList.Position) positionIndex = i;
         if(positionIndex === -1) alert('找不到position ' + channelsList.Position);
@@ -271,7 +252,7 @@ class Dataflow extends React.Component{
     }
 
     // step 6. 解析SpO2
-    loadSpO2(e, channelsList){
+    loadSpO2 = (e, channelsList) => {
         let spo2Index = -1;
         for(let i=0; i<e.target.files.length; i++) if(e.target.files[i].name === channelsList.SpO2) spo2Index = i;
         if(spo2Index === -1) alert('找不到spo2 ' + channelsList.SpO2);
@@ -290,7 +271,7 @@ class Dataflow extends React.Component{
     }
 
     // step 7. 解析Pulse
-    loadPulse(e){
+    loadPulse = (e) => {
         let pulseIndex = -1;
         for(let i=0; i<e.target.files.length; i++) if(e.target.files[i].name === "CHANNEL24.DAT") pulseIndex = i;
         if(pulseIndex === -1) alert('找不到CHANNEL24.DAT');
@@ -309,7 +290,7 @@ class Dataflow extends React.Component{
     }
 
     // step 2. 解析事件
-    loadEventData(e){
+    loadEventData = (e) => {
         let eventsIndex = -1;
         for(let i=0; i<e.target.files.length; i++) if(e.target.files[i].name === "EVENTS.MDB") eventsIndex = i;
         if(eventsIndex === -1) alert('no EVENTS.MDB');
@@ -338,7 +319,7 @@ class Dataflow extends React.Component{
     }
 
     // step 9. Graph儲存
-    insertGraphDataBase(GraphData){
+    insertGraphDataBase = (GraphData) => {
         this.setState({getGraphData: 0});
         let graphUrl = "http://140.116.245.43:3000/graph?timestamp=" + this.state.timestamp;
         postJsonAPI(graphUrl, GraphData, (xhttp) => {
@@ -348,7 +329,7 @@ class Dataflow extends React.Component{
     }
 
     // step 10. database insert report
-    insertReportDataBase(){
+    insertReportDataBase = () => {
         let reportData = reportDataCalculate(this);
         console.log(reportData);
         let insertReportUrl = "http://140.116.245.43:3000/insertReport";
@@ -361,7 +342,7 @@ class Dataflow extends React.Component{
     }
 
     // step 11. bulk insert stage
-    insertStageDataBase(){
+    insertStageDataBase = () => {
         let patientIDUrl = "http://140.116.245.43:3000/patientID?patientID=" + this.state.reportData.PatientID;
         getAPI(patientIDUrl, (xhttp) => {
             let patientIDJson = JSON.parse(xhttp.responseText);
@@ -383,7 +364,7 @@ class Dataflow extends React.Component{
     }
 
     // step 12. bulk insert event
-    insertEventDataBase(){
+    insertEventDataBase = () => {
         let insertEventUrl = "http://140.116.245.43:3000/insertEvent?timestamp=" + this.state.timestamp + "&rid=" + this.state.RID;
         getAPI(insertEventUrl, (xhttp) => {
             console.log(xhttp.responseText);
@@ -392,7 +373,7 @@ class Dataflow extends React.Component{
     }
 
     // step 13. bulk insert position
-    insertPositionDataBase(){
+    insertPositionDataBase = () => {
         let randomPosition = [];
         let chooseSpace = Math.floor(this.state.position.length / this.state.epochNum);
         for(let i=0; i<this.state.epochNum; i++){
@@ -417,7 +398,7 @@ class Dataflow extends React.Component{
     }
 
     // 開啟舊報告
-    reportList(){
+    reportList = () => {
         let selectDateURL = "http://140.116.245.43:3000/selectDate";
         getAPI(selectDateURL, (xhttp) => {
             let dateJson = JSON.parse(xhttp.responseText);
@@ -439,14 +420,14 @@ class Dataflow extends React.Component{
         });
         this.setState({isReportList: 'block'});
     }
-    reportListClose(e){
+    reportListClose = (e) => {
         if(e.target.className === "reportListBackground" || e.target.className === "downloadButtonNo"){
             this.setState({isReportList: 'none'});
         }
     }
 
     // 直接從資料庫取出報告
-    loadReport(RID){
+    loadReport = (RID) => {
         console.log(RID);
         this.setState({RID: RID});
         let selectReportUrl = "http://140.116.245.43:3000/selectReport?rid=" + RID;
@@ -463,17 +444,17 @@ class Dataflow extends React.Component{
     }
 
     // 輸入報告名稱欄位顯示
-    downloadBox(){
+    downloadBox = () => {
         this.setState({isDownloadBox: 'block'});
     }
-    downloadBoxClose(e){
+    downloadBoxClose = (e) => {
         if(e.target.className === "downloadBackground" || e.target.className === "downloadButtonNo"){
             this.setState({isDownloadBox: 'none'});
         }
     }
 
     // 產生WORD並下載
-    downloadReport(){
+    downloadReport = () => {
         let filename = document.getElementById("reportFilename").value;
         if(filename !== ""){
             let wordUrl = "http://140.116.245.43:3000/word?rid=" + this.state.RID + "&filename=" + filename;
@@ -485,7 +466,7 @@ class Dataflow extends React.Component{
     }
 
     // 關閉GIF
-    isGif(e){
+    isGif = (e) => {
         let gifDisplay = "";
         if(e.target.checked === true) gifDisplay = "none"
         else gifDisplay = "inline-block";

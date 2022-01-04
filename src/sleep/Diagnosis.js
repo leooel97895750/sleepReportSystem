@@ -15,11 +15,6 @@ class Diagnosis extends React.Component{
             nowDiagnosis: "",
             nowTreatment: "",
         };
-        this.diagnosisBox = this.diagnosisBox.bind(this);
-        this.diagnosisBoxClose = this.diagnosisBoxClose.bind(this);
-        this.insertToSelected = this.insertToSelected.bind(this);
-        this.deleteFromSelected = this.deleteFromSelected.bind(this);
-        this.deleteFromSelectedByTreatment = this.deleteFromSelectedByTreatment.bind(this);
     }
 
     // 當抓到資料庫的疾病陣列資料後渲染
@@ -82,17 +77,17 @@ class Diagnosis extends React.Component{
         });
     }
 
-    diagnosisBox(){
+    diagnosisBox = () => {
         this.setState({isDiagnosisBox: 'block'});
     }
-    diagnosisBoxClose(e){
+    diagnosisBoxClose = (e) => {
         if(e.target.className === "diagnosisBackground" || e.target.className === "closeImg"){
             this.setState({isDiagnosisBox: 'none'});
         }
     }
 
     // 將選擇的疾病加入病歷中
-    insertToSelected(){
+    insertToSelected = () => {
         let diseaseList = document.getElementById("disease");
         let myDisease = document.getElementById("myDisease");
         let selectedDisease = diseaseList.selectedOptions;
@@ -117,7 +112,7 @@ class Diagnosis extends React.Component{
     }
 
     // 移除病歷
-    deleteFromSelected(){
+    deleteFromSelected = () => {
         let myDisease = document.getElementById("myDisease");
         let selectedDisease = myDisease.selectedOptions;
 
@@ -132,7 +127,7 @@ class Diagnosis extends React.Component{
     }
 
     // 由treatment移除病例
-    deleteFromSelectedByTreatment(number){
+    deleteFromSelectedByTreatment = (number) => {
         let myDisease = document.getElementById("myDisease");
         let nowDisease = this.state.nowDisease;  
         nowDisease.splice(nowDisease.indexOf(number), 1);

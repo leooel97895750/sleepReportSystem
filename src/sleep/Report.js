@@ -22,9 +22,6 @@ class Report extends React.Component{
             getDiagnosisData: 0,
             getCPartData: 0,
         };
-        this.updateEPartData = this.updateEPartData.bind(this);
-        this.updateDiagnosisData = this.updateDiagnosisData.bind(this);
-        this.updateCPartData = this.updateCPartData.bind(this);
     }
     // 偵測DataFlow呼叫回傳報告數值
     componentDidUpdate(prevProps){
@@ -45,7 +42,7 @@ class Report extends React.Component{
     }
 
     // getData的子元件回傳函式
-    updateEPartData(EPartData){
+    updateEPartData = (EPartData) => {
         let finalReportData = this.state.finalReportData;
         finalReportData.EPartData = EPartData;
         this.setState({
@@ -53,7 +50,7 @@ class Report extends React.Component{
             finalReportData: finalReportData,
         });
     }
-    updateDiagnosisData(DiagnosisData){
+    updateDiagnosisData = (DiagnosisData) => {
         let finalReportData = this.state.finalReportData;
         finalReportData.DiagnosisData = DiagnosisData;
         this.setState({
@@ -61,7 +58,7 @@ class Report extends React.Component{
             finalReportData: finalReportData,
         });
     }
-    updateCPartData(CPartData){
+    updateCPartData = (CPartData) => {
         let finalReportData = this.state.finalReportData;
         finalReportData.CPartData = CPartData;
         this.setState({

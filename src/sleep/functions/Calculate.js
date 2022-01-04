@@ -109,11 +109,6 @@ export function eventCalculate(dataflow, events){
     let plmTime = [];
     let plmContinuous = 0;
     let plm4Array = [];
-    let plmSerial = 0;
-    let plmLastSecond = 0;
-    let tmpPlmTime = [];
-    let tmpPlmStage = [];
-    let startPlm = 0;
 
     let snoreTime ={'time':[], 'param3':[]};
 
@@ -173,7 +168,7 @@ export function eventCalculate(dataflow, events){
         // Limb movement(Left)(PLM)、Limb movement(Right)(PLM)
         else if(event.EVT_TYPE === 12 || event.EVT_TYPE === 13){
             plmCount.lm += 1;
-            if(dfs.sleepStage[Math.floor(event.EVT_TIME / 30)] === 5){
+            if(dfs.sleepStage[Math.ceil(event.EVT_TIME / 30)] === 5){
                 plmCount.remLm += 1;
             }
             else plmCount.nremLm += 1;
@@ -187,22 +182,19 @@ export function eventCalculate(dataflow, events){
                     // 進入PLM判斷
                     if((Number(events[j].EVT_TIME) - Number(event.EVT_TIME)) <= 90){
                         plmContinuous = 1;
-                        
                         //console.log("進入90秒");
                         // 算!
                         plm4Array.push(Math.ceil(event.EVT_TIME / 30));
                         //console.log(event.EVT_TIME, event.EVT_LENGTH);
                     }
-                    // 脫離PLM判斷
+                    // 脫離PLM判斷 
                     else{
                         // 斷掉的第一個也算在上一組PLM裡面
                         if(plmContinuous === 1){
-                            
                             //console.log("雖然脫離了但還是算");
                             // 算!
                             plm4Array.push(Math.ceil(event.EVT_TIME / 30));
                             //console.log(event.EVT_TIME, event.EVT_LENGTH);
-
                             plmContinuous = 0;
                         }
                         else{
@@ -227,12 +219,9 @@ export function eventCalculate(dataflow, events){
                     if(plmContinuous === 0){
                         plm4Array = [];
                     }
-
-                    
                     break;
                 }
             }
-
         }
         // Obstructive Hypopnea
         else if(event.EVT_TYPE === 29){
@@ -256,7 +245,16 @@ export function eventCalculate(dataflow, events){
     eventsCount.LA = eventsCount.LA.toFixed(0);
     eventsCount.LH = eventsCount.LH.toFixed(0);
 
+    // 計算PLM在睡眠階段的分布
     console.log(plmCount, plmTime);
+    plmCount.plm = plmTime.length;
+    for(let i=0; i<plmTime.length; i++){
+        if(dfs.sleepStage[plmTime[i]] === 5){
+            plmCount.remPlm += 1;
+        }
+        else plmCount.nremPlm += 1;
+    }
+
     return {eventsCount, eventsTime, ahiIndex, plmCount, plmTime, snoreTime};
 }
 

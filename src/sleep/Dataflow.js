@@ -241,11 +241,42 @@ class Dataflow extends React.Component{
             let positionReader = new FileReader();
             positionReader.onload = (file) => {
                 let position = new Int16Array(file.target.result);
+                position = position.slice(this.state.cfg.calSec*25, position.length);
+                // console.log(position);
                 // 去除calibration sampling rate 25
-                this.setState({position: position.slice(this.state.cfg.calSec*25, position.length)});
-                this.loadPulse(e, channelsList);
+                this.setState({position: position});
+                this.loadUnknown(e, channelsList);
             }
             positionReader.readAsArrayBuffer(e.target.files[positionIndex]);
+        }
+    }
+
+    // step ?. 解析神奇檔案
+    loadUnknown = (e, channelsList) => {
+        let unknownIndex = -1;
+        for(let i=0; i<e.target.files.length; i++) if(e.target.files[i].name === "DCH7A2C.DAT") unknownIndex = i;
+        if(unknownIndex === -1){
+            alert('找不到神奇檔案');
+            this.loadPulse(e, channelsList);
+        }
+        else{
+            let unknownReader = new FileReader();
+            unknownReader.onload = (file) => {
+                // let ui8 = new Uint8Array(file.target.result);
+                // console.log(ui8);
+                // let i8 = new Int8Array(file.target.result);
+                // console.log(i8);
+                // let i16 = new Int16Array(file.target.result);
+                // console.log(i16);
+                // let i32 = new Int32Array(file.target.result);
+                // console.log(i32);
+                // let f32 = new Float32Array(file.target.result);
+                // console.log(f32);
+                // let f64 = new Float64Array(file.target.result);
+                // console.log(f64);
+                this.loadPulse(e, channelsList);
+            }
+            unknownReader.readAsArrayBuffer(e.target.files[unknownIndex]);
         }
     }
 
@@ -253,16 +284,23 @@ class Dataflow extends React.Component{
     loadPulse = (e, channelsList) => {
         let pulseIndex = -1;
         for(let i=0; i<e.target.files.length; i++) if(e.target.files[i].name === "CHANNEL24.DAT") pulseIndex = i;
-        if(pulseIndex === -1) alert('找不到CHANNEL24.DAT');
+        if(pulseIndex === -1) alert("CHANNEL24.DAT");
         else{
             let pulseReader = new FileReader();
             pulseReader.onload = (file) => {
                 let pulse = new Float32Array(file.target.result);
+                // console.log(pulse);
                 // 去除calibration sampling rate 1
                 pulse = pulse.slice(this.state.cfg.calSec, pulse.length);
+                // let newPulse = [];
+                // for(let j=1; j<pulse.length; j+=2){
+                //     newPulse.push(pulse[j]);
+                // }
+                // newPulse = pulseFilterCalculate(newPulse);
                 pulse = pulseFilterCalculate(pulse);
-                this.setState({pulse: pulse});
-                this.loadEventData(e, channelsList);
+                this.setState({pulse: pulse}, () => {
+                    this.loadEventData(e, channelsList);
+                });
             }
             pulseReader.readAsArrayBuffer(e.target.files[pulseIndex]);
         }

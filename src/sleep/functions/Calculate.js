@@ -34,12 +34,13 @@ export function pulseFilterCalculate(pulse){
         else pulse[i] = pulseMean;
     }
 
-    // moving average(前後端長度自適應) 這裡怪怪的
-    let windows = 2;
+    // moving average(前後端長度自適應)
+    let windows = 10;
     for(let i=0; i<pulseLength; i++){
         let left = (i - windows/2) < 0 ? 0 : (i - windows/2);
         let right = (i + windows/2) >= pulseLength ? pulseLength : (i + windows/2);
         let windowsValue = pulse.slice(left, right);
+        // console.log(left, right, windowsValue);
         let sum = 0;
         for(let j=0; j<windowsValue.length; j++){
             sum += windowsValue[j];
@@ -47,6 +48,7 @@ export function pulseFilterCalculate(pulse){
         let avg = sum / windowsValue.length;
         newPulse.push(avg);
     }
+    // console.log(newPulse);
     return newPulse;
 }
 
@@ -87,19 +89,19 @@ export function spo2FilterCalculate(spo2, spo2Artifact){
 function ahiIndexCalculate(event, dfs, ahiIndex){
 
     let epoch = Math.floor(event.EVT_TIME / 30);
-    let positionPoint = Math.floor(event.EVT_TIME * 25);
+    let positionPoint = Math.round(event.EVT_TIME * 25);
     let nowStage = dfs.sleepStage[epoch];
     let nowPosition = dfs.position[positionPoint];
-    if(nowPosition === 1) ahiIndex.AHI_Supine += 1;
-    if(nowPosition !== 1) ahiIndex.AHI_NSupine += 1;
+    if(nowPosition === 1 && nowStage !== 10) ahiIndex.AHI_Supine += 1;
+    if(nowPosition !== 1 && nowStage !== 10) ahiIndex.AHI_NSupine += 1;
     if(nowStage === 5) ahiIndex.AHI_REM += 1;
-    if(nowStage !== 5) ahiIndex.AHI_NREM += 1;
-    if(nowPosition === 2) ahiIndex.AHI_Left += 1;
-    if(nowPosition === 0) ahiIndex.AHI_Right += 1;
+    if(nowStage !== 5 && nowStage !== 10) ahiIndex.AHI_NREM += 1;
+    if(nowPosition === 2 && nowStage !== 10) ahiIndex.AHI_Left += 1;
+    if(nowPosition === 0 && nowStage !== 10) ahiIndex.AHI_Right += 1;
     if(nowPosition === 1 && nowStage === 5) ahiIndex.AHI_REM_Supine += 1;
     if(nowPosition !== 1 && nowStage === 5) ahiIndex.AHI_REM_NSupine += 1;
-    if(nowPosition === 1 && nowStage !== 5) ahiIndex.AHI_NREM_Supine += 1;
-    if(nowPosition !== 1 && nowStage !== 5) ahiIndex.AHI_NREM_NSupine += 1;
+    if(nowPosition === 1 && nowStage !== 5 && nowStage !== 10) ahiIndex.AHI_NREM_Supine += 1;
+    if(nowPosition !== 1 && nowStage !== 5 && nowStage !== 10) ahiIndex.AHI_NREM_NSupine += 1;
 
     return ahiIndex;
 }
@@ -353,6 +355,17 @@ export function reportDataCalculate(dataflow){
         if(dfs.position[i] === 1 && dfs.sleepStage[Math.floor(i/(25*30))] !== 5 && dfs.sleepStage[Math.floor(i/(25*30))] !== 10) ahiIndexTime.nremSupine += 1;
         if(dfs.position[i] !== 1 && dfs.sleepStage[Math.floor(i/(25*30))] !== 5 && dfs.sleepStage[Math.floor(i/(25*30))] !== 10) ahiIndexTime.nremNsupine += 1;
     }
+    console.log(ahiIndexTime);
+    let AHI_Supine = (dfs.ahiIndex.AHI_Supine || ahiIndexTime.supine) === 0 ? 0 : (dfs.ahiIndex.AHI_Supine / (ahiIndexTime.supine / (25 * 60 * 60)));
+    let AHI_NSupine = (dfs.ahiIndex.AHI_NSupine || ahiIndexTime.nsupine) === 0 ? 0 : (dfs.ahiIndex.AHI_NSupine / (ahiIndexTime.nsupine / (25 * 60 * 60)))
+    let AHI_REM = (dfs.ahiIndex.AHI_REM || dfs.rem) === 0 ? 0 : (dfs.ahiIndex.AHI_REM / (dfs.rem / 2) * 60)
+    let AHI_NREM = (dfs.ahiIndex.AHI_NREM || (dfs.n1 + dfs.n2 + dfs.n3)) === 0 ? 0 : (dfs.ahiIndex.AHI_NREM / ((dfs.n1 + dfs.n2 + dfs.n3) / 2) * 60)
+    let AHI_Left = (dfs.ahiIndex.AHI_Left || ahiIndexTime.left) === 0 ? 0 : (dfs.ahiIndex.AHI_Left / (ahiIndexTime.left / (25 * 60 * 60)))
+    let AHI_Right = (dfs.ahiIndex.AHI_Right || ahiIndexTime.right) === 0 ? 0 : (dfs.ahiIndex.AHI_Right / (ahiIndexTime.right / (25 * 60 * 60)))
+    let AHI_REM_Supine = (dfs.ahiIndex.AHI_REM_Supine || ahiIndexTime.remSupine) === 0 ? 0 : (dfs.ahiIndex.AHI_REM_Supine / (ahiIndexTime.remSupine / (25 * 60 * 60)))
+    let AHI_REM_NSupine = (dfs.ahiIndex.AHI_REM_NSupine || ahiIndexTime.remNsupine) === 0 ? 0 : (dfs.ahiIndex.AHI_REM_NSupine / (ahiIndexTime.remNsupine / (25 * 60 * 60)))
+    let AHI_NREM_Supine = (dfs.ahiIndex.AHI_NREM_Supine || ahiIndexTime.nremSupine) === 0 ? 0 : (dfs.ahiIndex.AHI_NREM_Supine / (ahiIndexTime.nremSupine / (25 * 60 * 60)))
+    let AHI_NREM_NSupine = (dfs.ahiIndex.AHI_NREM_NSupine || ahiIndexTime.nremNsupine) === 0 ? 0 : (dfs.ahiIndex.AHI_NREM_NSupine / (ahiIndexTime.nremNsupine / (25 * 60 * 60)))
 
     // 計算心率 (暫時用channel24來算 sample rate 1)
     let heartRate = {'MS':0, 'MSC':0, 'MR': 0, 'MRC':0, 'MN':0, 'MNC':0, 'LS':10000, 'LR':10000, 'LN':10000, 'HS':0, 'HR':0, 'HN':0};
@@ -429,16 +442,16 @@ export function reportDataCalculate(dataflow){
         OI: (evn.OA / ((dfs.epochNum - dfs.wake) / 2) * 60).toFixed(1), 
         CI: (evn.CA / ((dfs.epochNum - dfs.wake) / 2) * 60).toFixed(1), 
         MI: (evn.MA / ((dfs.epochNum - dfs.wake) / 2) * 60).toFixed(1), 
-        AHI_Supine: (dfs.ahiIndex.AHI_Supine / (ahiIndexTime.supine / (25 * 60 * 60))).toFixed(1), //時間除的不對
-        AHI_NSupine: (dfs.ahiIndex.AHI_NSupine / (ahiIndexTime.nsupine / (25 * 60 * 60))).toFixed(1),
-        AHI_REM: (dfs.ahiIndex.AHI_REM / (dfs.rem / 2) * 60).toFixed(1),
-        AHI_NREM: (dfs.ahiIndex.AHI_NREM / ((dfs.n1 + dfs.n2 + dfs.n3) / 2) * 60).toFixed(1),
-        AHI_Left: (dfs.ahiIndex.AHI_Left / (ahiIndexTime.left / (25 * 60 * 60))).toFixed(1),
-        AHI_Right: (dfs.ahiIndex.AHI_Right / (ahiIndexTime.right / (25 * 60 * 60))).toFixed(1),
-        AHI_REM_Supine: (dfs.ahiIndex.AHI_REM_Supine / (ahiIndexTime.remSupine / (25 * 60 * 60))).toFixed(1),
-        AHI_REM_NSupine: (dfs.ahiIndex.AHI_REM_NSupine / (ahiIndexTime.remNsupine / (25 * 60 * 60))).toFixed(1),
-        AHI_NREM_Supine: (dfs.ahiIndex.AHI_NREM_Supine / (ahiIndexTime.nremSupine / (25 * 60 * 60))).toFixed(1),
-        AHI_NREM_NSupine: (dfs.ahiIndex.AHI_NREM_NSupine / (ahiIndexTime.nremNsupine / (25 * 60 * 60))).toFixed(1),
+        AHI_Supine: AHI_Supine.toFixed(1),
+        AHI_NSupine: AHI_NSupine.toFixed(1),
+        AHI_REM: AHI_REM.toFixed(1),
+        AHI_NREM: AHI_NREM.toFixed(1),
+        AHI_Left: AHI_Left.toFixed(1),
+        AHI_Right: AHI_Right.toFixed(1),
+        AHI_REM_Supine: AHI_REM_Supine.toFixed(1),
+        AHI_REM_NSupine: AHI_REM_NSupine.toFixed(1),
+        AHI_NREM_Supine: AHI_NREM_Supine.toFixed(1),
+        AHI_NREM_NSupine: AHI_NREM_NSupine.toFixed(1),
         StartTime: dfs.cfg.startTime, 
         EndTime: dfs.cfg.endTime,
         TotalRecordTime: dfs.cfg.totalRecordTime, 

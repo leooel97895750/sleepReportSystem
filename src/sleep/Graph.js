@@ -430,18 +430,14 @@ class Graph extends React.Component{
             hrCTX.lineWidth = "1";
             hrCTX.stroke();
         }
+
+        // 這裡的pulse會畫出wake時的心率，計算最低最高心率時不會
         let pulse = this.props.pulse;
-        let m = 0;
-        for(let i=0; i<pulse.length; i++){
-            if(pulse[i] > m) m= pulse[i];
-        }
-        console.log(m);
         let randomPulse = [];
         let pulseSpace = Math.floor(pulse.length / stagePixels);
         for(let i=0; i<stagePixels; i++){
             randomPulse.push(pulse[i*pulseSpace]);
         }
-        console.log(randomPulse);
         
         let pulselastx = 100;
         let pulselasty = (120 - randomPulse[0])*((hrHeight*5/6)/100) + 10;

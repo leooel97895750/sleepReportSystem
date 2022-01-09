@@ -30,7 +30,7 @@ class Graph extends React.Component{
                 Sound_path: this.props.reportData.Sound_path,
                 PLM_path: this.props.reportData.PLM_path,
             };
-            let getGrpahUrl = "http://140.116.245.43:3000/getGraph";
+            let getGrpahUrl = this.props.apiURL + "/getGraph";
             postJsonAPI(getGrpahUrl, getGraphData, (xhttp) => {
                 let getGrpahJson = JSON.parse(xhttp.responseText);
 

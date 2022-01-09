@@ -25,7 +25,7 @@ class Search extends React.Component{
         let sortValue = document.getElementById("sortBox").value;
         let limitValue = document.getElementById("limitBox").value;
         if(selectValue !== "" && fromValue !== "" && limitValue !== ""){
-            let selectEveryUrl = "http://140.116.245.43:3000/selectEvery";
+            let selectEveryUrl = this.props.apiURL + "/selectEvery";
             let queryData = {
                 selectValue: selectValue,
                 fromValue: fromValue,

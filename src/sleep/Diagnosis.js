@@ -70,7 +70,7 @@ class Diagnosis extends React.Component{
         this.setState({inputReportData: inputReportData}, () => {
             // 更新資料庫
             inputReportData['RID'] = this.props.RID;
-            let updateDiagnosisReport = "http://140.116.245.43:3000/updateDiagnosisReport";
+            let updateDiagnosisReport = this.props.apiURL + "/updateDiagnosisReport";
             postJsonAPI(updateDiagnosisReport, inputReportData, (xhttp) => {
                 console.log(xhttp.responseText);
             });

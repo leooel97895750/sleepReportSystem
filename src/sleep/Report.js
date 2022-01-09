@@ -84,6 +84,7 @@ class Report extends React.Component{
                     
                     {/* 英文版 */}
                     <EPart
+                        apiURL = {this.props.apiURL}
                         RID = {this.props.RID}
                         getEPartData = {this.state.getEPartData}
                         updateEPartData = {this.updateEPartData}
@@ -93,6 +94,7 @@ class Report extends React.Component{
                     {/* Graphic summary */}
                     <br/><br/>
                     <Graph 
+                        apiURL = {this.props.apiURL}
                         getGraphData = {this.props.getGraphData}
                         graphExist = {this.props.graphExist}
                         insertGraphDataBase = {this.props.insertGraphDataBase}
@@ -112,6 +114,7 @@ class Report extends React.Component{
 
                     <br/><br/>
                     <Diagnosis
+                        apiURL = {this.props.apiURL}
                         RID = {this.props.RID}
                         reportData = {this.props.reportData}
                         getDiagnosisData = {this.state.getDiagnosisData}
@@ -133,6 +136,7 @@ class Report extends React.Component{
 
                     {/* 中文版 */}
                     <CPart
+                        apiURL = {this.props.apiURL}
                         getCPartData = {this.state.getCPartData}
                         updateCPartData = {this.updateCPartData}
                         reportData = {this.props.reportData}

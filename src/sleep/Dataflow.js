@@ -83,7 +83,7 @@ class Dataflow extends React.Component{
                 let rawStartDate = patientIDXML.getElementsByTagName("StartDate")[0].textContent.split("/");
                 let startDate = rawStartDate[2] + "/" + String(Number(rawStartDate[1])) + "/" + String(Number(rawStartDate[0]));
 
-                let patientIDUrl = "http://140.116.245.43:3000/patientID?patientID=" + patientID + ":" + startDate;
+                let patientIDUrl = this.props.apiURL + "/patientID?patientID=" + patientID + ":" + startDate;
                 getAPI(patientIDUrl, (xhttp) => {
                     let patientIDJson = JSON.parse(xhttp.responseText);
 
@@ -91,7 +91,7 @@ class Dataflow extends React.Component{
                         alert('有資料');
                         let RID = patientIDJson[0].RID;
                         this.setState({RID: RID});
-                        let selectReportUrl = "http://140.116.245.43:3000/selectReport?rid=" + RID;
+                        let selectReportUrl = this.props.apiURL + "/selectReport?rid=" + RID;
                         getAPI(selectReportUrl, (xhttp) => {
                             let selectReportJson = JSON.parse(xhttp.responseText);
                             this.setState({
@@ -312,7 +312,7 @@ class Dataflow extends React.Component{
         for(let i=0; i<e.target.files.length; i++) if(e.target.files[i].name === "EVENTS.MDB") eventsIndex = i;
         if(eventsIndex === -1) alert('no EVENTS.MDB');
         else{
-            let mdbUrl = "http://140.116.245.43:3000/mdb?timestamp=" + this.state.timestamp;
+            let mdbUrl = this.props.apiURL + "/mdb?timestamp=" + this.state.timestamp;
             let mdbData = new FormData();
             mdbData.append('file', e.target.files[eventsIndex]);
             postMdbAPI(mdbUrl, mdbData, (xhttp) => {
@@ -360,7 +360,7 @@ class Dataflow extends React.Component{
     // step 8. Graph儲存
     insertGraphDataBase = (GraphData) => {
         this.setState({getGraphData: 0});
-        let graphUrl = "http://140.116.245.43:3000/graph?timestamp=" + this.state.timestamp;
+        let graphUrl = this.props.apiURL + "/graph?timestamp=" + this.state.timestamp;
         postJsonAPI(graphUrl, GraphData, (xhttp) => {
             console.log(xhttp.responseText);
             this.insertReportDataBase();
@@ -370,7 +370,7 @@ class Dataflow extends React.Component{
     // step 9. database insert report
     insertReportDataBase = () => {
         let reportData = reportDataCalculate(this);
-        let insertReportUrl = "http://140.116.245.43:3000/insertReport";
+        let insertReportUrl = this.props.apiURL + "/insertReport";
         postJsonAPI(insertReportUrl, reportData, (xhttp) => {
             console.log(xhttp.responseText);
             this.setState({reportData: reportData}, () => {
@@ -381,13 +381,13 @@ class Dataflow extends React.Component{
 
     // step 10. bulk insert stage
     insertStageDataBase = () => {
-        let patientIDUrl = "http://140.116.245.43:3000/patientID?patientID=" + this.state.reportData.PatientID;
+        let patientIDUrl = this.props.apiURL + "/patientID?patientID=" + this.state.reportData.PatientID;
         getAPI(patientIDUrl, (xhttp) => {
             let patientIDJson = JSON.parse(xhttp.responseText);
             let RID = patientIDJson[0].RID;
 
             this.setState({RID: RID}, () => {
-                let insertStageUrl = "http://140.116.245.43:3000/insertStage";
+                let insertStageUrl = this.props.apiURL + "/insertStage";
                 let stageData = {
                     RID: this.state.RID,
                     stage: Array.from(this.state.sleepStage),
@@ -403,7 +403,7 @@ class Dataflow extends React.Component{
 
     // step 11. bulk insert event
     insertEventDataBase = () => {
-        let insertEventUrl = "http://140.116.245.43:3000/insertEvent?timestamp=" + this.state.timestamp + "&rid=" + this.state.RID;
+        let insertEventUrl = this.props.apiURL + "/insertEvent?timestamp=" + this.state.timestamp + "&rid=" + this.state.RID;
         getAPI(insertEventUrl, (xhttp) => {
             console.log(xhttp.responseText);
             this.insertPositionDataBase();
@@ -417,7 +417,7 @@ class Dataflow extends React.Component{
         for(let i=0; i<this.state.epochNum; i++){
             randomPosition.push(this.state.position[i*chooseSpace]);
         }
-        let insertPositionUrl = "http://140.116.245.43:3000/insertPosition";
+        let insertPositionUrl = this.props.apiURL + "/insertPosition";
         let positionData = {
             RID: this.state.RID,
             position: randomPosition,
@@ -437,7 +437,7 @@ class Dataflow extends React.Component{
 
     // 開啟舊報告
     reportList = () => {
-        let selectDateURL = "http://140.116.245.43:3000/selectDate";
+        let selectDateURL = this.props.apiURL + "/selectDate";
         getAPI(selectDateURL, (xhttp) => {
             let dateJson = JSON.parse(xhttp.responseText);
 
@@ -468,7 +468,7 @@ class Dataflow extends React.Component{
     loadReport = (RID) => {
         console.log(RID);
         this.setState({RID: RID});
-        let selectReportUrl = "http://140.116.245.43:3000/selectReport?rid=" + RID;
+        let selectReportUrl = this.props.apiURL + "/selectReport?rid=" + RID;
         getAPI(selectReportUrl, (xhttp) => {
             let selectReportJson = JSON.parse(xhttp.responseText);
             this.setState({
@@ -495,7 +495,7 @@ class Dataflow extends React.Component{
     downloadReport = () => {
         let filename = document.getElementById("reportFilename").value;
         if(filename !== ""){
-            let wordUrl = "http://140.116.245.43:3000/word?rid=" + this.state.RID + "&filename=" + filename;
+            let wordUrl = this.props.apiURL + "/word?rid=" + this.state.RID + "&filename=" + filename;
             getWordAPI(wordUrl, filename);
             this.setState({isDownloadBox: 'none'});
             console.log(filename);
@@ -612,6 +612,7 @@ class Dataflow extends React.Component{
 
                 <Report 
                     RID = {this.state.RID}
+                    apiURL = {this.props.apiURL}
                     display = {this.state.isLoad ? 'block' : 'none'}
                     downloadReport = {this.downloadReport}
                     graphExist = {this.state.graphExist}

@@ -40,7 +40,7 @@ class EPart extends React.Component{
             // 更新資料庫
             console.log(this.props.RID);
             inputReportData['RID'] = this.props.RID;
-            let updateEPartReportUrl = "http://140.116.245.43:3000/updateEPartReport";
+            let updateEPartReportUrl = this.props.apiURL + "/updateEPartReport";
             postJsonAPI(updateEPartReportUrl, inputReportData, (xhttp) => {
                 console.log(xhttp.responseText);
             });

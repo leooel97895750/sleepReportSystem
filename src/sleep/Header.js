@@ -41,26 +41,7 @@ class Header extends React.Component{
             console.log('false');
         }
     }
-    // getRandomString(){
-    //     return Math.random().toString(36).substring(2, 15);
-    // }
-      
-    // isOnline = async () => {
-    //     if (!window.navigator.onLine) return false;
-    //     // avoid CORS errors with a request to your own origin
-    //     const url = new URL(window.location.origin);
-    //     console.log(url);
-    //     // random value to prevent cached responses
-    //     url.searchParams.set('rand', this.getRandomString());
-    //     try{
-    //         const response = await fetch(url.toString(), { method: 'HEAD' });
-    //         console.log(response);
-    //         return true;
-    //     } 
-    //     catch{
-    //         return false;
-    //     }
-    // }
+    
     // 點擊切換報告系統、查詢系統
     changePage(pageNum){
         this.setState({

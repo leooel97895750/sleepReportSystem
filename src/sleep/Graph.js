@@ -350,6 +350,7 @@ class Graph extends React.Component{
             randomPosition.push(position[i*chooseSpace]);
         }
         position = null;
+        console.log(randomPosition);
         // R:nul(0), B:soh(1), L:stx(2), F:etx(3), U:eot(4)
         let lastx = 100;
         let lasty = 0;

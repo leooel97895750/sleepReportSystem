@@ -28,7 +28,7 @@ export function pulseFilterCalculate(pulse){
 
     // 去除artifact：抓取異常數值區域，重新賦值(前段mean)
     let pulseMean = 90; // default value 90 避免一開頭就artifact
-    let bpmThreshold = 40; // default value 40 低於則視為artifact
+    let bpmThreshold = 10; // default value 10 低於則視為artifact
     for(let i=0; i<pulseLength; i++){
         if(pulse[i] >= bpmThreshold) pulseMean = pulseMean*0.9 + pulse[i]*0.1;
         else pulse[i] = pulseMean;
@@ -69,7 +69,7 @@ export function spo2FilterCalculate(spo2, spo2Artifact){
     }
 
     let spo2Mean = 90; // default value 90 避免一開頭就artifact
-    let spo2Threshold = 40; // default value 40 低於則視為artifact
+    let spo2Threshold = 10; // default value 10 低於則視為artifact
     for(let i=0; i<spo2Length; i++){
         if(spo2[i] >= spo2Threshold) spo2Mean = spo2Mean*0.9 + spo2[i]*0.1;
         else{

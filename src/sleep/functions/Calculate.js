@@ -329,7 +329,9 @@ export function studycfgCalculate(studycfgXML, duration){
     let channels = studycfgXML.getElementsByTagName("Channels")[0]
     for(let i=0; i<channels.childElementCount; i++){
         let channel = channels.getElementsByTagName("Channel")[i];
-        channelsList[channel.getElementsByTagName("Label")[0].textContent] = channel.getElementsByTagName("Filename")[0].textContent;
+        if(channelsList[channel.getElementsByTagName("Label")[0].textContent] !== ""){
+            channelsList[channel.getElementsByTagName("Label")[0].textContent] = channel.getElementsByTagName("Filename")[0].textContent;
+        }
     }
     
     return {startDate, name, age, patientID, sex, dob, height, weight, bmi, neck, startTime, endTime, channelsList, calSec};

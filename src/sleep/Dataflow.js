@@ -53,6 +53,7 @@ class Dataflow extends React.Component{
             pulse: [],
             spo2: [],
             position: [],
+            newPosition: [],
             sleepStage: [],
             cfg: {
                 startDate:"", name:"", age:"", patientID:"", sex:"", dob:"", height:"", 
@@ -270,19 +271,21 @@ class Dataflow extends React.Component{
                 console.log(hexData);
                 let newPosition = [];
                 for(let i=0; i<hexData.length; i+=66){
-                    newPosition.push(hexData[i]);
+                    newPosition.push(Number(hexData[i]));
                 }
                 console.log(newPosition);
-                this.loadPulse(e, channelsList);
+                this.setState({newPosition: newPosition}, () => {
+                    this.loadPulse(e, channelsList);
+                });
             }
             unknownReader.readAsArrayBuffer(e.target.files[unknownIndex]);
         }
     }
 
-    // step 5. 解析Pulse
+    // step 5. 解析Pulse 還是不能直接使用CHANNEL24.DAT，有例外，要從channelsList中抓取檔名
     loadPulse = (e, channelsList) => {
         let pulseIndex = -1;
-        for(let i=0; i<e.target.files.length; i++) if(e.target.files[i].name === "CHANNEL24.DAT") pulseIndex = i;
+        for(let i=0; i<e.target.files.length; i++) if(e.target.files[i].name === channelsList.Pulse) pulseIndex = i;
         if(pulseIndex === -1) alert("CHANNEL24.DAT");
         else{
             let pulseReader = new FileReader();
@@ -625,7 +628,7 @@ class Dataflow extends React.Component{
                     endTime = {this.state.reportData.EndTime}
                     epochNum = {this.state.epochNum}
                     sleepStage = {this.state.sleepStage}
-                    position = {this.state.position}
+                    position = {this.state.newPosition}
                     spo2 = {this.state.spo2}
                     pulse = {this.state.pulse}
                     sound = {this.state.sound}

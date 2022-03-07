@@ -58,12 +58,12 @@ class Treatment extends React.Component{
 
                 if(nowDisease[i] === '1'){
                     dText.value = dText.value + dchangeLine + "Sleep-disordered breathing (G47.8).";
-                    this.insertTreatment(ol, "span", titleStyle, "Sleep-disordered breathing (G47.8):");
+                    // this.insertTreatment(ol, "span", titleStyle, "Sleep-disordered breathing (G47.8):");
                     this.insertTreatment(ol, "li", liStyle, "Obstructive sleep apnea is not likely.");
                 }
                 else if(nowDisease[i] === '2'){
                     dText.value = dText.value + dchangeLine + "Snoring (R06.83).";
-                    this.insertTreatment(ol, "span", titleStyle, "Snoring (R06.83):");
+                    // this.insertTreatment(ol, "span", titleStyle, "Snoring (R06.83):");
                     this.insertTreatment(ol, "li", liStyle, "Obstructive sleep apnea hypopnea is not likely.");
                     this.insertTreatment(ol, "li", liStyle, "Body weight control.");
                     this.insertTreatment(ol, "li", liStyle, "Further treatment with mandibular advancement device or surgery may be considered, if the patient is concerned about snoring.");
@@ -76,7 +76,7 @@ class Treatment extends React.Component{
                     } 
                     else if(condition === "c1" || condition === "a1"){
                         dText.value = dText.value + dchangeLine + "Obstructive sleep hypopnea (Mild) (G47.33).";
-                        this.insertTreatment(ol, "span", titleStyle, "Obstructive sleep hypopnea (Mild) (G47.33):");
+                        // this.insertTreatment(ol, "span", titleStyle, "Obstructive sleep hypopnea (Mild) (G47.33):");
                         this.insertTreatment(ol, "li", liStyle, "Body weight control.");
                         this.insertTreatment(ol, "li", liStyle, "Further treatment of mandibular advancement device or myofunctional therapy or surgery may be considered.");
                         this.insertTreatment(ol, "li", liStyle, "AHI (REM / Non-REM) > 2, good surgical improvement can be predicted.");
@@ -84,7 +84,7 @@ class Treatment extends React.Component{
                     }
                     else if(condition === "c2" || condition === "a2"){
                         dText.value = dText.value + dchangeLine + "Obstructive sleep hypopnea (Moderate) (G47.33).";
-                        this.insertTreatment(ol, "span", titleStyle, "Obstructive sleep hypopnea (Moderate) (G47.33):");
+                        // this.insertTreatment(ol, "span", titleStyle, "Obstructive sleep hypopnea (Moderate) (G47.33):");
                         this.insertTreatment(ol, "li", liStyle, "Body weight control.");
                         this.insertTreatment(ol, "li", liStyle, "Further treatment of CPAP or mandibular advancement device or myofunctional therapy or surgery may be considered.");
                         this.insertTreatment(ol, "li", liStyle, "AHI (REM / Non-REM) > 2, good surgical improvement can be predicted.");
@@ -92,7 +92,7 @@ class Treatment extends React.Component{
                     }
                     else if(condition === "c3" || condition === "a3"){
                         dText.value = dText.value + dchangeLine + "Obstructive sleep hypopnea (Severe) (G47.33).";
-                        this.insertTreatment(ol, "span", titleStyle, "Obstructive sleep hypopnea (Severe) (G47.33):");
+                        // this.insertTreatment(ol, "span", titleStyle, "Obstructive sleep hypopnea (Severe) (G47.33):");
                         this.insertTreatment(ol, "li", liStyle, "Body weight control.");
                         this.insertTreatment(ol, "li", liStyle, "Further treatment of CPAP or surgery may be considered.");
                         this.insertTreatment(ol, "li", liStyle, "AHI > 60, AHI (REM / Non-REM) < 2, limited surgical improvement can be predicted.");
@@ -107,7 +107,7 @@ class Treatment extends React.Component{
                     } 
                     else if(condition === "c1" || condition === "a1"){
                         dText.value = dText.value + dchangeLine + "Obstructive sleep apnea hypopnea (Mild) (G47.33).";
-                        this.insertTreatment(ol, "span", titleStyle, "Obstructive sleep apnea hypopnea (Mild) (G47.33):");
+                        // this.insertTreatment(ol, "span", titleStyle, "Obstructive sleep apnea hypopnea (Mild) (G47.33):");
                         this.insertTreatment(ol, "li", liStyle, "Body weight control.");
                         this.insertTreatment(ol, "li", liStyle, "Further treatment of mandibular advancement device or myofunctional therapy or surgery may be considered.");
                         this.insertTreatment(ol, "li", liStyle, "AHI (REM / Non-REM) > 2, good surgical improvement can be predicted.");
@@ -115,7 +115,7 @@ class Treatment extends React.Component{
                     }
                     else if(condition === "c2" || condition === "a2"){
                         dText.value = dText.value + dchangeLine + "Obstructive sleep apnea hypopnea (Moderate) (G47.33).";
-                        this.insertTreatment(ol, "span", titleStyle, "Obstructive sleep apnea hypopnea (Moderate) (G47.33):");
+                        // this.insertTreatment(ol, "span", titleStyle, "Obstructive sleep apnea hypopnea (Moderate) (G47.33):");
                         this.insertTreatment(ol, "li", liStyle, "Body weight control.");
                         this.insertTreatment(ol, "li", liStyle, "Further treatment of CPAP or mandibular advancement device or myofunctional therapy or surgery may be considered.");
                         this.insertTreatment(ol, "li", liStyle, "AHI (REM / Non-REM) > 2, good surgical improvement can be predicted.");
@@ -123,7 +123,7 @@ class Treatment extends React.Component{
                     }
                     else if(condition === "c3" || condition === "a3"){
                         dText.value = dText.value + dchangeLine + "Obstructive sleep apnea hypopnea (Severe) (G47.33).";
-                        this.insertTreatment(ol, "span", titleStyle, "Obstructive sleep apnea hypopnea (Severe) (G47.33):");
+                        // this.insertTreatment(ol, "span", titleStyle, "Obstructive sleep apnea hypopnea (Severe) (G47.33):");
                         this.insertTreatment(ol, "li", liStyle, "Body weight control.");
                         this.insertTreatment(ol, "li", liStyle, "Further treatment of CPAP or surgery may be considered.");
                         this.insertTreatment(ol, "li", liStyle, "AHI > 60, AHI (REM / Non-REM) < 2, limited surgical improvement can be predicted.");
@@ -138,7 +138,7 @@ class Treatment extends React.Component{
                     } 
                     else if(condition === "c1" || condition === "a1"){
                         dText.value = dText.value + dchangeLine + "Mixed sleep hypopnea (Mild) (G47.33, G47.37).";
-                        this.insertTreatment(ol, "span", titleStyle, "Mixed sleep hypopnea (Mild) (G47.33, G47.37):");
+                        // this.insertTreatment(ol, "span", titleStyle, "Mixed sleep hypopnea (Mild) (G47.33, G47.37):");
                         this.insertTreatment(ol, "li", liStyle, "Body weight control.");
                         this.insertTreatment(ol, "li", liStyle, "Further treatment of mandibular advancement device or myofunctional therapy or surgery may be considered.");
                         this.insertTreatment(ol, "li", liStyle, "AHI (REM / Non-REM) > 2, good surgical improvement can be predicted.");
@@ -158,7 +158,7 @@ class Treatment extends React.Component{
                     }
                     else if(condition === "c2" || condition === "a2"){
                         dText.value = dText.value + dchangeLine + "Mixed sleep hypopnea (Moderate) (G47.33, G47.37).";
-                        this.insertTreatment(ol, "span", titleStyle, "Mixed sleep hypopnea (Moderate) (G47.33, G47.37):");
+                        // this.insertTreatment(ol, "span", titleStyle, "Mixed sleep hypopnea (Moderate) (G47.33, G47.37):");
                         this.insertTreatment(ol, "li", liStyle, "Body weight control.");
                         this.insertTreatment(ol, "li", liStyle, "Further treatment of CPAP or mandibular advancement device or myofunctional therapy or surgery may be considered.");
                         this.insertTreatment(ol, "li", liStyle, "AHI (REM / Non-REM) > 2, good surgical improvement can be predicted.");
@@ -178,7 +178,7 @@ class Treatment extends React.Component{
                     }
                     else if(condition === "c3" || condition === "a3"){
                         dText.value = dText.value + dchangeLine + "Mixed sleep hypopnea (Severe) (G47.33, G47.37).";
-                        this.insertTreatment(ol, "span", titleStyle, "Mixed sleep hypopnea (Severe) (G47.33, G47.37):");
+                        // this.insertTreatment(ol, "span", titleStyle, "Mixed sleep hypopnea (Severe) (G47.33, G47.37):");
                         this.insertTreatment(ol, "li", liStyle, "Body weight control.");
                         this.insertTreatment(ol, "li", liStyle, "Further treatment of CPAP or surgery may be considered.");
                         this.insertTreatment(ol, "li", liStyle, "AHI > 60, AHI (REM / Non-REM) < 2, limited surgical improvement can be predicted.");
@@ -205,7 +205,7 @@ class Treatment extends React.Component{
                     } 
                     else if(condition === "c1" || condition === "a1"){
                         dText.value = dText.value + dchangeLine + "Mixed sleep apnea hypopnea (Mild) (G47.33, G47.37).";
-                        this.insertTreatment(ol, "span", titleStyle, "Mixed sleep apnea hypopnea (Mild) (G47.33, G47.37):");
+                        // this.insertTreatment(ol, "span", titleStyle, "Mixed sleep apnea hypopnea (Mild) (G47.33, G47.37):");
                         this.insertTreatment(ol, "li", liStyle, "Body weight control.");
                         this.insertTreatment(ol, "li", liStyle, "Further treatment of mandibular advancement device or myofunctional therapy or surgery may be considered.");
                         this.insertTreatment(ol, "li", liStyle, "AHI (REM / Non-REM) > 2, good surgical improvement can be predicted.");
@@ -225,7 +225,7 @@ class Treatment extends React.Component{
                     }
                     else if(condition === "c2" || condition === "a2"){
                         dText.value = dText.value + dchangeLine + "Mixed sleep apnea hypopnea (Moderate) (G47.33, G47.37).";
-                        this.insertTreatment(ol, "span", titleStyle, "Mixed sleep apnea hypopnea (Moderate) (G47.33, G47.37):");
+                        // this.insertTreatment(ol, "span", titleStyle, "Mixed sleep apnea hypopnea (Moderate) (G47.33, G47.37):");
                         this.insertTreatment(ol, "li", liStyle, "Body weight control.");
                         this.insertTreatment(ol, "li", liStyle, "Further treatment of CPAP or mandibular advancement device or myofunctional therapy or surgery may be considered.");
                         this.insertTreatment(ol, "li", liStyle, "AHI (REM / Non-REM) > 2, good surgical improvement can be predicted.");
@@ -245,7 +245,7 @@ class Treatment extends React.Component{
                     }
                     else if(condition === "c3" || condition === "a3"){
                         dText.value = dText.value + dchangeLine + "Mixed sleep apnea hypopnea (Severe) (G47.33, G47.37).";
-                        this.insertTreatment(ol, "span", titleStyle, "Mixed sleep apnea hypopnea (Severe) (G47.33, G47.37):");
+                        // this.insertTreatment(ol, "span", titleStyle, "Mixed sleep apnea hypopnea (Severe) (G47.33, G47.37):");
                         this.insertTreatment(ol, "li", liStyle, "Body weight control.");
                         this.insertTreatment(ol, "li", liStyle, "Further treatment of CPAP or surgery may be considered.");
                         this.insertTreatment(ol, "li", liStyle, "AHI > 60, AHI (REM / Non-REM) < 2, limited surgical improvement can be predicted.");
@@ -272,7 +272,7 @@ class Treatment extends React.Component{
                     } 
                     else if(condition === "c1" || condition === "a1"){
                         dText.value = dText.value + dchangeLine + "Central sleep hypopnea (Mild) (G47.37).";
-                        this.insertTreatment(ol, "span", titleStyle, "Central sleep hypopnea (Mild) (G47.37):");
+                        // this.insertTreatment(ol, "span", titleStyle, "Central sleep hypopnea (Mild) (G47.37):");
                         this.insertTreatment(ol, "li", liStyle, "Obstructive sleep apnea hypopnea is not likely.");
                         this.insertTreatment(ol, "li", liStyle, "The possible etiologies of central sleep hypopnea include");
                         let inner_ol = document.createElement('ol');
@@ -289,7 +289,7 @@ class Treatment extends React.Component{
                     }
                     else if(condition === "c2" || condition === "a2"){
                         dText.value = dText.value + dchangeLine + "Central sleep hypopnea (Moderate) (G47.37).";
-                        this.insertTreatment(ol, "span", titleStyle, "Central sleep hypopnea (Moderate) (G47.37):");
+                        // this.insertTreatment(ol, "span", titleStyle, "Central sleep hypopnea (Moderate) (G47.37):");
                         this.insertTreatment(ol, "li", liStyle, "Obstructive sleep apnea hypopnea is not likely.");
                         this.insertTreatment(ol, "li", liStyle, "The possible etiologies of central sleep hypopnea include");
                         let inner_ol = document.createElement('ol');
@@ -306,7 +306,7 @@ class Treatment extends React.Component{
                     }
                     else if(condition === "c3" || condition === "a3"){
                         dText.value = dText.value + dchangeLine + "Central sleep hypopnea (Severe) (G47.37).";
-                        this.insertTreatment(ol, "span", titleStyle, "Central sleep hypopnea (Severe) (G47.37):");
+                        // this.insertTreatment(ol, "span", titleStyle, "Central sleep hypopnea (Severe) (G47.37):");
                         this.insertTreatment(ol, "li", liStyle, "Obstructive sleep apnea hypopnea is not likely.");
                         this.insertTreatment(ol, "li", liStyle, "The possible etiologies of central sleep hypopnea include");
                         let inner_ol = document.createElement('ol');
@@ -330,7 +330,7 @@ class Treatment extends React.Component{
                     } 
                     else if(condition === "c1" || condition === "a1"){
                         dText.value = dText.value + dchangeLine + "Central sleep apnea hypopnea (Mild) (G47.37).";
-                        this.insertTreatment(ol, "span", titleStyle, "Central sleep apnea hypopnea (Mild) (G47.37):");
+                        // this.insertTreatment(ol, "span", titleStyle, "Central sleep apnea hypopnea (Mild) (G47.37):");
                         this.insertTreatment(ol, "li", liStyle, "Obstructive sleep apnea hypopnea is not likely.");
                         this.insertTreatment(ol, "li", liStyle, "The possible etiologies of central sleep apnea include");
                         let inner_ol = document.createElement('ol');
@@ -347,7 +347,7 @@ class Treatment extends React.Component{
                     }
                     else if(condition === "c2" || condition === "a2"){
                         dText.value = dText.value + dchangeLine + "Central sleep apnea hypopnea (Moderate) (G47.37).";
-                        this.insertTreatment(ol, "span", titleStyle, "Central sleep apnea hypopnea (Moderate) (G47.37):");
+                        // this.insertTreatment(ol, "span", titleStyle, "Central sleep apnea hypopnea (Moderate) (G47.37):");
                         this.insertTreatment(ol, "li", liStyle, "Obstructive sleep apnea hypopnea is not likely.");
                         this.insertTreatment(ol, "li", liStyle, "The possible etiologies of central sleep apnea include");
                         let inner_ol = document.createElement('ol');
@@ -364,7 +364,7 @@ class Treatment extends React.Component{
                     }
                     else if(condition === "c3" || condition === "a3"){
                         dText.value = dText.value + dchangeLine + "Central sleep apnea hypopnea (Severe) (G47.37).";
-                        this.insertTreatment(ol, "span", titleStyle, "Central sleep apnea hypopnea (Severe) (G47.37):");
+                        // this.insertTreatment(ol, "span", titleStyle, "Central sleep apnea hypopnea (Severe) (G47.37):");
                         this.insertTreatment(ol, "li", liStyle, "Obstructive sleep apnea hypopnea is not likely.");
                         this.insertTreatment(ol, "li", liStyle, "The possible etiologies of central sleep apnea include");
                         let inner_ol = document.createElement('ol');
@@ -388,7 +388,7 @@ class Treatment extends React.Component{
                     } 
                     else if(condition === "c1" || condition === "a1"){
                         dText.value = dText.value + dchangeLine + "Obstructive sleep hypopnea, treated (Mild) (G47.33).";
-                        this.insertTreatment(ol, "span", titleStyle, "Obstructive sleep hypopnea, treated (Mild) (G47.33):");
+                        // this.insertTreatment(ol, "span", titleStyle, "Obstructive sleep hypopnea, treated (Mild) (G47.33):");
                         this.insertTreatment(ol, "li", liStyle, "Compared with pre-Tx PSG report, OSA severity is improved obviously.");
                         this.insertTreatment(ol, "li", liStyle, "Body weight control.");
                         this.insertTreatment(ol, "li", liStyle, "Further treatment of mandibular advancement device or myofunctional therapy or surgery may be considered.");
@@ -397,7 +397,7 @@ class Treatment extends React.Component{
                     }
                     else if(condition === "c2" || condition === "a2"){
                         dText.value = dText.value + dchangeLine + "Obstructive sleep hypopnea, treated (Moderate) (G47.33).";
-                        this.insertTreatment(ol, "span", titleStyle, "Obstructive sleep hypopnea, treated (Moderate) (G47.33):");
+                        // this.insertTreatment(ol, "span", titleStyle, "Obstructive sleep hypopnea, treated (Moderate) (G47.33):");
                         this.insertTreatment(ol, "li", liStyle, "Compared with pre-Tx PSG report, OSA severity is improved limitedly.");
                         this.insertTreatment(ol, "li", liStyle, "Body weight control.");
                         this.insertTreatment(ol, "li", liStyle, "Further treatment of CPAP or mandibular advancement device or myofunctional therapy or surgery may be considered.");
@@ -406,7 +406,7 @@ class Treatment extends React.Component{
                     }
                     else if(condition === "c3" || condition === "a3"){
                         dText.value = dText.value + dchangeLine + "Obstructive sleep hypopnea, treated (Severe) (G47.33).";
-                        this.insertTreatment(ol, "span", titleStyle, "Obstructive sleep hypopnea, treated (Severe) (G47.33):");
+                        // this.insertTreatment(ol, "span", titleStyle, "Obstructive sleep hypopnea, treated (Severe) (G47.33):");
                         this.insertTreatment(ol, "li", liStyle, "Compared with pre-Tx PSG report, OSA severity is improved limitedly.");
                         this.insertTreatment(ol, "li", liStyle, "Body weight control.");
                         this.insertTreatment(ol, "li", liStyle, "Further treatment of CPAP or surgery may be considered.");
@@ -422,7 +422,7 @@ class Treatment extends React.Component{
                     } 
                     else if(condition === "c1" || condition === "a1"){
                         dText.value = dText.value + dchangeLine + "Obstructive sleep apnea hypopnea, treated (Mild) (G47.33).";
-                        this.insertTreatment(ol, "span", titleStyle, "Obstructive sleep apnea hypopnea, treated (Mild) (G47.33):");
+                        // this.insertTreatment(ol, "span", titleStyle, "Obstructive sleep apnea hypopnea, treated (Mild) (G47.33):");
                         this.insertTreatment(ol, "li", liStyle, "Compared with pre-Tx PSG report, OSA severity is improved obviously.");
                         this.insertTreatment(ol, "li", liStyle, "Body weight control.");
                         this.insertTreatment(ol, "li", liStyle, "Further treatment of mandibular advancement device or myofunctional therapy or surgery may be considered.");
@@ -431,7 +431,7 @@ class Treatment extends React.Component{
                     }
                     else if(condition === "c2" || condition === "a2"){
                         dText.value = dText.value + dchangeLine + "Obstructive sleep apnea hypopnea, treated (Moderate) (G47.33).";
-                        this.insertTreatment(ol, "span", titleStyle, "Obstructive sleep apnea hypopnea, treated (Moderate) (G47.33):");
+                        // this.insertTreatment(ol, "span", titleStyle, "Obstructive sleep apnea hypopnea, treated (Moderate) (G47.33):");
                         this.insertTreatment(ol, "li", liStyle, "Compared with pre-Tx PSG report, OSA severity is improved limitedly.");
                         this.insertTreatment(ol, "li", liStyle, "Body weight control.");
                         this.insertTreatment(ol, "li", liStyle, "Further treatment of CPAP or mandibular advancement device or myofunctional therapy or surgery may be considered.");
@@ -440,7 +440,7 @@ class Treatment extends React.Component{
                     }
                     else if(condition === "c3" || condition === "a3"){
                         dText.value = dText.value + dchangeLine + "Obstructive sleep apnea hypopnea, treated (Severe) (G47.33).";
-                        this.insertTreatment(ol, "span", titleStyle, "Obstructive sleep apnea hypopnea, treated (Severe) (G47.33):");
+                        // this.insertTreatment(ol, "span", titleStyle, "Obstructive sleep apnea hypopnea, treated (Severe) (G47.33):");
                         this.insertTreatment(ol, "li", liStyle, "Compared with pre-Tx PSG report, OSA severity is improved limitedly.");
                         this.insertTreatment(ol, "li", liStyle, "Body weight control.");
                         this.insertTreatment(ol, "li", liStyle, "Further treatment of CPAP or surgery may be considered.");
@@ -456,7 +456,7 @@ class Treatment extends React.Component{
                     } 
                     else if(condition === "c1" || condition === "a1"){
                         dText.value = dText.value + dchangeLine + "Mixed sleep apnea hypopnea, treated (Mild) (G47.33, G47.37).";
-                        this.insertTreatment(ol, "span", titleStyle, "Mixed sleep apnea hypopnea, treated (Mild) (G47.33, G47.37):");
+                        // this.insertTreatment(ol, "span", titleStyle, "Mixed sleep apnea hypopnea, treated (Mild) (G47.33, G47.37):");
                         this.insertTreatment(ol, "li", liStyle, "Compared with pre-Tx PSG report, OSA severity is improved obviously.");
                         this.insertTreatment(ol, "li", liStyle, "Body weight control.");
                         this.insertTreatment(ol, "li", liStyle, "Further treatment of mandibular advancement device or myofunctional therapy or surgery may be considered.");
@@ -477,7 +477,7 @@ class Treatment extends React.Component{
                     }
                     else if(condition === "c2" || condition === "a2"){
                         dText.value = dText.value + dchangeLine + "Mixed sleep apnea hypopnea, treated (Moderate) (G47.33, G47.37).";
-                        this.insertTreatment(ol, "span", titleStyle, "Mixed sleep apnea hypopnea, treated (Moderate) (G47.33, G47.37):");
+                        // this.insertTreatment(ol, "span", titleStyle, "Mixed sleep apnea hypopnea, treated (Moderate) (G47.33, G47.37):");
                         this.insertTreatment(ol, "li", liStyle, "Compared with pre-Tx PSG report, OSA severity is improved limitedly.");
                         this.insertTreatment(ol, "li", liStyle, "Body weight control.");
                         this.insertTreatment(ol, "li", liStyle, "Further treatment of CPAP or mandibular advancement device or myofunctional therapy or surgery may be considered.");
@@ -498,7 +498,7 @@ class Treatment extends React.Component{
                     }
                     else if(condition === "c3" || condition === "a3"){
                         dText.value = dText.value + dchangeLine + "Mixed sleep apnea hypopnea, treated (Severe) (G47.33, G47.37).";
-                        this.insertTreatment(ol, "span", titleStyle, "Mixed sleep apnea hypopnea, treated (Severe) (G47.33, G47.37):");
+                        // this.insertTreatment(ol, "span", titleStyle, "Mixed sleep apnea hypopnea, treated (Severe) (G47.33, G47.37):");
                         this.insertTreatment(ol, "li", liStyle, "Compared with pre-Tx PSG report, OSA severity is improved limitedly.");
                         this.insertTreatment(ol, "li", liStyle, "Body weight control.");
                         this.insertTreatment(ol, "li", liStyle, "Further treatment of CPAP or surgery may be considered.");
@@ -520,37 +520,37 @@ class Treatment extends React.Component{
                 }
                 else if(nowDisease[i] === '12'){
                     dText.value = dText.value + dchangeLine + "Poor sleep efficiency (G47.8).";
-                    this.insertTreatment(ol, "span", titleStyle, "Poor sleep efficiency (G47.8):");
+                    // this.insertTreatment(ol, "span", titleStyle, "Poor sleep efficiency (G47.8):");
                     this.insertTreatment(ol, "li", liStyle, "Sleep latency " + this.props.sleepLatency + " min; Awake time " + this.props.awakeTime + " min; Total sleep time " + this.props.totalSleepTime + " min; Sleep efficiency " + this.props.SE + " %; the representation of this PSG report is limited.");
                 }
                 else if(nowDisease[i] === '13'){
                     dText.value = dText.value + dchangeLine + "Under treatment of CPAP.";
-                    this.insertTreatment(ol, "span", titleStyle, "Under treatment of CPAP:");
+                    // this.insertTreatment(ol, "span", titleStyle, "Under treatment of CPAP:");
                     this.insertTreatment(ol, "li", liStyle, "With the use of CPAP (15 cmH2O), OSA severity was improved significantly.");
                 }
                 else if(nowDisease[i] === '14'){
                     dText.value = dText.value + dchangeLine + "Under treatment of oral appliance.";
-                    this.insertTreatment(ol, "span", titleStyle, "Under treatment of oral appliance:");
+                    // this.insertTreatment(ol, "span", titleStyle, "Under treatment of oral appliance:");
                     this.insertTreatment(ol, "li", liStyle, "With the use of oral appliance, OSA severity was improved partially.");
                 }
                 else if(nowDisease[i] === '15'){
                     dText.value = dText.value + dchangeLine + "Treatment of myofunctional therapy.";
-                    this.insertTreatment(ol, "span", titleStyle, "Treatment of myofunctional therapy:");
+                    // this.insertTreatment(ol, "span", titleStyle, "Treatment of myofunctional therapy:");
                     this.insertTreatment(ol, "li", liStyle, "Compared with pre-Tx PSG report, OSA severity is improved partially.");
                 }
                 else if(nowDisease[i] === '16'){
                     dText.value = dText.value + dchangeLine + "Treatment of body-weight control.";
-                    this.insertTreatment(ol, "span", titleStyle, "Treatment of body-weight control:");
+                    // this.insertTreatment(ol, "span", titleStyle, "Treatment of body-weight control:");
                     this.insertTreatment(ol, "li", liStyle, "Compared with pre-Tx PSG report, OSA severity is improved partially.");
                 }
                 else if(nowDisease[i] === '17'){
                     dText.value = dText.value + dchangeLine + "Suspect periodic limb movement (G47.61).";
-                    this.insertTreatment(ol, "span", titleStyle, "Suspect periodic limb movement (G47.61):");
+                    // this.insertTreatment(ol, "span", titleStyle, "Suspect periodic limb movement (G47.61):");
                     this.insertTreatment(ol, "li", liStyle, "PLM index ≦ 15; further evaluation of periodic leg movement may be considered, if the clinical symptoms / signs are correlated.");
                 }
                 else if(nowDisease[i] === '18'){
                     dText.value = dText.value + dchangeLine + "Periodic limb movement (G47.61).";
-                    this.insertTreatment(ol, "span", titleStyle, "Periodic limb movement (G47.61):");
+                    // this.insertTreatment(ol, "span", titleStyle, "Periodic limb movement (G47.61):");
                     this.insertTreatment(ol, "li", liStyle, "PLM index > 15; further evaluation of periodic leg movement may be considered, if the clinical symptoms / signs are correlated.");
                     let inner_ol = document.createElement('ol');
                     inner_ol.setAttribute('type', 'a');
@@ -563,73 +563,73 @@ class Treatment extends React.Component{
                 }
                 else if(nowDisease[i] === '19'){
                     dText.value = dText.value + dchangeLine + "Suspect autonomic dysfunction (F41.9).";
-                    this.insertTreatment(ol, "span", titleStyle, "Suspect autonomic dysfunction (F41.9):");
+                    // this.insertTreatment(ol, "span", titleStyle, "Suspect autonomic dysfunction (F41.9):");
                     this.insertTreatment(ol, "li", liStyle, "According the patient's history, further evaluation of autonomic function is suggested.");
                 }
                 else if(nowDisease[i] === '20'){
                     dText.value = dText.value + dchangeLine + "Suspect poor quality of life.";
-                    this.insertTreatment(ol, "span", titleStyle, "Suspect poor quality of life:");
+                    // this.insertTreatment(ol, "span", titleStyle, "Suspect poor quality of life:");
                     this.insertTreatment(ol, "li", liStyle, "Further evaluation and improvement of quality of life may be considered, if the clinical findings are correlated.");
                 }
                 else if(nowDisease[i] === '21'){
                     dText.value = dText.value + dchangeLine + "Suspect tinnitus (H93.19).";
-                    this.insertTreatment(ol, "span", titleStyle, "Suspect tinnitus (H93.19):");
+                    // this.insertTreatment(ol, "span", titleStyle, "Suspect tinnitus (H93.19):");
                     this.insertTreatment(ol, "li", liStyle, "Further evaluation and treatment of tinnitus may be considered, if the clinical symptoms / signs are correlated.");
                 }
                 else if(nowDisease[i] === '22'){
                     dText.value = dText.value + dchangeLine + "Suspect Gastro-Esophageal reflux disease (GERD) (K21.0).";
-                    this.insertTreatment(ol, "span", titleStyle, "Suspect Gastro-Esophageal reflux disease (GERD) (K21.0):");
+                    // this.insertTreatment(ol, "span", titleStyle, "Suspect Gastro-Esophageal reflux disease (GERD) (K21.0):");
                     this.insertTreatment(ol, "li", liStyle, "Further evaluation of GERD may be considered, if the clinical symptoms / signs are correlated.");
                 }
                 else if(nowDisease[i] === '23'){
                     dText.value = dText.value + dchangeLine + "Suspect cardiac arrhythmia (I49.9).";
-                    this.insertTreatment(ol, "span", titleStyle, "Suspect cardiac arrhythmia (I49.9):");
+                    // this.insertTreatment(ol, "span", titleStyle, "Suspect cardiac arrhythmia (I49.9):");
                     this.insertTreatment(ol, "li", liStyle, "Further evaluation of cardiac arrhythmia may be considered, if the clinical symptoms / signs are correlated.");
                 }
                 else if(nowDisease[i] === '24'){
                     dText.value = dText.value + dchangeLine + "Sleep bruxism (G47.63).";
-                    this.insertTreatment(ol, "span", titleStyle, "Sleep bruxism (G47.63):");
+                    // this.insertTreatment(ol, "span", titleStyle, "Sleep bruxism (G47.63):");
                     this.insertTreatment(ol, "li", liStyle, "Due to sleep bruxism, further dental evaluation and management may be considered.");
                 }
                 else if(nowDisease[i] === '25'){
                     dText.value = dText.value + dchangeLine + "Alpha sleep.";
-                    this.insertTreatment(ol, "span", titleStyle, "Alpha sleep:");
+                    // this.insertTreatment(ol, "span", titleStyle, "Alpha sleep:");
                     this.insertTreatment(ol, "li", liStyle, "According the patient's history, further evaluation of alpha sleep is suggested.");
                 }
                 else if(nowDisease[i] === '26'){
                     dText.value = dText.value + dchangeLine + "Suspect REM behavior disorder (G47.52).";
-                    this.insertTreatment(ol, "span", titleStyle, "Suspect REM behavior disorder (G47.52):");
+                    // this.insertTreatment(ol, "span", titleStyle, "Suspect REM behavior disorder (G47.52):");
                     this.insertTreatment(ol, "li", liStyle, "REM behavior disorder often may be associated with medication (such as antidepressant, Beta-blockers, anticholinesterase inhibitors) or other neurological conditions (such as, dementia, Parkinson's disease, multiple system atrophy). Further diagnosis and management by psychiatrist or neurologist may be considered.");
                 }
                 else if(nowDisease[i] === '27'){
                     dText.value = dText.value + dchangeLine + "Suspect REM behavior disorder, provisionally (G47.52).";
-                    this.insertTreatment(ol, "span", titleStyle, "Suspect REM behavior disorder, provisionally (G47.52):");
+                    // this.insertTreatment(ol, "span", titleStyle, "Suspect REM behavior disorder, provisionally (G47.52):");
                     this.insertTreatment(ol, "li", liStyle, "REM behavior disorder often may be associated with medication (such as antidepressant, Beta-blockers, anticholinesterase inhibitors) or other neurological conditions (such as, dementia, Parkinson's disease, multiple system atrophy). Further diagnosis and management by psychiatrist or neurologist may be considered.");
                 }
                 else if(nowDisease[i] === '28'){
                     dText.value = dText.value + dchangeLine + "Subclinical REM behavior disorder (G47.52).";
-                    this.insertTreatment(ol, "span", titleStyle, "Subclinical REM behavior disorder (G47.52):");
+                    // this.insertTreatment(ol, "span", titleStyle, "Subclinical REM behavior disorder (G47.52):");
                     this.insertTreatment(ol, "li", liStyle, "Further clinical observation about dream-enacting behaviors should be followed.");
                     this.insertTreatment(ol, "li", liStyle, "REM sleep behavior without atonia (RSWA) often may be associated with medication (such as antidepressant, Beta-blockers, anticholinesterase inhibitors) or predisposing factors of other neurological conditions (such as, dementia, Parkinson's disease, multiple system atrophy). Further diagnosis and management by psychiatrist or neurologist may be considered.");
                 }
                 else if(nowDisease[i] === '29'){
                     dText.value = dText.value + dchangeLine + "Suspect idiopathic REM behavior disorder (G47.52).";
-                    this.insertTreatment(ol, "span", titleStyle, "Suspect idiopathic REM behavior disorder (G47.52):");
+                    // this.insertTreatment(ol, "span", titleStyle, "Suspect idiopathic REM behavior disorder (G47.52):");
                     this.insertTreatment(ol, "li", liStyle, "REM sleep behavior without atonia (RSWA) often may be associated with medication (such as antidepressant, Beta-blockers, anticholinesterase inhibitors) or predisposing factors of other neurological conditions (such as, dementia, Parkinson's disease, multiple system atrophy). Further diagnosis and management by psychiatrist or neurologist may be considered.");
                 }
                 else if(nowDisease[i] === '30'){
                     dText.value = dText.value + dchangeLine + "Suspect nocturia (R35.1).";
-                    this.insertTreatment(ol, "span", titleStyle, "Suspect nocturia (R35.1):");
+                    // this.insertTreatment(ol, "span", titleStyle, "Suspect nocturia (R35.1):");
                     this.insertTreatment(ol, "li", liStyle, "Further evaluation of nocturia may be considered, if the clinical symptoms / signs are correlated.");
                 }
                 else if(nowDisease[i] === '31'){
                     dText.value = dText.value + dchangeLine + "Sleep related groaning (G47.8).";
-                    this.insertTreatment(ol, "span", titleStyle, "Sleep related groaning (G47.8):");
+                    // this.insertTreatment(ol, "span", titleStyle, "Sleep related groaning (G47.8):");
                     this.insertTreatment(ol, "li", liStyle, "According the patient's history, further evaluation of sleep related groaning is suggested.");
                 }
                 else if(nowDisease[i] === '32'){
                     dText.value = dText.value + dchangeLine + "Suspect disorder of arousal from NREM Sleep.";
-                    this.insertTreatment(ol, "span", titleStyle, "Suspect disorder of arousal from NREM Sleep:");
+                    // this.insertTreatment(ol, "span", titleStyle, "Suspect disorder of arousal from NREM Sleep:");
                     this.insertTreatment(ol, "li", liStyle, " ");
                     let ol2 = document.createElement('ol');
                     ol2.setAttribute('type', 'a');
@@ -651,7 +651,7 @@ class Treatment extends React.Component{
                 }
                 else if(nowDisease[i] === '33'){
                     dText.value = dText.value + dchangeLine + "Suspected sleep-related hypoventilation disorder (G47.36).";
-                    this.insertTreatment(ol, "span", titleStyle, "Suspected sleep-related hypoventilation disorder (G47.36):");
+                    // this.insertTreatment(ol, "span", titleStyle, "Suspected sleep-related hypoventilation disorder (G47.36):");
                     this.insertTreatment(ol, "li", liStyle, "Classification of hypoventilation disorders: Primary (Congenital central alveolar hypoventilation syndrome, Idiopathic central alveolar hypoventilation); Secondary (Sleep-related hypoventilation due to a medication or substance, Sleep-related hypoventilation due to a medical disorder, Obesity hypoventilation syndrome, Late-onset central hypoventilation with hypothalamic dysfunction).");
                     let inner_ol = document.createElement('ol');
                     inner_ol.setAttribute('type', 'a');
@@ -665,7 +665,7 @@ class Treatment extends React.Component{
                 }
                 else if(nowDisease[i] === '34'){
                     dText.value = dText.value + dchangeLine + "Suspect Cheyne-Stokes Breathing.";
-                    this.insertTreatment(ol, "span", titleStyle, "Suspect Cheyne-Stokes Breathing:");
+                    // this.insertTreatment(ol, "span", titleStyle, "Suspect Cheyne-Stokes Breathing:");
                     this.insertTreatment(ol, "li", liStyle, "Treatment of positive airway pressure device / Adaptive Supportive Ventilation with suitable pressure is benefit for the patient's quality of life.");
                 }
 
